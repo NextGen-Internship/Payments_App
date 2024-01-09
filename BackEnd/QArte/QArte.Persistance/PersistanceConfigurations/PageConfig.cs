@@ -11,6 +11,9 @@ namespace QArte.Persistance.PersistanceConfigurations
         public void Configure(EntityTypeBuilder<Page> builder)
         {
             builder.HasKey(e => e.ID);
+
+            builder.HasIndex(e => e.QRLink).IsUnique();
+            builder.Property(e => e.QRLink).IsRequired();
         }
     }
 }
