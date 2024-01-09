@@ -1,11 +1,17 @@
 ﻿using System;
+using System;
+using QArte.Persistance.PersistanceModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace QArte.Persistance.PersistanceConfigurations
 {
-	public class PageConfig
-	{
-		public PageConfig()
-		{
-		}
-	}
+    public class PageConfig : IEntityTypeConfiguration<Page>
+    {
+        public void Configure(EntityTypeBuilder<Page> builder)
+        {
+            builder.HasKey(e => e.ID);
+        }
+    }
 }
 
