@@ -33,7 +33,7 @@ namespace QArte.Persistance
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=172.17.0.2;Port=1433;Database=QArte;User Id=sa;Password=PassWord123;Integrated Security=False;");
+                optionsBuilder.UseSqlServer("Server=localhost,1433;Database=QArte;User Id=sa;Password=PassWord123;TrustServerCertificate=True");
             }
         }
     }

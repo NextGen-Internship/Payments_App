@@ -15,8 +15,8 @@ namespace QArte.Persistance.PersistanceConfigurations
 
             builder.HasOne(a => a.Role)
                 .WithMany(b => b.Admins)
-                .HasForeignKey(c => c.RoleID);
-
+                .HasForeignKey(c => c.RoleID).OnDelete(DeleteBehavior.NoAction);
+            
         }
     }
 }

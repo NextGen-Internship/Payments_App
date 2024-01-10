@@ -1,5 +1,7 @@
 ﻿using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting.Server;
+using QArte.Persistance.PersistanceModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +12,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<QArtèDBContext>(options =>
-{
-    options.UseSqlServer("server=172.17.0.2;database=QArte;trusted_connection=true;");
-});
 
 
 var app = builder.Build();
