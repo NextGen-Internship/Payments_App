@@ -29,7 +29,13 @@ namespace QArte.Persistance
         public virtual DbSet<SettlementCycle> SettlementCycles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=172.17.0.2;Port=1433;Database=QArte;User Id=sa;Password=PassWord123;Integrated Security=False;");
+            }
+        }
     }
 }
 
