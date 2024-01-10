@@ -9,7 +9,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 	{
 		public void Configure(EntityTypeBuilder<Artist> builder)
 		{
-			builder.HasIndex(e => e.BanID, "IX_Artist_BanID");
+			builder.HasIndex(e => e.BanID, "IX_Artist_BanID").IsUnique();
 
 			builder.HasIndex(e => e.BankAccountID, "IX_Artist_BankAccountID");
 
@@ -24,6 +24,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 			builder.HasOne(a => a.Ban)
 				.WithOne()
 				.HasForeignKey<Artist>(c => c.BanID);
+			
 
 
 			builder.HasOne(e => e.BankAccount)

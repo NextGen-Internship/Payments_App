@@ -5,7 +5,7 @@ namespace QArte.Persistance.PersistanceModels
 {
 	public abstract class User
 	{
-		private int ID { get; set; }
+		public int ID { get; set; }
 
         [MinLength(2), MaxLength(20)]
         public string FirstName { get; set; }
