@@ -7,8 +7,7 @@ namespace QArte.Persistance.PersistanceModels
 
         public Role()
         {
-            Artists = new HashSet<Artist>();
-            Admins = new HashSet<Admin>();
+            Users = new HashSet<User>();
         }
 
 
@@ -17,8 +16,7 @@ namespace QArte.Persistance.PersistanceModels
 
 
 
-        public virtual ICollection<Artist> Artists { get; set; }
-        public virtual ICollection<Admin> Admins { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

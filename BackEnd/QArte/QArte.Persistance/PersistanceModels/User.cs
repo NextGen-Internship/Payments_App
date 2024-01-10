@@ -1,10 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using QArte.Persistance.PersistanceModels;
 
 namespace QArte.Persistance.PersistanceModels
 {
-	public abstract class User
+	public class User
 	{
+        public User()
+        {
+            Pages = new HashSet<Page>();
+        }
+
 		public int ID { get; set; }
 
         [MinLength(2), MaxLength(20)]
@@ -24,11 +30,20 @@ namespace QArte.Persistance.PersistanceModels
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
-        public string PictureUrl { get; set; }
+        public string? PictureUrl { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
+        public int RoleID { get; set; }
+        public virtual Role Role { get; set; }
 
+        public int? BanID { get; set; }
+        public virtual BanTable Ban { get; set; }
+
+        public int BankAccountID { get; set; }
+        public virtual BankAccount BankAccount { get; set; }
+
+        public virtual ICollection<Page>? Pages { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArtèDBContext))]
-    [Migration("20240110131829_Initial")]
+    [Migration("20240110144234_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,9 +148,6 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("ArtistID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Bio")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -162,11 +159,14 @@ namespace QArte.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("ArtistID");
-
                     b.HasIndex("GalleryID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Pages");
                 });
@@ -254,9 +254,11 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BanID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BankAccountID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -277,12 +279,13 @@ namespace QArte.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -291,44 +294,13 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.Admin", b =>
-                {
-                    b.HasBaseType("QArte.Persistance.PersistanceModels.User");
-
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int")
-                        .HasColumnName("Admin_RoleID");
-
-                    b.HasIndex("RoleID");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.Artist", b =>
-                {
-                    b.HasBaseType("QArte.Persistance.PersistanceModels.User");
-
-                    b.Property<int>("BanID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BankAccountID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
-
                     b.HasIndex("BanID");
 
                     b.HasIndex("BankAccountID");
 
                     b.HasIndex("RoleID");
 
-                    b.HasDiscriminator().HasValue("Artist");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BankAccount", b =>
@@ -371,15 +343,15 @@ namespace QArte.Persistance.Migrations
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Page", b =>
                 {
-                    b.HasOne("QArte.Persistance.PersistanceModels.Artist", null)
-                        .WithMany("Pages")
-                        .HasForeignKey("ArtistID");
-
                     b.HasOne("QArte.Persistance.PersistanceModels.Gallery", "Gallery")
                         .WithMany()
                         .HasForeignKey("GalleryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("QArte.Persistance.PersistanceModels.User", null)
+                        .WithMany("Pages")
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Gallery");
                 });
@@ -406,24 +378,11 @@ namespace QArte.Persistance.Migrations
                     b.Navigation("Gallery");
                 });
 
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.Admin", b =>
-                {
-                    b.HasOne("QArte.Persistance.PersistanceModels.Role", "Role")
-                        .WithMany("Admins")
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.Artist", b =>
+            modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
                 {
                     b.HasOne("QArte.Persistance.PersistanceModels.BanTable", "Ban")
                         .WithMany()
-                        .HasForeignKey("BanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BanID");
 
                     b.HasOne("QArte.Persistance.PersistanceModels.BankAccount", "BankAccount")
                         .WithMany()
@@ -432,7 +391,7 @@ namespace QArte.Persistance.Migrations
                         .IsRequired();
 
                     b.HasOne("QArte.Persistance.PersistanceModels.Role", "Role")
-                        .WithMany("Artists")
+                        .WithMany("Users")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -456,12 +415,10 @@ namespace QArte.Persistance.Migrations
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
                 {
-                    b.Navigation("Admins");
-
-                    b.Navigation("Artists");
+                    b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.Artist", b =>
+            modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
                 {
                     b.Navigation("Pages");
                 });

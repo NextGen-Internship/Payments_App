@@ -9,13 +9,11 @@
   <ItemGroup>
     <None Remove="PersistanceModels\" />
     <None Remove="PersistanceConfigurations\" />
-    <None Remove="PersistanceMigrations\" />
     <None Remove="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PersistanceModels\" />
     <Folder Include="PersistanceConfigurations\" />
-    <Folder Include="PersistanceMigrations\" />
     <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>

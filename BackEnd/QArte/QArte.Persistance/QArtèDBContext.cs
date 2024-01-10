@@ -16,9 +16,8 @@ namespace QArte.Persistance
         {
         }
 
-        public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
-        public virtual DbSet<Artist> Artists { get; set; }
         public virtual DbSet<BanTable> BanTables { get; set; }
         public virtual DbSet<Fee> Fees { get; set; }
         public virtual DbSet<Gallery> Galleries { get; set; }
@@ -27,7 +26,6 @@ namespace QArte.Persistance
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<SettlementCycle> SettlementCycles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

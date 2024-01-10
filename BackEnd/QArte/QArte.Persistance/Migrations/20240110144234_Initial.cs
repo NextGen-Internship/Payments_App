@@ -157,13 +157,11 @@ namespace QArte.Persistance.Migrations
                     UserName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Admin_RoleID = table.Column<int>(type: "int", nullable: true),
-                    RoleID = table.Column<int>(type: "int", nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleID = table.Column<int>(type: "int", nullable: false),
                     BanID = table.Column<int>(type: "int", nullable: true),
-                    BankAccountID = table.Column<int>(type: "int", nullable: true)
+                    BankAccountID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,14 +176,7 @@ namespace QArte.Persistance.Migrations
                         name: "FK_Users_BanTables_BanID",
                         column: x => x.BanID,
                         principalTable: "BanTables",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_Role_Admin_RoleID",
-                        column: x => x.Admin_RoleID,
-                        principalTable: "Role",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Users_Role_RoleID",
                         column: x => x.RoleID,
@@ -203,7 +194,7 @@ namespace QArte.Persistance.Migrations
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QRLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GalleryID = table.Column<int>(type: "int", nullable: false),
-                    ArtistID = table.Column<int>(type: "int", nullable: true)
+                    UserID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,8 +206,8 @@ namespace QArte.Persistance.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Pages_Users_ArtistID",
-                        column: x => x.ArtistID,
+                        name: "FK_Pages_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "ID");
                 });
@@ -262,14 +253,14 @@ namespace QArte.Persistance.Migrations
                 column: "SettlementCycleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pages_ArtistID",
-                table: "Pages",
-                column: "ArtistID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pages_GalleryID",
                 table: "Pages",
                 column: "GalleryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pages_UserID",
+                table: "Pages",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentMethods_UserID",
@@ -280,11 +271,6 @@ namespace QArte.Persistance.Migrations
                 name: "IX_Pictures_GalleryID",
                 table: "Pictures",
                 column: "GalleryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Admin_RoleID",
-                table: "Users",
-                column: "Admin_RoleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_BanID",
