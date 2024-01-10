@@ -5,7 +5,7 @@ namespace QArte.Persistance.PersistanceModels
 	{
 
 		public int RoleID { get; set; }
-		public virtual Role Role { get; set; }
+		public virtual Role Role { get;set; }
 	}
 }
 
