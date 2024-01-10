@@ -27,13 +27,14 @@ namespace QArte.Persistance
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<SettlementCycle> SettlementCycles { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=localhost,1433;Database=QArte;User Id=sa;Password=PassWord123;TrustServerCertificate=True");
-            }
+            base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
     }
 }
 
