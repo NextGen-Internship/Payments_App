@@ -13,10 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<QArtèDBContext>(
-               options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
+
+builder.Services.AddDbContext<QArteDBContext>(
+               options => options.UseSqlServer(connectionString));
 
 
+builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
 var app = builder.Build();
 

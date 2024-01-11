@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace QArte.Persistance
 {
-    public partial class QArtèDBContext : DbContext
+    public partial class QArteDBContext : DbContext
     {
-        public QArtèDBContext()
+        public QArteDBContext()
         {
         }
 
-        public QArtèDBContext(DbContextOptions<QArtèDBContext> options) : base(options)
+        public QArteDBContext(DbContextOptions<QArteDBContext> options) : base(options)
         {
         }
 

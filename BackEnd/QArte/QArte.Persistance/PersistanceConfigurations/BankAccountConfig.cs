@@ -12,13 +12,13 @@ namespace QArte.Persistance.PersistanceConfigurations
             builder.HasIndex(e => e.PaymentMethodID, "IX_BankAccount_PaymentMethodID");
 
             builder.HasOne(a => a.PaymentMethod)
-                .WithOne()
-                .HasForeignKey<BankAccount>(c => c.PaymentMethodID);
+                .WithMany(b => b.BankAccounts)
+                .HasForeignKey(c => c.PaymentMethodID);
 
 
             builder.Property(e => e.BeneficiaryName).IsRequired();
 
-            builder.Property(e => e.PaymentMethod).IsRequired();
+            builder.Property(e => e.PaymentMethodID).IsRequired();
 
             builder.Property(s => s.IBAN).IsRequired();
 

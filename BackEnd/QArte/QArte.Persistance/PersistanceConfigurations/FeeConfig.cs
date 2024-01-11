@@ -12,6 +12,9 @@ namespace QArte.Persistance.PersistanceConfigurations
             builder.HasKey(b => b.ID);
 
             builder.Property(e => e.Amount).IsRequired();
+
+
+
         }
     }
 }
