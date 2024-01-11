@@ -25,7 +25,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 			builder.HasIndex(e => e.BankAccountID, "IX_Artist_BankAccountID");
 
 			builder.HasIndex(e => e.RoleID, "IX_Artist_RoleID");
-            builder.Property(e => e.Role).IsRequired();
+            
 
 
             builder.HasOne(a => a.Role)

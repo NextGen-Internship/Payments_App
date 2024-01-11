@@ -8,6 +8,7 @@ namespace QArte.Persistance.PersistanceModels
 	{
         public User()
         {
+            
             Pages = new HashSet<Page>();
         }
 

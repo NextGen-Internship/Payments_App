@@ -16,6 +16,12 @@ namespace QArte.Persistance.PersistanceConfigurations
 
             builder.HasIndex(e => e.GalleryID, "IX_Page_GalleryID");
 
+            builder.HasIndex(e => e.UserID);
+
+            builder.HasOne(e => e.User)
+                .WithOne()
+                .HasForeignKey<Page>(q => q.UserID);
+
             builder.HasOne(e => e.Gallery)
                 .WithOne()
                 .HasForeignKey<Page>();

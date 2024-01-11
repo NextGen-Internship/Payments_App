@@ -9,6 +9,9 @@ namespace QArte.Persistance.PersistanceModels
 
 		public int GalleryID { get; set; }
 		public virtual Gallery Gallery { get; set; }
+
+		public int UserID { get; set; }
+		public virtual User User { get; set; }
 	}
 }
 

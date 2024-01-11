@@ -10,11 +10,13 @@
     <None Remove="PersistanceModels\" />
     <None Remove="PersistanceConfigurations\" />
     <None Remove="Enums\" />
+    <None Remove="PersistanceModels\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PersistanceModels\" />
     <Folder Include="PersistanceConfigurations\" />
     <Folder Include="Enums\" />
+    <Folder Include="PersistanceModels\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
