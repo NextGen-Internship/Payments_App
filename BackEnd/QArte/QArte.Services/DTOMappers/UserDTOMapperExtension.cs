@@ -1,10 +1,9 @@
 ﻿using System;
 namespace QArte.Services.DTOMappers
 {
-    public class InvoiceDTOMapperExtencion
+	public class UserDTOMapperExtension
     {
 
-
-    }
+	}
 }
 

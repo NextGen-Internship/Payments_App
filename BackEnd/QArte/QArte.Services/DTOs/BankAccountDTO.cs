@@ -10,7 +10,7 @@ namespace QArte.Services.DTOs
 		public string StripeInfo { get; set; }
 		public int PaymentMethodID { get; set; }
 
-		public List<string> Invoices { get; set; } = new List<string>();
+		public List<InvoiceDTO> Invoices { get; set; } = new List<InvoiceDTO>();
 	}
 }
 
