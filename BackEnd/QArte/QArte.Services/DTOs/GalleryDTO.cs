@@ -4,7 +4,7 @@ namespace QArte.Services.DTOs
 	public class GalleryDTO
 	{
 		public int ID { get; set; }
-		public List<string> Pictures;
+		public List<PictureDTO> Pictures;
 	}
 }
 

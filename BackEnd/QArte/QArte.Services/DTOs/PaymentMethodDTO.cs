@@ -1,4 +1,5 @@
 ﻿using System;
+using QArte.Persistance.Enums;
 using System.Collections.Generic;
 
 namespace QArte.Services.DTOs
@@ -6,9 +7,9 @@ namespace QArte.Services.DTOs
 	public class PaymentMethodDTO
 	{
 		public int ID { get; set; }
-		public string name { get; set; }
+		public EPaymentMethods paymentName { get; set; }
 
-		public List<string> BankAccounts;
+		public List<BankAccountDTO> BankAccounts;
 	}
 }
 
