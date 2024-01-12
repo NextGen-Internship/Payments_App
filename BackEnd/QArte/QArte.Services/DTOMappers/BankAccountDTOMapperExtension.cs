@@ -12,37 +12,50 @@ namespace QArte.Services.DTOMappers
 
 			if(bankAccount is null)
 			{
-
+                return new BankAccountDTO
+                {
+                    ID = -1,
+                    IBAN = null,
+                    BeneficiaryName = null,
+                    StripeInfo = null,
+                    PaymentMethodID = -1,
+                    Invoices = null
+                };
 			}
 
-			List<InvoiceDTO> invoiceDTOs = new List<InvoiceDTO>();
-			foreach(Invoice invoice in bankAccount.Invoices)
+			else
 			{
-				List<FeeDTO> feeDTOs = new List<FeeDTO>();
-				foreach(Fee fee in invoice.Fees)
-				{
-					feeDTOs.Add(new FeeDTO {ID= fee.ID, Amount = fee.Amount, Currency = fee.Currency, ExchangeRate = fee.ExchangeRate });
-				}
-
-                invoiceDTOs.Add(new InvoiceDTO
+                List<InvoiceDTO> invoiceDTOs = new List<InvoiceDTO>();
+                foreach (Invoice invoice in bankAccount.Invoices)
                 {
-                    ID = invoice.ID,
-                    TotalAmount = invoice.TotalAmount,
-                    InvoiceDate = invoice.InvoiceDate,
-                    BankAccoundID = invoice.BankAccountID,
-                    SettlementCycleID = invoice.SettlementCycleID,
-					Fees = feeDTOs
-                });
+                    List<FeeDTO> feeDTOs = new List<FeeDTO>();
+                    foreach (Fee fee in invoice.Fees)
+                    {
+                        feeDTOs.Add(new FeeDTO { ID = fee.ID, Amount = fee.Amount, Currency = fee.Currency, ExchangeRate = fee.ExchangeRate });
+                    }
 
+                    invoiceDTOs.Add(new InvoiceDTO
+                    {
+                        ID = invoice.ID,
+                        TotalAmount = invoice.TotalAmount,
+                        InvoiceDate = invoice.InvoiceDate,
+                        BankAccoundID = invoice.BankAccountID,
+                        SettlementCycleID = invoice.SettlementCycleID,
+                        Fees = feeDTOs
+                    });
+
+                }
+
+                return new BankAccountDTO
+                {
+                    ID = bankAccount.ID,
+                    IBAN = bankAccount.IBAN,
+                    BeneficiaryName = bankAccount.BeneficiaryName,
+                    StripeInfo = bankAccount.StripeInfo,
+                    PaymentMethodID = bankAccount.PaymentMethodID,
+                    Invoices = invoiceDTOs
+                };
             }
-
-			return new BankAccountDTO
-			{
-				ID = bankAccount.ID,
-				IBAN = bankAccount.IBAN,
-				BeneficiaryName = bankAccount.BeneficiaryName,
-				StripeInfo = bankAccount.StripeInfo,
-			};
 		}
 	}
 }
