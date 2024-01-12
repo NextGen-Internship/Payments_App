@@ -44,8 +44,6 @@ namespace QArte.Persistance.PersistanceModels
         public int BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }
 
-        public virtual ICollection<Page>? Pages { get; set; }
-
     }
 }
 
