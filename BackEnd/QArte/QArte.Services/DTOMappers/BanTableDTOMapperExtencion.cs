@@ -1,8 +1,7 @@
 ﻿using System;
-
 namespace QArte.Services.DTOMappers
 {
-	public class BankAccountDTOMapperExtention
+	public class BanTableDTOMapperExtencion
     {
 
 	}

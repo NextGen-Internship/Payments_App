@@ -6,11 +6,6 @@ namespace QArte.Persistance.PersistanceModels
 {
 	public class User
 	{
-        public User()
-        {
-            
-            Pages = new HashSet<Page>();
-        }
 
 		public int ID { get; set; }
 
@@ -44,6 +39,7 @@ namespace QArte.Persistance.PersistanceModels
         public int BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }
 
+        
     }
 }
 

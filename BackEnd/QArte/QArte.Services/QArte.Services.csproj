@@ -14,4 +14,7 @@
     <Folder Include="DTOs\" />
     <Folder Include="DTOMappers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />
+  </ItemGroup>
 </Project>

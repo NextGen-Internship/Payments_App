@@ -1,7 +1,7 @@
 ﻿using System;
 namespace QArte.Services.DTOMappers
 {
-	public class RoleDTOMapperExtention
+	public class UserDTOMapperExtencion
     {
 
 	}

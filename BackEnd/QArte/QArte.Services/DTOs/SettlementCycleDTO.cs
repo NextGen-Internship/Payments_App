@@ -3,9 +3,8 @@ namespace QArte.Services.DTOs
 {
 	public class SettlementCycleDTO
 	{
-		public SettlementCycleDTO()
-		{
-		}
+		public int ID { get; set; }
+		public string DatePeriod { get; set; }
 	}
 }
 
