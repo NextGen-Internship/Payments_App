@@ -4,12 +4,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using QArte.Persistance.Enums;
 
-
-namespace QArte.Services.Contracts
+namespace QArte.Services.ServiceInterfaces
 {
-	public interface IBanTableService : ICRUDshared<BanTableDTO>
+	public interface IRoleService : ICRUDshared<RoleDTO>
 	{
-		Task<BanTableDTO> GetBanTableByID();
+		Task<RoleDTO> GetRoleByID(int id);
 	}
 }
 

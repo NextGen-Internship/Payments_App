@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace QArte.Services.Contracts
+namespace QArte.Services.ServiceInterfaces
 {
 	public interface ICRUDshared<T> where T:class
 	{

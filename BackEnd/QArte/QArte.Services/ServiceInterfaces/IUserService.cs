@@ -4,16 +4,16 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using QArte.Persistance.Enums;
 
-namespace QArte.Services.Contracts
+namespace QArte.Services.ServiceInterfaces
 {
 	public interface IUserService : ICRUDshared<UserDTO>
 	{
 		Task<UserDTO> GetUserByID(int id);
-		string GetEmailByID(int id);
-		string GetUsernameByID(int id);
+		Task<string> GetEmailByID(int id);
+		Task<string> GetUsernameByID(int id);
 		Task<IQueryable<UserDTO>> GetUsersByRoleID(int id);
         Task<IQueryable<PageDTO>> GetPagesByUserID(int id);
-		bool isBanned(int id);
+		Task<bool> isBanned(int id);
 		
     }
 }

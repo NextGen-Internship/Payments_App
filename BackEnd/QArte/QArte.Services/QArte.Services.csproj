@@ -10,13 +10,13 @@
     <None Remove="DTOs\" />
     <None Remove="DTOMappers\" />
     <None Remove="Services\" />
-    <None Remove="Contracts\" />
+    <None Remove="ServiceInterfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="DTOMappers\" />
     <Folder Include="Services\" />
-    <Folder Include="Contracts\" />
+    <Folder Include="ServiceInterfaces\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />

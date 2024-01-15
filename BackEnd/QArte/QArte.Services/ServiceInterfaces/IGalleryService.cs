@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using QArte.Persistance.Enums;
 
-namespace QArte.Services.Contracts
+namespace QArte.Services.ServiceInterfaces
 {
-	public interface IRoleService : ICRUDshared<RoleDTO>
+	public interface IGalleryService : ICRUDshared<GalleryDTO>
 	{
-		Task<RoleDTO> GetRoleByID(int id);
+		Task<GalleryDTO> GetGalleryByID(int id);
 	}
 }
 
