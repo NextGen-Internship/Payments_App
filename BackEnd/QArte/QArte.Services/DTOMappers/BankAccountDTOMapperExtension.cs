@@ -47,7 +47,7 @@ namespace QArte.Services.DTOMappers
                     Invoices = invoiceDTOs
                 };
             }
-		
+
 
         public static BankAccount GetEntity(this BankAccountDTO bankAccountDTO)
         {
@@ -56,27 +56,32 @@ namespace QArte.Services.DTOMappers
                 throw new ApplicationException("This BankAccount is null");
         
             }
-
-
             List<Invoice> invoices = new List<Invoice>();
-            foreach (InvoiceDTO invoiceDTO in bankAccountDTO.Invoices)
-            {
-                List<Fee> fees = new List<Fee>();
-                foreach (FeeDTO feeDTO in invoiceDTO.Fees)
+            if (bankAccountDTO.Invoices != null)
+            { 
+                foreach (InvoiceDTO invoiceDTO in bankAccountDTO.Invoices)
                 {
-                    fees.Add(new Fee { ID = feeDTO.ID, Amount = feeDTO.Amount, Currency = feeDTO.Currency, ExchangeRate = feeDTO.ExchangeRate });
+                    if (invoiceDTO.Fees == null)
+                    {
+                        break;
+                    }
+                    List<Fee> fees = new List<Fee>();
+                    foreach (FeeDTO feeDTO in invoiceDTO.Fees)
+                    {
+                        fees.Add(new Fee { ID = feeDTO.ID, Amount = feeDTO.Amount, Currency = feeDTO.Currency, ExchangeRate = feeDTO.ExchangeRate });
+                    }
+
+                    invoices.Add(new Invoice
+                    {
+                        ID = invoiceDTO.ID,
+                        TotalAmount = invoiceDTO.TotalAmount,
+                        InvoiceDate = invoiceDTO.InvoiceDate,
+                        BankAccountID = invoiceDTO.BankAccoundID,
+                        SettlementCycleID = invoiceDTO.SettlementCycleID,
+                        Fees = fees
+                    });
+
                 }
-
-                invoices.Add(new Invoice
-                {
-                    ID = invoiceDTO.ID,
-                    TotalAmount = invoiceDTO.TotalAmount,
-                    InvoiceDate = invoiceDTO.InvoiceDate,
-                    BankAccountID = invoiceDTO.BankAccoundID,
-                    SettlementCycleID = invoiceDTO.SettlementCycleID,
-                    Fees = fees
-                });
-
             }
 
             return new BankAccount

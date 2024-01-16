@@ -17,6 +17,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,5 +28,23 @@
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controllers\" />
+    <None Remove="Queries\" />
+    <None Remove="Queries\BankAccountQueries\" />
+    <None Remove="Handlers\" />
+    <None Remove="Handlers\BankAccountHandlers\" />
+    <None Remove="Commands\" />
+    <None Remove="Commands\BankAccountCommands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Queries\BankAccountQueries\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Handlers\BankAccountHandlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Commands\BankAccountCommands\" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Server;
 using QArte.Persistance.PersistanceModels;
+using MediatR;
+using QArte.Services.ServiceInterfaces;
+using QArte.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,12 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
+
+
+builder.Services.AddTransient<IBankAccountService, BankAccountService>();
+
+
+builder.Services.AddMediatR(typeof(Program));
 
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);

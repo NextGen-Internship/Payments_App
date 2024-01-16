@@ -13,7 +13,7 @@ namespace QArte.Services.ServiceInterfaces
 		Task<BankAccountDTO> GetByIDAsync(int id);
 		public Task<bool> BankAccountExists(int id, string IBAN);
 		Task<IEnumerable<BankAccountDTO>> GetBankAccountsByBeneficiaryNameAsync(string BeneficiaryName);
-		Task<IEnumerable<BankAccountDTO>> GetBankAccountsByPaymentMethod(EPaymentMethods ePaymentMethod);
+		Task<IEnumerable<BankAccountDTO>> GetBankAccountsByPaymentMethod(string ePaymentMethod);
 
 	}
 }

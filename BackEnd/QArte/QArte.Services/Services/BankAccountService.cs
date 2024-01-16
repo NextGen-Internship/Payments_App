@@ -83,12 +83,14 @@ namespace QArte.Services.Services
                 }).ToListAsync();   
         }
 
-        async Task<IEnumerable<BankAccountDTO>> IBankAccountService.GetBankAccountsByPaymentMethod(EPaymentMethods ePaymentMethod)
+        async Task<IEnumerable<BankAccountDTO>> IBankAccountService.GetBankAccountsByPaymentMethod(string ePaymentMethod)
         {
+            Enum.TryParse(typeof(EPaymentMethods), ePaymentMethod, out var parsedPaymentMethod);
+
             return await _qArteDBContext.BankAccounts
                 .Include(x => x.PaymentMethod)
                 .Include(x => x.Invoices)
-                .Where(x => x.PaymentMethod.PaymentMethods == ePaymentMethod)
+                .Where(x => x.PaymentMethod.PaymentMethods == (EPaymentMethods)parsedPaymentMethod)
                 .Select(x => new BankAccountDTO
                 {
                     ID = x.ID,
@@ -153,6 +155,7 @@ namespace QArte.Services.Services
 
             return result;
         }
+
         async Task<BankAccountDTO> ICRUDshared<BankAccountDTO>.UpdateAsync(int id, BankAccountDTO obj)
         {
             _ = await BankAccountExists(obj.ID, obj.IBAN)

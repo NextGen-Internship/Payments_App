@@ -9,7 +9,7 @@ namespace QArte.Services.ServiceInterfaces
 {
 	public interface IBanTableService : ICRUDshared<BanTableDTO>
 	{
-		Task<BanTableDTO> GetBanTableByID();
+		Task<BanTableDTO> GetBanTableByID(int id);
 	}
 }
 
