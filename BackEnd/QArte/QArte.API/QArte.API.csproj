@@ -39,7 +39,6 @@
     <None Remove="Commands\BankAccountCommands\" />
     <None Remove="Queries\BanTableQuery\" />
     <None Remove="Handlers\BanTableHandlers\" />
-    <None Remove="Commands\BanTableCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -51,6 +50,5 @@
     <Folder Include="Commands\BankAccountCommands\" />
     <Folder Include="Queries\BanTableQuery\" />
     <Folder Include="Handlers\BanTableHandlers\" />
-    <Folder Include="Commands\BanTableCommands\" />
   </ItemGroup>
 </Project>
