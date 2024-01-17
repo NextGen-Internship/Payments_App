@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="DTOs\" />
+    <None Remove="DTOMappers\" />
+    <None Remove="Services\" />
+    <None Remove="ServiceInterfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+    <Folder Include="DTOMappers\" />
+    <Folder Include="Services\" />
+    <Folder Include="ServiceInterfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />
+  </ItemGroup>
 </Project>

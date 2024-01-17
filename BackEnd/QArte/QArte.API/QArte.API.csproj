@@ -8,11 +8,49 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.26" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.26">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QArte.Services\QArte.Services.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controllers\" />
+    <None Remove="Queries\" />
+    <None Remove="Queries\BankAccountQueries\" />
+    <None Remove="Handlers\" />
+    <None Remove="Handlers\BankAccountHandlers\" />
+    <None Remove="Commands\" />
+    <None Remove="Commands\BankAccountCommands\" />
+    <None Remove="Queries\BanTableQuery\" />
+    <None Remove="Handlers\BanTableHandlers\" />
+    <None Remove="Commands\BanTableCommands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Queries\BankAccountQueries\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Handlers\BankAccountHandlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Commands\BankAccountCommands\" />
+    <Folder Include="Queries\BanTableQuery\" />
+    <Folder Include="Handlers\BanTableHandlers\" />
+    <Folder Include="Commands\BanTableCommands\" />
   </ItemGroup>
 </Project>
