@@ -1,9 +1,10 @@
+import Navbar from "./Components/Navbar/Navbar"
+import LoginSignup from "./Components/LoginSignup/LoginSignup"
+
 
 function App() {
-  
-
   return (
-    <div>Hello World</div>
+    <Navbar/>
   )
 }
 

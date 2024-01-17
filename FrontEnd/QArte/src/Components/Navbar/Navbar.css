@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap');
+ 
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Titillium Web', sans-serif;
+}
+ 
+:root{
+    --mainColor: #8392cb;
+    --mainColorLight: #5767aa;
+    --secondaryColor: #a89799;
+    --textColor: #140617;
+}
+ 
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--mainColor);
+    color: var(--textColor);
+    padding: 1rem;
+}
+
+.container{
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    
+}
+
+nav{
+    justify-content: space-between;
+    background-color: var(--mainColor);
+    padding-left: 550px;
+    flex: 1;
+} 
+ 
+nav ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0; 
+}
+ 
+nav ul li{
+    margin: 10px 15px; 
+    display: inline-block;
+    
+}
+ 
+nav ul li a{
+    text-decoration: none;
+    color: #333;
+    font-size: 1.3rem;
+}
+ 
+nav a{
+    margin: 0.5rem 0;
+    color: var(--textColor);
+
+}
+ 
+nav a:hover{
+    color: var(--secondaryColor);
+}
+ 
+body .nav-btn{
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+    visibility: hidden;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--textColor);
+    font-size: 1.8rem;
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+    width: 150px;
+    height: 150px;
+    /* background-image: url('./Photos/000.jpg'); */
+}
+
+.logo img{
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+
+/* adjustment for responsivness/responsive desing */
+@media only screen and (max-width: 600px) {
+    body nav{
+        padding: 2rem; 
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: 1s;
+        transform: translate(-100%);
+    }
+
+    body .responsive_nav{
+        transform: none;
+    }
+    
+    .nav-btn.nav-close.btn{
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+    }
+ 
+    nav ul{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+ 
+    nav ul li{
+        margin: 10px 0;
+    }
+
+    nav a{
+        font-size: 1.5rem;
+    }
+ 
+    body .nav-btn{
+        margin-left: 275px;
+        margin-top: 10px; 
+        visibility: visible;
+        opacity: 1;
+    }
+
+    body .close-btn{
+        display: block;
+    }
+
+    .logo{
+        width: 100px;
+        height: 100px;
+        position: absolute;
+    }
+}
