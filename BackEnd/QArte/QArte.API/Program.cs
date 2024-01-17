@@ -24,6 +24,15 @@ builder.Services.AddDbContext<QArteDBContext>(
 
 builder.Services.AddTransient<IBankAccountService, BankAccountService>();
 builder.Services.AddTransient<IBanTableService, BanTableService>();
+builder.Services.AddTransient<IFeeService, FeeService>();
+builder.Services.AddTransient<IGalleryService, GalleryService>();
+builder.Services.AddTransient<IInvoiceService, InvoiceService>();
+builder.Services.AddTransient<IPageService, PageService>();
+builder.Services.AddTransient<IPaymentMethodsService, PaymentMethodService>();
+builder.Services.AddTransient<IPictureService, PictureService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ISettlementCycleService, SettlementCycleService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddMediatR(typeof(Program));
 

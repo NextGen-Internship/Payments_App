@@ -6,7 +6,7 @@ using QArte.Services.DTOs;
 using QArte.Persistance.PersistanceModels;
 using MediatR;
 using QArte.API.Queries.BanTableQuery;
-using QArte.API.Commands;
+using QArte.API.Commands.BanTableCommands;
 
 namespace QArte.API.Controllers
 {
@@ -39,6 +39,31 @@ namespace QArte.API.Controllers
             var request = await _mediatR.Send(query);
             return Ok(request);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<BanTableDTO>> PostBanTable([FromBody]BanTableDTO obj)
+        {
+            var command = new BanTablePostCommand(obj);
+            var request = await _mediatR.Send(command);
+            return Ok(request);
+        }
+
+        [HttpPatch("PatchByID/{id}")]
+        public async Task<ActionResult<BanTableDTO>> PatchBanTable(int id,[FromBody] BanTableDTO obj)
+        {
+            var command = new BanTablePatchCommand(id,obj);
+            var request = await _mediatR.Send(command);
+            return Ok(request);
+        }
+
+        [HttpDelete("DeleteByID/{id}")]
+        public async Task<ActionResult<BanTableDTO>> DeletehBanTable(int id)
+        {
+            var command = new BanTableDeleteCommand(id);
+            var request = await _mediatR.Send(command);
+            return Ok(request);
+        }
     }
+
 }
 
