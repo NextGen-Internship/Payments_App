@@ -23,7 +23,7 @@ builder.Services.AddDbContext<QArteDBContext>(
 
 
 builder.Services.AddTransient<IBankAccountService, BankAccountService>();
-
+builder.Services.AddTransient<IBanTableService, BanTableService>();
 
 builder.Services.AddMediatR(typeof(Program));
 

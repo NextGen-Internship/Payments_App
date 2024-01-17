@@ -76,7 +76,7 @@ namespace QArte.API.Controllers
 			return Ok(request);
 		}
 
-		[HttpPatch]
+		[HttpPatch("PatchByID/{id}")]
 		public async Task<ActionResult<BankAccountDTO>> UpdateBankAccount(int id,[FromBody]BankAccountDTO obj)
 		{
 			var query = new UpdateBankAccountCommand(id,obj);
