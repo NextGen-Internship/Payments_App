@@ -1,4 +1,5 @@
-﻿using QArte.Services.DTOs;
+﻿using System;
+using QArte.Services.DTOs;
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -9,41 +10,103 @@ using QArte.Persistance.PersistanceModels;
 
 namespace QArte.Services.Services
 {
-	public class PictureService : IPictureService
-	{
-		public PictureService()
-		{
-		}
+    public class PictureService : IPictureService
+    {
 
-        public Task<PictureDTO> DeleteAsync(int id)
+        private readonly QArteDBContext _qArteDBContext;
+
+        public PictureService(QArteDBContext qArteDBContext)
         {
-            throw new NotImplementedException();
+            _qArteDBContext = qArteDBContext;
         }
 
-        public Task<IEnumerable<PictureDTO>> GetAsync()
+        public async Task<PictureDTO> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var picture = await _qArteDBContext.Pictures
+                .Include(x => x.Gallery)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            _qArteDBContext.Pictures.Remove(picture);
+            await _qArteDBContext.SaveChangesAsync();
+
+            return picture.GetDTO();
         }
 
-        public Task<PictureDTO> GetPictureByID(int id)
+        public async Task<IEnumerable<PictureDTO>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await this._qArteDBContext.Pictures
+                .Include(x => x.Gallery)
+                .Select(x => new PictureDTO
+                {
+                    ID = x.ID,
+                    PictureURL = x.PictureURL,
+                    GalleryID = x.GalleryID
+                }).ToListAsync();
         }
 
-        public Task<PictureDTO> GetPicturesByGalleryID(int id)
+        public async Task<PictureDTO> GetPictureByID(int id)
         {
-            throw new NotImplementedException();
+            var picture = await _qArteDBContext.Pictures
+                .Include(x => x.Gallery)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return picture.GetDTO();
         }
 
-        public Task<PictureDTO> PostAsync(PictureDTO obj)
+        public async Task<PictureDTO> GetPicturesByGalleryID(int id)
         {
-            throw new NotImplementedException();
+            var picture = await _qArteDBContext.Pictures
+                .Include(x => x.Gallery)
+                .FirstOrDefaultAsync(x => x.GalleryID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return picture.GetDTO();
+
         }
 
-        public Task<PictureDTO> UpdateAsync(int id, PictureDTO obj)
+        public async Task<PictureDTO> PostAsync(PictureDTO obj)
         {
-            throw new NotImplementedException();
+            PictureDTO result = null;
+
+            var deletedPicture = await _qArteDBContext.Pictures
+                                            .Include(x => x.Gallery)
+                                            .IgnoreQueryFilters()
+                                            .FirstOrDefaultAsync(x => x.GalleryID == obj.GalleryID && x.PictureURL == obj.PictureURL);
+
+            var newPicture = obj.GetEntity();
+
+            if (deletedPicture == null)
+            {
+                await _qArteDBContext.Pictures.AddAsync(newPicture);
+                await _qArteDBContext.SaveChangesAsync();
+                result = newPicture.GetDTO();
+            }
+            else
+            {
+                result = deletedPicture.GetDTO();
+            }
+            return result;
+        }
+
+        public async Task<PictureDTO> UpdateAsync(int id, PictureDTO obj)
+        {
+            var Picture = await _qArteDBContext.Pictures
+                                .Include(x => x.Gallery)
+                                .FirstOrDefaultAsync(x => x.ID == id)
+                                ?? throw new ApplicationException("Not found");
+
+            if (obj.PictureURL == null)
+            {
+                throw new ApplicationException("Bad input");
+            }
+
+            Picture.ID = obj.ID;
+            Picture.PictureURL = obj.PictureURL;
+            await _qArteDBContext.SaveChangesAsync();
+
+            return Picture.GetDTO();
         }
     }
 }
-
