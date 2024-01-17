@@ -45,6 +45,9 @@
     <None Remove="Handlers\PictureHandlers\" />
     <None Remove="Queries\PictureQueries\" />
     <None Remove="Commands\PictureCommands\" />
+    <None Remove="Queries\GalleryQueries\" />
+    <None Remove="Commands\GalleryCommands\" />
+    <None Remove="Handlers\GalleryHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -62,5 +65,8 @@
     <Folder Include="Handlers\PictureHandlers\" />
     <Folder Include="Queries\PictureQueries\" />
     <Folder Include="Commands\PictureCommands\" />
+    <Folder Include="Queries\GalleryQueries\" />
+    <Folder Include="Commands\GalleryCommands\" />
+    <Folder Include="Handlers\GalleryHandlers\" />
   </ItemGroup>
 </Project>

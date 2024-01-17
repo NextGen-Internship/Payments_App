@@ -12,33 +12,74 @@ namespace QArte.Services.Services
 {
 	public class GalleryService : IGalleryService
 	{
-		public GalleryService()
+        private readonly QArteDBContext _qarteDBContext;
+
+		public GalleryService(QArteDBContext qArteDBContext)
 		{
+            _qarteDBContext = qArteDBContext;
 		}
 
-        public Task<GalleryDTO> DeleteAsync(int id)
+        public async Task<GalleryDTO> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var gallery = await _qarteDBContext.Galleries
+                .Include(x=>x.Pictures)
+                .FirstOrDefaultAsync(x=>x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            _qarteDBContext.Galleries.Remove(gallery);
+            await _qarteDBContext.SaveChangesAsync();
+
+            return gallery.GetDTO();
         }
 
-        public Task<IEnumerable<GalleryDTO>> GetAsync()
+        public async Task<IEnumerable<GalleryDTO>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _qarteDBContext.Galleries
+                .Include(x => x.Pictures)
+                .Select(x => new GalleryDTO
+                {
+                    ID = x.ID,
+                    Pictures = x.Pictures.Select(y => new PictureDTO
+                    {
+                        ID = y.ID,
+                        PictureURL = y.PictureURL,
+                        GalleryID = y.GalleryID,
+                    }).ToList()
+                }).ToListAsync();
         }
 
-        public Task<GalleryDTO> GetGalleryByID(int id)
+        public async Task<GalleryDTO> GetGalleryByID(int id)
         {
-            throw new NotImplementedException();
+            var gallery = await _qarteDBContext.Galleries
+                       .Include(x => x.Pictures)
+                       .FirstOrDefaultAsync(x => x.ID == id)
+                       ?? throw new ApplicationException("Not found");
+
+            return gallery.GetDTO();
         }
 
-        public Task<GalleryDTO> PostAsync(GalleryDTO obj)
+        public async Task<GalleryDTO> PostAsync(GalleryDTO obj)
         {
-            throw new NotImplementedException();
-        }
 
-        public Task<GalleryDTO> UpdateAsync(int id, GalleryDTO obj)
+            var newGallery = obj.GetEntity();
+
+            await _qarteDBContext.Galleries.AddAsync(newGallery);
+            await _qarteDBContext.SaveChangesAsync();
+
+            return newGallery.GetDTO();   
+;        }
+
+        public async Task<GalleryDTO> UpdateAsync(int id, GalleryDTO obj)
         {
-            throw new NotImplementedException();
+            var Gallery = await _qarteDBContext.Galleries
+                .Include(x=>x.Pictures)
+                .FirstOrDefaultAsync(x=>x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            Gallery.ID = obj.ID;
+            await _qarteDBContext.SaveChangesAsync();
+
+            return Gallery.GetDTO();
         }
     }
 }
