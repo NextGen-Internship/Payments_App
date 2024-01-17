@@ -42,6 +42,9 @@
     <None Remove="Handlers\FeeHandlers\" />
     <None Remove="Queries\FeeQuery\" />
     <None Remove="Commands\FeeCommands\" />
+    <None Remove="Commands\PageCommands\" />
+    <None Remove="Handlers\PageHandlers\" />
+    <None Remove="Queries\PageQueries\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -56,5 +59,8 @@
     <Folder Include="Handlers\FeeHandlers\" />
     <Folder Include="Queries\FeeQuery\" />
     <Folder Include="Commands\FeeCommands\" />
+    <Folder Include="Commands\PageCommands\" />
+    <Folder Include="Handlers\PageHandlers\" />
+    <Folder Include="Queries\PageQueries\" />
   </ItemGroup>
 </Project>
