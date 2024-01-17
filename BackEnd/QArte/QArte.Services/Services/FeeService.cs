@@ -34,13 +34,17 @@ namespace QArte.Services.Services
             return fee.GetDTO();
         }
 
-        public async Task<FeeDTO> GetFeesByCurrency(string currency)
+        public async Task<IEnumerable<FeeDTO>> GetFeesByCurrency(string currency)
         {
-
-            var fee = await _qArteDBContext.Fees
-                .FirstOrDefaultAsync(x => x.Currency.ToLower() == currency.ToLower())
-                ?? throw new ApplicationException("Not found");
-            return fee.GetDTO();
+            return await this._qArteDBContext.Fees
+                .Where(x=>x.Currency.ToLower()==currency.ToLower())
+                .Select(x => new FeeDTO
+                {
+                    ID = x.ID,
+                    Currency = x.Currency,
+                    Amount = x.Amount,
+                    ExchangeRate = x.ExchangeRate
+                }).ToListAsync();
         }
 
         public async Task<FeeDTO> DeleteAsync(int id)
@@ -71,8 +75,8 @@ namespace QArte.Services.Services
         public async Task<FeeDTO> UpdateAsync(int id, FeeDTO obj)
         {
 
-            _ = await FeeExists(obj.ID)
-                    == true ? throw new ApplicationException("Not found") : 0;
+            //_ = await FeeExists(obj.ID)
+            //        == true ? throw new ApplicationException(obj.ID.ToString()) : 0;
 
             var fee = await this._qArteDBContext.Fees
                 .FirstOrDefaultAsync(x => x.ID == id)
