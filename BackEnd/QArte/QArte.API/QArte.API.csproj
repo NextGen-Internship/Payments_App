@@ -48,6 +48,9 @@
     <None Remove="Queries\GalleryQueries\" />
     <None Remove="Commands\GalleryCommands\" />
     <None Remove="Handlers\GalleryHandlers\" />
+    <None Remove="Queries\UserQueries\" />
+    <None Remove="Handlers\UserHandlers\" />
+    <None Remove="Commands\UserCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -68,5 +71,8 @@
     <Folder Include="Queries\GalleryQueries\" />
     <Folder Include="Commands\GalleryCommands\" />
     <Folder Include="Handlers\GalleryHandlers\" />
+    <Folder Include="Queries\UserQueries\" />
+    <Folder Include="Handlers\UserHandlers\" />
+    <Folder Include="Commands\UserCommands\" />
   </ItemGroup>
 </Project>

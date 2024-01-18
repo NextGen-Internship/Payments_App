@@ -1,7 +1,7 @@
 ﻿using QArte.Persistance.PersistanceModels;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using QArte.Persistance.PersistanceModels.DAL;
+
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +32,6 @@ namespace QArte.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Seed();   
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

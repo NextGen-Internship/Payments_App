@@ -87,21 +87,21 @@ namespace QArte.Services.Services
 
             BanTableDTO result = null;
 
-            var deletedBanTable = await _qArteDBContext.BanTables
-                                            .IgnoreQueryFilters()
-                                            .FirstOrDefaultAsync(x => x.BanID == obj.BanID);
+            //var deletedBanTable = await _qArteDBContext.BanTables
+            //                                .IgnoreQueryFilters()
+            //                                .FirstOrDefaultAsync(x => x.BanID == obj.BanID);
             var newBanTable = obj.GetEntity();
-            if (deletedBanTable == null)
-            {
+            //if (deletedBanTable == null)
+            //{
                 await this._qArteDBContext.BanTables.AddAsync(newBanTable);
                 await _qArteDBContext.SaveChangesAsync();
                 result = newBanTable.GetDTO();
-            }
-            else
-            {
-                result = deletedBanTable.GetDTO();
+            //}
+            //else
+            //{
+            //    result = deletedBanTable.GetDTO();
 
-            }
+            //}
 
             return result;
         }

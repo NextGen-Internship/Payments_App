@@ -11,7 +11,7 @@ namespace QArte.Persistance.PersistanceConfigurations
         {
             builder.HasKey(e => e.ID);
 
-            builder.HasIndex(e => e.BanID).IsUnique();
+            builder.Property(e => e.BanID);
         }
     }
 }

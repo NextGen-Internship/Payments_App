@@ -52,7 +52,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasIndex(new[] { "PaymentMethodID" }, "IX_BankAccount_PaymentMethodID");
 
-                    b.ToTable("BankAccounts", (string)null);
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BanTable", b =>
@@ -68,10 +68,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BanID")
-                        .IsUnique();
-
-                    b.ToTable("BanTables", (string)null);
+                    b.ToTable("BanTables");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Fee", b =>
@@ -99,7 +96,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasIndex("InvoiceID");
 
-                    b.ToTable("Fees", (string)null);
+                    b.ToTable("Fees");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Gallery", b =>
@@ -112,7 +109,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Galleries", (string)null);
+                    b.ToTable("Galleries");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Invoice", b =>
@@ -144,7 +141,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasIndex(new[] { "SettlementCycleID" }, "IX_Invoice_SettlementCycleID");
 
-                    b.ToTable("Invoices", (string)null);
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Page", b =>
@@ -166,7 +163,7 @@ namespace QArte.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -177,11 +174,12 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("QRLink")
                         .IsUnique();
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.HasIndex(new[] { "GalleryID" }, "IX_Page_GalleryID");
 
-                    b.ToTable("Pages", (string)null);
+                    b.ToTable("Pages");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.PaymentMethod", b =>
@@ -197,7 +195,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("PaymentMethods");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Picture", b =>
@@ -219,7 +217,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasIndex(new[] { "GalleryID" }, "IX_Picture_GalleryID");
 
-                    b.ToTable("Pictures", (string)null);
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
@@ -235,7 +233,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.SettlementCycle", b =>
@@ -251,7 +249,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("SettlementCycles", (string)null);
+                    b.ToTable("SettlementCycles");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
@@ -262,11 +260,11 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("BanID")
-                        .IsRequired()
+                    b.Property<int>("BanID")
                         .HasColumnType("int");
 
-                    b.Property<int>("BankAccountID")
+                    b.Property<int?>("BankAccountID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -303,6 +301,9 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("BanID")
+                        .IsUnique();
+
                     b.HasIndex("BankAccountID")
                         .IsUnique();
 
@@ -312,14 +313,13 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "BanID" }, "IX_Artist_BanID")
-                        .IsUnique();
+                    b.HasIndex(new[] { "BanID" }, "IX_Artist_BanID");
 
                     b.HasIndex(new[] { "BankAccountID" }, "IX_Artist_BankAccountID");
 
                     b.HasIndex(new[] { "RoleID" }, "IX_Artist_RoleID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BankAccount", b =>
@@ -367,11 +367,15 @@ namespace QArte.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QArte.Persistance.PersistanceModels.User", null)
-                        .WithMany("Pages")
-                        .HasForeignKey("UserID");
+                    b.HasOne("QArte.Persistance.PersistanceModels.User", "User")
+                        .WithOne()
+                        .HasForeignKey("QArte.Persistance.PersistanceModels.Page", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Gallery");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Picture", b =>
@@ -435,11 +439,6 @@ namespace QArte.Persistance.Migrations
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
-                {
-                    b.Navigation("Pages");
                 });
 #pragma warning restore 612, 618
         }

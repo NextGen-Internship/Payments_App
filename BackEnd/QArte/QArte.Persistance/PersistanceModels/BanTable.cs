@@ -5,6 +5,8 @@ namespace QArte.Persistance.PersistanceModels
 	{
 		public int ID { get; set; }
 		public int BanID { get; set; }
-	}
+
+        public virtual ICollection<User> Users { get; set; }
+    }
 }
 

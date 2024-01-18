@@ -12,8 +12,8 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArteDBContext))]
-    [Migration("20240112115829_MyMigration2")]
-    partial class MyMigration2
+    [Migration("20240118112429_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,32 +55,6 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex(new[] { "PaymentMethodID" }, "IX_BankAccount_PaymentMethodID");
 
                     b.ToTable("BankAccounts");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            BeneficiaryName = "Stefan Dobrev",
-                            IBAN = "BG42TTBB94008757957164",
-                            PaymentMethodID = 2,
-                            StripeInfo = "albala"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            BeneficiaryName = "Stiliqn Robinov",
-                            IBAN = "BG71IORT80944884276632",
-                            PaymentMethodID = 1,
-                            StripeInfo = "stiliqnstraip"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            BeneficiaryName = "Jivodar Konov",
-                            IBAN = "BG55IORT80944219848551",
-                            PaymentMethodID = 1,
-                            StripeInfo = "Lol"
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BanTable", b =>
@@ -96,17 +70,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BanID")
-                        .IsUnique();
-
                     b.ToTable("BanTables");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = -1,
-                            BanID = 0
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Fee", b =>
@@ -135,15 +99,6 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("InvoiceID");
 
                     b.ToTable("Fees");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Amount = 69.5m,
-                            Currency = "EUR",
-                            ExchangeRate = 4.3m
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Gallery", b =>
@@ -157,16 +112,6 @@ namespace QArte.Persistance.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Galleries");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1
-                        },
-                        new
-                        {
-                            ID = 2
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Invoice", b =>
@@ -199,24 +144,6 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex(new[] { "SettlementCycleID" }, "IX_Invoice_SettlementCycleID");
 
                     b.ToTable("Invoices");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            BankAccountID = 1,
-                            InvoiceDate = new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            SettlementCycleID = 2,
-                            TotalAmount = 69.69m
-                        },
-                        new
-                        {
-                            ID = 2,
-                            BankAccountID = 2,
-                            InvoiceDate = new DateTime(2025, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            SettlementCycleID = 1,
-                            TotalAmount = 69.420m
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Page", b =>
@@ -241,9 +168,6 @@ namespace QArte.Persistance.Migrations
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID1")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("GalleryID")
@@ -255,29 +179,9 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.HasIndex("UserID1");
-
                     b.HasIndex(new[] { "GalleryID" }, "IX_Page_GalleryID");
 
                     b.ToTable("Pages");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Bio = "Kazvam se ema, obicham da pusha",
-                            GalleryID = 1,
-                            QRLink = "link/haha/dedaznam",
-                            UserID = 4
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Bio = "Kazvam se ReyRey, obicham da qm qbalki",
-                            GalleryID = 2,
-                            QRLink = "link/haha/lol",
-                            UserID = 5
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.PaymentMethod", b =>
@@ -294,18 +198,6 @@ namespace QArte.Persistance.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PaymentMethods");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            PaymentMethods = 2
-                        },
-                        new
-                        {
-                            ID = 2,
-                            PaymentMethods = 0
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Picture", b =>
@@ -328,20 +220,6 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex(new[] { "GalleryID" }, "IX_Picture_GalleryID");
 
                     b.ToTable("Pictures");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            GalleryID = 1,
-                            PictureURL = "/Users/Martin.Kolev/Pictures/azisazis"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            GalleryID = 1,
-                            PictureURL = "/Users/Martin.Kolev/Pictures/carAzis"
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
@@ -358,23 +236,6 @@ namespace QArte.Persistance.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Role");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            ERole = 0
-                        },
-                        new
-                        {
-                            ID = 2,
-                            ERole = 2
-                        },
-                        new
-                        {
-                            ID = 3,
-                            ERole = 1
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.SettlementCycle", b =>
@@ -391,18 +252,6 @@ namespace QArte.Persistance.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("SettlementCycles");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            DatePeriod = new DateTime(2024, 1, 12, 0, 0, 0, 0, DateTimeKind.Local)
-                        },
-                        new
-                        {
-                            ID = 2,
-                            DatePeriod = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Local)
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
@@ -413,11 +262,11 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("BanID")
-                        .IsRequired()
+                    b.Property<int>("BanID")
                         .HasColumnType("int");
 
-                    b.Property<int>("BankAccountID")
+                    b.Property<int?>("BankAccountID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -454,6 +303,9 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("BanID")
+                        .IsUnique();
+
                     b.HasIndex("BankAccountID")
                         .IsUnique();
 
@@ -463,83 +315,13 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "BanID" }, "IX_Artist_BanID")
-                        .IsUnique();
+                    b.HasIndex(new[] { "BanID" }, "IX_Artist_BanID");
 
                     b.HasIndex(new[] { "BankAccountID" }, "IX_Artist_BankAccountID");
 
                     b.HasIndex(new[] { "RoleID" }, "IX_Artist_RoleID");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            BanID = -1,
-                            BankAccountID = 0,
-                            Email = "ema.kuychukova@blankfactor.com",
-                            FirstName = "Ema",
-                            LastName = "Kuychukova",
-                            Password = "kapachki",
-                            PhoneNumber = "+35924492877",
-                            RoleID = 2,
-                            UserName = "SmokeEveryDay"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            BanID = -1,
-                            BankAccountID = 0,
-                            Email = "martin.kolev@blankfactor.com",
-                            FirstName = "Martin",
-                            LastName = "Kolev",
-                            Password = "kapachki2",
-                            PhoneNumber = "+35920768005",
-                            RoleID = 2,
-                            UserName = "ReyRey"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            BanID = -1,
-                            BankAccountID = 0,
-                            Email = "martin.konov@blankfactor.com",
-                            FirstName = "Martin",
-                            LastName = "Konov",
-                            Password = "kapachki3",
-                            PhoneNumber = "+35922649764",
-                            RoleID = 2,
-                            UserName = "ElbowBlock"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            BanID = -1,
-                            BankAccountID = 2,
-                            Email = "luben.kulishev@blankfactor.com",
-                            FirstName = "Luben",
-                            LastName = "Kulishev",
-                            Password = "Narko123",
-                            PhoneNumber = "+35924775508",
-                            PictureUrl = "/Users/Martin.Kolev/Pictures/luben.png",
-                            RoleID = 1,
-                            UserName = "ObichamShumaNaParite"
-                        },
-                        new
-                        {
-                            ID = 5,
-                            BanID = -1,
-                            BankAccountID = 1,
-                            Email = "vasil.hristov@blankfactor.com",
-                            FirstName = "Vasil",
-                            LastName = "Hristov",
-                            Password = "PDA69",
-                            PhoneNumber = "+35924775232",
-                            PictureUrl = "/Users/Martin.Kolev/Pictures/vasil.png",
-                            RoleID = 1,
-                            UserName = "vasetoHulk"
-                        });
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BankAccount", b =>
@@ -592,10 +374,6 @@ namespace QArte.Persistance.Migrations
                         .HasForeignKey("QArte.Persistance.PersistanceModels.Page", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("QArte.Persistance.PersistanceModels.User", null)
-                        .WithMany("pages")
-                        .HasForeignKey("UserID1");
 
                     b.Navigation("Gallery");
 
@@ -663,11 +441,6 @@ namespace QArte.Persistance.Migrations
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
-                {
-                    b.Navigation("pages");
                 });
 #pragma warning restore 612, 618
         }

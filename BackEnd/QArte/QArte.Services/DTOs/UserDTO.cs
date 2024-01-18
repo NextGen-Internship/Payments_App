@@ -12,7 +12,7 @@ namespace QArte.Services.DTOs
 		public string PictureURL { get; set; }
 		public string PhoneNumber { get; set; }
 		public int RoleID { get; set; }
-		public int? BanID { get; set; }
+		public int BanID { get; set; }
 		public int? BankAccountID { get; set; }
 
     }

@@ -11,53 +11,142 @@ namespace QArte.Services.Services
 {
 	public class UserService : IUserService
 	{
-		public UserService()
-		{
-		}
+
+        private readonly QArteDBContext _qarteDBContext;
+
+        public UserService(QArteDBContext qarteDBContext)
+        {
+            _qarteDBContext = qarteDBContext;
+        }
 
         public Task<UserDTO> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserDTO>> GetAsync()
+        public async Task<IEnumerable<UserDTO>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Ban)
+                .Select(y => new UserDTO
+                {
+                    ID = y.ID,
+                    FirstName = y.FirstName,
+                    LastName = y.LastName,
+                    Username = y.UserName,
+                    Password = y.Password,
+                    Email = y.Email,
+                    PictureURL = y.PictureUrl,
+                    PhoneNumber = y.PhoneNumber,
+                    RoleID = y.RoleID,
+                    BanID = y.BanID,
+                    BankAccountID = y.BankAccountID
+                }).ToListAsync();
         }
 
-        public Task<string> GetEmailByID(int id)
+        public async Task<string> GetEmailByID(int id)
         {
-            throw new NotImplementedException();
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Ban)
+                .FirstOrDefaultAsync(x=>x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return user.Email;
         }
 
-        public Task<IQueryable<PageDTO>> GetPagesByUserID(int id)
+        public async Task<UserDTO> GetUserByID(int id)
         {
-            throw new NotImplementedException();
+            var user = await _qarteDBContext.Users
+                .Include(x=>x.BankAccount)
+                .Include(x=>x.Role)
+                .Include(x=>x.Ban)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return user.GetDTO();
         }
 
-        public Task<UserDTO> GetUserByID(int id)
+        public async Task<string> GetUsernameByID(int id)
         {
-            throw new NotImplementedException();
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Ban)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return user.UserName;
         }
 
-        public Task<string> GetUsernameByID(int id)
+        public async Task<IEnumerable<UserDTO>> GetUsersByRoleID(int id)
         {
-            throw new NotImplementedException();
+            return await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Ban)
+                .Where(x=>x.RoleID == id)
+                .Select(y => new UserDTO
+                {
+                    ID = y.ID,
+                    FirstName = y.FirstName,
+                    LastName = y.LastName,
+                    Username = y.UserName,
+                    Password = y.Password,
+                    Email = y.Email,
+                    PictureURL = y.PictureUrl,
+                    PhoneNumber = y.PhoneNumber,
+                    RoleID = y.RoleID,
+                    BanID = y.BanID,
+                    BankAccountID = y.BankAccountID
+                }).ToListAsync();
         }
 
-        public Task<IQueryable<UserDTO>> GetUsersByRoleID(int id)
+        public async Task<bool> isBanned(int id)
         {
-            throw new NotImplementedException();
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Ban)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+
+            IBanTableService _banTableService = new BanTableService(_qarteDBContext);
+
+            var banTable = await _banTableService.GetBanTableByID(user.BanID);
+
+            if (banTable.BanID != 0)
+                return true;
+
+            return false;
         }
 
-        public Task<bool> isBanned(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<UserDTO> PostAsync(UserDTO obj)
+        { 
 
-        public Task<UserDTO> PostAsync(UserDTO obj)
-        {
-            throw new NotImplementedException();
+            var deletedUser = await _qarteDBContext.Users
+                .Include(x => x.Ban)
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.BanID == obj.BanID && x.BankAccountID == obj.BankAccountID
+                && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
+                x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
+                && x.RoleID == obj.RoleID);
+
+            var newUser = obj.GetEnity();
+
+            if (deletedUser == null)
+            {
+                await _qarteDBContext.Users.AddAsync(newUser);
+                await _qarteDBContext.SaveChangesAsync();
+                return newUser.GetDTO();
+            }
+
+            return deletedUser.GetDTO();
         }
 
         public Task<UserDTO> UpdateAsync(int id, UserDTO obj)

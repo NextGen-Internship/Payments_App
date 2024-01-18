@@ -20,7 +20,7 @@ namespace QArte.Persistance.PersistanceConfigurations
             builder.HasIndex(e => e.Email).IsUnique();
             builder.HasIndex(e => e.UserName).IsUnique();
 
-            builder.HasIndex(e => e.BanID, "IX_Artist_BanID").IsUnique();
+            builder.HasIndex(e => e.BanID, "IX_Artist_BanID");
 
 			builder.HasIndex(e => e.BankAccountID, "IX_Artist_BankAccountID");
 

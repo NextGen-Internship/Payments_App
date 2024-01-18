@@ -33,7 +33,7 @@ namespace QArte.Persistance.PersistanceModels
         public int RoleID { get; set; }
         public virtual Role Role { get; set; }
 
-        public int? BanID { get; set; }
+        public int BanID { get; set; }
         public virtual BanTable Ban { get; set; }
 
         public int? BankAccountID { get; set; }

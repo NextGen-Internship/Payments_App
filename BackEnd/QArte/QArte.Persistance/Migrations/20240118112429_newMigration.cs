@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QArte.Persistance.Migrations
 {
-    public partial class MyMigration : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,7 +213,7 @@ namespace QArte.Persistance.Migrations
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QRLink = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     GalleryID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: true)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,7 +228,8 @@ namespace QArte.Persistance.Migrations
                         name: "FK_Pages_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -240,12 +241,6 @@ namespace QArte.Persistance.Migrations
                 name: "IX_BankAccounts_IBAN",
                 table: "BankAccounts",
                 column: "IBAN",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BanTables_BanID",
-                table: "BanTables",
-                column: "BanID",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -289,7 +284,8 @@ namespace QArte.Persistance.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Pages_UserID",
                 table: "Pages",
-                column: "UserID");
+                column: "UserID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Picture_GalleryID",
@@ -299,8 +295,7 @@ namespace QArte.Persistance.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Artist_BanID",
                 table: "Users",
-                column: "BanID",
-                unique: true);
+                column: "BanID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Artist_BankAccountID",
@@ -311,6 +306,12 @@ namespace QArte.Persistance.Migrations
                 name: "IX_Artist_RoleID",
                 table: "Users",
                 column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_BanID",
+                table: "Users",
+                column: "BanID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_BankAccountID",
