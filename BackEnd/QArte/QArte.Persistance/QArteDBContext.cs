@@ -19,7 +19,6 @@ namespace QArte.Persistance
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
-        public virtual DbSet<BanTable> BanTables { get; set; }
         public virtual DbSet<Fee> Fees { get; set; }
         public virtual DbSet<Gallery> Galleries { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }

@@ -19,9 +19,23 @@ namespace QArte.Services.Services
             _qarteDBContext = qarteDBContext;
         }
 
-        public Task<UserDTO> DeleteAsync(int id)
+        public async Task<bool> UserExists(int id, string username, string email)
         {
-            throw new NotImplementedException();
+            return await _qarteDBContext.Users.AnyAsync(x => x.ID == id && x.UserName == username && x.Email == email);
+        }
+
+        public async Task<UserDTO> DeleteAsync(int id)
+        {
+            var user = await _qarteDBContext.Users
+                 .Include(x=>x.BankAccount)
+                 .Include(x=>x.Role)
+                 .FirstOrDefaultAsync(x => x.ID == id)
+                  ?? throw new ApplicationException("Not found");
+
+            _qarteDBContext.Users.Remove(user);
+            await _qarteDBContext.SaveChangesAsync();
+
+            return user.GetDTO();
         }
 
         public async Task<IEnumerable<UserDTO>> GetAsync()
@@ -29,7 +43,6 @@ namespace QArte.Services.Services
             return await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .Include(x => x.Ban)
                 .Select(y => new UserDTO
                 {
                     ID = y.ID,
@@ -40,8 +53,8 @@ namespace QArte.Services.Services
                     Email = y.Email,
                     PictureURL = y.PictureUrl,
                     PhoneNumber = y.PhoneNumber,
+                    isBanned = y.isBanned,
                     RoleID = y.RoleID,
-                    BanID = y.BanID,
                     BankAccountID = y.BankAccountID
                 }).ToListAsync();
         }
@@ -51,7 +64,6 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .Include(x => x.Ban)
                 .FirstOrDefaultAsync(x=>x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -63,7 +75,6 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x=>x.BankAccount)
                 .Include(x=>x.Role)
-                .Include(x=>x.Ban)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -75,7 +86,6 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .Include(x => x.Ban)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -87,8 +97,7 @@ namespace QArte.Services.Services
             return await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .Include(x => x.Ban)
-                .Where(x=>x.RoleID == id)
+                .Where(x => x.RoleID == id)
                 .Select(y => new UserDTO
                 {
                     ID = y.ID,
@@ -99,8 +108,8 @@ namespace QArte.Services.Services
                     Email = y.Email,
                     PictureURL = y.PictureUrl,
                     PhoneNumber = y.PhoneNumber,
+                    isBanned = y.isBanned,
                     RoleID = y.RoleID,
-                    BanID = y.BanID,
                     BankAccountID = y.BankAccountID
                 }).ToListAsync();
         }
@@ -110,29 +119,19 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .Include(x => x.Ban)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
-
-            IBanTableService _banTableService = new BanTableService(_qarteDBContext);
-
-            var banTable = await _banTableService.GetBanTableByID(user.BanID);
-
-            if (banTable.BanID != 0)
-                return true;
-
-            return false;
+            return user.isBanned;
         }
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
         { 
 
             var deletedUser = await _qarteDBContext.Users
-                .Include(x => x.Ban)
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
-                .FirstOrDefaultAsync(x => x.BanID == obj.BanID && x.BankAccountID == obj.BankAccountID
+                .FirstOrDefaultAsync(x => x.isBanned == obj.isBanned && x.BankAccountID == obj.BankAccountID
                 && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
                 x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
                 && x.RoleID == obj.RoleID);
@@ -149,10 +148,36 @@ namespace QArte.Services.Services
             return deletedUser.GetDTO();
         }
 
-        public Task<UserDTO> UpdateAsync(int id, UserDTO obj)
+        public async Task<UserDTO> UpdateAsync(int id, UserDTO obj)
         {
-            throw new NotImplementedException();
+            _ = await UserExists(obj.ID, obj.Username, obj.Email)
+                == true ? throw new ApplicationException("Not found") : 0;
+
+            var user = await _qarteDBContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.BankAccount)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            user.ID = obj.ID;
+            user.FirstName = obj.FirstName;
+            user.LastName = obj.LastName;
+            user.UserName = obj.Username;
+            user.Password = obj.Password;
+            user.Email = obj.Email;
+            user.PictureUrl = obj.PictureURL;
+            user.PhoneNumber = obj.PhoneNumber;
+            user.isBanned = obj.isBanned;
+            user.RoleID = obj.RoleID;
+            user.BankAccountID = obj.BankAccountID;
+
+            await _qarteDBContext.SaveChangesAsync();
+
+            return user.GetDTO();
+
         }
+
+
     }
 }
 

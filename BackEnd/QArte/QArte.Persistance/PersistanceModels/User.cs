@@ -23,6 +23,8 @@ namespace QArte.Persistance.PersistanceModels
         //public bool IsDeleted { get; set; }
         //public DateTime? DeletedOn { get; set; }
 
+        public bool isBanned { get; set; }
+
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
@@ -32,9 +34,6 @@ namespace QArte.Persistance.PersistanceModels
 
         public int RoleID { get; set; }
         public virtual Role Role { get; set; }
-
-        public int BanID { get; set; }
-        public virtual BanTable Ban { get; set; }
 
         public int? BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }

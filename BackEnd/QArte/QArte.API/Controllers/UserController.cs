@@ -7,6 +7,7 @@ using QArte.Persistance.PersistanceModels;
 using MediatR;
 using QArte.API.Queries.UserQueries;
 using QArte.API.Commands.UserCommands;
+using QArte.API.Commands.BankAccountCommands;
 
 namespace QArte.API.Controllers
 {
@@ -82,6 +83,24 @@ namespace QArte.API.Controllers
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] UserDTO obj)
         {
             var query = new PostUserCommand(obj);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
+
+        [HttpDelete("DeleteByID/{id}")]
+        public async Task<ActionResult<UserDTO>> DeleteUserAccount(int id)
+        {
+            var query = new DeleteUserCommand(id);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
+
+        [HttpPatch("PatchByID/{id}")]
+        public async Task<ActionResult<UserDTO>> UpdateBankAccount(int id, [FromBody] UserDTO obj)
+        {
+            var query = new UpdateUserCommand(id, obj);
             var request = await _mediatR.Send(query);
             return Ok(request);
         }

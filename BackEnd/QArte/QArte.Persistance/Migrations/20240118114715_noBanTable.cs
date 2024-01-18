@@ -5,23 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QArte.Persistance.Migrations
 {
-    public partial class newMigration : Migration
+    public partial class noBanTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "BanTables",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BanID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BanTables", x => x.ID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Galleries",
                 columns: table => new
@@ -153,11 +140,11 @@ namespace QArte.Persistance.Migrations
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    isBanned = table.Column<bool>(type: "bit", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleID = table.Column<int>(type: "int", nullable: false),
-                    BanID = table.Column<int>(type: "int", nullable: false),
                     BankAccountID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -167,12 +154,6 @@ namespace QArte.Persistance.Migrations
                         name: "FK_Users_BankAccounts_BankAccountID",
                         column: x => x.BankAccountID,
                         principalTable: "BankAccounts",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_BanTables_BanID",
-                        column: x => x.BanID,
-                        principalTable: "BanTables",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -293,11 +274,6 @@ namespace QArte.Persistance.Migrations
                 column: "GalleryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Artist_BanID",
-                table: "Users",
-                column: "BanID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Artist_BankAccountID",
                 table: "Users",
                 column: "BankAccountID");
@@ -306,12 +282,6 @@ namespace QArte.Persistance.Migrations
                 name: "IX_Artist_RoleID",
                 table: "Users",
                 column: "RoleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_BanID",
-                table: "Users",
-                column: "BanID",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_BankAccountID",
@@ -357,9 +327,6 @@ namespace QArte.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "BankAccounts");
-
-            migrationBuilder.DropTable(
-                name: "BanTables");
 
             migrationBuilder.DropTable(
                 name: "Role");

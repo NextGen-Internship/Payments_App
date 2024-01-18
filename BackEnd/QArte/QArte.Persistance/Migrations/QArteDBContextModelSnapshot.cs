@@ -55,22 +55,6 @@ namespace QArte.Persistance.Migrations
                     b.ToTable("BankAccounts");
                 });
 
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.BanTable", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("BanID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("BanTables");
-                });
-
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Fee", b =>
                 {
                     b.Property<int>("ID")
@@ -260,9 +244,6 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("BanID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("BankAccountID")
                         .IsRequired()
                         .HasColumnType("int");
@@ -299,10 +280,10 @@ namespace QArte.Persistance.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("ID");
+                    b.Property<bool>("isBanned")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("BanID")
-                        .IsUnique();
+                    b.HasKey("ID");
 
                     b.HasIndex("BankAccountID")
                         .IsUnique();
@@ -312,8 +293,6 @@ namespace QArte.Persistance.Migrations
 
                     b.HasIndex("UserName")
                         .IsUnique();
-
-                    b.HasIndex(new[] { "BanID" }, "IX_Artist_BanID");
 
                     b.HasIndex(new[] { "BankAccountID" }, "IX_Artist_BankAccountID");
 
@@ -391,12 +370,6 @@ namespace QArte.Persistance.Migrations
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
                 {
-                    b.HasOne("QArte.Persistance.PersistanceModels.BanTable", "Ban")
-                        .WithOne()
-                        .HasForeignKey("QArte.Persistance.PersistanceModels.User", "BanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("QArte.Persistance.PersistanceModels.BankAccount", "BankAccount")
                         .WithOne()
                         .HasForeignKey("QArte.Persistance.PersistanceModels.User", "BankAccountID")
@@ -408,8 +381,6 @@ namespace QArte.Persistance.Migrations
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Ban");
 
                     b.Navigation("BankAccount");
 

@@ -11,8 +11,8 @@ namespace QArte.Services.DTOs
 		public string Email { get; set; }
 		public string PictureURL { get; set; }
 		public string PhoneNumber { get; set; }
+		public bool isBanned { get; set; }
 		public int RoleID { get; set; }
-		public int BanID { get; set; }
 		public int? BankAccountID { get; set; }
 
     }
