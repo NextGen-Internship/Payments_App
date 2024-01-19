@@ -23,8 +23,8 @@ namespace QArte.Services.DTOMappers
                 Email = user.Email,
                 PictureURL = user.PictureUrl,
                 PhoneNumber = user.PhoneNumber,
+                isBanned = user.isBanned,
                 RoleID = user.RoleID,
-                BanID = user.BanID,
                 BankAccountID = user.BankAccountID
             };
         }
@@ -46,8 +46,8 @@ namespace QArte.Services.DTOMappers
                 Email = userDTO.Email,
                 PictureUrl = userDTO.PictureURL,
                 PhoneNumber = userDTO.PhoneNumber,
+                isBanned = userDTO.isBanned,
                 RoleID = userDTO.RoleID,
-                BanID = userDTO.BanID,
                 BankAccountID = userDTO.BankAccountID
             };
         }

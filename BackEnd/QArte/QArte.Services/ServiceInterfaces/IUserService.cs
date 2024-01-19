@@ -11,8 +11,7 @@ namespace QArte.Services.ServiceInterfaces
 		Task<UserDTO> GetUserByID(int id);
 		Task<string> GetEmailByID(int id);
 		Task<string> GetUsernameByID(int id);
-		Task<IQueryable<UserDTO>> GetUsersByRoleID(int id);
-        Task<IQueryable<PageDTO>> GetPagesByUserID(int id);
+		Task<IEnumerable<UserDTO>> GetUsersByRoleID(int id);
 		Task<bool> isBanned(int id);
 		
     }

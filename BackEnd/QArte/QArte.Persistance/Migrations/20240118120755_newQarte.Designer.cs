@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QArte.Persistance;
 
@@ -11,9 +12,10 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArteDBContext))]
-    partial class QArteDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240118120755_newQarte")]
+    partial class newQarte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

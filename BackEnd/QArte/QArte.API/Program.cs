@@ -23,7 +23,6 @@ builder.Services.AddDbContext<QArteDBContext>(
 
 
 builder.Services.AddTransient<IBankAccountService, BankAccountService>();
-builder.Services.AddTransient<IBanTableService, BanTableService>();
 builder.Services.AddTransient<IFeeService, FeeService>();
 builder.Services.AddTransient<IGalleryService, GalleryService>();
 builder.Services.AddTransient<IInvoiceService, InvoiceService>();

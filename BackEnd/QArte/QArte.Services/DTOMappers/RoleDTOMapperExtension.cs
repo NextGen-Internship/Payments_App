@@ -19,7 +19,7 @@ namespace QArte.Services.DTOMappers
             {
                 userDTOs.Add(new UserDTO { ID = user.ID, FirstName = user.FirstName, LastName = user.LastName,
                     Username = user.UserName, Password = user.Password, Email = user.Email, PictureURL = user.PictureUrl,
-                    PhoneNumber = user.PhoneNumber, RoleID = user.RoleID,BanID = user.BanID, BankAccountID = user.BankAccountID});
+                    PhoneNumber = user.PhoneNumber, RoleID = user.RoleID,isBanned = user.isBanned, BankAccountID = user.BankAccountID});
             }
 
 
@@ -52,10 +52,10 @@ namespace QArte.Services.DTOMappers
                     Email = userDTO.Email,
                     PictureUrl = userDTO.PictureURL,
                     PhoneNumber = userDTO.PhoneNumber,
+                    isBanned = userDTO.isBanned,
                     RoleID = userDTO.RoleID,
-                    BanID = userDTO.BanID,
                     BankAccountID = userDTO.BankAccountID
-                });
+                }) ;
             }
 
 
