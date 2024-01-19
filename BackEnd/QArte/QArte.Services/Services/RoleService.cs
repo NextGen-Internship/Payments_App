@@ -21,11 +21,11 @@ namespace QArte.Services.Services
 
         public async Task<RoleDTO> DeleteAsync(int id)
         {
-            var role = await this._qArteDBContext.Roles
+            var role = await this._qArteDBContext.Role
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
-            this._qArteDBContext.Roles.Remove(role);
+            this._qArteDBContext.Role.Remove(role);
             await _qArteDBContext.SaveChangesAsync();
 
             return role.GetDTO();
@@ -33,7 +33,7 @@ namespace QArte.Services.Services
 
         public async Task<IEnumerable<RoleDTO>> GetAsync()
         {
-            return await this._qArteDBContext.Roles
+            return await this._qArteDBContext.Role
                 .Select(x => new RoleDTO
                 {
                     ID = x.ID,
@@ -49,7 +49,7 @@ namespace QArte.Services.Services
 
         public async Task<RoleDTO> GetRoleByID(int id)
         {
-            var role = await _qArteDBContext.Roles
+            var role = await _qArteDBContext.Role
               .Include(x=>x.Users)
               .FirstOrDefaultAsync(x => x.ID == id)
               ?? throw new ApplicationException("Not found");
@@ -60,14 +60,14 @@ namespace QArte.Services.Services
         {
             RoleDTO result = null;
 
-            var deletedRole = await _qArteDBContext.Roles
+            var deletedRole = await _qArteDBContext.Role
                                             .Include(x => x.Users)
                                             .IgnoreQueryFilters()
                                             .FirstOrDefaultAsync(x => x.ID== obj.ID);
             var newRole = obj.GetEnity();
             if (deletedRole == null)
             {
-                await this._qArteDBContext.Roles.AddAsync(newRole);
+                await this._qArteDBContext.Role.AddAsync(newRole);
                 await _qArteDBContext.SaveChangesAsync();
                 result = newRole.GetDTO();
             }
@@ -82,7 +82,7 @@ namespace QArte.Services.Services
 
         public async Task<RoleDTO> UpdateAsync(int id, RoleDTO obj)
         {
-            var Role = await this._qArteDBContext.Roles
+            var Role = await this._qArteDBContext.Role
                 .Include(x => x.Users)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
