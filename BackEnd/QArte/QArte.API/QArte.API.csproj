@@ -49,6 +49,12 @@
     <None Remove="Queries\UserQueries\" />
     <None Remove="Handlers\UserHandlers\" />
     <None Remove="Commands\UserCommands\" />
+    <None Remove="Commands\PageCommands\" />
+    <None Remove="Handlers\PageHandlers\" />
+    <None Remove="Queries\PageQueries\" />
+    <None Remove="Handlers\RoleHandler\" />
+    <None Remove="Queries\RoleQuery\" />
+    <None Remove="Commands\RoleCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -70,5 +76,11 @@
     <Folder Include="Queries\UserQueries\" />
     <Folder Include="Handlers\UserHandlers\" />
     <Folder Include="Commands\UserCommands\" />
+    <Folder Include="Commands\PageCommands\" />
+    <Folder Include="Handlers\PageHandlers\" />
+    <Folder Include="Queries\PageQueries\" />
+    <Folder Include="Handlers\RoleHandler\" />
+    <Folder Include="Queries\RoleQuery\" />
+    <Folder Include="Commands\RoleCommands\" />
   </ItemGroup>
 </Project>

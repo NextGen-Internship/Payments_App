@@ -9,7 +9,7 @@ namespace QArte.Services.ServiceInterfaces
 	public interface IFeeService :ICRUDshared<FeeDTO>
 	{
 		Task<FeeDTO> GetFeeByID(int id);
-		Task<FeeDTO> GetFeesByCurrency(string Currency);
+		Task<IEnumerable<FeeDTO>> GetFeesByCurrency(string Currency);
 	}
 }
 
