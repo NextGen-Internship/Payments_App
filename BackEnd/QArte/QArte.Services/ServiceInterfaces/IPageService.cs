@@ -9,7 +9,7 @@ namespace QArte.Services.ServiceInterfaces
 	public interface IPageService : ICRUDshared<PageDTO>
 	{
 		Task<PageDTO> GetPageByID(int id);
-		Task<IQueryable<PageDTO>> GetPagesByUserID(int id);
+		Task<IEnumerable<PageDTO>> GetPagesByUserID(int id);
     }
 }
 

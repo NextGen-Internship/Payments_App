@@ -39,6 +39,12 @@
     <None Remove="Commands\BankAccountCommands\" />
     <None Remove="Queries\BanTableQuery\" />
     <None Remove="Handlers\BanTableHandlers\" />
+    <None Remove="Handlers\FeeHandlers\" />
+    <None Remove="Queries\FeeQuery\" />
+    <None Remove="Commands\FeeCommands\" />
+    <None Remove="Commands\PageCommands\" />
+    <None Remove="Handlers\PageHandlers\" />
+    <None Remove="Queries\PageQueries\" />
     <None Remove="Handlers\RoleHandler\" />
     <None Remove="Queries\RoleQuery\" />
     <None Remove="Commands\RoleCommands\" />
@@ -53,6 +59,12 @@
     <Folder Include="Commands\BankAccountCommands\" />
     <Folder Include="Queries\BanTableQuery\" />
     <Folder Include="Handlers\BanTableHandlers\" />
+    <Folder Include="Handlers\FeeHandlers\" />
+    <Folder Include="Queries\FeeQuery\" />
+    <Folder Include="Commands\FeeCommands\" />
+    <Folder Include="Commands\PageCommands\" />
+    <Folder Include="Handlers\PageHandlers\" />
+    <Folder Include="Queries\PageQueries\" />
     <Folder Include="Handlers\RoleHandler\" />
     <Folder Include="Queries\RoleQuery\" />
     <Folder Include="Commands\RoleCommands\" />

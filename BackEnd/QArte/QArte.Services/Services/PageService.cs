@@ -11,38 +11,104 @@ namespace QArte.Services.Services
 {
 	public class PageService : IPageService
 	{
-		public PageService()
+
+        private readonly QArteDBContext _qArteDBContext;
+
+		public PageService(QArteDBContext qArteDBContext)
 		{
+            this._qArteDBContext = qArteDBContext;
 		}
 
-        public Task<PageDTO> DeleteAsync(int id)
+        public async Task<PageDTO> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var page = await this._qArteDBContext.Pages
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            this._qArteDBContext.Pages.Remove(page);
+            await _qArteDBContext.SaveChangesAsync();
+
+            return page.GetDTO();
         }
 
-        public Task<IEnumerable<PageDTO>> GetAsync()
+        public async Task<IEnumerable<PageDTO>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await this._qArteDBContext.Pages
+                .Select(x => new PageDTO
+                {
+                    ID = x.ID,
+                    Bio = x.Bio,
+                    QRLink = x.QRLink,
+                    GalleryID = x.GalleryID,
+                    UserID = x.UserID
+                }).ToListAsync();
         }
 
-        public Task<PageDTO> GetPageByID(int id)
+        public async Task<PageDTO> GetPageByID(int id)
         {
-            throw new NotImplementedException();
+            var page = await _qArteDBContext.Pages
+              .FirstOrDefaultAsync(x => x.ID == id)
+              ?? throw new ApplicationException("Not found");
+            return page.GetDTO();
         }
 
-        public Task<IQueryable<PageDTO>> GetPagesByUserID(int id)
+        public async Task<IEnumerable<PageDTO>> GetPagesByUserID(int id)
         {
-            throw new NotImplementedException();
+            return await this._qArteDBContext.Pages
+                .Where(x => x.UserID == id)
+                .Select(x => new PageDTO
+                {
+                    ID = x.ID,
+                    Bio = x.Bio,
+                    QRLink = x.QRLink,
+                    GalleryID = x.GalleryID,
+                    UserID = x.UserID
+                }).ToListAsync();
         }
 
-        public Task<PageDTO> PostAsync(PageDTO obj)
+        public async Task<PageDTO> PostAsync(PageDTO obj)
         {
-            throw new NotImplementedException();
+            PageDTO result = null;
+
+            var deletedPage = await _qArteDBContext.Pages
+                                            .Include(x => x.Gallery)
+                                            .Include(x => x.User)
+                                            .IgnoreQueryFilters()
+                                            .FirstOrDefaultAsync(x => x.QRLink == obj.QRLink);
+            var newPage = obj.GetEntity();
+            if (deletedPage == null)
+            {
+                await this._qArteDBContext.Pages.AddAsync(newPage);
+                await _qArteDBContext.SaveChangesAsync();
+                result = newPage.GetDTO();
+            }
+            else
+            {
+                result = deletedPage.GetDTO();
+
+            }
+
+            return result;
         }
 
-        public Task<PageDTO> UpdateAsync(int id, PageDTO obj)
+        public async Task<PageDTO> UpdateAsync(int id, PageDTO obj)
         {
-            throw new NotImplementedException();
+            var page = await this._qArteDBContext.Pages
+                .Include(x => x.Gallery)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            if (obj.QRLink == null)
+            {
+                throw new ApplicationException("Bad input");
+            }
+
+            page.ID = obj.ID;
+            page.Bio = obj.Bio;
+            await _qArteDBContext.SaveChangesAsync();
+
+            return page.GetDTO();
         }
     }
 }
