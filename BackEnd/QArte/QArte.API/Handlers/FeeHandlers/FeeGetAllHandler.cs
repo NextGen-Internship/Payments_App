@@ -19,6 +19,7 @@ namespace QArte.API.Handlers.FeeHandlers
         {
 			var order = await _feeService.GetAsync();
 			return (List<FeeDTO>)order;
+			//fixed
         }
     }
 }
