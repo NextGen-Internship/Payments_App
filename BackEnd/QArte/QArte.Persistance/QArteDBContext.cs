@@ -27,6 +27,7 @@ namespace QArte.Persistance
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<SettlementCycle> SettlementCycles { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

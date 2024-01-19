@@ -39,9 +39,9 @@
     <None Remove="Commands\BankAccountCommands\" />
     <None Remove="Queries\BanTableQuery\" />
     <None Remove="Handlers\BanTableHandlers\" />
-    <None Remove="Handlers\FeeHandlers\" />
-    <None Remove="Queries\FeeQuery\" />
-    <None Remove="Commands\FeeCommands\" />
+    <None Remove="Handlers\RoleHandler\" />
+    <None Remove="Queries\RoleQuery\" />
+    <None Remove="Commands\RoleCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -53,8 +53,8 @@
     <Folder Include="Commands\BankAccountCommands\" />
     <Folder Include="Queries\BanTableQuery\" />
     <Folder Include="Handlers\BanTableHandlers\" />
-    <Folder Include="Handlers\FeeHandlers\" />
-    <Folder Include="Queries\FeeQuery\" />
-    <Folder Include="Commands\FeeCommands\" />
+    <Folder Include="Handlers\RoleHandler\" />
+    <Folder Include="Queries\RoleQuery\" />
+    <Folder Include="Commands\RoleCommands\" />
   </ItemGroup>
 </Project>
