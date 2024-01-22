@@ -6,6 +6,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Services.Services;
 
 namespace QArte.Services.Services
 {
@@ -13,10 +14,12 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qArteDBContext;
+        private QRCodeGeneratorService _qRCodeGenerator;
 
-		public PageService(QArteDBContext qArteDBContext)
+		public PageService(QArteDBContext qArteDBContext, QRCodeGeneratorService qR)
 		{
             this._qArteDBContext = qArteDBContext;
+            _qRCodeGenerator = qR;
 		}
 
         public async Task<PageDTO> DeleteAsync(int id)
@@ -80,6 +83,7 @@ namespace QArte.Services.Services
             {
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
+                _qRCodeGenerator.CreateQRCode(newPage.QRLink);
                 result = newPage.GetDTO();
             }
             else

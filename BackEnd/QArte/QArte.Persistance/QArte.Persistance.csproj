@@ -10,13 +10,11 @@
     <None Remove="PersistanceModels\" />
     <None Remove="PersistanceConfigurations\" />
     <None Remove="Enums\" />
-    <None Remove="PersistanceModels\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PersistanceModels\" />
     <Folder Include="PersistanceConfigurations\" />
     <Folder Include="Enums\" />
-    <Folder Include="PersistanceModels\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
@@ -30,5 +28,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
+    <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+    <PackageReference Include="Spire.Barcode" Version="7.3.0" />
   </ItemGroup>
 </Project>

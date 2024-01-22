@@ -32,6 +32,8 @@ builder.Services.AddTransient<IPictureService, PictureService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<ISettlementCycleService, SettlementCycleService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<QRCodeGeneratorService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 
