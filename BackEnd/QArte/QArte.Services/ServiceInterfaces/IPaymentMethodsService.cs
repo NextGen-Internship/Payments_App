@@ -10,7 +10,7 @@ namespace QArte.Services.ServiceInterfaces
 	{
 		Task<PaymentMethodDTO> GetPaymentMethodByID(int id);
         Task<PaymentMethodDTO> GetPaymentMethodByUserID(int id);
-		Task<PaymentMethodDTO> GetPaymentMethodByPaymentType(EPaymentMethods ePaymentMethod);
+		
     }
 }
 
