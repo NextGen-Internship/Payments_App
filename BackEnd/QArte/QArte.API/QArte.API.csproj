@@ -40,6 +40,7 @@
     <None Remove="Handlers\FeeHandlers\" />
     <None Remove="Queries\FeeQuery\" />
     <None Remove="Commands\FeeCommands\" />
+<<<<<<< Updated upstream
     <None Remove="Handlers\PictureHandlers\" />
     <None Remove="Queries\PictureQueries\" />
     <None Remove="Commands\PictureCommands\" />
@@ -55,6 +56,17 @@
     <None Remove="Handlers\RoleHandler\" />
     <None Remove="Queries\RoleQuery\" />
     <None Remove="Commands\RoleCommands\" />
+=======
+    <None Remove="Queries\InvoiceQueries\" />
+    <None Remove="Commands\InvoiceCommands\" />
+    <None Remove="Queries\PaymentMethodQueries\" />
+    <None Remove="Commands\PaymentMethodCommands\" />
+    <None Remove="Commands\SettlementCycleCommands\" />
+    <None Remove="Queries\SettlementCycleQueries\" />
+    <None Remove="Handlers\InvoiceHandlers\" />
+    <None Remove="Handlers\SettlementCycleHandlers\" />
+    <None Remove="Handlers\PaymentMethodHandlers\" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -67,6 +79,7 @@
     <Folder Include="Handlers\FeeHandlers\" />
     <Folder Include="Queries\FeeQuery\" />
     <Folder Include="Commands\FeeCommands\" />
+<<<<<<< Updated upstream
     <Folder Include="Handlers\PictureHandlers\" />
     <Folder Include="Queries\PictureQueries\" />
     <Folder Include="Commands\PictureCommands\" />
@@ -82,5 +95,16 @@
     <Folder Include="Handlers\RoleHandler\" />
     <Folder Include="Queries\RoleQuery\" />
     <Folder Include="Commands\RoleCommands\" />
+=======
+    <Folder Include="Queries\InvoiceQueries\" />
+    <Folder Include="Commands\InvoiceCommands\" />
+    <Folder Include="Queries\PaymentMethodQueries\" />
+    <Folder Include="Commands\PaymentMethodCommands\" />
+    <Folder Include="Commands\SettlementCycleCommands\" />
+    <Folder Include="Queries\SettlementCycleQueries\" />
+    <Folder Include="Handlers\InvoiceHandlers\" />
+    <Folder Include="Handlers\SettlementCycleHandlers\" />
+    <Folder Include="Handlers\PaymentMethodHandlers\" />
+>>>>>>> Stashed changes
   </ItemGroup>
 </Project>
