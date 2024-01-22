@@ -66,6 +66,8 @@ namespace QArte.API.Controllers
         }
 
 
+
+
 		[HttpPost]
 		public async Task<ActionResult<BankAccountDTO>> PostBankAccount([FromBody] BankAccountDTO obj)
 		{
