@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QArte.Persistance.Migrations
 {
-    public partial class noBanTable : Migration
+    public partial class FinalMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

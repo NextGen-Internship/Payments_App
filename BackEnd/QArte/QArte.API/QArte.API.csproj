@@ -56,6 +56,15 @@
     <None Remove="Handlers\RoleHandler\" />
     <None Remove="Queries\RoleQuery\" />
     <None Remove="Commands\RoleCommands\" />
+    <None Remove="Commands\InvoiceCommands\" />
+    <None Remove="Commands\PaymentMethodCommands\" />
+    <None Remove="Commands\SettlementCycleCommands\" />
+    <None Remove="Handlers\InvoiceHandlers\" />
+    <None Remove="Handlers\PaymentMethodHandlers\" />
+    <None Remove="Handlers\SettlementCycleHandlers\" />
+    <None Remove="Queries\InvoiceQueries\" />
+    <None Remove="Queries\PaymentMethodQueries\" />
+    <None Remove="Queries\SettlementCycleQueries\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -83,5 +92,14 @@
     <Folder Include="Handlers\RoleHandler\" />
     <Folder Include="Queries\RoleQuery\" />
     <Folder Include="Commands\RoleCommands\" />
+    <Folder Include="Commands\InvoiceCommands\" />
+    <Folder Include="Commands\PaymentMethodCommands\" />
+    <Folder Include="Commands\SettlementCycleCommands\" />
+    <Folder Include="Handlers\InvoiceHandlers\" />
+    <Folder Include="Handlers\PaymentMethodHandlers\" />
+    <Folder Include="Handlers\SettlementCycleHandlers\" />
+    <Folder Include="Queries\InvoiceQueries\" />
+    <Folder Include="Queries\PaymentMethodQueries\" />
+    <Folder Include="Queries\SettlementCycleQueries\" />
   </ItemGroup>
 </Project>

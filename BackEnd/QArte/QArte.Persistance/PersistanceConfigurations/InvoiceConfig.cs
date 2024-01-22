@@ -11,6 +11,7 @@ namespace QArte.Persistance.PersistanceConfigurations
         {
             builder.Property(e => e.InvoiceDate).IsRequired();
             builder.Property(e => e.TotalAmount).IsRequired();
+            builder.Property(e => e.BankAccountID);
 
             builder.HasIndex(b => b.BankAccountID, "IX_Invoice_BankAccountID");
             builder.HasIndex(b => b.SettlementCycleID, "IX_Invoice_SettlementCycleID");

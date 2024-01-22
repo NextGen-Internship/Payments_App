@@ -6,11 +6,9 @@ using QArte.Persistance.Enums;
 
 namespace QArte.Services.ServiceInterfaces
 {
-	public interface IPaymentMethodsService : ICRUDshared<PaymentMethodDTO>
-	{
-		Task<PaymentMethodDTO> GetPaymentMethodByID(int id);
+    public interface IPaymentMethodsService : ICRUDshared<PaymentMethodDTO>
+    {
+        Task<PaymentMethodDTO> GetPaymentMethodByID(int id);
         Task<PaymentMethodDTO> GetPaymentMethodByUserID(int id);
-		Task<PaymentMethodDTO> GetPaymentMethodByPaymentType(EPaymentMethods ePaymentMethod);
     }
 }
-
