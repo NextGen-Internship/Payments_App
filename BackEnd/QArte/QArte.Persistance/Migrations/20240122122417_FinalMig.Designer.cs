@@ -12,8 +12,8 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArteDBContext))]
-    [Migration("20240118120755_newQarte")]
-    partial class newQarte
+    [Migration("20240122122417_FinalMig")]
+    partial class FinalMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
