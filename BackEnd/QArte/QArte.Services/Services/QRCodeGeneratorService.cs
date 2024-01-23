@@ -79,14 +79,34 @@ namespace QArte.Services.Services
             return path;
         }
 
-        public IEnumerable<string> GetAll()
+        public IEnumerable<string> GetAll(string userID)
         {
-            throw new NotImplementedException();
+            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
+            DirectoryInfo directory = new DirectoryInfo(location);
+
+            List<string> paths = new List<string>();
+
+            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
+            {
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    if (file.Name == "QR.png")
+                    {
+                        paths.Append(file.DirectoryName);
+                    }
+                }
+
+            }
+
+            return paths;
         }
 
-        public string GetQRCode(int pageID)
+        public string GetQRCode(string pageID, string userID)
         {
-            throw new NotImplementedException();
+            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
+            string path = location + pageID;
+            string qrPath = path + "/" + "QR.png";
+            return qrPath;
         }
     }
 }
