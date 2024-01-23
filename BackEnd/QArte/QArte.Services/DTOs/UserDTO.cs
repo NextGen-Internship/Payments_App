@@ -15,6 +15,7 @@ namespace QArte.Services.DTOs
 		public int RoleID { get; set; }
 		public int? BankAccountID { get; set; }
 
+		public List<PageDTO>? Pages { get; set; }
     }
 }
 
