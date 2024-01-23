@@ -7,7 +7,7 @@ namespace QArte.Services.DTOs
 		public int ID { get; set; }
 		public ERoles ERole { get; set; }
 
-		public List<UserDTO> Users;
+		//public List<UserDTO> Users;
 	}
 }
 

@@ -1,9 +1,10 @@
 ﻿using System;
-//using QRCoder;
 using System.IO;
 using QArte.Services.ServiceInterfaces;
-using System.Drawing;
-using Spire.Barcode;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing;
+using System.Drawing.Drawing2D;
+using SkiaSharp.QrCode;
 
 namespace QArte.Services.Services
 {
@@ -16,80 +17,74 @@ namespace QArte.Services.Services
 
         }
 
-        public string CreateQRCode(string URL)
+        public string CreateQRCode(string URL, string pageID, string userID)
         {
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/User1";
-            string name = "QR1.png";
-            string path = location + name;
-            Bitmap logo = new Bitmap("/Users/Martin.Kolev/M_Kolev/QArte/BackEnd/QArte");
+            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
+            string path = location + pageID;
+            string qrPath = path + "/" + "QR.png";
+            string logoPath = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/QArte_B.png";
 
-            BarcodeSettings settings = new BarcodeSettings();
+            if (!Directory.Exists(path))
+            {
+                DirectoryInfo directory = Directory.CreateDirectory(path);
+            }
 
-            settings.Type = BarCodeType.QRCode;
-            settings.QRCodeECL = QRCodeECL.M;
-            settings.ShowText = false;
-            settings.X = 2.5f;
-            string data = URL;
-            settings.Data = data;
-            settings.Data2D = data;
+            SkiaSharp.SKBitmap sKBitmap = SkiaSharp.SKBitmap.Decode(logoPath);
+            SkiaSharp.SKImage logo = SkiaSharp.SKImage.FromBitmap(sKBitmap);
 
-            settings.QRCodeLogoImage = Image.FromFile("/Users/Martin.Kolev/M_Kolev/QArte/BackEnd/QArte.png");
-            BarCodeGenerator barCodeGenerator = new BarCodeGenerator(settings);
-            Image image = barCodeGenerator.GenerateImage();
-            image.Save("User1_Page1.png",System.Drawing.Imaging.ImageFormat.Png);
+            using var generator = new QRCodeGenerator();
+            var qr = generator.CreateQrCode(URL, ECCLevel.H);
+
+            var info = new SkiaSharp.SKImageInfo(512, 512);
+            using var surfice = SkiaSharp.SKSurface.Create(info);
+
+            var canvas = surfice.Canvas;
+            canvas.Render(qr, SkiaSharp.SKRect.Create(512f, 512f), SkiaSharp.SKColors.White, SkiaSharp.SKColors.Black);
+
+            SkiaSharp.SKPaint paint = new SkiaSharp.SKPaint
+            {
+                Color = SkiaSharp.SKColors.White,
+                IsAntialias = true,
+            };
+            canvas.DrawRect(new SkiaSharp.SKRect(210, 210, 210 + 100, 210 + 113), paint);
+
+
+            canvas.DrawImage(logo, 210, 210);
+
+            using var image = surfice.Snapshot();
+            using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
+            using var stream = File.OpenWrite(qrPath);
+            data.SaveTo(stream);
 
             return path;
-            /*
-            QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-            QRCodeData Data = qRCodeGenerator.CreateQrCode(URL, QRCodeGenerator.ECCLevel.Q);
-            PngByteQRCode pngByteQRCode = new PngByteQRCode(Data);
-            byte[] qrAsByte = pngByteQRCode.GetGraphic(20);
-            */
-            //Image image = Image.FromStream(new MemoryStream(qrAsByte));
-            /*
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/User1";
-            string name = "QR1.png";
-            string path = location + name;
-
-            image.Save(path, System.Drawing.Imaging.ImageFormat.Png);
-            
-
-            EncodingOptions encodingOptions = new EncodingOptions()
-            {
-                Width = 300,
-                Height = 300,
-                Margin = 0,
-                PureBarcode = false
-            };
-            encodingOptions.Hints.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-            BarcodeWriter writer = new()
-            {
-                Format = BarcodeFormat.QR_CODE,
-                Options = encodingOptions
-            };
-
-            Bitmap bitmap = writer.Write(URL);
-            Bitmap logo = new Bitmap("/Users/Martin.Kolev/M_Kolev/QArte/BackEnd/QArte");
-            Graphics graphics = Graphics.FromImage(bitmap);
-            graphics.DrawImage(logo, new Point((bitmap.Width-logo.Width)/2,(bitmap.Height-logo.Height)/2);
-
-
-            return location;
-            */
 
         }
 
-        public Task<string> DeleteQRCode(int UserID)
+        public string DeleteQRCode(string pageID,string userID)
+        {
+            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
+            string path = location + pageID;
+            string qrPath = path + "/" + "QR.png";
+
+            DirectoryInfo directory = new DirectoryInfo(path);
+
+            foreach(FileInfo file in directory.GetFiles())
+            {
+                file.Delete();
+            }
+
+            directory.Delete();
+
+
+            return path;
+        }
+
+        public IEnumerable<string> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<string>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetQRCode(int UserID)
+        public string GetQRCode(int pageID)
         {
             throw new NotImplementedException();
         }

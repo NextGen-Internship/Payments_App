@@ -28,6 +28,8 @@ namespace QArte.Services.Services
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
+            _qRCodeGenerator.DeleteQRCode(page.ID.ToString(),page.UserID.ToString());
+
             this._qArteDBContext.Pages.Remove(page);
             await _qArteDBContext.SaveChangesAsync();
 
@@ -83,7 +85,7 @@ namespace QArte.Services.Services
             {
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
-                _qRCodeGenerator.CreateQRCode(newPage.QRLink);
+                _qRCodeGenerator.CreateQRCode(newPage.QRLink, newPage.ID.ToString(), newPage.UserID.ToString());
                 result = newPage.GetDTO();
             }
             else
