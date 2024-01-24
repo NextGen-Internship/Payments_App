@@ -9,7 +9,7 @@ namespace QArte.Services.DTOs
 		public int BankAccoundID { get; set; }
 		public int SettlementCycleID { get; set; }
 
-		public List<FeeDTO> Fees;
+		public List<FeeDTO> Fees { get; set; }
 
 	}
 }

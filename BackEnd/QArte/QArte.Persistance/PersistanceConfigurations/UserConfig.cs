@@ -32,8 +32,7 @@ namespace QArte.Persistance.PersistanceConfigurations
                 .HasForeignKey(c => c.RoleID);
 
 
-
-            builder.HasOne(e => e.BankAccount)
+			builder.HasOne(e => e.BankAccount)
 				.WithOne()
 				.HasForeignKey<User>(f => f.BankAccountID);
 

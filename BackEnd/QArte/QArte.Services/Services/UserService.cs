@@ -30,6 +30,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                  .Include(x=>x.BankAccount)
                  .Include(x=>x.Role)
+                 .Include(x=>x.Pages)
                  .FirstOrDefaultAsync(x => x.ID == id)
                   ?? throw new ApplicationException("Not found");
 
@@ -44,6 +45,7 @@ namespace QArte.Services.Services
             return await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x => x.Pages)
                 .Select(y => new UserDTO
                 {
                     ID = y.ID,
@@ -56,7 +58,15 @@ namespace QArte.Services.Services
                     PhoneNumber = y.PhoneNumber,
                     isBanned = y.isBanned,
                     RoleID = y.RoleID,
-                    BankAccountID = y.BankAccountID
+                    BankAccountID = y.BankAccountID,
+                    Pages = y.Pages.Select( y=> new PageDTO
+                    {
+                        ID = y.ID,
+                        Bio = y.Bio,
+                        GalleryID = y.GalleryID,
+                        UserID = y.UserID,
+                        QRLink = y.QRLink
+                    }).ToList()
                 }).ToListAsync();
         }
 
@@ -65,6 +75,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x=>x.Pages)
                 .FirstOrDefaultAsync(x=>x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -76,6 +87,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x=>x.BankAccount)
                 .Include(x=>x.Role)
+                .Include(x=>x.Pages)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -87,6 +99,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x=>x.Pages)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -98,6 +111,7 @@ namespace QArte.Services.Services
             return await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x=>x.Pages)
                 .Where(x => x.RoleID == id)
                 .Select(y => new UserDTO
                 {
@@ -111,7 +125,15 @@ namespace QArte.Services.Services
                     PhoneNumber = y.PhoneNumber,
                     isBanned = y.isBanned,
                     RoleID = y.RoleID,
-                    BankAccountID = y.BankAccountID
+                    BankAccountID = y.BankAccountID,
+                    Pages = y.Pages.Select(y => new PageDTO
+                    {
+                        ID = y.ID,
+                        Bio = y.Bio,
+                        GalleryID = y.GalleryID,
+                        UserID = y.UserID,
+                        QRLink = y.QRLink
+                    }).ToList()
                 }).ToListAsync();
         }
 
@@ -120,6 +142,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x=>x.Pages)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -160,6 +183,7 @@ namespace QArte.Services.Services
             var user = await _qarteDBContext.Users
                 .Include(x => x.Role)
                 .Include(x => x.BankAccount)
+                .Include(x=>x.Pages)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 

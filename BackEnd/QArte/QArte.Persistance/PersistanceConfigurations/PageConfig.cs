@@ -19,8 +19,9 @@ namespace QArte.Persistance.PersistanceConfigurations
             builder.HasIndex(e => e.UserID);
 
             builder.HasOne(e => e.User)
-                .WithOne()
-                .HasForeignKey<Page>(q => q.UserID);
+                .WithMany(e=>e.Pages)
+                .HasForeignKey(q => q.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(e => e.Gallery)
                 .WithOne()
