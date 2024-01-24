@@ -8,11 +8,104 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+<<<<<<< HEAD
+=======
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.26" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.26">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Stripe.net" Version="43.11.0" />
+>>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QArte.Services\QArte.Services.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+<<<<<<< HEAD
+=======
+    <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controllers\" />
+    <None Remove="Queries\" />
+    <None Remove="Queries\BankAccountQueries\" />
+    <None Remove="Handlers\" />
+    <None Remove="Handlers\BankAccountHandlers\" />
+    <None Remove="Commands\" />
+    <None Remove="Commands\BankAccountCommands\" />
+    <None Remove="Handlers\FeeHandlers\" />
+    <None Remove="Queries\FeeQuery\" />
+    <None Remove="Commands\FeeCommands\" />
+    <None Remove="Handlers\PictureHandlers\" />
+    <None Remove="Queries\PictureQueries\" />
+    <None Remove="Commands\PictureCommands\" />
+    <None Remove="Queries\GalleryQueries\" />
+    <None Remove="Commands\GalleryCommands\" />
+    <None Remove="Handlers\GalleryHandlers\" />
+    <None Remove="Queries\UserQueries\" />
+    <None Remove="Handlers\UserHandlers\" />
+    <None Remove="Commands\UserCommands\" />
+    <None Remove="Commands\PageCommands\" />
+    <None Remove="Handlers\PageHandlers\" />
+    <None Remove="Queries\PageQueries\" />
+    <None Remove="Handlers\RoleHandler\" />
+    <None Remove="Queries\RoleQuery\" />
+    <None Remove="Commands\RoleCommands\" />
+    <None Remove="Commands\InvoiceCommands\" />
+    <None Remove="Commands\PaymentMethodCommands\" />
+    <None Remove="Commands\SettlementCycleCommands\" />
+    <None Remove="Handlers\InvoiceHandlers\" />
+    <None Remove="Handlers\PaymentMethodHandlers\" />
+    <None Remove="Handlers\SettlementCycleHandlers\" />
+    <None Remove="Queries\InvoiceQueries\" />
+    <None Remove="Queries\PaymentMethodQueries\" />
+    <None Remove="Queries\SettlementCycleQueries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Queries\BankAccountQueries\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Handlers\BankAccountHandlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Commands\BankAccountCommands\" />
+    <Folder Include="Handlers\FeeHandlers\" />
+    <Folder Include="Queries\FeeQuery\" />
+    <Folder Include="Commands\FeeCommands\" />
+    <Folder Include="Handlers\PictureHandlers\" />
+    <Folder Include="Queries\PictureQueries\" />
+    <Folder Include="Commands\PictureCommands\" />
+    <Folder Include="Queries\GalleryQueries\" />
+    <Folder Include="Commands\GalleryCommands\" />
+    <Folder Include="Handlers\GalleryHandlers\" />
+    <Folder Include="Queries\UserQueries\" />
+    <Folder Include="Handlers\UserHandlers\" />
+    <Folder Include="Commands\UserCommands\" />
+    <Folder Include="Commands\PageCommands\" />
+    <Folder Include="Handlers\PageHandlers\" />
+    <Folder Include="Queries\PageQueries\" />
+    <Folder Include="Handlers\RoleHandler\" />
+    <Folder Include="Queries\RoleQuery\" />
+    <Folder Include="Commands\RoleCommands\" />
+    <Folder Include="Commands\InvoiceCommands\" />
+    <Folder Include="Commands\PaymentMethodCommands\" />
+    <Folder Include="Commands\SettlementCycleCommands\" />
+    <Folder Include="Handlers\InvoiceHandlers\" />
+    <Folder Include="Handlers\PaymentMethodHandlers\" />
+    <Folder Include="Handlers\SettlementCycleHandlers\" />
+    <Folder Include="Queries\InvoiceQueries\" />
+    <Folder Include="Queries\PaymentMethodQueries\" />
+    <Folder Include="Queries\SettlementCycleQueries\" />
+>>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
   </ItemGroup>
 </Project>
