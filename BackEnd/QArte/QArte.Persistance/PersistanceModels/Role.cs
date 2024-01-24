@@ -16,7 +16,7 @@ namespace QArte.Persistance.PersistanceModels
 
 
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }  
 
     }
 }

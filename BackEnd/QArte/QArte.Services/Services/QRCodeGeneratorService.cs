@@ -86,9 +86,9 @@ namespace QArte.Services.Services
 
             List<string> paths = new List<string>();
 
-            foreach(DirectoryInfo directoryInfo in directory.GetDirectories())
+            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
             {
-                foreach(FileInfo file in directoryInfo.GetFiles())
+                foreach (FileInfo file in directoryInfo.GetFiles())
                 {
                     if (file.Name == "QR.png")
                     {

@@ -24,18 +24,14 @@ namespace QArte.Persistance.PersistanceConfigurations
 			builder.HasIndex(e => e.BankAccountID, "IX_Artist_BankAccountID");
 
 			builder.HasIndex(e => e.RoleID, "IX_Artist_RoleID");
-            
 
-<<<<<<< Updated upstream
+
 
             builder.HasOne(a => a.Role)
-				.WithMany(b => b.Users).OnDelete(DeleteBehavior.Restrict)
-				.HasForeignKey(c => c.RoleID);
-			
+                .WithMany(b => b.Users).OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(c => c.RoleID);
 
 
-=======
->>>>>>> Stashed changes
 			builder.HasOne(e => e.BankAccount)
 				.WithOne()
 				.HasForeignKey<User>(f => f.BankAccountID);
