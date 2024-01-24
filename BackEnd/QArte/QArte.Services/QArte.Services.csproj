@@ -22,11 +22,8 @@
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.0" />
     <PackageReference Include="SkiaSharp.QrCode" Version="0.7.0" />
-=======
     <PackageReference Include="Stripe.net" Version="43.11.0" />
->>>>>>> cb09d3ba0814b544ce492a1b60f2e37f55fbdcb7
   </ItemGroup>
 </Project>
