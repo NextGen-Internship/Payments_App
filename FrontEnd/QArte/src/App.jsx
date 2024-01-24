@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-
-function App() {
-  
-
-  return (
-    <div>Hello World</div>
-  )
-}
-
-export default App
-=======
 import React from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -35,4 +23,4 @@ function App() {
 }
 
 export default App;
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
+

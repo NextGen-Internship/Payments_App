@@ -10,16 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-=======
-    "@react-oauth/google": "^0.12.1",
-    "axios": "^1.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.3"
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
