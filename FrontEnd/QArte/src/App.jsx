@@ -3,6 +3,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import LoginSignUp from './Components/Access/LoginSignUp';
+import UserPage from './Components/UserPage/UserPage';
 // import LoginSignUp from './Components/Access/LoginSignUp';
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
                     <Route path="/login-signup" element={<LoginSignUp />} />
                 </Routes>
             </Router>
+            <UserPage/>
         </GoogleOAuthProvider>
+
     );
 }
 
