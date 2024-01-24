@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+﻿var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+=======
 ﻿using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -17,11 +23,14 @@ StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 //cors?
 
+>>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+<<<<<<< HEAD
+=======
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
 
 builder.Services.AddDbContext<QArteDBContext>(
@@ -45,6 +54,7 @@ builder.Services.AddMediatR(typeof(Program));
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
+>>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
