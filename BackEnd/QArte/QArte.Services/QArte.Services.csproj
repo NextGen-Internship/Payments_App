@@ -21,4 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="43.11.0" />
+  </ItemGroup>
 </Project>
