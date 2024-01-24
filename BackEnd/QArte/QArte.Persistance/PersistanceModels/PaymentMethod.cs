@@ -7,14 +7,14 @@ namespace QArte.Persistance.PersistanceModels
 	{
 
 		public PaymentMethod(){
-			BankAccounts = new HashSet<BankAccount>();
+			//BankAccounts = new HashSet<BankAccount>();
 		}
 
 		public int ID { get; set; }
 
 		public EPaymentMethods PaymentMethods { get; set; }
 
-		public virtual ICollection<BankAccount> BankAccounts { get; set; }
+		//public virtual ICollection<BankAccount> BankAccounts { get; set; }
 	}
 }
 

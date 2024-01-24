@@ -26,14 +26,14 @@ namespace QArte.Services.Services
                             {
                                 ID = x.ID,
                                 paymentName = x.PaymentMethods,
-                                BankAccounts = x.BankAccounts.Select(y => new BankAccountDTO
-                                {
-                                    ID = y.ID,
-                                    IBAN = y.IBAN,
-                                    BeneficiaryName = y.BeneficiaryName,
-                                    StripeInfo = y.StripeInfo,
-                                    PaymentMethodID = y.PaymentMethodID,
-                                }).ToList()
+                                //BankAccounts = x.BankAccounts.Select(y => new BankAccountDTO
+                                //{
+                                //    ID = y.ID,
+                                //    IBAN = y.IBAN,
+                                //    BeneficiaryName = y.BeneficiaryName,
+                                //    StripeInfo = y.StripeInfo,
+                                //    PaymentMethodID = y.PaymentMethodID,
+                                //}).ToList()
                             }).ToListAsync();
         }
 
@@ -64,14 +64,13 @@ namespace QArte.Services.Services
 
         public async Task<PaymentMethodDTO> PostAsync(PaymentMethodDTO obj)
         {
-            _ = await PaymentMethodExists(obj.ID)
-                == true ? throw new ApplicationException("Not found") : 0;
 
             PaymentMethodDTO result = null;
 
             var deletedPaymentMethod = await _qArteDBContext.PaymentMethods
                                             .IgnoreQueryFilters()
                                             .FirstOrDefaultAsync(x => x.ID == obj.ID);
+
             var newPaymentMethod = obj.GetEnity();
             if (deletedPaymentMethod == null)
             {
@@ -94,7 +93,7 @@ namespace QArte.Services.Services
                 == true ? throw new ApplicationException("Not found") : 0;
 
             var paymentMethod = await this._qArteDBContext.PaymentMethods
-                        .Include(x => x.BankAccounts)
+                        //.Include(x => x.BankAccounts)
                     .FirstOrDefaultAsync(x => x.ID == id)
                     ?? throw new ApplicationException("Not found");
 
@@ -110,7 +109,7 @@ namespace QArte.Services.Services
         public async Task<PaymentMethodDTO> DeleteAsync(int id)
         {
             var paymentMethod = await _qArteDBContext.PaymentMethods
-                        .Include(x => x.BankAccounts)
+                        //.Include(x => x.BankAccounts)
                         .Include(x => x.PaymentMethods)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new ApplicationException("Not found");

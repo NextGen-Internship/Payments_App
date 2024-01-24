@@ -11,11 +11,6 @@ namespace QArte.Persistance.PersistanceConfigurations
         {
             builder.HasIndex(e => e.PaymentMethodID, "IX_BankAccount_PaymentMethodID");
 
-            builder.HasOne(a => a.PaymentMethod)
-                .WithMany(b => b.BankAccounts)
-                .HasForeignKey(c => c.PaymentMethodID);
-
-
             builder.Property(e => e.BeneficiaryName).IsRequired();
 
             builder.Property(e => e.PaymentMethodID).IsRequired();

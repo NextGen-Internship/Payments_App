@@ -9,7 +9,7 @@ namespace QArte.Services.DTOs
 		public int ID { get; set; }
 		public EPaymentMethods paymentName { get; set; }
 
-		public List<BankAccountDTO> BankAccounts;
-	}
+		//public List<BankAccountDTO> BankAccounts { get; set; } = new List<BankAccountDTO>();
+    }
 }
 

@@ -13,6 +13,7 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qarteDBContext;
+       
 
         public UserService(QArteDBContext qarteDBContext)
         {
@@ -126,7 +127,7 @@ namespace QArte.Services.Services
         }
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
-        { 
+        {
 
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -142,8 +143,11 @@ namespace QArte.Services.Services
             {
                 await _qarteDBContext.Users.AddAsync(newUser);
                 await _qarteDBContext.SaveChangesAsync();
+
                 return newUser.GetDTO();
             }
+
+
 
             return deletedUser.GetDTO();
         }

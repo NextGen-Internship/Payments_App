@@ -8,7 +8,7 @@ using MediatR;
 using QArte.API.Queries.InvoiceQueries;
 using QArte.API.Commands.PaymentMethodCommands;
 using QArte.API.Queries.PaymentMethodQueries;
-using QArte.Persistance.Enums;
+
 
 /*
 public Task<PaymentMethodDTO> DeleteAsync(int id)

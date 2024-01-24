@@ -10,6 +10,7 @@ namespace QArte.Persistance.PersistanceConfigurations
     {
         public void Configure(EntityTypeBuilder<PaymentMethod> builder)
         {
+            builder.HasKey(k => k.ID);
             builder.Property(e => e.PaymentMethods).IsRequired();
 
         }
