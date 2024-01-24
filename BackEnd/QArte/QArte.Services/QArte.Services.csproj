@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+<<<<<<< HEAD
+=======
   <ItemGroup>
     <None Remove="DTOs\" />
     <None Remove="DTOMappers\" />
@@ -27,4 +29,5 @@
     <PackageReference Include="Stripe.net" Version="43.11.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
   </ItemGroup>
+>>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
 </Project>

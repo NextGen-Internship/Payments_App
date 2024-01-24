@@ -7,7 +7,7 @@ import LoginSignUp from './Components/Access/LoginSignUp';
 
 function App() {
     return (
-        <GoogleOAuthProvider clientId="333025418614-sklgnbdkqfsiicgd003dbja9n5qi4m80.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="">
             <Router>
                 <Navbar />
                 <Routes>
@@ -23,3 +23,4 @@ function App() {
 }
 
 export default App;
+
