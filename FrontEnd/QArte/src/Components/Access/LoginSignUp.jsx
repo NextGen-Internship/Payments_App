@@ -66,18 +66,18 @@ import { GoogleLogin} from '@react-oauth/google'
                       <i className='bx bxl-facebook facebook-icon' ></i>
                       <span>Login with Facebook</span>
                   </a> */}
-                  {/* <GoogleLogin
+                  <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     console.log('Login successful:', credentialResponse);
                   }}
                   onError={() => {
                     console.log('Login Failed');
                   }}
-                  clientId="your-google-client-id"
-                /> */}
+                  clientId="333025418614-sklgnbdkqfsiicgd003dbja9n5qi4m80.apps.googleusercontent.com"
+                />
                   <a href="#" className="fieldGoogle">
                       <i className='bx bxl-google' ></i>
-                      <span>Login with Google</span>
+                      {/* <span>Login with Google</span> */}
                   </a>
                   </div>
                   
