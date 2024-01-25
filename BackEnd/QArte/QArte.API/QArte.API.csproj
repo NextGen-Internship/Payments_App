@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-<<<<<<< HEAD
-=======
+
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.26">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,15 +21,14 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Stripe.net" Version="43.11.0" />
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\QArte.Services\QArte.Services.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-<<<<<<< HEAD
-=======
+
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
@@ -106,6 +104,5 @@
     <Folder Include="Queries\InvoiceQueries\" />
     <Folder Include="Queries\PaymentMethodQueries\" />
     <Folder Include="Queries\SettlementCycleQueries\" />
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
   </ItemGroup>
 </Project>
