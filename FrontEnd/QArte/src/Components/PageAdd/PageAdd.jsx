@@ -14,7 +14,6 @@ const PageAdd = ({onAdd}) =>{
             return;
         }
         onAdd({
-            id:3,
             bio,
             photos
         });

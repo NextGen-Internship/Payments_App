@@ -36,18 +36,18 @@ const UserPage = () =>{
     }
 
     const addPage = (page) =>{
-        var hold = Upages;
+        const id = Math.floor(Math.random()*1000)+1;
+        const newPage = {id,...page}
         var go = true;
-        console.log(page.id+" "+page.bio+" "+page.photos+" Added");
-        for(var i=0; i<user.page.length;i++){
-            if(user.page[i].id==page.id){
+
+        for(var i=0; i<Upages.length;i++){
+            if(Upages[i].id==newPage.id){
                 go=false;   
             }
         }
         if(go)
         {
-            hold.push(page);
-            setPages([...Upages],page);
+            Upages.push(newPage);
             PageRef.current.Awake(Upages[Upages.length-1].id);
         }
         else
@@ -61,12 +61,13 @@ const UserPage = () =>{
         console.log("Deleting page: "+id)
         
         setPages(Upages.filter((page)=>page.id!==id));
-        console.log(Upages);
         PageRef.current.Awake(Upages[0].id);
+        console.log(Upages);
     }
 
     const changePage = (id) =>{
         console.log("Change page "+id)
+        console.log(Upages);
     }
 
     return(
