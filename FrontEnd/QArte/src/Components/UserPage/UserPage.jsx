@@ -46,7 +46,7 @@ const UserPage = () =>{
         if(go)
         {
             hold.push(page);
-            setPages(Upages);
+            setPages([...Upages],page);
         }
         else
         {
