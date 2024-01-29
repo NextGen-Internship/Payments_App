@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QArte.Persistance.Migrations
 {
-    public partial class FinalMig : Migration
+    public partial class MyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,6 +141,11 @@ namespace QArte.Persistance.Migrations
                     UserName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isBanned = table.Column<bool>(type: "bit", nullable: false),
+                    StripeAccountID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -265,8 +270,7 @@ namespace QArte.Persistance.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Pages_UserID",
                 table: "Pages",
-                column: "UserID",
-                unique: true);
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Picture_GalleryID",

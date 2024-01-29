@@ -25,6 +25,17 @@ namespace QArte.Persistance.PersistanceModels
 
         public bool isBanned { get; set; }
 
+        public string StripeAccountID { get; set; }
+
+        public string Country { get; set; }
+
+        public string address { get; set; }
+
+        public string City { get; set; }
+
+        public string PostalCode { get; set; }
+
+
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
@@ -37,7 +48,6 @@ namespace QArte.Persistance.PersistanceModels
 
         public int? BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }
-
         public ICollection<Page> Pages { get; set; }
         
     }

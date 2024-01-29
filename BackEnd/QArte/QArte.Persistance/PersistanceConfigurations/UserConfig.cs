@@ -17,6 +17,11 @@ namespace QArte.Persistance.PersistanceConfigurations
             builder.Property(p => p.Password).IsRequired();
             builder.Property(e => e.Email).IsRequired();
             builder.Property(g => g.isBanned).IsRequired();
+            builder.Property(h => h.StripeAccountID).IsRequired();
+            builder.Property(i => i.Country).IsRequired();
+            builder.Property(g => g.address).IsRequired();
+            builder.Property(h => h.PostalCode).IsRequired();
+            builder.Property(i => i.City).IsRequired();
 
             builder.HasIndex(e => e.Email).IsUnique();
             builder.HasIndex(e => e.UserName).IsUnique();

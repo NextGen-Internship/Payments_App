@@ -62,6 +62,15 @@ import { GoogleLogin} from '@react-oauth/google'
                   <div className="line"></div>
                   
                   <div className="media-options">
+                  <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    console.log('Login successful:', credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                  clientId="333025418614-sklgnbdkqfsiicgd003dbja9n5qi4m80.apps.googleusercontent.com"
+                />
                   {/* <a href="#" className="fieldFacebook">
                       <i className='bx bxl-facebook facebook-icon' ></i>
                       <span>Login with Facebook</span>
@@ -75,10 +84,10 @@ import { GoogleLogin} from '@react-oauth/google'
                   }}
                   clientId="your-google-client-id"
                 /> */}
-                  <a href="#" className="fieldGoogle">
+                  {/* <a href="#" className="fieldGoogle">
                       <i className='bx bxl-google' ></i>
                       <span>Login with Google</span>
-                  </a>
+                  </a> */}
                   </div>
                   
               </div>

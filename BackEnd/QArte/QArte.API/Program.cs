@@ -39,6 +39,8 @@ builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<QArte.Services.Services.StripeService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 

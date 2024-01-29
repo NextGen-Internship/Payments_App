@@ -69,6 +69,23 @@ namespace QArte.API.Controllers
 
         }
 
+        [HttpGet("GetStripeAccountByID/{id}")]
+        public async Task<ActionResult<string>> GetStripeAccountByID(int id)
+        {
+            var query = new GetStripeAccountByIDQuery(id);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
+        [HttpGet("GetCountryByID/{id}")]
+        public async Task<ActionResult<string>> GetCountryByID(int id)
+        {
+            var query = new GetCountryByIDQuery(id);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+
+        }
+
         [HttpGet("isUserBanned/{id}")]
         public async Task<ActionResult<bool>> GetIsBannedUserByID(int id)
         {

@@ -13,11 +13,14 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qarteDBContext;
-       
+        private readonly StripeService _stripeService;
+        private readonly IBankAccountService _bankAccountService;
 
-        public UserService(QArteDBContext qarteDBContext)
+        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService)
         {
             _qarteDBContext = qarteDBContext;
+            _stripeService = stripeService;
+            _bankAccountService = bankAccountService;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -59,6 +62,11 @@ namespace QArte.Services.Services
                     isBanned = y.isBanned,
                     RoleID = y.RoleID,
                     BankAccountID = y.BankAccountID,
+                    Country = y.Country,
+                    StripeAccountID = y.StripeAccountID,
+                    City = y.City,
+                    postalCode = y.PostalCode,
+                    Address = y.address,
                     Pages = y.Pages.Select( y=> new PageDTO
                     {
                         ID = y.ID,
@@ -81,6 +89,32 @@ namespace QArte.Services.Services
 
             return user.Email;
         }
+
+        public async Task<string> GetStripeAccountByID(int id)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return user.StripeAccountID;
+        }
+
+        public async Task<string> GetCountryByID(int id)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
+
+            return user.Country;
+        }
+
+
 
         public async Task<UserDTO> GetUserByID(int id)
         {
@@ -126,6 +160,11 @@ namespace QArte.Services.Services
                     isBanned = y.isBanned,
                     RoleID = y.RoleID,
                     BankAccountID = y.BankAccountID,
+                    Country = y.Country,
+                    StripeAccountID = y.StripeAccountID,
+                    City = y.City,
+                    Address = y.address,
+                    postalCode = y.PostalCode,
                     Pages = y.Pages.Select(y => new PageDTO
                     {
                         ID = y.ID,
@@ -158,15 +197,18 @@ namespace QArte.Services.Services
                 .FirstOrDefaultAsync(x => x.isBanned == obj.isBanned && x.BankAccountID == obj.BankAccountID
                 && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
                 x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
-                && x.RoleID == obj.RoleID);
+                && x.RoleID == obj.RoleID && x.StripeAccountID == obj.StripeAccountID && x.Country == obj.Country
+                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode);
 
             var newUser = obj.GetEnity();
 
             if (deletedUser == null)
             {
                 await _qarteDBContext.Users.AddAsync(newUser);
-                await _qarteDBContext.SaveChangesAsync();
+                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID.Value);
 
+                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }
 
@@ -198,6 +240,9 @@ namespace QArte.Services.Services
             user.isBanned = obj.isBanned;
             user.RoleID = obj.RoleID;
             user.BankAccountID = obj.BankAccountID;
+            user.address = obj.Address;
+            user.City = obj.City;
+            user.PostalCode = obj.postalCode;
 
             await _qarteDBContext.SaveChangesAsync();
 
