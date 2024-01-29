@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useImperativeHandle } from "react";
 import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
-import { useState } from "react";
+import { useState , forwardRef} from "react";
 import PageNavButtons from "../PageNavButtons/PageNavButtons";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
 
-const SubPageLister = ({pages, onDelete, onChange}) =>{
+const SubPageLister = forwardRef(({pages, onDelete, onChange},ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
+
+    useImperativeHandle(ref,()=>({
+        Awake:onShow,
+    }));
 
     const onShow = (id) =>{
         for(var i=0; i<pages.length;i++){
@@ -17,6 +21,7 @@ const SubPageLister = ({pages, onDelete, onChange}) =>{
         }
         console.log(id);
     }
+
 
     return(
         // <>
@@ -30,6 +35,5 @@ const SubPageLister = ({pages, onDelete, onChange}) =>{
             <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>
         </>
     )
-}
-
+})
 export default SubPageLister;

@@ -1,4 +1,4 @@
-import React,{Component, useState} from "react";
+import React,{Component, useState, forwardRef, useRef} from "react";
 import './UserPage.css';
 import SubPageLister from "../SubPageLister/SubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
@@ -27,8 +27,9 @@ const UserPage = () =>{
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUsers] = useState(user);
     const [Upages,setPages] = useState(user.page);
-    
 
+    const PageRef = useRef();
+    
     const Try = ()=>{
         setAddPage(!showAddPage);
         console.log(showAddPage);
@@ -47,6 +48,7 @@ const UserPage = () =>{
         {
             hold.push(page);
             setPages([...Upages],page);
+            PageRef.current.Awake(Upages[Upages.length-1].id);
         }
         else
         {
@@ -60,6 +62,7 @@ const UserPage = () =>{
         
         setPages(Upages.filter((page)=>page.id!==id));
         console.log(Upages);
+        PageRef.current.Awake(Upages[0].id);
     }
 
     const changePage = (id) =>{
@@ -75,7 +78,7 @@ const UserPage = () =>{
                     <img src={User.profilePicture} alt="Profile" />
                     <h2>{User.name}</h2>
                 </div>
-                <SubPageLister pages={Upages} onDelete={deletePage} onChange={changePage} />
+                <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} />
             </div>
         </div>
     );
