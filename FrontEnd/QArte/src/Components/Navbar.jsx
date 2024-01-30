@@ -22,7 +22,7 @@ class Navbar extends Component {
                         <li key={index}>
                             <NavLink className={item.cName} to={item.url}>
                                 <i className={`nav-links ${item.icon}`}/>
-                                    {item.title}
+                                {item.title}
                             </NavLink>
                         </li>
                         

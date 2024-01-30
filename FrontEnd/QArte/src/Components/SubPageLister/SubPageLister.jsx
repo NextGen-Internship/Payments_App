@@ -3,9 +3,8 @@ import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const SubPageLister = forwardRef(({Userid, pages, onDelete, onChange},ref) =>{
+const SubPageLister = forwardRef(({ pages, onDelete, onChange},ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
 
@@ -25,16 +24,23 @@ const SubPageLister = forwardRef(({Userid, pages, onDelete, onChange},ref) =>{
 
     return(
         // <>
+    
         // {pages.map((page,index)=>(
-        //        <SubPageContainer key={index} page={page} onDelete={onDelete} onChange={onChange}/> 
+        //     <li key={index}>
+        //         <NavLink to={`${page.id}`}>
+        //             <h1>{page.id}</h1>
+        //             {/* <SubPageContainer page={page} onDelete={onDelete} onChange={onChange}/>  */}
+        //         </NavLink>
+        //     </li>
             
         // ))}
         // </>
         <>
             <PageNavContainer pages={pages} onShow={onShow}/>
-            <Routes>
-                <Route path={`'/'${Userid}'/'${pages[awakePage].id}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
-            </Routes>
+            <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>
+            {/* <Routes path="/home-page/*">
+                <Route path={`${Userid}'/'${pages[awakePage].id}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
+            </Routes> */}
         </>
     )
 })

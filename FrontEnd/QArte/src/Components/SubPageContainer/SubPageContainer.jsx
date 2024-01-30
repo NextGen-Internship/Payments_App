@@ -2,9 +2,10 @@ import React from "react";
 import UserBio from "../UserBio/UserBio";
 import UserGallery from "../UserGallery/UserGallery";
 import { useState } from "react";
+import {useParams} from "react-router-dom"
 
 const SubPageContainer = ({page, onDelete, onChange}) =>{
-
+    const{id} = useParams()
 
     return(
         <div> 
