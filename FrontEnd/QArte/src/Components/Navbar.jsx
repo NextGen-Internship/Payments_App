@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { MenuItems } from "./MenuItems";
 import './Navbar.css'
-
+import {NavLink } from 'react-router-dom';
 
 class Navbar extends Component {
     state = {clicked:false};
@@ -20,14 +20,14 @@ class Navbar extends Component {
                 <ul className={this.state.clicked ? "nav-menu active" : "nav-menu"}>
                 {MenuItems.map((item, index) => (
                         <li key={index}>
-                            <a className={item.cName} href={item.url}>
-                                <i className={`nav-links ${item.icon}`}> </i>
+                            <NavLink className={item.cName} to={item.url}>
+                                <i className={`nav-links ${item.icon}`}/>
                                     {item.title}
-                            </a>
+                            </NavLink>
                         </li>
                         
                 ))}
-                <a href="/login-signup"><button>SignIn/SignUp</button></a>
+                <NavLink to="/login-signup"><button>SignIn/SignUp</button></NavLink>
                 </ul>
             </nav>
         );

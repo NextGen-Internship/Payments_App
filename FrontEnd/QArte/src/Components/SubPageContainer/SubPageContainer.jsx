@@ -5,10 +5,9 @@ import { useState } from "react";
 
 const SubPageContainer = ({page, onDelete, onChange}) =>{
 
-    
 
     return(
-        <div    > 
+        <div> 
             <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onChange(page.id)}>Edit Page</button>
             <UserBio bio = {page.bio}/>
             <UserGallery photos = {page.photos}/>

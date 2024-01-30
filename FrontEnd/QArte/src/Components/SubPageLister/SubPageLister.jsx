@@ -2,10 +2,10 @@ import React, { useImperativeHandle } from "react";
 import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
-import PageNavButtons from "../PageNavButtons/PageNavButtons";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const SubPageLister = forwardRef(({pages, onDelete, onChange},ref) =>{
+const SubPageLister = forwardRef(({Userid, pages, onDelete, onChange},ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
 
@@ -32,7 +32,9 @@ const SubPageLister = forwardRef(({pages, onDelete, onChange},ref) =>{
         // </>
         <>
             <PageNavContainer pages={pages} onShow={onShow}/>
-            <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>
+            <Routes>
+                <Route path={`'/'${Userid}'/'${pages[awakePage].id}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
+            </Routes>
         </>
     )
 })

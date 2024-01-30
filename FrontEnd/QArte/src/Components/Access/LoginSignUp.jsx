@@ -24,7 +24,7 @@ import { GoogleLogin} from '@react-oauth/google'
 
   const LoginSignUp = () => {
       return (
-      <body>
+      <div>
         <div className="container">
               <input type="checkbox" id="flip"></input>
                   <div className="cover"></div>
@@ -57,7 +57,7 @@ import { GoogleLogin} from '@react-oauth/google'
                                   <input type="submit" value="Submit" />
                               </div>
                               
-                  <div className="text">Don't have an account? <label for="flip">Signup now</label></div>
+                  <div className="text">Don't have an account? <label htmlFor="flip">Signup now</label></div>
                   
                   <div className="line"></div>
                   
@@ -104,7 +104,7 @@ import { GoogleLogin} from '@react-oauth/google'
                       <input type="submit" value="Submit" />
                   </div>
                   </div>
-                  <div className="text">Already have an account? <label for="flip">Login now</label></div>
+                  <div className="text">Already have an account? <label htmlFor="flip">Login now</label></div>
                   
                   <div className="line"></div>
                 
@@ -122,7 +122,7 @@ import { GoogleLogin} from '@react-oauth/google'
             </div>
             </form>
         </div>
-        </body>
+        </div>
       );
     };
     

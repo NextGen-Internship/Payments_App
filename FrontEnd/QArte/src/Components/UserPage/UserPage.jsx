@@ -6,6 +6,7 @@ import PageAdd from "../PageAdd/PageAdd";
 
 const user = {
     name: 'John Doe',
+    id: 1,
     profilePicture: 'path/to/profile.jpg',
     page:[
         {
@@ -79,7 +80,7 @@ const UserPage = () =>{
                     <img src={User.profilePicture} alt="Profile" />
                     <h2>{User.name}</h2>
                 </div>
-                <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} />
+                <SubPageLister ref={PageRef} Userid={user.id} pages={Upages} onDelete={deletePage} onChange={changePage} />
             </div>
         </div>
     );
