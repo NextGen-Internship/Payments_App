@@ -1,30 +1,20 @@
 import React from 'react';
 import './LoginSignUp.css';
-  /* import MonaLisa from './photos/01.jpg'; */
 import { GoogleLogin} from '@react-oauth/google'
 
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [showPassword, setShowPassword] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState("");
-
-    // const handleTogglePassword = () => {
-    //     setShowPassword(!showPassword);
-    //  };
-     
-    //  const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     // ... (Copy the content of handleSubmit from Login.jsx)
-    //  };
-     
-    //  const handleGoogleLogin = async (response) => {
-    //     // ... (Copy the content of handleGoogleLogin from Login.jsx)
-    //  };
-
+   
 
   const LoginSignUp = () => {
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
+
       return (
-      <body>
+        
+      <div className="app">
         <div className="container">
               <input type="checkbox" id="flip"></input>
                   <div className="cover"></div>
@@ -57,7 +47,7 @@ import { GoogleLogin} from '@react-oauth/google'
                                   <input type="submit" value="Submit" />
                               </div>
                               
-                  <div className="text">Don't have an account? <label for="flip">Signup now</label></div>
+                  <div className="text">Don't have an account? <label htmlFor="flip">Signup now</label></div>
                   
                   <div className="line"></div>
                   
@@ -66,15 +56,10 @@ import { GoogleLogin} from '@react-oauth/google'
                       <i className='bx bxl-facebook facebook-icon' ></i>
                       <span>Login with Facebook</span>
                   </a> */}
-                  <GoogleLogin
-                  onSuccess={(credentialResponse) => {
-                    console.log('Login successful:', credentialResponse);
-                  }}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                  clientId="333025418614-sklgnbdkqfsiicgd003dbja9n5qi4m80.apps.googleusercontent.com"
-                />
+                    <GoogleLogin
+                        onSuccess={responseMessage}
+                        onError={errorMessage}
+                        />
                   <a href="#" className="fieldGoogle">
                       <i className='bx bxl-google' ></i>
                       {/* <span>Login with Google</span> */}
@@ -103,8 +88,9 @@ import { GoogleLogin} from '@react-oauth/google'
                       <i className="fas fa-envelope"></i>
                       <input type="submit" value="Submit" />
                   </div>
+                  
                   </div>
-                  <div className="text">Already have an account? <label for="flip">Login now</label></div>
+                  <div className="text">Already have an account? <label htmlFor="flip">Login now</label></div>
                   
                   <div className="line"></div>
                 
@@ -122,7 +108,7 @@ import { GoogleLogin} from '@react-oauth/google'
             </div>
             </form>
         </div>
-        </body>
+        </div>
       );
     };
     
