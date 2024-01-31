@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar';
 import LoginSignUp from './Components/Access/LoginSignUp';
 import SuccessPage from './Components/Stripe/SuccessPage.jsx';
 import ErrorPage from './Components/Stripe/ErrorPage.jsx';
-import PagePlaceHolder from './Components/Stripe/PagePlaceHolder.jsx'
+import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/blog-page" element={<Blog/>} />
                 <Route path="/explore-page" element={<Explore/>} /> */}
                 <Route path="/login-signup" element={<LoginSignUp />} />
-                <Route path="/stripe-checkout" element={<PagePlaceHolder />} /> 
+                <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
                 <Route path="/stripe-success" element={<SuccessPage />} /> 
                 <Route path="/stripe-error" element={<ErrorPage />} /> 
             </Routes>

@@ -1,6 +1,6 @@
 import react, { Component } from 'react';
 
-const PagePlaceHolder = () => 
+const StripeCheckout = () => 
 {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,4 +44,4 @@ const PagePlaceHolder = () =>
         </div>
       );
 }
-export default PagePlaceHolder;
+export default StripeCheckout;
