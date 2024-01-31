@@ -65,6 +65,8 @@
     <None Remove="Queries\InvoiceQueries\" />
     <None Remove="Queries\PaymentMethodQueries\" />
     <None Remove="Queries\SettlementCycleQueries\" />
+    <None Remove="Queries\StripeQueries\" />
+    <None Remove="Handlers\StripeHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -101,5 +103,7 @@
     <Folder Include="Queries\InvoiceQueries\" />
     <Folder Include="Queries\PaymentMethodQueries\" />
     <Folder Include="Queries\SettlementCycleQueries\" />
+    <Folder Include="Queries\StripeQueries\" />
+    <Folder Include="Handlers\StripeHandlers\" />
   </ItemGroup>
 </Project>

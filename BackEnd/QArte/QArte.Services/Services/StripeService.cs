@@ -4,6 +4,7 @@ using QArte.Services.ServiceInterfaces;
 using QArte.Persistance.PersistanceModels;
 using QArte.Services.DTOs;
 
+
 namespace QArte.Services.Services
 {
 	public class StripeService : IStripeService
@@ -11,6 +12,7 @@ namespace QArte.Services.Services
         public StripeService()
         {
         }
+
 
         public async Task<string> CreateSubAccountAsync(User user, BankAccountDTO bankAccount)
         {
@@ -114,6 +116,19 @@ namespace QArte.Services.Services
             return await service.CreateAsync(options);
             
         }
+
+
+        public PaymentIntent CreatePaymentIntent(int amount, string currency)
+        {
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = amount,
+                Currency = currency,
+            };
+            var service = new PaymentIntentService();
+            return service.Create(options);
+        }
+
 
     }
 }
