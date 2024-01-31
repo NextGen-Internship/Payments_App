@@ -37,6 +37,8 @@ namespace QArte.Services.Services
                  .FirstOrDefaultAsync(x => x.ID == id)
                   ?? throw new ApplicationException("Not found");
 
+            _stripeService.DeleteSubAccount(user);
+
             _qarteDBContext.Users.Remove(user);
             await _qarteDBContext.SaveChangesAsync();
 

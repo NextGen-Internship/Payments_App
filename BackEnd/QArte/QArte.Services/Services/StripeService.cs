@@ -117,19 +117,23 @@ namespace QArte.Services.Services
             
         }
 
-
-        public PaymentIntent CreatePaymentIntent(int amount, string currency)
+        public void DeleteSubAccount(User user)
         {
-            var options = new PaymentIntentCreateOptions
+            var service = new AccountService();
+
+            try
             {
-                Amount = amount,
-                Currency = currency,
-            };
-            var service = new PaymentIntentService();
-            return service.Create(options);
+                var result = service.Delete(user.StripeAccountID);
+                if (result.Deleted == true)
+                {
+                    return;
+                }
+            }
+            catch
+            {
+            }
+
         }
-
-
     }
 }
 

@@ -8,6 +8,7 @@ namespace QArte.Services.ServiceInterfaces
 {
     public interface IStripeService
     {
+        void DeleteSubAccount(User user);
         Task<string> CreateSubAccountAsync(User user, BankAccountDTO bankAccount);
         Task<Session> CreateCheckoutSession(string successUrl, string cancelUrl, string accountID);
     }
