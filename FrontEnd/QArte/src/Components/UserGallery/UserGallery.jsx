@@ -1,14 +1,16 @@
 import React from "react";
 import './UserGallery.css';
+import Photo from "../Photo/Photo";
 
-const UserGallery = ({photos}) =>{
+const UserGallery = ({photos, onAddPhoto, onDeletePhoto}) =>{
     
     return(
         <div className="container">
             <h3>Photo Gallery</h3>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={()=>onAddPhoto("Photo.png")}>Add Photo</button>    
             <div className="photo-grid">
                 {photos.map((photo,index)=>(
-                    <img key = {index} src={photo} alt={`'Photo'${index+1}`}/>
+                    <Photo key={index} photo={photo} onDeletePhoto={onDeletePhoto}/>
                 ))}
             </div>
         </div>

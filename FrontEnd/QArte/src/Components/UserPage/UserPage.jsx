@@ -28,7 +28,7 @@ const UserPage = ({user}) =>{
 
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUsers] = useState(user);
-    const [Upages,setPages] = useState(user.page);
+    const [Upages,setPages] = useState(User.page);
 
     const PageRef = useRef();
     
@@ -93,8 +93,20 @@ const UserPage = ({user}) =>{
         // setPages(Upages);
         //PageRef.current.Awake(Upages[awake].id);
         console.log(Upages);
+        
 
+    }
 
+    const donateFunds=()=>{
+        console.log("Donating");
+    }
+    
+    const addNewPhoto=(newPhoto)=>{
+        console.log("adding a new photo " + newPhoto);
+    }
+
+    const deletePhoto=(deletedPhot)=>{
+        console.log("deleting "+ deletedPhot);
     }
 
     return(
@@ -106,10 +118,10 @@ const UserPage = ({user}) =>{
                     <img src={User.profilePicture} alt="Profile" />
                     <h2>{User.name}</h2>
                 </div>
-                <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} />
+                <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
                 
             </div>
-            <button className="btn" style={{backgroundColor:"green"}} >Donate</button>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
         </div>
     );
 };

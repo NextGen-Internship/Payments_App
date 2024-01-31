@@ -5,7 +5,7 @@ import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
 import {NavLink } from 'react-router-dom';
 
-const SubPageLister = forwardRef(({ pages, onDelete, onChange},ref) =>{
+const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDeletePhoto},ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
 
@@ -37,7 +37,7 @@ const SubPageLister = forwardRef(({ pages, onDelete, onChange},ref) =>{
         // </div>
         <>
             <PageNavContainer pages={pages} onShow={onShow}/>
-            <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>
+            <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>
             {/* <Routes path="/home-page/*">
                 <Route path={`${Userid}'/'${pages[awakePage].id}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
             </Routes> */}
