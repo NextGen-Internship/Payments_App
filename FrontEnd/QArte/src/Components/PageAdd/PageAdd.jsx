@@ -29,12 +29,14 @@ const PageAdd = ({onAdd}) =>{
         // </div>
         <form className="add-form" onSubmit={onSubmit}>
             <div className="form-control">
-                <label>Bio</label>
-                <input className="write" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
+                <label>Bio
+                <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
+                </label>
             </div>
             <div className="form-control">
-                <label>Photos</label>
-                <input className="write" type='text' name="photo" placeholder="photos" value={photos} onChange={(e)=>setPhotos(e.target.value.split(","))}></input>
+                <label>Photos
+                <input className="write" type='text' id="photo" name="photo" placeholder="photos" value={photos} onChange={(e)=>setPhotos(e.target.value.split(","))}></input>
+                </label>
             </div>
             <input type="submit" value='Save Page' className="btn" style={{backgroundColor:"green"}}></input>
         </form>

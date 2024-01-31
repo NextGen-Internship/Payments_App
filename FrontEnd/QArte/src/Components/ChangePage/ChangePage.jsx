@@ -1,0 +1,49 @@
+import React from "react";
+import { useState } from "react";
+import './ChangePage.css'
+
+const ChangePage = ({id,onChange}) =>{
+    
+    const [bio,setBio] = useState('');
+    const [photos,setPhotos] = useState([]);
+
+    const onSubmit = (e) =>{
+        e.preventDefault();
+        if(!bio){
+            alert("add bio");
+            return;
+        }
+        console.log({id,bio,photos})
+        onChange({
+            id,
+            bio,
+            photos
+        });
+
+        setBio('');
+        setPhotos([]);
+    }
+
+    return(
+        // <div>
+        //     <h1>PageAdd</h1>
+            
+        //     <button className="btn" style={{backgroundColor:"green"}} onClick={(e)=>onSubmit} >Save Page</button>
+        // </div>a>
+            <form className="add-form" onSubmit={onSubmit}>
+                <div className="form-control">
+                    <label>Bio
+                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
+                    </label>
+                </div>
+                <div className="form-control">
+                    <label>Photos
+                    <input className="write" type='text' id="photo" name="photo" placeholder="photos" value={photos} onChange={(e)=>setPhotos(e.target.value.split(","))}></input>
+                    </label>
+                </div>
+                <input type="submit" value='Save Page' className="btn" style={{backgroundColor:"green"}}></input>
+            </form>
+    )
+}
+
+export default ChangePage;

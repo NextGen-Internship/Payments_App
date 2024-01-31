@@ -81,7 +81,7 @@ function App() {
                         <Route index element={<UserList users={UsersList} onID={onID}/>}/>
                         {/* <Route path=":id" element={<UserPage user={UsersList.filter((user)=>user.id==OpenID)}/>}/> */}
                         {/* <Route path=":id" element={<UserPage user={users[OpenID]}/>}/> */}
-                        <Route path=":id" element={<UserPage user={UsersList[FromIdToPos(OpenID)]}/>}/>
+                        <Route path=":id/*" element={<UserPage user={UsersList[FromIdToPos(OpenID)]}/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

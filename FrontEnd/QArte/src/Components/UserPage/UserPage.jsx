@@ -56,6 +56,7 @@ const UserPage = ({user}) =>{
         {
             console.log("you have this page");
         }
+        setPages(Upages);
         console.log(Upages);
     }
 
@@ -72,14 +73,32 @@ const UserPage = ({user}) =>{
         console.log(Upages);
     }
 
-    const changePage = (id) =>{
-        console.log("Change page "+id)
+    const changePage = (page) =>{       
+
+        setPages(Upages.map(spage=>{
+            if(spage.id===page.id){
+                return{...page};
+            }
+            else{return spage};
+        }))
+
+        // let awake=0;
+        for(var i=0;i<Upages.length;i++){
+            console.log(Upages[i].id);
+            if(Upages[i].id==page.id){
+                Upages[i]=page;
+                //awake=i;
+            }
+        }
+        // setPages(Upages);
+        //PageRef.current.Awake(Upages[awake].id);
         console.log(Upages);
+
+
     }
 
     return(
         <div>
-            <h3>{id}</h3>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
@@ -88,7 +107,9 @@ const UserPage = ({user}) =>{
                     <h2>{User.name}</h2>
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} />
+                
             </div>
+            <button className="btn" style={{backgroundColor:"green"}} >Donate</button>
         </div>
     );
 };

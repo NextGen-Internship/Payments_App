@@ -2,17 +2,19 @@ import React from "react";
 import UserBio from "../UserBio/UserBio";
 import UserGallery from "../UserGallery/UserGallery";
 import { useState } from "react";
-import {useParams} from "react-router-dom"
+import ChangePage from "../ChangePage/ChangePage";
 
 const SubPageContainer = ({page, onDelete, onChange}) =>{
-    const{id} = useParams()
+
+    const[ShowChangePage, setShowChangePage] = useState(false);
 
     return(
         <div> 
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onChange(page.id)}>Edit Page</button>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> setShowChangePage(!ShowChangePage)}>Edit Page</button>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onDelete(page.id)}>Delete Page</button>    
             <UserBio bio = {page.bio}/>
             <UserGallery photos = {page.photos}/>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onDelete(page.id)}>Delete Page</button>       
+            {ShowChangePage && <ChangePage id={page.id} onChange={onChange}/>}   
         </div>
     );
 };

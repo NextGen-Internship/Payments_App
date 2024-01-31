@@ -89,11 +89,11 @@ body{
 } 
 
 
-.container form{
+/* .container form{
     height: 650px;
     width: 650px;
     background: #f0f0f0;
-}
+} */
 
 .container .form-content{
     display: flex;

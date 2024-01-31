@@ -3,6 +3,7 @@ import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
+import {NavLink } from 'react-router-dom';
 
 const SubPageLister = forwardRef(({ pages, onDelete, onChange},ref) =>{
 
@@ -23,18 +24,17 @@ const SubPageLister = forwardRef(({ pages, onDelete, onChange},ref) =>{
 
 
     return(
-        // <>
-    
-        // {pages.map((page,index)=>(
-        //     <li key={index}>
-        //         <NavLink to={`${page.id}`}>
-        //             <h1>{page.id}</h1>
-        //             {/* <SubPageContainer page={page} onDelete={onDelete} onChange={onChange}/>  */}
-        //         </NavLink>
-        //     </li>
-            
-        // ))}
-        // </>
+        // <div>
+        //     {pages.map((page,index)=>(
+        //         <ul key={index}>
+        //             <NavLink to={`${page.id}`}>
+        //                 <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onID(page.id)}>
+        //                     Page {page.id}
+        //                 </button>
+        //             </NavLink>
+        //         </ul>
+        //     ))}
+        // </div>
         <>
             <PageNavContainer pages={pages} onShow={onShow}/>
             <SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>
