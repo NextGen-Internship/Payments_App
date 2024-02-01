@@ -6,7 +6,7 @@ import ChangePage from "../ChangePage/ChangePage";
 
 const SubPageContainer = ({page, onDelete, onChange, onAddPhoto, onDeletePhoto}) =>{
 
-    const[ShowChangePage, setShowChangePage] = useState(false);
+    const [ShowChangePage, setShowChangePage] = useState(false);
 
     return(
         <div> 

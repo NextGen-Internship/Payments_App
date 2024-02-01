@@ -1,5 +1,6 @@
 import React from "react";
 import './Photo.css'
+import {Image} from "react";
 
 const Photo = ({photo, onDeletePhoto})=>{
     return(

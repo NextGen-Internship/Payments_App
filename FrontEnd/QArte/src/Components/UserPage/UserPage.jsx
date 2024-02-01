@@ -29,6 +29,7 @@ const UserPage = ({user}) =>{
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUsers] = useState(user);
     const [Upages,setPages] = useState(User.page);
+    const [UPhotos,setPhotos] = useState(Upages.photos)
 
     const PageRef = useRef();
     

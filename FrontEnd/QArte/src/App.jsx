@@ -21,12 +21,12 @@ const users = [
             {
                 id: 1,
                 bio: 'A brief bio about John Doe.',
-                photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
+                photos: ['/src/assets/QArte_B.png', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
             },
             {
                 id: 2,
                 bio: 'We are doing it!.',
-                photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
+                photos: ['/src/assets/MonaLisa.jpg', 'path/to/photo3.jpg']
             },
         ]
     },
