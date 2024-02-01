@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-﻿var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-=======
 ﻿using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -21,16 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-//cors?
 
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-=======
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
 
 builder.Services.AddDbContext<QArteDBContext>(
@@ -48,13 +39,26 @@ builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<QArte.Services.Services.StripeService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
+//cors?
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("QarteApp", policyBuilder =>
+    {
+        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191");
+        policyBuilder.AllowAnyHeader();
+        policyBuilder.AllowAnyMethod();
+        policyBuilder.AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,6 +67,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRouting();
+
+app.UseCors("QarteApp");
 
 app.UseHttpsRedirection();
 

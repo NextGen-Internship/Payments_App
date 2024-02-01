@@ -24,7 +24,7 @@ namespace QArte.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class InvoiceController : Controller
+    public class InvoiceController : ControllerBase
     {
         private readonly IInvoiceService _invoiceService;
         private readonly IMediator _mediatR;

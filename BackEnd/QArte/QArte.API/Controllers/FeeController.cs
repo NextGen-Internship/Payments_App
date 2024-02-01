@@ -40,7 +40,7 @@ namespace QArte.API.Controllers
 			return Ok(request);
 		}
 
-        [HttpGet("GeyByCurreny/{currency}")]
+        [HttpGet("GeyByCurrency/{currency}")]
         public async Task<ActionResult<IEnumerable<FeeDTO>>> GetByCurrency(string currency)
         {
             var query = new FeeGetByCurrencyQuery(currency);

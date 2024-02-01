@@ -25,5 +25,18 @@ export const MenuItems = [
         url:"/explore-page",
         cName:"nav-links",
         icon:"fa-solid fa-bomb"
-    }
+    },
+    {
+        title: "Login",
+        url: "/login-page",
+        cName: "nav-links",
+        icon: "fa-solid fa-user",
+      },
+    
+      {
+        title: "Sign Up",
+        url: "/signup-page",
+        cName: "nav-links",
+        icon: "fa-solid fa-user-plus",
+      }
 ]

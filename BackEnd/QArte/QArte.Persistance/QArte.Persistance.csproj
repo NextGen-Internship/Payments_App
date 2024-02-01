@@ -6,22 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-<<<<<<< HEAD
-=======
   <ItemGroup>
     <None Remove="PersistanceModels\" />
     <None Remove="PersistanceConfigurations\" />
     <None Remove="Enums\" />
-
-    <None Remove="Migrations\" />
 
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PersistanceModels\" />
     <Folder Include="PersistanceConfigurations\" />
     <Folder Include="Enums\" />
-    <Folder Include="Migrations\" />
-
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
@@ -37,5 +31,4 @@
     </PackageReference>
     <PackageReference Include="Stripe.net" Version="43.11.0" />
   </ItemGroup>
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
 </Project>

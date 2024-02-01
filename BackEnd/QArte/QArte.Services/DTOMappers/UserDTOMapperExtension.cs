@@ -18,14 +18,19 @@ namespace QArte.Services.DTOMappers
                 ID = user.ID,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username= user.UserName,
+                Username = user.UserName,
                 Password = user.Password,
                 Email = user.Email,
                 PictureURL = user.PictureUrl,
                 PhoneNumber = user.PhoneNumber,
                 isBanned = user.isBanned,
                 RoleID = user.RoleID,
-                BankAccountID = user.BankAccountID
+                BankAccountID = user.BankAccountID,
+                Country = user.Country,
+                StripeAccountID = user.StripeAccountID,
+                City = user.City,
+                Address = user.address,
+                postalCode = user.PostalCode
             };
         }
 
@@ -48,7 +53,12 @@ namespace QArte.Services.DTOMappers
                 PhoneNumber = userDTO.PhoneNumber,
                 isBanned = userDTO.isBanned,
                 RoleID = userDTO.RoleID,
-                BankAccountID = userDTO.BankAccountID
+                BankAccountID = userDTO.BankAccountID,
+                Country = userDTO.Country,
+                StripeAccountID = userDTO.StripeAccountID,
+                City = userDTO.City,
+                address = userDTO.Address,
+                PostalCode = userDTO.postalCode,
             };
         }
     }
