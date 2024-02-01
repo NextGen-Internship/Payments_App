@@ -158,8 +158,7 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("QRLink")
                         .IsUnique();
 
-                    b.HasIndex("UserID")
-                        .IsUnique();
+                    b.HasIndex("UserID");
 
                     b.HasIndex(new[] { "GalleryID" }, "IX_Page_GalleryID");
 
@@ -248,6 +247,14 @@ namespace QArte.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -272,13 +279,25 @@ namespace QArte.Persistance.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
+
+                    b.Property<string>("StripeAccountID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isBanned")
                         .HasColumnType("bit");
@@ -304,7 +323,7 @@ namespace QArte.Persistance.Migrations
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BankAccount", b =>
                 {
                     b.HasOne("QArte.Persistance.PersistanceModels.PaymentMethod", "PaymentMethod")
-                        .WithMany("BankAccounts")
+                        .WithMany()
                         .HasForeignKey("PaymentMethodID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -347,8 +366,8 @@ namespace QArte.Persistance.Migrations
                         .IsRequired();
 
                     b.HasOne("QArte.Persistance.PersistanceModels.User", "User")
-                        .WithOne()
-                        .HasForeignKey("QArte.Persistance.PersistanceModels.Page", "UserID")
+                        .WithMany("Pages")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -402,14 +421,14 @@ namespace QArte.Persistance.Migrations
                     b.Navigation("Fees");
                 });
 
-            modelBuilder.Entity("QArte.Persistance.PersistanceModels.PaymentMethod", b =>
-                {
-                    b.Navigation("BankAccounts");
-                });
-
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
+                {
+                    b.Navigation("Pages");
                 });
 #pragma warning restore 612, 618
         }

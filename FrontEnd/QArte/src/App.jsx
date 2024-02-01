@@ -7,8 +7,11 @@ import UserPage from './Components/UserPage/UserPage';
 import UserList from './Components/UserList/UserList';
 import SubPageLister from './Components/SubPageLister/SubPageLister';
 import SubPageContainer from './Components/SubPageContainer/SubPageContainer';
-
 // import LoginSignUp from './Components/Access/LoginSignUp';
+import SuccessPage from './Components/Stripe/SuccessPage.jsx';
+import ErrorPage from './Components/Stripe/ErrorPage.jsx';
+import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
+
 
 
 
@@ -77,6 +80,9 @@ function App() {
                     <Route path="/blog-page" element={<Blog/>} />
                     <Route path="/explore-page" element={<Explore/>} /> */}
                     <Route path="/login-signup" element={<LoginSignUp />} />
+                    <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
+                    <Route path="/stripe-success" element={<SuccessPage />} /> 
+                    <Route path="/stripe-error" element={<ErrorPage />} /> 
                     <Route path="/home-page">
                         <Route index element={<UserList users={UsersList} onID={onID}/>}/>
                         {/* <Route path=":id" element={<UserPage user={UsersList.filter((user)=>user.id==OpenID)}/>}/> */}

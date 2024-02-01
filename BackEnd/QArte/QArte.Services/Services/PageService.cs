@@ -14,7 +14,7 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qArteDBContext;
-        private QRCodeGeneratorService _qRCodeGenerator;
+        private readonly QRCodeGeneratorService _qRCodeGenerator;
 
 		public PageService(QArteDBContext qArteDBContext, QRCodeGeneratorService qR)
 		{

@@ -13,7 +13,7 @@ namespace QArte.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SettlementCycleController : Controller
+    public class SettlementCycleController : ControllerBase
     {
         private readonly ISettlementCycleService _settlementCycle;
         private readonly IMediator _mediatR;

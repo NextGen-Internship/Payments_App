@@ -76,7 +76,7 @@ namespace QArte.Services.Services
             {
                 await this._qArteDBContext.PaymentMethods.AddAsync(newPaymentMethod);
                 await _qArteDBContext.SaveChangesAsync();
-                result = deletedPaymentMethod.GetDTO();
+                result = newPaymentMethod.GetDTO();
             }
             else
             {
