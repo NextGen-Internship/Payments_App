@@ -9,6 +9,7 @@ namespace QArte.Services.Services
 {
 	public class StripeService : IStripeService
 	{
+
         public StripeService()
         {
         }
@@ -112,7 +113,7 @@ namespace QArte.Services.Services
             };
 
             var service = new SessionService();
-
+            
             return await service.CreateAsync(options);
             
         }
@@ -132,6 +133,30 @@ namespace QArte.Services.Services
             catch
             {
             }
+
+        }
+
+        public async Task<Transfer> CreateTansferAsync(UserDTO user, int amount, string currency)
+        {
+
+            var balanceService = new BalanceService();
+            var balance = balanceService.Get();
+
+
+            var options = new TransferCreateOptions
+            {
+                Amount = amount,
+                Currency = currency,
+                Destination = user.StripeAccountID,
+                Description = "Settlement cycle transfer",
+                TransferGroup = "QArté",
+                
+            };
+
+            var service = new TransferService();
+
+
+            return await service.CreateAsync(options);
 
         }
     }

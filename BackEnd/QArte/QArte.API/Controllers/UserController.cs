@@ -86,7 +86,7 @@ namespace QArte.API.Controllers
 
         }
 
-        [HttpGet("isUserBanned/{id}")]
+         [HttpGet("isUserBanned/{id}")]
         public async Task<ActionResult<bool>> GetIsBannedUserByID(int id)
         {
             var query = new GetIsBannedUserByIDQuery(id);

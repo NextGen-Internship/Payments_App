@@ -6,6 +6,7 @@ using QArte.Services.DTOs;
 using System.IO;
 using System.Text.Json;
 using QArte.Persistance.PersistanceConfigurations;
+using QArte.Services.ServiceInterfaces;
 
 namespace QArte.API.Controllers
 {
@@ -14,11 +15,12 @@ namespace QArte.API.Controllers
     public class StripeController : ControllerBase 
 	{
         private readonly StripeService _stripeService;
+        private readonly IUserService _userService;
 
-
-        public StripeController(StripeService stripeService)
+        public StripeController(StripeService stripeService, IUserService userService)
         {
             _stripeService = stripeService;
+            _userService = userService;
         }
 
 
@@ -65,6 +67,24 @@ namespace QArte.API.Controllers
             return new OkObjectResult(new { RedirectUrl = session.Url });
         }
 
+
+
+        [HttpPost("create-transfer")]
+        public ActionResult CreateTransfer([FromBody] TransferPaymentToConnectDTO transfer)
+        {
+
+            UserDTO user = _userService.GetUserByID(transfer.userID).Result;
+
+            Transfer curTransfer = _stripeService.CreateTansferAsync(user, transfer.amount, transfer.currency).Result;
+
+            if (curTransfer is null)
+            {
+                return NoContent();
+            }
+
+            return Ok(curTransfer.Created);
+
+        }
     }
 
 }

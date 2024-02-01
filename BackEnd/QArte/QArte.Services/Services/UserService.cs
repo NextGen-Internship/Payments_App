@@ -204,6 +204,8 @@ namespace QArte.Services.Services
 
             var newUser = obj.GetEnity();
 
+            newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
+
             if (deletedUser == null)
             {
                 await _qarteDBContext.Users.AddAsync(newUser);
