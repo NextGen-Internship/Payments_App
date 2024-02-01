@@ -5,7 +5,7 @@
     font-family:"Poppins",sans-serif;
 }
 
-body{
+.app{
     min-height: 100vh;
     min-width: 100%;
     display: flex;
@@ -90,6 +90,7 @@ body{
 
 
 /* .container form{
+.container form{
     height: 650px;
     width: 650px;
     background: #f0f0f0;
@@ -99,11 +100,13 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-left: 10%;
 }
 
 .form-content .login-form,
 .form-content .signup-form{
     width: calc(100%/2 - 25px);
+    
 }
 form .form-content .title{
     font-size: 24px;
