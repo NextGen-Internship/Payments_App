@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   
@@ -11,3 +12,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+=======
+body {
+  margin: 0;
+  padding: 0;
+}
+>>>>>>> d561fc40bb113104f450ee5c7b00d05c0baa7aef
