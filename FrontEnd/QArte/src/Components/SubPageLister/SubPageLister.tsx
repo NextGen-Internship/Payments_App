@@ -1,13 +1,18 @@
-import React, { useImperativeHandle } from "react";
+import { useImperativeHandle } from "react";
 import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
-import {NavLink } from 'react-router-dom';
+
+    export interface SubPageListerRef {
+      Awake: (id: any) => void;
+    }
 
 const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDeletePhoto}:any,ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
+
+
 
     const onShow = (id:any) => {
       for(var i=0; i<pages.length; i++){

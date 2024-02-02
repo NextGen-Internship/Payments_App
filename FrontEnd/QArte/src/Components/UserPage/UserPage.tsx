@@ -1,6 +1,6 @@
 import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
-import SubPageLister from "../SubPageLister/SubPageLister";
+import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
 import StripeCheckout from "../Stripe/StripeCheckout";
@@ -34,7 +34,7 @@ const UserPage = ({user}:any) =>{
     const [Upages,setPages] = useState(User.page);
     const [UPhotos,setPhotos] = useState(Upages.photos)
 
-    const PageRef = useRef(null);
+    const PageRef = useRef<SubPageListerRef>(null);
     
     const Try = ()=>{
         setAddPage(!showAddPage);
@@ -105,7 +105,7 @@ const UserPage = ({user}:any) =>{
 
     const donateFunds=()=>{
         console.log("Donating");
-        navigate('/home-page');
+        navigate('/home');
         
     }
     
