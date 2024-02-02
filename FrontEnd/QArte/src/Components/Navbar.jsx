@@ -24,7 +24,7 @@ class Navbar extends Component {
                         </li>
                         
                 ))}
-                {/* <NavLink to="/login-signup"><button>SignIn/SignUp</button></NavLink> */}
+                <NavLink to="/login-signup"><button>SignIn/SignUp</button></NavLink>
                 </ul>
             </nav>
         );

@@ -11,7 +11,8 @@ import SubPageContainer from './Components/SubPageContainer/SubPageContainer';
 import SuccessPage from './Components/Stripe/SuccessPage.jsx';
 import ErrorPage from './Components/Stripe/ErrorPage.jsx';
 import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
-
+import LoginPage from './Components/Access/LoginPage';
+import SignupPage from './Components/Access/SignUpPage';
 
 
 
@@ -79,14 +80,12 @@ function App() {
                     <Route path="/about-page" element={<About/>} />
                     <Route path="/blog-page" element={<Blog/>} />
                     <Route path="/explore-page" element={<Explore/>} /> */}
-                    {/* <Route path="/login-signup" element={<LoginSignUp />} /> */}
+                    <Route path="/login-signup" element={<LoginSignUp />} />
                     <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
                     <Route path="/stripe-success" element={<SuccessPage />} /> 
                     <Route path="/stripe-error" element={<ErrorPage />} /> 
                     <Route path="/home-page">
                         <Route index element={<UserList users={UsersList} onID={onID}/>}/>
-                        {/* <Route path=":id" element={<UserPage user={UsersList.filter((user)=>user.id==OpenID)}/>}/> */}
-                        {/* <Route path=":id" element={<UserPage user={users[OpenID]}/>}/> */}
                         <Route path=":id/*" element={<UserPage user={UsersList[FromIdToPos(OpenID)]}/>}/>
                     </Route>
                 </Routes>
@@ -95,9 +94,8 @@ function App() {
 
     );
 }
-export default App;
-// import LoginPage from './Components/Access/LoginPage';
-// import SignupPage from './Components/Access/SignUpPage';
+
+
 
 // const App = () => {
 //   const responseMessage = (response) => {
@@ -133,7 +131,6 @@ export default App;
 // };
 
 
-// export default App;
 
 // import React from 'react';
 // import { GoogleLogin } from '@react-oauth/google';
@@ -161,3 +158,4 @@ export default App;
 // }
 
 
+export default App;

@@ -1,8 +1,9 @@
-import React,{Component, useState, forwardRef, useRef} from "react";
+import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
 import SubPageLister from "../SubPageLister/SubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
-import {useParams} from "react-router-dom"
+import {useParams, useNavigate} from "react-router-dom"
+import StripeCheckout from "../Stripe/StripeCheckout";
 
 // const user = {
 //     name: 'John Doe',
@@ -23,6 +24,8 @@ import {useParams} from "react-router-dom"
 //   };
 
 const UserPage = ({user}) =>{
+
+    const navigate=useNavigate();
 
     const{id} = useParams();
 
@@ -100,6 +103,8 @@ const UserPage = ({user}) =>{
 
     const donateFunds=()=>{
         console.log("Donating");
+        navigate('/home-page');
+        
     }
     
     const addNewPhoto=(newPhoto)=>{
@@ -123,6 +128,7 @@ const UserPage = ({user}) =>{
                 
             </div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
+            <StripeCheckout></StripeCheckout>
         </div>
     );
 };
