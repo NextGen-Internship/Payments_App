@@ -1,3 +1,0 @@
-218908655711-2l51r54o6fkevbr9elvcrme243upg6ii.apps.googleusercontent.com -> clientID
-
-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 -> clientServer
