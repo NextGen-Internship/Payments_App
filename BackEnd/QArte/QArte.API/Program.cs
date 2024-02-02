@@ -1,36 +1,28 @@
-<<<<<<< HEAD
-﻿var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-=======
-﻿using QArte.Persistance;
+using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Server;
 using QArte.Persistance.PersistanceModels;
 using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
+using QArte.Persistance.PersistanceConfigurations;
 using Stripe;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Add services to the container.
-
-
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-//cors?
-
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-=======
+
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
 
 builder.Services.AddDbContext<QArteDBContext>(
@@ -51,10 +43,37 @@ builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 
 builder.Services.AddMediatR(typeof(Program));
 
-
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
->>>>>>> 8ed6b2dd7b3bcf170c8565788da1e2b4982e52a6
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwt =>
+{
+    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false, // for dev
+        ValidateAudience = false,//for dev
+        RequireExpirationTime = false, //for dev - need to be updated when refresh token is added
+        ValidateLifetime = true
+    };
+});
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<QArteDBContext>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,6 +85,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
