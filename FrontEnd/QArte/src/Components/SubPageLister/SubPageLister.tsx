@@ -5,22 +5,22 @@ import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
 import {NavLink } from 'react-router-dom';
 
-const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDeletePhoto},ref) =>{
+const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDeletePhoto}:any,ref) =>{
 
     const [awakePage, setAwakePage] = useState(0);
 
-    useImperativeHandle(ref,()=>({
-        Awake:onShow,
-    }));
-
-    const onShow = (id) =>{
-        for(var i=0; i<pages.length;i++){
-            if(pages[i].id==id){
-                setAwakePage(i);   
-            }
+    const onShow = (id:any) => {
+      for(var i=0; i<pages.length; i++){
+        if(pages[i].id === id){
+          setAwakePage(i);
         }
-        console.log(id);
-    }
+      }
+      console.log(id);
+    };
+  
+    useImperativeHandle(ref, () => ({
+      Awake: onShow,
+    }));
 
 
     return(

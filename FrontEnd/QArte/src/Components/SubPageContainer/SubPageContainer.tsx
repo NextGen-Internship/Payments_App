@@ -4,7 +4,7 @@ import UserGallery from "../UserGallery/UserGallery";
 import { useState } from "react";
 import ChangePage from "../ChangePage/ChangePage";
 
-const SubPageContainer = ({page, onDelete, onChange, onAddPhoto, onDeletePhoto}) =>{
+const SubPageContainer = ({page, onDelete, onChange, onAddPhoto, onDeletePhoto}:any) =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
 

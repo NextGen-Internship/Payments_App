@@ -23,7 +23,7 @@ import StripeCheckout from "../Stripe/StripeCheckout";
 //     ]
 //   };
 
-const UserPage = ({user}) =>{
+const UserPage = ({user}:any) =>{
 
     const navigate=useNavigate();
 
@@ -34,14 +34,14 @@ const UserPage = ({user}) =>{
     const [Upages,setPages] = useState(User.page);
     const [UPhotos,setPhotos] = useState(Upages.photos)
 
-    const PageRef = useRef();
+    const PageRef = useRef(null);
     
     const Try = ()=>{
         setAddPage(!showAddPage);
         console.log(showAddPage);
     }
 
-    const addPage = (page) =>{
+    const addPage = (page:any):void =>{
         const id = Math.floor(Math.random()*1000)+1;
         const newPage = {id,...page}
         var go = true;
@@ -54,7 +54,8 @@ const UserPage = ({user}) =>{
         if(go)
         {
             Upages.push(newPage);
-            PageRef.current.Awake(Upages[Upages.length-1].id);
+            if(PageRef.current){
+                PageRef.current.Awake(Upages[Upages.length-1].id);}
         }
         else
         {
@@ -64,7 +65,7 @@ const UserPage = ({user}) =>{
         console.log(Upages);
     }
 
-   const deletePage = (id) =>{
+   const deletePage = (id:any) =>{
         console.log("Deleting page: "+id)
         for(var i =0;i<Upages.length;i++){
             if(Upages[i].id==id){
@@ -72,14 +73,15 @@ const UserPage = ({user}) =>{
             }
         }
         
-        setPages(Upages.filter((page)=>page.id!==id));
-        PageRef.current.Awake(Upages[0].id);
+        setPages(Upages.filter((page:any)=>page.id!==id));
+        if(PageRef.current)
+            PageRef.current.Awake(Upages[0].id);
         console.log(Upages);
     }
 
-    const changePage = (page) =>{       
+    const changePage = (page:any) =>{       
 
-        setPages(Upages.map(spage=>{
+        setPages(Upages.map((spage:any)=>{
             if(spage.id===page.id){
                 return{...page};
             }
@@ -107,11 +109,11 @@ const UserPage = ({user}) =>{
         
     }
     
-    const addNewPhoto=(newPhoto)=>{
+    const addNewPhoto=(newPhoto:any)=>{
         console.log("adding a new photo " + newPhoto);
     }
 
-    const deletePhoto=(deletedPhot)=>{
+    const deletePhoto=(deletedPhot:any)=>{
         console.log("deleting "+ deletedPhot);
     }
 

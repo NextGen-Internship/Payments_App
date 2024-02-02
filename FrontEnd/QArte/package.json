@@ -10,11 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@react-oauth/google": "^0.12.1",
-    "@stripe/stripe-js": "^2.4.0",
-    "axios": "^1.6.5",
-=======
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.6",
@@ -22,7 +17,6 @@
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.7",
     "jwt-decode": "^4.0.0",
->>>>>>> d561fc40bb113104f450ee5c7b00d05c0baa7aef
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3"

@@ -2,12 +2,12 @@ import React from "react";
 import { useState } from "react";
 import './PageAdd';
 
-const PageAdd = ({onAdd}) =>{
+const PageAdd = ({onAdd}:any) =>{
     
     const [bio,setBio] = useState('');
     const [photos,setPhotos] = useState([]);
 
-    const onSubmit = (e) =>{
+    const onSubmit = (e:any) =>{
         e.preventDefault();
         if(!bio){
             alert("add bio");

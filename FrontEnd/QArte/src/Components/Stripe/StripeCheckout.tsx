@@ -2,7 +2,7 @@ import react, { Component } from 'react';
 
 const StripeCheckout = () => 
 {
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
     
         const successURL = 'http://localhost:5173/stripe-success';

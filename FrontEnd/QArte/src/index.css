@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  
-    /* color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424; */
-  
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-=======
 body {
   margin: 0;
   padding: 0;
 }
->>>>>>> d561fc40bb113104f450ee5c7b00d05c0baa7aef

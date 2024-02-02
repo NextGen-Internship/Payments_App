@@ -1,8 +1,7 @@
 import React from "react";
 import './Photo.css'
-import {Image} from "react";
 
-const Photo = ({photo, onDeletePhoto})=>{
+const Photo = ({photo, onDeletePhoto}:any)=>{
     return(
         <div>
             <img src={photo} alt={`'Photo ${photo}`}/>

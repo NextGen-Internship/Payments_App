@@ -2,7 +2,7 @@ import React from "react";
 import './PageNavButtons.css';
 
 
-const PageNavButtons = ({id,onShow, index}) =>{
+const PageNavButtons = ({id,onShow, index}:any) =>{
 
     return(
         <>

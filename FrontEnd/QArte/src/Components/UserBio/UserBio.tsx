@@ -1,7 +1,7 @@
 import React from "react";
 import './UserBio.css'
 
-const UserBio = ({bio})=>{
+const UserBio = ({bio}:any)=>{
     return(
         <div className="container">
             <h3>Bio</h3>

@@ -2,11 +2,11 @@ import React from "react";
 import { useState } from "react";
 import './ChangePage.css'
 
-const ChangePage = ({id, photos,onChange}) =>{
+const ChangePage = ({id, photos,onChange}:any) =>{
     
     const [bio,setBio] = useState('');
 
-    const onSubmit = (e) =>{
+    const onSubmit = (e:any) =>{
         e.preventDefault();
         if(!bio){
             alert("add bio");

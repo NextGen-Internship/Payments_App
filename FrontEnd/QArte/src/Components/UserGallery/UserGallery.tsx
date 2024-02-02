@@ -3,11 +3,11 @@ import './UserGallery.css';
 import Photo from "../Photo/Photo";
 import { useState } from "react";
 
-const UserGallery = ({photos, onAddPhoto, onDeletePhoto}) =>{
+const UserGallery = ({photos, onAddPhoto, onDeletePhoto}:any) =>{
 
     const[file, setFile] = useState();
 
-    const handleOnChange = async(e)=>{
+    const handleOnChange = async(e:any)=>{
         let target = e.target.files;
         console.log('file', target);
         setFile(target[0]);
@@ -37,7 +37,7 @@ const UserGallery = ({photos, onAddPhoto, onDeletePhoto}) =>{
             
 
             <div className="photo-grid">
-                {photos.map((photo,index)=>(
+                {photos.map((photo:any,index:any)=>(
                     <Photo key={index} photo={photo} onDeletePhoto={onDeletePhoto}/>
                 ))}
             </div>
