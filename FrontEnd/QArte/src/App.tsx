@@ -55,7 +55,7 @@ const users = [
 
 function App() {
 
-  const [UsersList,SetUserList] =  useState<any>(users);
+const [UsersList,SetUserList] =  useState<any>(users);
 let [OpenID,SetOpenID] = useState<number>(0); 
 
  const onID = (id:number):void =>{
@@ -72,7 +72,7 @@ const FromIdToPos = (id:number):number|undefined =>{
 }
 
 const userIndex = FromIdToPos(OpenID);
-const userPageElement = userIndex !== undefined?<UserPage user={UsersList[userIndex]}/>:null
+const userPageElement = <UserPage user={UsersList}/>
 
   return (
     <BrowserRouter>
@@ -87,12 +87,12 @@ const userPageElement = userIndex !== undefined?<UserPage user={UsersList[userIn
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/explore" element={<Explore />} />
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/home">
+          <Route path="/explore">
             <Route index element={<UserList users={UsersList} onID={onID}/>}/>
-            <Route path=":id/*" element={userPageElement}/>
+            <Route path=":id/*" element={<UserPage user={UsersList}/>}/>
           </Route>
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/home" element={<Home/>}/>
         </Routes>
       </div>
     </BrowserRouter>
