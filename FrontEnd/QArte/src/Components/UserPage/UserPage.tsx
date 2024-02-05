@@ -28,11 +28,39 @@ const UserPage = ({user}:any) =>{
     const navigate=useNavigate();
 
     const{id} = useParams();
+    const val = parseInt(id!);
 
     const[showAddPage,setAddPage] = useState(false);
-    const [User,setUsers] = useState(user);
-    const [Upages,setPages] = useState(User.page);
-    const [UPhotos,setPhotos] = useState(Upages.photos)
+    const [User,setUsers] = useState<any>({});
+    const [Upages,setPages] = useState<any>([]);
+
+
+    useEffect(()=>{
+        const getUser = async() =>{
+            try{
+                await fetchUser();
+            }
+            catch(error){
+                console.error('Error fetching user data!',error);
+            }
+        }
+        getUser()
+    },[user]);
+
+    const fetchUser =async () => {
+        try {
+            const foundUser = user.find((u: any) => u.id === val);
+            if (foundUser) {
+                setUsers(foundUser);
+                setPages(foundUser.page);
+            } else {
+                console.error(`User with id ${val} not found.`);
+            }
+        } catch (error) {
+            console.error('Error fetching user data!', error);
+        }
+    }
+
 
     const PageRef = useRef<SubPageListerRef>(null);
     
@@ -99,14 +127,16 @@ const UserPage = ({user}:any) =>{
         // setPages(Upages);
         //PageRef.current.Awake(Upages[awake].id);
         console.log(Upages);
-        
-
     }
 
     const donateFunds=()=>{
         console.log("Donating");
-        navigate('/home');
-        
+        // navigate('/home');
+       console.log(user); 
+       console.log(User);
+       console.log("pages ");
+       console.log(Upages);       
+       console.log(Upages[0].bio);
     }
     
     const addNewPhoto=(newPhoto:any)=>{
@@ -119,6 +149,7 @@ const UserPage = ({user}:any) =>{
 
     return(
         <div>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
@@ -127,7 +158,6 @@ const UserPage = ({user}:any) =>{
                     <h2>{User.name}</h2>
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
-                
             </div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
             <StripeCheckout></StripeCheckout>
