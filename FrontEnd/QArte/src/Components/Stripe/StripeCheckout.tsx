@@ -2,7 +2,7 @@ import react, { Component } from 'react';
 
 const StripeCheckout = () => 
 {
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
     
         const successURL = 'http://localhost:5173/stripe-success';
@@ -22,6 +22,7 @@ const StripeCheckout = () =>
     
           if (response.ok) {
             const responseData = await response.json();
+            
             const redirectUrl = responseData.redirectUrl;
 
             console.log('Checkout session created successfully');
@@ -39,7 +40,7 @@ const StripeCheckout = () =>
       return (
         <div>
           <form onSubmit={handleSubmit}>
-            <button type="submit">Checkout</button>
+            <button type="submit" className="btn" style={{backgroundColor:"green"}}>Checkout</button>
           </form>
         </div>
       );

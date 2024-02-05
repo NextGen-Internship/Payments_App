@@ -1,3 +1,4 @@
+
 ﻿using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
 
 
 builder.Services.AddControllers();
@@ -50,7 +52,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("QarteApp", policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5173", "https://localhost:7191");
+        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191");
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
         policyBuilder.AllowCredentials();

@@ -4,7 +4,7 @@ using QArte.Persistance.PersistanceModels;
 
 namespace QArte.Persistance.PersistanceModels
 {
-	public class User
+	public class User 
 	{
 
 		public int ID { get; set; }

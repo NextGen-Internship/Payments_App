@@ -105,5 +105,6 @@
     <Folder Include="Queries\SettlementCycleQueries\" />
     <Folder Include="Queries\StripeQueries\" />
     <Folder Include="Handlers\StripeHandlers\" />
+
   </ItemGroup>
 </Project>
