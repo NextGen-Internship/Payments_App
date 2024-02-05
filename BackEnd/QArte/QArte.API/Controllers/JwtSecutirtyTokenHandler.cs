@@ -1,6 +1,6 @@
-﻿namespace QArte.API.Controllers
-{
-    internal class JwtSecutirtyTokenHandler
-    {
-    }
-}
+﻿//namespace QArte.API.Controllers
+//{
+//    internal class JwtSecutirtyTokenHandler
+//    {
+//    }
+//}
