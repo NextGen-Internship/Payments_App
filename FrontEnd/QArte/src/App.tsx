@@ -79,10 +79,9 @@ const userPageElement = userIndex !== undefined?<UserPage user={UsersList[userIn
       <div>
         <ResponsiveAppBar />
         <Routes>
-        <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
-        <Route path="/stripe-success" element={<SuccessPage />} /> 
-        <Route path="/stripe-error" element={<ErrorPage />} /> 
-          <Route path="/home" element={<Home />} />
+          <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
+          <Route path="/stripe-success" element={<SuccessPage />} /> 
+          <Route path="/stripe-error" element={<ErrorPage />} /> 
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           {/* <Route path="/register" element={<Register />} /> */}

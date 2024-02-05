@@ -13,29 +13,29 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 
-namespace QArte.API.Controllers
-{
-	[ApiController]
-	[Route("api/[controller]")]
-	public class AuthenticationController : ControllerBase
-	{
+//namespace QArte.API.Controllers
+//{
+//	[ApiController]
+//	[Route("api/[controller]")]
+//	public class AuthenticationController : ControllerBase
+//	{
 
-		private readonly IAuthService _auth;
+//		private readonly IAuthService _auth;
 
-		public AuthenticationController(IAuthService auth)
-		{
-			_auth = auth;
-		}
+//		public AuthenticationController(IAuthService auth)
+//		{
+//			_auth = auth;
+//		}
 
-        [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ResponseAuthDTO>>> Login(RequestAuthDTO model)
-        {
-            return Ok(await _auth.AuthenticateAsync(model));
-        }
-    }
-}
+//        [HttpPost]
+//        [ProducesResponseType(200)]
+//        [ProducesResponseType(401)]
+//        public async Task<ActionResult<IEnumerable<ResponseAuthDTO>>> Login(RequestAuthDTO model)
+//        {
+//            return Ok(await _auth.AuthenticateAsync(model));
+//        }
+//    }
+//}
 
 //namespace QArte.API.Controllers
 //{
