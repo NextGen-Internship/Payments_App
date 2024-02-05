@@ -30,7 +30,7 @@ namespace QArte.API.Controllers
             var query = new GetUserAllQuery();
             var request = await _mediatR.Send(query);
             return Ok(request);
-        }
+        } 
 
 
         [HttpGet("GetUserByID/{id}")]

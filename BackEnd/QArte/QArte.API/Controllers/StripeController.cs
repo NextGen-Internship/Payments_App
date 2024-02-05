@@ -49,7 +49,7 @@ namespace QArte.API.Controllers
                {
                    new SessionLineItemOptions()
                    {
-                       Price = "price_1OeHiaJiciPf5qqf4soXStal",
+                       Price = "price_1OgOm2Ly4Nh7di81hZ8EUENq",
                        Quantity = 1,
                    }
                },
