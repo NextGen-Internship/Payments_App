@@ -85,6 +85,18 @@ namespace QArte.API.Controllers
             return Ok(curTransfer.Created);
 
         }
+
+
+        [HttpPost("stripe-webhook")]
+        public async Task<IActionResult> StripeWebhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            Console.WriteLine(json);
+
+            return Ok();
+        }
+
     }
 
 }
