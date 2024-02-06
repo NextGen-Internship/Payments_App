@@ -31,7 +31,7 @@ namespace QArte.Services.Services
                         TotalAmount = x.TotalAmount,
                         InvoiceDate = x.InvoiceDate,
                         SettlementCycleID = x.SettlementCycleID,
-                        BankAccoundID = x.BankAccountID,
+                        UserID = x.UserID,
                         Fees = x.Fees.Select(y => new FeeDTO
                         {
                             ID = y.ID,
@@ -55,7 +55,7 @@ namespace QArte.Services.Services
                 TotalAmount = x.TotalAmount,
                 InvoiceDate = x.InvoiceDate,
                 SettlementCycleID = x.SettlementCycleID,
-                BankAccoundID = x.BankAccountID,
+                UserID = x.UserID,
                 Fees = x.Fees.Select(y => new FeeDTO
                 {
                     ID = y.ID,
@@ -72,7 +72,7 @@ namespace QArte.Services.Services
                     //.Include(x => x.BankAccountID)
                     //.Include(x => x.SettlementCycleID)
                     .Include(x => x.Fees)
-                    .FirstOrDefaultAsync(x => x.BankAccountID == id)
+                    .FirstOrDefaultAsync(x => x.UserID == id)
                     ?? throw new ApplicationException("Not found");
             return result.GetDTO();
         }
@@ -98,7 +98,7 @@ namespace QArte.Services.Services
                 TotalAmount = 200,
                 InvoiceDate = DateTime.Today,
                 SettlementCycleID = -1,
-                BankAccoundID = -1,
+                UserID = -1,
                 Fees = { }
             };
 
@@ -121,7 +121,7 @@ namespace QArte.Services.Services
         {
             var result = await _qArteDBContext.Invoices
                 .Include(x => x.SettlementCycle)
-                .Include(x => x.BankAccount)
+                .Include(x => x.User)
                 .Include(x => x.Fees)
                 .FirstOrDefaultAsync(x => x.SettlementCycleID == id)
                 ?? throw new ApplicationException("Not found");
@@ -141,7 +141,7 @@ namespace QArte.Services.Services
             InvoiceDTO result = null;
             var deletedInvoice = await _qArteDBContext.Invoices
                                     .Include(x => x.SettlementCycle)
-                                    .Include(x => x.BankAccount)
+                                    .Include(x => x.User)
                                     .Include(x => x.Fees)
                                     .IgnoreQueryFilters()
                                     .FirstOrDefaultAsync(x => x.ID == obj.ID);
@@ -166,7 +166,7 @@ namespace QArte.Services.Services
 
             var Invoice = await this._qArteDBContext.Invoices
                                     .Include(x => x.SettlementCycle)
-                                    .Include(x => x.BankAccount)
+                                    .Include(x => x.User)
                                     .Include(x => x.Fees)
                                     .FirstOrDefaultAsync(x => x.ID == id)
                                     ?? throw new ApplicationException("Not found");
@@ -184,7 +184,7 @@ namespace QArte.Services.Services
         {
             var invoice = await this._qArteDBContext.Invoices
                                     .Include(x => x.SettlementCycle)
-                                    .Include(x => x.BankAccount)
+                                    .Include(x => x.User)
                                     .Include(x => x.Fees)
                                     .FirstOrDefaultAsync(x => x.ID == id)
                                     ?? throw new ApplicationException("Not found");

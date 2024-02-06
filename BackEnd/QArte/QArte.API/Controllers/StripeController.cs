@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.Json;
 using QArte.Persistance.PersistanceConfigurations;
 using QArte.Services.ServiceInterfaces;
+using MediatR;
 
 namespace QArte.API.Controllers
 {
@@ -16,11 +17,13 @@ namespace QArte.API.Controllers
 	{
         private readonly StripeService _stripeService;
         private readonly IUserService _userService;
+        private readonly IFeeService _feeService;
 
-        public StripeController(StripeService stripeService, IUserService userService)
+        public StripeController(StripeService stripeService, IUserService userService, IFeeService feeService)
         {
             _stripeService = stripeService;
             _userService = userService;
+            _feeService = feeService;
         }
 
 
@@ -57,6 +60,10 @@ namespace QArte.API.Controllers
                 {
                     "card"
                 },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "userID", urls.UserID.ToString() }
+                },
                 Mode = "payment",
                 SuccessUrl = urls.SuccessURL,
                 CancelUrl = urls.CancelURL
@@ -92,11 +99,44 @@ namespace QArte.API.Controllers
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            Console.WriteLine(json);
+            const string secret = "whsec_b30a7f6c8cec8ac6e15fcea10853be0a4cf663ecc3b638827bca61a73aafbd86";
+
+            try
+            {
+                var stripeEvent = EventUtility.ConstructEvent(
+                    json,
+                    Request.Headers["Stripe-Signature"],
+                    secret
+                    );
+
+                if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+                    var session = stripeEvent.Data.Object as Session;
+
+                    var amount = session.AmountTotal;
+
+                    var userID = int.Parse(session.Metadata["userID"]);
+
+                    var currency = session.Currency;
+
+                    FeeDTO newFee = new FeeDTO()
+                    {
+                        ID = 0,
+                        Amount = amount.Value,
+                        Currency = currency,
+                        ExchangeRate = 1.0,
+                    };
+
+                    await _feeService.PostAsync(newFee);
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Error processing Stripe webhook");
+            }
+
 
             return Ok();
         }
-
     }
-
 }

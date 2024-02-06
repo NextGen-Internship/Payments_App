@@ -1,13 +1,12 @@
 import react, { Component } from 'react';
 
-const StripeCheckout = () => 
+const StripeCheckout = ({userID} : any) => 
 {
     const handleSubmit = async (event:any) => {
         event.preventDefault();
     
         const successURL = 'http://localhost:5173/stripe-success';
         const cancelURL = 'http://localhost:5173/stripe-error';
-
         try {
           const response = await fetch('https://localhost:7191/api/Stripe/create-checkout-session', {
             method: 'POST',
@@ -17,6 +16,7 @@ const StripeCheckout = () =>
             body: JSON.stringify({
               successURL,
               cancelURL,
+              userID,
             }),
           });
     

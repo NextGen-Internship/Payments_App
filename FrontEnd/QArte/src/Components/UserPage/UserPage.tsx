@@ -160,7 +160,7 @@ const UserPage = ({user}:any) =>{
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
             </div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
-            <StripeCheckout></StripeCheckout>
+            <StripeCheckout userID = {User.id}></StripeCheckout>
         </div>
     );
 };

@@ -49,7 +49,10 @@ namespace QArte.Persistance.PersistanceModels
         public int? BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }
         public ICollection<Page> Pages { get; set; }
-        
+
+
+
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }
 

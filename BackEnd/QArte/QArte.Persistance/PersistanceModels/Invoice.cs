@@ -13,8 +13,8 @@ namespace QArte.Persistance.PersistanceModels
 		public decimal TotalAmount { get; set; }
 		public DateTime InvoiceDate { get; set; }
 
-		public int BankAccountID { get; set; }
-		public virtual BankAccount BankAccount { get; set; }
+		public int UserID { get; set; }
+		public virtual User User{ get; set; }
 
 		public int SettlementCycleID { get; set; }
 		public virtual SettlementCycle SettlementCycle { get; set; }
