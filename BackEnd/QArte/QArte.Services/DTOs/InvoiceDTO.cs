@@ -7,7 +7,6 @@ namespace QArte.Services.DTOs
 		public long TotalAmount { get; set; }
 		public DateTime InvoiceDate { get; set; }
 		public int BankAccountID { get; set; }
-		public int SettlementCycleID { get; set; }
 		public int FeeID { get; set; }
 	}
 }

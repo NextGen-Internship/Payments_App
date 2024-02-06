@@ -21,7 +21,6 @@ namespace QArte.Services.DTOMappers
                 TotalAmount = invoice.TotalAmount,
                 InvoiceDate = invoice.InvoiceDate,
                 BankAccountID = invoice.BankAccountID,
-                SettlementCycleID = invoice.SettlementCycleID,
                 FeeID = invoice.FeeID,
             };
 
@@ -41,7 +40,6 @@ namespace QArte.Services.DTOMappers
                 TotalAmount = invoiceDTO.TotalAmount,
                 InvoiceDate = invoiceDTO.InvoiceDate,
                 BankAccountID = invoiceDTO.BankAccountID,
-                SettlementCycleID = invoiceDTO.SettlementCycleID,
                 FeeID = invoiceDTO.FeeID,
             };
 

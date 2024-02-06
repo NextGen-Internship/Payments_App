@@ -70,15 +70,6 @@ namespace QArte.API.Controllers
             return Ok(result);
         }
 
-
-        [HttpGet("GetBySettlementCycleID/{id}")]
-        public async Task<ActionResult<InvoiceDTO>> GetBySettlementCycleID(int id)
-        {
-            var query = new GetInvoiceBySettlementCycleIDQuery(id);
-            var result = await _mediatR.Send(query);
-            return Ok(result);
-        }
-
         [HttpPost]
         public async Task<ActionResult<InvoiceDTO>> PostInvoice([FromBody] InvoiceDTO obj)
         {

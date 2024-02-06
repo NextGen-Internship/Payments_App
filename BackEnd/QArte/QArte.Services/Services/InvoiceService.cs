@@ -27,7 +27,6 @@ namespace QArte.Services.Services
                         ID = x.ID,
                         TotalAmount = x.TotalAmount,
                         InvoiceDate = x.InvoiceDate,
-                        SettlementCycleID = x.SettlementCycleID,
                         BankAccountID = x.BankAccountID,
                         FeeID = x.FeeID,
                     }).ToListAsync();
@@ -42,7 +41,6 @@ namespace QArte.Services.Services
                 ID = x.ID,
                 TotalAmount = x.TotalAmount,
                 InvoiceDate = x.InvoiceDate,
-                SettlementCycleID = x.SettlementCycleID,
                 BankAccountID = x.BankAccountID,
                 FeeID = x.FeeID
             }).ToList();
@@ -51,7 +49,6 @@ namespace QArte.Services.Services
         public async Task<InvoiceDTO> GetInvoiceByBankAccountID(int id)
         {
             var result = await _qArteDBContext.Invoices
-                    .Include(x => x.SettlementCycle)
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.BankAccountID == id)
@@ -62,7 +59,6 @@ namespace QArte.Services.Services
         public async Task<InvoiceDTO> GetInvoiceByFeeID(int id)
         {
             var result = await _qArteDBContext.Invoices
-                    .Include(x => x.SettlementCycle)
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.FeeID == id)
@@ -75,7 +71,6 @@ namespace QArte.Services.Services
         {
 
             var result = await _qArteDBContext.Invoices
-                    .Include(x => x.SettlementCycle)
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.ID == id)
@@ -84,16 +79,6 @@ namespace QArte.Services.Services
 
         }
 
-        public async Task<InvoiceDTO> GetInvoiceBySettlementCycleID(int id)
-        {
-            var result = await _qArteDBContext.Invoices
-                .Include(x => x.SettlementCycle)
-                .Include(x => x.BankAccount)
-                .Include(x => x.Fee)
-                .FirstOrDefaultAsync(x => x.SettlementCycleID == id)
-                ?? throw new ApplicationException("Not found");
-            return result.GetDTO();
-        }
 
         public async Task<bool> InvoiceExists(int id)
         {
@@ -124,7 +109,6 @@ namespace QArte.Services.Services
 
 
             var Invoice = await this._qArteDBContext.Invoices
-                                    .Include(x => x.SettlementCycle)
                                     .Include(x => x.BankAccount)
                                     .Include(x => x.Fee)
                                     .FirstOrDefaultAsync(x => x.ID == id)
@@ -142,7 +126,6 @@ namespace QArte.Services.Services
         public async Task<InvoiceDTO> DeleteAsync(int id)
         {
             var invoice = await this._qArteDBContext.Invoices
-                                    .Include(x => x.SettlementCycle)
                                     .Include(x => x.BankAccount)
                                     .Include(x => x.Fee)
                                     .FirstOrDefaultAsync(x => x.ID == id)

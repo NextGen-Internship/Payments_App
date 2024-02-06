@@ -10,9 +10,6 @@ namespace QArte.Persistance.PersistanceModels
 		public int BankAccountID { get; set; }
 		public virtual BankAccount BankAccount{ get; set; }
 
-		public int SettlementCycleID { get; set; }
-		public virtual SettlementCycle SettlementCycle { get; set; }
-
 		public int FeeID { get; set; }
 		public virtual Fee Fee { get; set; }
 		

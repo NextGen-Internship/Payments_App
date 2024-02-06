@@ -136,7 +136,7 @@ namespace QArte.Services.Services
 
         }
 
-        public async Task<Transfer> CreateTansferAsync(UserDTO user, int amount, string currency)
+        public async Task<Transfer> CreateTansferAsync(UserDTO user, long amount, string currency)
         {
 
             var balanceService = new BalanceService();

@@ -30,6 +30,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 
 			builder.HasIndex(e => e.RoleID, "IX_Artist_RoleID");
 
+            builder.HasIndex(e => e.SettlementCycleID, "IX_Artist_SettlementCycleID");
 
 
             builder.HasOne(a => a.Role)
@@ -37,7 +38,13 @@ namespace QArte.Persistance.PersistanceConfigurations
                 .HasForeignKey(c => c.RoleID);
 
 
-			builder.HasOne(e => e.BankAccount)
+            builder.HasOne(a => a.SettlementCycle)
+                .WithOne()
+                .HasForeignKey<User>(c => c.SettlementCycleID);
+
+
+
+            builder.HasOne(e => e.BankAccount)
 				.WithOne()
 				.HasForeignKey<User>(f => f.BankAccountID);
 

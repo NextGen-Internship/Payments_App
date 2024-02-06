@@ -18,12 +18,16 @@ namespace QArte.API.Controllers
         private readonly StripeService _stripeService;
         private readonly IUserService _userService;
         private readonly IFeeService _feeService;
+        private readonly IBankAccountService _bankAccountService;
+        private readonly ISettlementCycleService _settlementCycleService;
 
-        public StripeController(StripeService stripeService, IUserService userService, IFeeService feeService)
+        public StripeController(StripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
         {
             _stripeService = stripeService;
             _userService = userService;
             _feeService = feeService;
+            _bankAccountService = bankAccountService;
+            _settlementCycleService = settlementCycleService;
         }
 
 
@@ -119,19 +123,35 @@ namespace QArte.API.Controllers
 
                     var currency = session.Currency;
 
+                    var userToTransferMoneyTo = _userService.GetUserByID(userID);
 
-                    
-
+                    var userBankAccount = _bankAccountService.GetByIDAsync(userToTransferMoneyTo.Result.BankAccountID);
 
                     FeeDTO newFee = new FeeDTO()
                     {
                         ID = 0,
-                        Amount = amount.Value,
+                        Amount = 10,
                         Currency = currency,
                         ExchangeRate = 1.0,
                     };
 
-                    await _feeService.PostAsync(newFee);
+                    var newFeePosted = await _feeService.PostAsync(newFee);
+
+                    InvoiceDTO newInvoice = new InvoiceDTO()
+                    {
+                        ID = 0,
+                        TotalAmount = amount.Value * newFee.Amount / 100,
+                        InvoiceDate = DateTime.Today, //change
+                        BankAccountID = userBankAccount.Result.ID,
+                        FeeID = newFeePosted.ID
+                    };
+
+                    await _bankAccountService.AddInvoice(userBankAccount.Result.ID, newInvoice);
+
+
+                    await _stripeService.CreateTansferAsync(userToTransferMoneyTo.Result, newInvoice.TotalAmount, currency);
+
+                     
                 }
             }
             catch(Exception ex)

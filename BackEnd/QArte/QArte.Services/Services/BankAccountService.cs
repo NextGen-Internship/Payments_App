@@ -116,6 +116,21 @@ namespace QArte.Services.Services
 
         }
 
+        async Task<BankAccountDTO> IBankAccountService.AddInvoice(int BankAccID, InvoiceDTO obj)
+        {
+            var bankAccount = await _qArteDBContext.BankAccounts
+                            .Include(x => x.PaymentMethod)
+                            .Include(x => x.Invoices)
+                            .FirstOrDefaultAsync(x => x.ID == BankAccID)
+                        ?? throw new ApplicationException("Not found");
+
+            bankAccount.Invoices.Add(obj.GetEntity());
+            await _qArteDBContext.SaveChangesAsync();
+
+            return bankAccount.GetDTO();
+
+        }
+
         async Task<BankAccountDTO> ICRUDshared<BankAccountDTO>.UpdateAsync(int id, BankAccountDTO obj)
         {
             _ = await BankAccountExists(obj.ID, obj.IBAN)
