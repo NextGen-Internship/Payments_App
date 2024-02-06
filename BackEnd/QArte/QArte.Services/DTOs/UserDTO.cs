@@ -18,7 +18,7 @@ namespace QArte.Services.DTOs
         public string postalCode { get; set; }
         public bool isBanned { get; set; }
 		public int RoleID { get; set; }
-		public int? BankAccountID { get; set; }
+		public int BankAccountID { get; set; }
 
 		public List<PageDTO>? Pages { get; set; }
     }

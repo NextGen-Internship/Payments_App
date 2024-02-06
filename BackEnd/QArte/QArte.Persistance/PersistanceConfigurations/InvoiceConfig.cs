@@ -11,16 +11,21 @@ namespace QArte.Persistance.PersistanceConfigurations
         {
             builder.Property(e => e.InvoiceDate).IsRequired();
             builder.Property(e => e.TotalAmount).IsRequired();
-            builder.Property(e => e.UserID);
+            builder.Property(e => e.BankAccountID).IsRequired();
+            builder.Property(f => f.BankAccountID).IsRequired();
+            builder.Property(g => g.SettlementCycleID).IsRequired();
 
-            builder.HasIndex(b => b.UserID, "IX_Invoice_UserID");
+            builder.HasIndex(b => b.BankAccountID, "IX_Invoice_UserID");
             builder.HasIndex(b => b.SettlementCycleID, "IX_Invoice_SettlementCycleID");
+            builder.HasIndex(b => b.FeeID, "IX_Invoice_FeeID");
 
-            builder.HasOne(p => p.User)
+            builder.HasOne(p => p.BankAccount)
                 .WithMany(i => i.Invoices)
-                .HasForeignKey(j => j.UserID);
+                .HasForeignKey(j => j.BankAccountID);
 
-            builder.HasMany(v => v.Fees);
+            builder.HasOne(q => q.Fee)
+                .WithOne()
+                .HasForeignKey<Invoice>(r => r.FeeID);
 
             builder.HasOne(h => h.SettlementCycle)
                 .WithOne()

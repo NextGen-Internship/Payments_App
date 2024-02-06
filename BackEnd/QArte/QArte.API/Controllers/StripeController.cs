@@ -119,6 +119,10 @@ namespace QArte.API.Controllers
 
                     var currency = session.Currency;
 
+
+                    
+
+
                     FeeDTO newFee = new FeeDTO()
                     {
                         ID = 0,

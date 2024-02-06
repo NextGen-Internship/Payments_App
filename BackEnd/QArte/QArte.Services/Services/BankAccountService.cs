@@ -49,8 +49,6 @@ namespace QArte.Services.Services
                 {
                     ID = x.ID,
                     IBAN = x.IBAN,
-                    BeneficiaryName = x.BeneficiaryName,
-                    StripeInfo = x.StripeInfo,
                     PaymentMethodID = x.PaymentMethodID,
                     Invoices = x.Invoices.Select(y => new InvoiceDTO
                     {
@@ -59,28 +57,6 @@ namespace QArte.Services.Services
                         InvoiceDate = y.InvoiceDate
                     }).ToList()
                 }).ToListAsync();
-        }
-
-        async Task<IEnumerable<BankAccountDTO>> IBankAccountService.GetBankAccountsByBeneficiaryNameAsync(string BeneficiaryName)
-        {
-            return await _qArteDBContext.BankAccounts
-                .Include(x => x.PaymentMethod)
-                .Include(x => x.Invoices)
-                .Where(x=>x.BeneficiaryName.ToLower().Contains(BeneficiaryName.ToLower()))
-                .Select(x => new BankAccountDTO
-                {
-                    ID = x.ID,
-                    IBAN = x.IBAN,
-                    BeneficiaryName = x.BeneficiaryName,
-                    StripeInfo = x.StripeInfo,
-                    PaymentMethodID = x.PaymentMethodID,
-                    Invoices = x.Invoices.Select(y => new InvoiceDTO
-                    {
-                        ID = y.ID,
-                        TotalAmount = y.TotalAmount,
-                        InvoiceDate = y.InvoiceDate
-                    }).ToList()
-                }).ToListAsync();   
         }
 
         async Task<IEnumerable<BankAccountDTO>> IBankAccountService.GetBankAccountsByPaymentMethod(string ePaymentMethod)
@@ -95,8 +71,6 @@ namespace QArte.Services.Services
                 {
                     ID = x.ID,
                     IBAN = x.IBAN,
-                    BeneficiaryName = x.BeneficiaryName,
-                    StripeInfo = x.StripeInfo,
                     PaymentMethodID = x.PaymentMethodID,
                     Invoices = x.Invoices.Select(y => new InvoiceDTO
                     {
@@ -133,27 +107,13 @@ namespace QArte.Services.Services
             _ = await BankAccountExists(obj.ID, obj.IBAN)
                 == true ? throw new ApplicationException("Not found") : 0;
 
-            BankAccountDTO result = null;
 
-            var deletedBankAccount = await _qArteDBContext.BankAccounts
-                                            .Include(x => x.PaymentMethod)
-                                            .Include(x => x.Invoices)
-                                            .IgnoreQueryFilters()
-                                            .FirstOrDefaultAsync(x => x.IBAN == obj.IBAN && x.PaymentMethodID == obj.PaymentMethodID);
+
             var newBankAccount = obj.GetEntity();
-            if (deletedBankAccount == null)
-            {
-                await this._qArteDBContext.BankAccounts.AddAsync(newBankAccount);
-                await _qArteDBContext.SaveChangesAsync();
-                result = newBankAccount.GetDTO();
-            }
-            else
-            {
-                result = deletedBankAccount.GetDTO();
+            await this._qArteDBContext.BankAccounts.AddAsync(newBankAccount);
+            await this._qArteDBContext.SaveChangesAsync();
+            return newBankAccount.GetDTO();
 
-            }
-
-            return result;
         }
 
         async Task<BankAccountDTO> ICRUDshared<BankAccountDTO>.UpdateAsync(int id, BankAccountDTO obj)

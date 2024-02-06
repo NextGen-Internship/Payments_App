@@ -41,14 +41,14 @@ namespace QArte.Persistance.PersistanceModels
 
         public string? PictureUrl { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public int RoleID { get; set; }
         public virtual Role Role { get; set; }
 
-        public int? BankAccountID { get; set; }
+        public int BankAccountID { get; set; }
         public virtual BankAccount BankAccount { get; set; }
-        public ICollection<Page> Pages { get; set; }
+        public ICollection<Page>? Pages { get; set; }
 
 
 

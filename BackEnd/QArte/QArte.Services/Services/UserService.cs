@@ -209,7 +209,7 @@ namespace QArte.Services.Services
             if (deletedUser == null)
             {
                 await _qarteDBContext.Users.AddAsync(newUser);
-                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID.Value);
+                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
 
                 newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
                 await _qarteDBContext.SaveChangesAsync();
