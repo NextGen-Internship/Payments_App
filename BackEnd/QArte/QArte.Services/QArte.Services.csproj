@@ -11,6 +11,7 @@
     <None Remove="DTOMappers\" />
     <None Remove="Services\" />
     <None Remove="ServiceInterfaces\" />
+    <None Remove="Services\StripeService.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\" />

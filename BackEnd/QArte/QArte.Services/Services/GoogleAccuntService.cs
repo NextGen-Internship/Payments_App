@@ -1,4 +1,4 @@
-﻿//using System;
+//using System;
 //using QArte.Services.DTOs;
 //using System.Threading.Tasks;
 //using System.Collections.Generic;
@@ -12,8 +12,8 @@
 
 //namespace QArte.Services.Services
 //{
-//	public class GoogleAccuntService : IGoogleAccountService
-//	{
+//    public class GoogleAccuntService : IGoogleAccountService
+//    {
 //        private readonly QArteDBContext _qArteDBContext;
 
 //        public GoogleAccuntService(QArteDBContext qArteDBContext)
@@ -46,4 +46,5 @@
 //        }
 //    }
 //}
+
 

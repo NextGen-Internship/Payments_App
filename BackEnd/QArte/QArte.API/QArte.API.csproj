@@ -21,9 +21,11 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Stripe.net" Version="43.11.0" />
+
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.26" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.26" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.26" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +72,8 @@
     <None Remove="Queries\InvoiceQueries\" />
     <None Remove="Queries\PaymentMethodQueries\" />
     <None Remove="Queries\SettlementCycleQueries\" />
+    <None Remove="Queries\StripeQueries\" />
+    <None Remove="Handlers\StripeHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -106,5 +110,9 @@
     <Folder Include="Queries\InvoiceQueries\" />
     <Folder Include="Queries\PaymentMethodQueries\" />
     <Folder Include="Queries\SettlementCycleQueries\" />
+
+    <Folder Include="Queries\StripeQueries\" />
+    <Folder Include="Handlers\StripeHandlers\" />
+
   </ItemGroup>
 </Project>

@@ -69,6 +69,23 @@ namespace QArte.API.Controllers
 
         }
 
+        [HttpGet("GetStripeAccountByID/{id}")]
+        public async Task<ActionResult<string>> GetStripeAccountByID(int id)
+        {
+            var query = new GetStripeAccountByIDQuery(id);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
+        [HttpGet("GetCountryByID/{id}")]
+        public async Task<ActionResult<string>> GetCountryByID(int id)
+        {
+            var query = new GetCountryByIDQuery(id);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+
+        }
+
         [HttpGet("isUserBanned/{id}")]
         public async Task<ActionResult<bool>> GetIsBannedUserByID(int id)
         {
@@ -80,6 +97,7 @@ namespace QArte.API.Controllers
 
 
         [HttpPost]
+        [Route("PostUser")]
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] UserDTO obj)
         {
             var query = new PostUserCommand(obj);
@@ -104,6 +122,33 @@ namespace QArte.API.Controllers
             var request = await _mediatR.Send(query);
             return Ok(request);
         }
+
+
+
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login([FromBody] LoginDTO model)
+        //{
+        //    var user = await _userService.ValidateUserCredentials(model.Email, model.Password);
+        //    if(user != null)
+        //    {
+        //        var token = _token.GenerateToken(user);
+        //        return Ok(new { token = token });
+        //    }
+        //    return Unauthorized("Invalid credentials");
+        //}
+
+        //[HttpPost("google-login")]
+        //public async Task<IActionResult> GoogleLogin([FromBody]GoogleLoginDTO model)
+        //{
+        //    var validatedToken = await _googleAuthService.ValidateToken(model.Token);
+        //    if (validatedToken != null)
+        //    {
+        //        var user = await _userService.GetOrCreateUser(validatedToken.Email, validatedToken.Name);
+        //        var token = _tokenService.GenerateToken(user);
+        //        return Ok(new { token = token });
+        //    }
+        //    return Unauthorized("Invalid Google token");
+        //}
     }
 }
-
+ 

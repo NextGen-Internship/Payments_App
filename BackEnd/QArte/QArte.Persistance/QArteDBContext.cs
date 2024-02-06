@@ -27,7 +27,9 @@ namespace QArte.Persistance
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<SettlementCycle> SettlementCycles { get; set; }
         public virtual DbSet<Role> Role { get; set; }
+
         //public virtual DbSet<GoogleAccount> GoogleAccount { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

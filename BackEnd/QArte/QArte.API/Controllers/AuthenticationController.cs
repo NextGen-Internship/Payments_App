@@ -1,17 +1,17 @@
-﻿using System;
-using System.Text;
-using QArte.API.Handlers;
-using QArte.Services.Services;
-using QArte.Services.ServiceInterfaces;
-using Microsoft.AspNetCore.Mvc;
-using QArte.Services.DTOs;
-using QArte.Persistance.PersistanceModels;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using QArte.Persistance.PersistanceConfigurations;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
+﻿//using System;
+//using System.Text;
+//using QArte.API.Handlers;
+//using QArte.Services.Services;
+//using QArte.Services.ServiceInterfaces;
+//using Microsoft.AspNetCore.Mvc;
+//using QArte.Services.DTOs;
+//using QArte.Persistance.PersistanceModels;
+//using MediatR;
+//using Microsoft.AspNetCore.Identity;
+//using QArte.Persistance.PersistanceConfigurations;
+//using System.Security.Claims;
+//using System.IdentityModel.Tokens.Jwt;
+//using Microsoft.IdentityModel.Tokens;
 
 //namespace QArte.API.Controllers
 //{
@@ -23,6 +23,11 @@ using Microsoft.IdentityModel.Tokens;
 //		private readonly IAuthenticationService _auth;
 
 //		public AuthenticationController(IAuthenticationService auth)
+
+//		private readonly IAuthService _auth;
+
+//		public AuthenticationController(IAuthService auth)
+
 //		{
 //			_auth = auth;
 //		}

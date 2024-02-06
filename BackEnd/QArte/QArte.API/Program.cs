@@ -17,8 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -40,38 +40,53 @@ builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<QArte.Services.Services.StripeService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
+//builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(jwt =>
-{
-    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(jwt =>
+//{
+//    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
 
-    jwt.SaveToken = true;
-    jwt.TokenValidationParameters = new TokenValidationParameters()
+//    jwt.SaveToken = true;
+//    jwt.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(key),
+//        ValidateIssuer = false, // for dev
+//        ValidateAudience = false,//for dev
+//        RequireExpirationTime = false, //for dev - need to be updated when refresh token is added
+//        ValidateLifetime = true
+//    };
+//});
+
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+//            .AddEntityFrameworkStores<QArteDBContext>();
+
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("QarteApp", policyBuilder =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false, // for dev
-        ValidateAudience = false,//for dev
-        RequireExpirationTime = false, //for dev - need to be updated when refresh token is added
-        ValidateLifetime = true
-    };
+        policyBuilder.WithOrigins("https://localhost:7191", "https://localhost:5173");
+        policyBuilder.AllowAnyHeader();
+        policyBuilder.AllowAnyMethod();
+        policyBuilder.AllowCredentials();
+    });
 });
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddEntityFrameworkStores<QArteDBContext>();
-
 
 
 var app = builder.Build();
@@ -82,6 +97,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("QarteApp");
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 

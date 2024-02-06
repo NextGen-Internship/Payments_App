@@ -11,7 +11,12 @@ namespace QArte.Services.DTOs
 		public string Email { get; set; }
 		public string PictureURL { get; set; }
 		public string PhoneNumber { get; set; }
-		public bool isBanned { get; set; }
+        public string Country { get; set; }
+        public string StripeAccountID { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string postalCode { get; set; }
+        public bool isBanned { get; set; }
 		public int RoleID { get; set; }
 		public int? BankAccountID { get; set; }
 

@@ -24,7 +24,7 @@ namespace QArte.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PaymentMethodController : Controller
+    public class PaymentMethodController : ControllerBase
     {
         private readonly IPaymentMethodsService _paymentMethod;
         private readonly IMediator _mediatR;
@@ -65,7 +65,7 @@ namespace QArte.API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<PaymentMethodDTO>> PostInvoice([FromBody] PaymentMethodDTO obj)
+        public async Task<ActionResult<PaymentMethodDTO>> PostPaymentMethod([FromBody] PaymentMethodDTO obj)
         {
             var query = new PostPaymentMethodCommand(obj);
             var request = await _mediatR.Send(query);
