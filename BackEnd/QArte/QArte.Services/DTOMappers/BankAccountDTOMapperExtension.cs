@@ -19,20 +19,13 @@ namespace QArte.Services.DTOMappers
             List<InvoiceDTO> invoiceDTOs = new List<InvoiceDTO>();
             foreach (Invoice invoice in bankAccount.Invoices)
             {
-                List<FeeDTO> feeDTOs = new List<FeeDTO>();
-                foreach (Fee fee in invoice.Fees)
-                {
-                    feeDTOs.Add(new FeeDTO { ID = fee.ID, Amount = fee.Amount, Currency = fee.Currency, ExchangeRate = fee.ExchangeRate });
-                }
-
                 invoiceDTOs.Add(new InvoiceDTO
                 {
                     ID = invoice.ID,
                     TotalAmount = invoice.TotalAmount,
                     InvoiceDate = invoice.InvoiceDate,
-                    BankAccoundID = invoice.BankAccountID,
-                    SettlementCycleID = invoice.SettlementCycleID,
-                    Fees = feeDTOs
+                    BankAccountID = invoice.BankAccountID,
+                    FeeID = invoice.FeeID
                 });
             }
                 
@@ -41,8 +34,6 @@ namespace QArte.Services.DTOMappers
                 {
                     ID = bankAccount.ID,
                     IBAN = bankAccount.IBAN,
-                    BeneficiaryName = bankAccount.BeneficiaryName,
-                    StripeInfo = bankAccount.StripeInfo,
                     PaymentMethodID = bankAccount.PaymentMethodID,
                     Invoices = invoiceDTOs
                 };
@@ -61,24 +52,14 @@ namespace QArte.Services.DTOMappers
             { 
                 foreach (InvoiceDTO invoiceDTO in bankAccountDTO.Invoices)
                 {
-                    if (invoiceDTO.Fees == null)
-                    {
-                        break;
-                    }
-                    List<Fee> fees = new List<Fee>();
-                    foreach (FeeDTO feeDTO in invoiceDTO.Fees)
-                    {
-                        fees.Add(new Fee { ID = feeDTO.ID, Amount = feeDTO.Amount, Currency = feeDTO.Currency, ExchangeRate = feeDTO.ExchangeRate });
-                    }
 
                     invoices.Add(new Invoice
                     {
                         ID = invoiceDTO.ID,
                         TotalAmount = invoiceDTO.TotalAmount,
                         InvoiceDate = invoiceDTO.InvoiceDate,
-                        BankAccountID = invoiceDTO.BankAccoundID,
-                        SettlementCycleID = invoiceDTO.SettlementCycleID,
-                        Fees = fees
+                        BankAccountID = invoiceDTO.BankAccountID,
+                        FeeID = invoiceDTO.FeeID,
                     });
 
                 }
@@ -88,8 +69,6 @@ namespace QArte.Services.DTOMappers
             {
                 ID = bankAccountDTO.ID,
                 IBAN = bankAccountDTO.IBAN,
-                BeneficiaryName = bankAccountDTO.BeneficiaryName,
-                StripeInfo = bankAccountDTO.StripeInfo,
                 PaymentMethodID = bankAccountDTO.PaymentMethodID,
                 Invoices = invoices
             };

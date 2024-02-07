@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QArte.Services.DTOs;
 
 namespace QArte.Services.ServiceInterfaces
 {
@@ -10,6 +11,6 @@ namespace QArte.Services.ServiceInterfaces
 		Task<T> PostAsync(T obj);
 		Task<T> UpdateAsync(int id, T obj);
 		Task<T> DeleteAsync(int id);
-	}
+    }
 }
 

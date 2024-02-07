@@ -30,7 +30,7 @@ namespace QArte.API.Controllers
             var query = new GetUserAllQuery();
             var request = await _mediatR.Send(query);
             return Ok(request);
-        }
+        } 
 
 
         [HttpGet("GetUserByID/{id}")]
@@ -86,7 +86,7 @@ namespace QArte.API.Controllers
 
         }
 
-        [HttpGet("isUserBanned/{id}")]
+         [HttpGet("isUserBanned/{id}")]
         public async Task<ActionResult<bool>> GetIsBannedUserByID(int id)
         {
             var query = new GetIsBannedUserByIDQuery(id);

@@ -1,4 +1,6 @@
 ﻿using System;
+using QArte.Persistance.PersistanceModels;
+
 namespace QArte.Services.DTOs
 {
 	public class UserDTO
@@ -18,9 +20,11 @@ namespace QArte.Services.DTOs
         public string postalCode { get; set; }
         public bool isBanned { get; set; }
 		public int RoleID { get; set; }
-		public int? BankAccountID { get; set; }
+		public int BankAccountID { get; set; }
+        public int SettlementCycleID { get; set; }
 
-		public List<PageDTO>? Pages { get; set; }
+
+        public List<PageDTO>? Pages { get; set; }
     }
 }
 

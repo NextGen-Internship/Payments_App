@@ -57,17 +57,6 @@ namespace QArte.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetByBenificiaryName/{beneficiaryName}")]
-        public async Task<ActionResult<List<BankAccountDTO>>> GetByBeneficiaryNametMethod(string beneficiaryName)
-        {
-            var query = new GetBankAccountByBeneficiaryNameQuery(beneficiaryName);
-            var result = await _mediatR.Send(query);
-            return Ok(result);
-        }
-
-
-
-
 		[HttpPost]
 		public async Task<ActionResult<BankAccountDTO>> PostBankAccount([FromBody] BankAccountDTO obj)
 		{

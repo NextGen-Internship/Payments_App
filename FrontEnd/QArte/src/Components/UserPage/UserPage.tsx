@@ -159,7 +159,7 @@ const UserPage = ({user}:any) =>{
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
             </div>
-            <StripeCheckout></StripeCheckout>
+            <StripeCheckout userID = {User.id}></StripeCheckout>
         </div>
     );
 };

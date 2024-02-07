@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 ﻿using System;
 using QArte.Services.DTOs;
 using System.Threading.Tasks;
+=======
+﻿//using System;
+//using QArte.Services.DTOs;
+//using System.Threading.Tasks;
+>>>>>>> 85dd2fc86a83e60972d561bebebbd9172a42379a
 //using System.Collections.Generic;
 //using QArte.Persistance.Enums;
 //using QArte.Persistance;

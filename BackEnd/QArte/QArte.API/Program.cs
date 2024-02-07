@@ -52,7 +52,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("QarteApp", policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191");
+        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191", "http://localhost:5173");
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
         policyBuilder.AllowCredentials();
