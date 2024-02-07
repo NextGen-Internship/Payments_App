@@ -95,7 +95,6 @@ namespace QArte.API.Controllers
 
         }
 
-
         [HttpPost]
         [Route("PostUser")]
         public async Task<ActionResult<UserDTO>> PostUser([FromBody] UserDTO obj)
@@ -122,7 +121,6 @@ namespace QArte.API.Controllers
             var request = await _mediatR.Send(query);
             return Ok(request);
         }
-
 
 
         //[HttpPost("login")]

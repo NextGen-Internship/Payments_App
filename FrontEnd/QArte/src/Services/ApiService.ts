@@ -1,18 +1,35 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import ApiResponseDTO from '../Interfaces/DTOs/ApiResponseDTO';
 
 class ApiService {
     private baseUrl = import.meta.env.VITE_BASE_URL;
 
-    private async handleResponse(response: any) {
-        if (!response.data.succeed) {
-            throw new Error(response.data.errorMessage);
+    private async handleResponse(response: any):Promise<ApiResponseDTO> {
+        // console.log(response.status)
+        // if (response.status!=200) {
+        //     throw new Error(response.data.errorMessage);
+        // }
+        // return response.data;
+        
+        //creating new object
+        console.groupCollapsed(response.status);
+        const succeed = response.status == 200;
+        let message = '';
+        let data = null;
+
+        if(succeed){
+            data = response.data;
+            message = response.data.message || 'Success';
+        }else{
+            message = response.data.errorMessage || 'An error occurred';
         }
-        return response.data;
+        return { succeed, message, data };
     }
 
-    private async request<T>(config: AxiosRequestConfig): Promise<T> {
+    private async request<T>(config: AxiosRequestConfig): Promise<ApiResponseDTO> {
         try {
             const response = await axios(config);
+            console.log(response);
             return this.handleResponse(response);
         } catch (error: any) {
             console.error('API request error:', error);
@@ -20,14 +37,14 @@ class ApiService {
         }
     }
 
-    async get<T>(endpoint: string): Promise<T> {
+    async get<T>(endpoint: string): Promise<ApiResponseDTO> {
         return this.request<T>({
             method: 'get',
             url: `${this.baseUrl}/${endpoint}`,
         });
     }
 
-    async post<T>(endpoint: string, data: any): Promise<T> {
+    async post<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
         console.log(data);
         return this.request<T>({
             method: 'post',
@@ -44,7 +61,7 @@ class ApiService {
     //     });
     // }
 
-    async update<T>(endpoint: string, data: any): Promise<T> {
+    async update<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
         return this.request<T>({
             method: 'update',
             url: `${this.baseUrl}/${endpoint}`,

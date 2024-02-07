@@ -1,6 +1,5 @@
-//import * as React from "react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,60 +12,112 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import ApiService from "../../Services/ApiService";
+import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
+import UserService from "../../Services/UserService";
+import SignUpDTO from "../../Interfaces/DTOs/SignUpDTO";
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [IBAN, setIBAN] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const userService = new UserService(new ApiService());
+  const navigate = useNavigate();
   const validateEmail = (email: string): boolean => {
     const reg =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(String(email).toLowerCase());
   };
-
   const validatePassword = (password: string): boolean => {
     return password.length >= 8;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let isValid = true;
 
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
 
+    let isValid = true;
+
+    const isBanned = false;
+    const roleID = 1;
+    const bankAccountID = 4;
+    const stripeAccountID = "BG80BNBG96611020345678";
+    const id = 0;
+    const phoneNumber = "+359888940130";
+    const pictureURL = "";
+
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
       isValid = false;
     }
-
     if (!validatePassword(password)) {
       setPasswordError("Password must be at least 8 characters long");
       isValid = false;
     }
-
     if (password !== confirmPassword) {
       setConfirmPasswordError("Passwords do not match");
       isValid = false;
     }
-
     if (isValid) {
-      console.log("Form is valid, submit data:", {
-        email,
-        password,
-        // Add other fields as needed
-      });
-      // Handle form submission here
+      try {
+        const userData: SignUpDTO = {
+          id,
+          email,
+          password,
+          username,
+          firstName,
+          lastName,
+          address,
+          country,
+          city,
+          postalCode,
+          IBAN,
+          phoneNumber,
+          isBanned,
+          roleID,
+          bankAccountID,
+          stripeAccountID,
+          pictureURL,
+        };
+        console.log(userData);
+        // sends data to API and recieve response
+        const response: ApiResponseDTO = await userService.registerUser(
+          userData
+        );
+        console.log(response);
+
+        // checking the from Api response
+        if (response.succeed) {
+          console.log("Registration successful", response.message);
+          // collect the token
+          if (response.data?.token) {
+            localStorage.setItem("token", response.data.token);
+          }
+          navigate("/signin");
+        } else {
+          alert(`Registration failed: ${response.message}`);
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        alert("An error occurred during registration.");
+      }
     }
   };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -137,10 +188,11 @@ export default function SignUp() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="Username"
-              name="email"
-              autoComplete="email"
+              name="username"
+              autoComplete="username"
+              onChange={(e) => setUsername(e.target.value)}
             />
             {/* FisrtName */}
             <TextField
@@ -153,6 +205,7 @@ export default function SignUp() {
               id="firstName"
               autoComplete="given-name"
               aria-label="First Name"
+              onChange={(e) => setFirstName(e.target.value)}
             />
             {/* LastName */}
             <TextField
@@ -164,15 +217,17 @@ export default function SignUp() {
               type="text"
               id="lastName"
               autoComplete="family-name"
+              onChange={(e) => setLastName(e.target.value)}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="address"
               label="Address"
-              name="email"
-              autoComplete="email"
+              name="address"
+              autoComplete="address"
+              onChange={(e) => setAddress(e.target.value)}
             />
             {/* Country */}
             <TextField
@@ -183,6 +238,7 @@ export default function SignUp() {
               label="Country"
               name="country"
               autoComplete="country"
+              onChange={(e) => setCountry(e.target.value)}
             />
             {/* City */}
             <TextField
@@ -193,6 +249,7 @@ export default function SignUp() {
               label="City"
               name="city"
               autoComplete="city"
+              onChange={(e) => setCity(e.target.value)}
             />
             {/* PostalCode */}
             <TextField
@@ -203,15 +260,17 @@ export default function SignUp() {
               label="PostalCode"
               name="postalCode"
               autoComplete="postalCode"
+              onChange={(e) => setPostalCode(e.target.value)}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="postalCode"
+              id="iban"
               label="IBAN"
-              name="postalCode"
-              autoComplete="postalCode"
+              name="iban"
+              autoComplete="IBAN"
+              onChange={(e) => setIBAN(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="agree" color="primary" />}

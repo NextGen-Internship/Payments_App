@@ -9,20 +9,27 @@ class UserService{
     private LOGIN_WITH_GOOGLE_ENDPOINT = import.meta.env.VITE_LOGIN_WITH_GOOGLE_ENDPOINT;
     private SIGNIN_ENDPOINT = import.meta.env.VITE_SINGIN_ENDPOINT;
     private SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
+    private POSTBA_ENDPOINT= import.meta.env.VITE_POSTBA_ENDPOINT;
     private apiService: ApiService;
 
     constructor(apiService: ApiService) {
         this.apiService = apiService;
+        //console.log(import.meta.env);
+        
     }
-
-    async registerUser(data: SignUpDTO) : Promise<ApiResponseDTO> {
-        const formData = new FormData();
-        formData.append('firstName', data.firstName);
-        formData.append('lastName', data.lastName);
-        formData.append('email', data.email);
-        formData.append('password', data.password);
     
-        return this.apiService.post<ApiResponseDTO>(this.SIGNUP_ENDPOINT, formData);
+    async registerUser(data: SignUpDTO) : Promise<ApiResponseDTO> {
+        const response = await this.apiService.post<ApiResponseDTO>(this.SIGNUP_ENDPOINT, data) ;
+        response.data;
+        console.log(response);
+        return response;
+      }
+
+      async createBankAccount(data: <ApiResponseDTO>){
+        const response = await this.apiService.post<ApiResponseDTO>(this.POSTBA_ENDPOINT, data);
+        response.data;
+        console.log(response);
+        return response;
       }
     
       async loginUser(data: SignInDTO): Promise<ApiResponseDTO> {
