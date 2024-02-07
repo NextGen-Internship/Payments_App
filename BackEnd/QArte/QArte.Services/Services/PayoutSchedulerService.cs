@@ -26,7 +26,7 @@ namespace QArte.Services.Services
 
         private void HandleMonday()
         {
-            
+            var users = _userService.GetAsync();
         }
 
         private void HandleFirstDayOfMonth()

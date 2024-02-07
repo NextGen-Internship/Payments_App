@@ -12,7 +12,7 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArteDBContext))]
-    [Migration("20240207081356_MyMigration")]
+    [Migration("20240207134217_MyMigration")]
     partial class MyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -216,8 +216,8 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<DateTime>("DatePeriod")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SettlementCycles")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 

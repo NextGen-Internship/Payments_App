@@ -214,8 +214,8 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<DateTime>("DatePeriod")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SettlementCycles")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 

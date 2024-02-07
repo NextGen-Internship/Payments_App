@@ -6,6 +6,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using Stripe;
 
 namespace QArte.Services.Services
 {
@@ -81,6 +82,46 @@ namespace QArte.Services.Services
                         QRLink = y.QRLink
                     }).ToList()
                 }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle)
+        { 
+            Enum.TryParse(typeof(ESettlementCycles), settlementCycle, out var parsedSettlementCycle);
+            return await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .Where(x=>x.SettlementCycle.SettlementCycles == (ESettlementCycles)parsedSettlementCycle)
+                .Select(y => new UserDTO
+                {
+                    ID = y.ID,
+                    FirstName = y.FirstName,
+                    LastName = y.LastName,
+                    Username = y.UserName,
+                    Password = y.Password,
+                    Email = y.Email,
+                    PictureURL = y.PictureUrl,
+                    PhoneNumber = y.PhoneNumber,
+                    isBanned = y.isBanned,
+                    RoleID = y.RoleID,
+                    BankAccountID = y.BankAccountID,
+                    Country = y.Country,
+                    StripeAccountID = y.StripeAccountID,
+                    City = y.City,
+                    postalCode = y.PostalCode,
+                    Address = y.address,
+                    SettlementCycleID = y.SettlementCycleID,
+                    Pages = y.Pages.Select(y => new PageDTO
+                    {
+                        ID = y.ID,
+                        Bio = y.Bio,
+                        GalleryID = y.GalleryID,
+                        UserID = y.UserID,
+                        QRLink = y.QRLink
+                    }).ToList()
+                }).ToListAsync();
+
         }
 
         public async Task<string> GetEmailByID(int id)
@@ -224,7 +265,7 @@ namespace QArte.Services.Services
                 await _qarteDBContext.Users.AddAsync(newUser);
                 BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
 
-                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
                 await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }

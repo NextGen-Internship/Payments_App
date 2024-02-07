@@ -30,8 +30,7 @@ namespace QArte.API.Controllers
             var query = new GetUserAllQuery();
             var request = await _mediatR.Send(query);
             return Ok(request);
-        } 
-
+        }
 
         [HttpGet("GetUserByID/{id}")]
         public async Task<ActionResult<UserDTO>> GetUserByID(int id)
@@ -50,6 +49,16 @@ namespace QArte.API.Controllers
             return Ok(request);
 
         }
+
+
+        [HttpGet("GetUsersBySettlementCycle/{settlementCycle}")]
+        public async Task<ActionResult<string>> GetUsersBySettlementCycle(string settlementCycle)
+        {
+            var query = new GetUsersBySettlementCycleQuery(settlementCycle);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
 
         [HttpGet("GetUsernameByID/{id}")]
         public async Task<ActionResult<string>> GetUserNameByID(int id)

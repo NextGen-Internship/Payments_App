@@ -71,7 +71,7 @@ app.Services.UseScheduler(scheduler => {
         .Schedule<PayoutSchedulerService>()
         .DailyAt(8, 0)
         .Zoned(TimeZoneInfo.Local);
-});
+}); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -79,6 +79,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseRouting();
 
 app.UseCors("QarteApp");
@@ -88,6 +89,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+ 
 app.Run();
 
