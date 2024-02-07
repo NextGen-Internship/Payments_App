@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QArte.Services.ServiceInterfaces
 {
-    public interface ITokenService : IService
+    public interface ITokenService
     {
         string GenerateJwtToken(User user);
     }

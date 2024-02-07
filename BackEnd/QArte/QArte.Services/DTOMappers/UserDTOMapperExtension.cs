@@ -30,7 +30,9 @@ namespace QArte.Services.DTOMappers
                 StripeAccountID = user.StripeAccountID,
                 City = user.City,
                 Address = user.address,
-                postalCode = user.PostalCode
+                postalCode = user.PostalCode,
+                SettlementCycleID = user.SettlementCycleID
+                
             };
         }
 
@@ -59,6 +61,7 @@ namespace QArte.Services.DTOMappers
                 City = userDTO.City,
                 address = userDTO.Address,
                 PostalCode = userDTO.postalCode,
+                SettlementCycleID = userDTO.SettlementCycleID
             };
         }
     }

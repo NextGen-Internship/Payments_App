@@ -34,6 +34,7 @@ namespace QArte.Services.Services
                  .Include(x=>x.BankAccount)
                  .Include(x=>x.Role)
                  .Include(x=>x.Pages)
+                 .Include(x=>x.SettlementCycle)
                  .FirstOrDefaultAsync(x => x.ID == id)
                   ?? throw new ApplicationException("Not found");
 
@@ -51,6 +52,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
                 .Select(y => new UserDTO
                 {
                     ID = y.ID,
@@ -69,6 +71,7 @@ namespace QArte.Services.Services
                     City = y.City,
                     postalCode = y.PostalCode,
                     Address = y.address,
+                    SettlementCycleID = y.SettlementCycleID,
                     Pages = y.Pages.Select( y=> new PageDTO
                     {
                         ID = y.ID,
@@ -86,6 +89,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x=>x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -98,6 +102,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -110,6 +115,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -124,6 +130,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.BankAccount)
                 .Include(x=>x.Role)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -136,6 +143,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -148,6 +156,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .Where(x => x.RoleID == id)
                 .Select(y => new UserDTO
                 {
@@ -167,6 +176,7 @@ namespace QArte.Services.Services
                     City = y.City,
                     Address = y.address,
                     postalCode = y.PostalCode,
+                    SettlementCycleID = y.SettlementCycleID,
                     Pages = y.Pages.Select(y => new PageDTO
                     {
                         ID = y.ID,
@@ -184,6 +194,7 @@ namespace QArte.Services.Services
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -196,18 +207,22 @@ namespace QArte.Services.Services
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.isBanned == obj.isBanned && x.BankAccountID == obj.BankAccountID
                 && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
                 x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
                 && x.RoleID == obj.RoleID && x.StripeAccountID == obj.StripeAccountID && x.Country == obj.Country
-                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode);
+                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode
+                && x.SettlementCycleID == obj.SettlementCycleID);
 
             var newUser = obj.GetEnity();
+
+            newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
             if (deletedUser == null)
             {
                 await _qarteDBContext.Users.AddAsync(newUser);
-                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID.Value);
+                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
 
                 newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
                 await _qarteDBContext.SaveChangesAsync();
@@ -228,6 +243,7 @@ namespace QArte.Services.Services
                 .Include(x => x.Role)
                 .Include(x => x.BankAccount)
                 .Include(x=>x.Pages)
+                .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
@@ -245,6 +261,7 @@ namespace QArte.Services.Services
             user.address = obj.Address;
             user.City = obj.City;
             user.PostalCode = obj.postalCode;
+            user.SettlementCycleID = obj.SettlementCycleID;
 
             await _qarteDBContext.SaveChangesAsync();
 

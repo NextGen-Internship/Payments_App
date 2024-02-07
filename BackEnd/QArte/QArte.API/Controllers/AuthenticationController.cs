@@ -22,7 +22,6 @@ namespace QArte.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-
         public async Task<IActionResult> Login(Login loginUser)
         {
             try
@@ -39,7 +38,6 @@ namespace QArte.API.Controllers
         }
 
         [HttpPost("google-login")]
-
         public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogle googleLogin)
         {
             try
