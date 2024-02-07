@@ -140,7 +140,7 @@ namespace QArte.API.Controllers
                     InvoiceDTO newInvoice = new InvoiceDTO()
                     {
                         ID = 0,
-                        TotalAmount = amount.Value * newFee.Amount / 100,
+                        TotalAmount = amount.Value - (amount.Value * newFee.Amount / 100),
                         InvoiceDate = DateTime.Today, //change
                         BankAccountID = userBankAccount.Result.ID,
                         FeeID = newFeePosted.ID

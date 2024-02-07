@@ -54,7 +54,9 @@ namespace QArte.Services.Services
                     {
                         ID = y.ID,
                         TotalAmount = y.TotalAmount,
-                        InvoiceDate = y.InvoiceDate
+                        InvoiceDate = y.InvoiceDate,
+                        FeeID = y.FeeID,
+                        BankAccountID = y.BankAccountID
                     }).ToList()
                 }).ToListAsync();
         }

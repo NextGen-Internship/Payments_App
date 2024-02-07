@@ -100,28 +100,15 @@ namespace QArte.Persistance.Migrations
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SettlementCycleID")
-                        .HasColumnType("int");
-
                     b.Property<long>("TotalAmount")
                         .HasColumnType("bigint");
-
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("FeeID")
                         .IsUnique();
 
-                    b.HasIndex("SettlementCycleID")
-                        .IsUnique();
-
-                    b.HasIndex("UserID");
-
                     b.HasIndex(new[] { "FeeID" }, "IX_Invoice_FeeID");
-
-                    b.HasIndex(new[] { "SettlementCycleID" }, "IX_Invoice_SettlementCycleID");
 
                     b.HasIndex(new[] { "BankAccountID" }, "IX_Invoice_UserID");
 
@@ -286,6 +273,9 @@ namespace QArte.Persistance.Migrations
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
 
+                    b.Property<int>("SettlementCycleID")
+                        .HasColumnType("int");
+
                     b.Property<string>("StripeAccountID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -310,12 +300,17 @@ namespace QArte.Persistance.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("SettlementCycleID")
+                        .IsUnique();
+
                     b.HasIndex("UserName")
                         .IsUnique();
 
                     b.HasIndex(new[] { "BankAccountID" }, "IX_Artist_BankAccountID");
 
                     b.HasIndex(new[] { "RoleID" }, "IX_Artist_RoleID");
+
+                    b.HasIndex(new[] { "SettlementCycleID" }, "IX_Artist_SettlementCycleID");
 
                     b.ToTable("Users");
                 });
@@ -345,21 +340,9 @@ namespace QArte.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QArte.Persistance.PersistanceModels.SettlementCycle", "SettlementCycle")
-                        .WithOne()
-                        .HasForeignKey("QArte.Persistance.PersistanceModels.Invoice", "SettlementCycleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QArte.Persistance.PersistanceModels.User", null)
-                        .WithMany("Invoices")
-                        .HasForeignKey("UserID");
-
                     b.Navigation("BankAccount");
 
                     b.Navigation("Fee");
-
-                    b.Navigation("SettlementCycle");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.Page", b =>
@@ -406,9 +389,17 @@ namespace QArte.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("QArte.Persistance.PersistanceModels.SettlementCycle", "SettlementCycle")
+                        .WithOne()
+                        .HasForeignKey("QArte.Persistance.PersistanceModels.User", "SettlementCycleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BankAccount");
 
                     b.Navigation("Role");
+
+                    b.Navigation("SettlementCycle");
                 });
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.BankAccount", b =>
@@ -428,8 +419,6 @@ namespace QArte.Persistance.Migrations
 
             modelBuilder.Entity("QArte.Persistance.PersistanceModels.User", b =>
                 {
-                    b.Navigation("Invoices");
-
                     b.Navigation("Pages");
                 });
 #pragma warning restore 612, 618
