@@ -9,7 +9,6 @@
     <None Remove="PersistanceModels\" />
     <None Remove="PersistanceConfigurations\" />
     <None Remove="Enums\" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PersistanceModels\" />
