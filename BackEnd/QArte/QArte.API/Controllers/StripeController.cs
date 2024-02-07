@@ -103,7 +103,7 @@ namespace QArte.API.Controllers
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            const string secret = "whsec_b30a7f6c8cec8ac6e15fcea10853be0a4cf663ecc3b638827bca61a73aafbd86";
+            const string secret = ""; // add webhook secret
 
             try
             {
