@@ -7,12 +7,13 @@ using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
 using Stripe;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
@@ -41,6 +42,7 @@ builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
 
+//builder.Services.AddSingleton<IAmazonData, AmazonData>();
 
 builder.Services.AddMediatR(typeof(Program));
 
