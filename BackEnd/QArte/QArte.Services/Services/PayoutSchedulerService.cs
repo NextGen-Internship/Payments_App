@@ -26,7 +26,7 @@ namespace QArte.Services.Services
 
         private void HandleMonday()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void HandleFirstDayOfMonth()

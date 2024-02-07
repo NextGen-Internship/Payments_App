@@ -35,15 +35,6 @@ namespace QArte.API.Controllers
         }
 
         //..
-        [HttpGet("GetByBankAccountID/{id}")]
-        public async Task<ActionResult<List<PaymentMethodDTO>>> GetByDate(DateTime date)
-        {
-            var query = new GetSettlementCycleByDateQuery(date);
-            var result = await _mediatR.Send(query);
-            return Ok(result);
-        }
-
-        //..
         [HttpGet("GetByFeeID/{feeId}")]
         public async Task<ActionResult<PaymentMethodDTO>> GetByID(int id)
         {
@@ -51,17 +42,6 @@ namespace QArte.API.Controllers
             var result = await _mediatR.Send(query);
             return Ok(result);
         }
-
-
-        //
-        [HttpGet("GetByID/{id}")]
-        public async Task<ActionResult<List<PaymentMethodDTO>>> GetBeforeDate(DateTime date)
-        {
-            var query = new GetSettlementCycleBeforeDateQuery(date);
-            var result = await _mediatR.Send(query);
-            return Ok(result);
-        }
-
 
         [HttpPost]
         public async Task<ActionResult<SettlementCycleDTO>> PostSettlementCycle([FromBody] SettlementCycleDTO obj)
