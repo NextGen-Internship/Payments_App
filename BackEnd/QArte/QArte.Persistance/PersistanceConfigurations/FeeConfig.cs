@@ -13,8 +13,6 @@ namespace QArte.Persistance.PersistanceConfigurations
 
             builder.Property(e => e.Amount).IsRequired();
 
-
-
         }
     }
 }

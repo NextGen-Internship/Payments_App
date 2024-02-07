@@ -10,6 +10,21 @@ namespace QArte.Persistance.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Fees",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<long>(type: "bigint", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExchangeRate = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fees", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Galleries",
                 columns: table => new
                 {
@@ -87,8 +102,6 @@ namespace QArte.Persistance.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IBAN = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BeneficiaryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StripeInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PaymentMethodID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -108,10 +121,10 @@ namespace QArte.Persistance.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalAmount = table.Column<long>(type: "bigint", nullable: false),
                     InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BankAccountID = table.Column<int>(type: "int", nullable: false),
-                    SettlementCycleID = table.Column<int>(type: "int", nullable: false)
+                    FeeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,9 +136,9 @@ namespace QArte.Persistance.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Invoices_SettlementCycles_SettlementCycleID",
-                        column: x => x.SettlementCycleID,
-                        principalTable: "SettlementCycles",
+                        name: "FK_Invoices_Fees_FeeID",
+                        column: x => x.FeeID,
+                        principalTable: "Fees",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -148,9 +161,10 @@ namespace QArte.Persistance.Migrations
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleID = table.Column<int>(type: "int", nullable: false),
-                    BankAccountID = table.Column<int>(type: "int", nullable: false)
+                    BankAccountID = table.Column<int>(type: "int", nullable: false),
+                    SettlementCycleID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,27 +181,12 @@ namespace QArte.Persistance.Migrations
                         principalTable: "Role",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fees",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InvoiceID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fees", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Fees_Invoices_InvoiceID",
-                        column: x => x.InvoiceID,
-                        principalTable: "Invoices",
-                        principalColumn: "ID");
+                        name: "FK_Users_SettlementCycles_SettlementCycleID",
+                        column: x => x.SettlementCycleID,
+                        principalTable: "SettlementCycles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,24 +229,19 @@ namespace QArte.Persistance.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fees_InvoiceID",
-                table: "Fees",
-                column: "InvoiceID");
+                name: "IX_Invoice_FeeID",
+                table: "Invoices",
+                column: "FeeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_BankAccountID",
+                name: "IX_Invoice_UserID",
                 table: "Invoices",
                 column: "BankAccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_SettlementCycleID",
+                name: "IX_Invoices_FeeID",
                 table: "Invoices",
-                column: "SettlementCycleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_SettlementCycleID",
-                table: "Invoices",
-                column: "SettlementCycleID",
+                column: "FeeID",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -288,6 +282,11 @@ namespace QArte.Persistance.Migrations
                 column: "RoleID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Artist_SettlementCycleID",
+                table: "Users",
+                column: "SettlementCycleID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_BankAccountID",
                 table: "Users",
                 column: "BankAccountID",
@@ -300,6 +299,12 @@ namespace QArte.Persistance.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_SettlementCycleID",
+                table: "Users",
+                column: "SettlementCycleID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
                 table: "Users",
                 column: "UserName",
@@ -309,7 +314,7 @@ namespace QArte.Persistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Fees");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Pages");
@@ -318,7 +323,7 @@ namespace QArte.Persistance.Migrations
                 name: "Pictures");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Fees");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -327,13 +332,13 @@ namespace QArte.Persistance.Migrations
                 name: "Galleries");
 
             migrationBuilder.DropTable(
-                name: "SettlementCycles");
-
-            migrationBuilder.DropTable(
                 name: "BankAccounts");
 
             migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "SettlementCycles");
 
             migrationBuilder.DropTable(
                 name: "PaymentMethods");

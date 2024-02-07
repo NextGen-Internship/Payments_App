@@ -11,8 +11,6 @@ namespace QArte.Persistance.PersistanceConfigurations
         {
             builder.HasIndex(e => e.PaymentMethodID, "IX_BankAccount_PaymentMethodID");
 
-            builder.Property(e => e.BeneficiaryName).IsRequired();
-
             builder.Property(e => e.PaymentMethodID).IsRequired();
 
             builder.Property(s => s.IBAN).IsRequired();

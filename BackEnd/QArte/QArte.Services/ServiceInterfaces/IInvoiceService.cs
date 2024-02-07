@@ -10,7 +10,6 @@ namespace QArte.Services.ServiceInterfaces
     {
         Task<InvoiceDTO> GetInvoiceByID(int id);
         Task<InvoiceDTO> GetInvoiceByBankAccountID(int id);
-        Task<InvoiceDTO> GetInvoiceBySettlementCycleID(int id);
         Task<InvoiceDTO> GetInvoiceByFeeID(int id);
     }
 }
