@@ -8,7 +8,7 @@ namespace QArte.Services.DTOs
 		public string IBAN { get; set; }
 		public int PaymentMethodID { get; set; }
 
-		public List<InvoiceDTO>? Invoices { get; set; } = new List<InvoiceDTO>();
+		public List<InvoiceDTO>? Invoices = new List<InvoiceDTO>();
 	}
 }
 

@@ -15,6 +15,7 @@ namespace QArte.Services.DTOs
 		public string PhoneNumber { get; set; }
         public string Country { get; set; }
         public string StripeAccountID { get; set; }
+		public string IBAN { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string postalCode { get; set; }
