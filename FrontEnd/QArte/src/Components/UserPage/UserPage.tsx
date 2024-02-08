@@ -149,7 +149,7 @@ const UserPage = ({user}:any) =>{
 
     return(
         <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
@@ -159,7 +159,6 @@ const UserPage = ({user}:any) =>{
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
             </div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>Donate</button>
             <StripeCheckout userID = {User.id}></StripeCheckout>
         </div>
     );

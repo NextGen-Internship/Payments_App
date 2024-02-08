@@ -8,6 +8,7 @@ using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using Stripe;
 
+
 namespace QArte.Services.Services
 {
 	public class UserService : IUserService
@@ -16,12 +17,14 @@ namespace QArte.Services.Services
         private readonly QArteDBContext _qarteDBContext;
         private readonly StripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
+        private readonly IRoleService _roleService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService)
+        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
             _bankAccountService = bankAccountService;
+            _roleService = roleService;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -244,6 +247,14 @@ namespace QArte.Services.Services
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
+            BankAccountDTO bankAccountDTO = new BankAccountDTO
+            {
+                IBAN = obj.IBAN,
+                ID = 0,
+                PaymentMethodID = 1
+            };
+            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = ERoles.Artist };
+            
 
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -260,12 +271,21 @@ namespace QArte.Services.Services
 
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
+
+
             if (deletedUser == null)
             {
+                BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
+                RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+                newUser.BankAccount = bankHolder.GetEntity();
+                newUser.BankAccountID = bankHolder.ID;
+                newUser.Role = roleHolder.GetEnity();
+                newUser.RoleID = roleHolder.ID;
                 await _qarteDBContext.Users.AddAsync(newUser);
+                
                 BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
 
-                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
                 await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }

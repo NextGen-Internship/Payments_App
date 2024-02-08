@@ -7,14 +7,13 @@ using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
 using Stripe;
-using Coravel;
-using Coravel.Scheduling.Schedule.Interfaces;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
@@ -29,7 +28,7 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-
+builder.Services.AddSingleton<QArte.Services.Services.AmazonData>();
 builder.Services.AddTransient<IBankAccountService, QArte.Services.Services.BankAccountService>();
 builder.Services.AddTransient<IFeeService, QArte.Services.Services.FeeService>();
 builder.Services.AddTransient<IGalleryService, QArte.Services.Services.GalleryService>();
@@ -43,6 +42,7 @@ builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
 //builder.Services.AddTransient<QArte.Services.Services.PayoutSchedulerService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 
