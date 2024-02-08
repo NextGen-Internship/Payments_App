@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using QArte.Persistance.PersistanceModels;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace QArte.Persistance.PersistanceModels
 {
-	public class User 
+    public class User 
 	{
 
 		public int ID { get; set; }

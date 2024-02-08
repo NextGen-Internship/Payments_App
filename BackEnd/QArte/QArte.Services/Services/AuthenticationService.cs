@@ -57,7 +57,7 @@ namespace QArte.Services.Services
             user.FirstName = registerUser.FirstName;
             user.LastName = registerUser.LastName;
             user.Email = registerUser.Email;
-            
+            user.UserName = registerUser.Username;
             
             var token = _tokenService.GenerateJwtToken(user);
             //CreateAsync creates new account and hash the password

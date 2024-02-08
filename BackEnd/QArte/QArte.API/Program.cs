@@ -11,9 +11,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Add services to the container.
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
@@ -43,6 +47,7 @@ builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
 builder.Services.AddTransient< QArte.Services.Services.TokenService>();
 
+//builder.Services.AddSingleton<IAmazonData, AmazonData>();
 
 builder.Services.AddMediatR(typeof(Program));
 
