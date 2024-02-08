@@ -11,6 +11,7 @@ using Amazon.S3.Model;
 using Amazon;
 using System.Net;
 using System.Net.Mail;
+using System.IO;
 
 namespace QArte.Services.Services
 {
@@ -29,7 +30,7 @@ namespace QArte.Services.Services
             string path = location + pageID;
             string qrPath = path + "/" + "QR.png";
             string logoPath = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/QArte_B.png";
-
+            string dummy = qrPath;
 
             if (!Directory.Exists(path))
             {
@@ -60,9 +61,10 @@ namespace QArte.Services.Services
 
             using var image = surfice.Snapshot();
             using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite(qrPath);
+            using Stream stream = File.Create(qrPath);
             data.SaveTo(stream);
-            SendMail(qrPath);
+            stream.Dispose();
+            SendMail(dummy);
 
             return path;
 
@@ -71,21 +73,28 @@ namespace QArte.Services.Services
         public void SendMail(string image)
         {
             //send the image to mail
+            string senderEmail = "martin.kolev@blankfactor.com";
+            string senderPassword = "mjas tmmk ufnh svdb";
+            string recipientEmail = "ema.kyuchukova@blankfactor.com";
+            string imageFilePath = image;
+
             MailMessage mail = new MailMessage();
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-            mail.From = new MailAddress("martin.kolev.dev@gmail.com");
-            mail.To.Add("martin.kolev.dev@gmail.com");
-            mail.Subject = "Test Mail";
-            mail.Body = "mail with attachment";
 
-            Attachment attachment;
-            attachment = new Attachment(image);
+            mail.From = new MailAddress(senderEmail);
+            mail.To.Add(recipientEmail);
+            mail.Subject = "Test Mail";
+            mail.Body = "Mail with attachment";
+
+            Attachment attachment = new Attachment(imageFilePath);
             mail.Attachments.Add(attachment);
 
             smtpClient.Port = 587;
-            smtpClient.Credentials = new NetworkCredential("martin.kolev.dev@gmail.com","AnIv1AI5O7!");
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
             smtpClient.EnableSsl = true;
+    
             smtpClient.Send(mail);
+
 
         }
 
