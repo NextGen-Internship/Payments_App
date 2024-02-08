@@ -18,13 +18,18 @@ namespace QArte.Services.Services
         private readonly StripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
+        private readonly IPaymentMethodsService _paymentMethodsService;
+        private readonly ISettlementCycleService _settlementCycleService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService)
+
+        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
             _bankAccountService = bankAccountService;
             _roleService = roleService;
+            _paymentMethodsService = paymentMethodsService;
+            _settlementCycleService = settlementCycleService;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -42,10 +47,20 @@ namespace QArte.Services.Services
                  .FirstOrDefaultAsync(x => x.ID == id)
                   ?? throw new ApplicationException("Not found");
 
+
+            int bankAc = user.BankAccountID;
+
             _stripeService.DeleteSubAccount(user);
 
             _qarteDBContext.Users.Remove(user);
+
             await _qarteDBContext.SaveChangesAsync();
+
+            await _bankAccountService.DeleteAsync(user.BankAccountID);
+
+            await _roleService.DeleteAsync(user.RoleID);
+
+            await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
 
             return user.GetDTO();
         }
@@ -247,14 +262,34 @@ namespace QArte.Services.Services
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
+            PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO
+            {
+                ID = 0,
+                paymentName = obj.paymentMethodsEnum,
+            };
+
+            PaymentMethodDTO paymentMethodHolder = await _paymentMethodsService.PostAsync(paymentMethodDTO);
+
             BankAccountDTO bankAccountDTO = new BankAccountDTO
             {
-                IBAN = obj.IBAN,
                 ID = 0,
-                PaymentMethodID = 1
+                IBAN = obj.IBAN,
+                PaymentMethodID = paymentMethodHolder.ID
             };
-            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = ERoles.Artist };
-            
+
+            BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
+
+            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = obj.roleEnum };
+
+            RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+
+            SettlementCycleDTO settlementCycle = new SettlementCycleDTO
+            {
+                ID = 0,
+                SettlementCycles = obj.SettlementCycleEnum,
+            };
+
+            SettlementCycleDTO settlementCycleHolder = await _settlementCycleService.PostAsync(settlementCycle);
 
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -264,28 +299,21 @@ namespace QArte.Services.Services
                 && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
                 x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
                 && x.RoleID == obj.RoleID && x.StripeAccountID == obj.StripeAccountID && x.Country == obj.Country
-                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode
-                && x.SettlementCycleID == obj.SettlementCycleID);
+                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode);
 
             var newUser = obj.GetEnity();
 
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
-
-
             if (deletedUser == null)
-            {
-                BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
-                RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
-                newUser.BankAccount = bankHolder.GetEntity();
+            { 
                 newUser.BankAccountID = bankHolder.ID;
-                newUser.Role = roleHolder.GetEnity();
                 newUser.RoleID = roleHolder.ID;
+                newUser.SettlementCycleID = settlementCycleHolder.ID;
+
                 await _qarteDBContext.Users.AddAsync(newUser);
                 
-                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
-
-                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankHolder);
                 await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }

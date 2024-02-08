@@ -98,8 +98,8 @@ namespace QArte.API.Controllers
         }
 
 
-        [HttpPost("stripe-webhook")]
-        public async Task<IActionResult> StripeWebhook()
+        [HttpPost("stripe-payment-webhook")]
+        public async Task<IActionResult> StripePaymentWebhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
@@ -161,6 +161,17 @@ namespace QArte.API.Controllers
 
 
             return Ok();
+        }
+
+
+        [HttpPost("stripe-payout-webhook")]
+        public async Task<IActionResult> StripePayoutWebhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            const string secret = ""; // add webhook secret
+
+
         }
     }
 }

@@ -82,7 +82,7 @@ namespace QArte.Services.Services
             PutObjectRequest objectRequest = new PutObjectRequest()
             {
                 BucketName = _amazonData.BucketName,
-                Key = $"{userID}"+"\\/"+$"{pageID}-{pageID}" + "QR.png",
+                Key = $"Users\\/{userID}\\/{pageID}\\/{userID}_{pageID}_QR.png",
                 InputStream = data.AsStream()
             };
             await client.PutObjectAsync(objectRequest);

@@ -63,7 +63,6 @@ namespace QArte.Services.Services
         public async Task<SettlementCycleDTO> DeleteAsync(int id)
         {
             var settlementCycle = await _qArteDBContext.SettlementCycles
-                        .Include(x => x.SettlementCycles)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new ApplicationException("Not found");
 

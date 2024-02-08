@@ -41,12 +41,10 @@ builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.S
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
-//builder.Services.AddTransient<QArte.Services.Services.PayoutSchedulerService>();
 
 
 builder.Services.AddMediatR(typeof(Program));
 
-builder.Services.AddScheduler();
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
@@ -65,13 +63,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
-app.Services.UseScheduler(scheduler => {
-    scheduler
-        .Schedule<PayoutSchedulerService>()
-        .DailyAt(8, 0)
-        .Zoned(TimeZoneInfo.Local);
-}); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

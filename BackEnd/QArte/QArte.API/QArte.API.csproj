@@ -20,7 +20,6 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Stripe.net" Version="43.11.0" />
-    <PackageReference Include="Coravel" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
