@@ -21,8 +21,26 @@ namespace QArte.API.Controllers
         }
 
         [HttpPost]
+        [Route("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromForm] RegisterDTO registerUser)
+        {
+            try
+            {
+                var response = await _authenticationService.Register(registerUser);
+
+                return response.Succeed == true ? Ok(response) : BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
+        [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(Login loginUser)
+        public async Task<IActionResult> Login(LoginDTO loginUser)
         {
             try
             {
@@ -38,7 +56,7 @@ namespace QArte.API.Controllers
         }
 
         [HttpPost("google-login")]
-        public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogle googleLogin)
+        public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogleDTO googleLogin)
         {
             try
             {

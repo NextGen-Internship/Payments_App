@@ -37,9 +37,8 @@ const users = [
   },
 
   {
-<<<<<<< HEAD
     name: "Doe",
-    id: 26,
+    id: 1,
     profilePicture: "path/to/profile.jpg",
     page: [
       {
@@ -62,38 +61,13 @@ const users = [
       },
     ],
   },
-=======
-      name: 'Doe',
-      id: 1,
-      profilePicture: 'path/to/profile.jpg',
-      page:[
-          {
-              id: 1,
-              bio: 'A brief bio about John Doe.',
-              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-          },
-          {
-              id: 2,
-              bio: 'We are doing it!.',
-              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-          },
-      ]
-  }
->>>>>>> origin/master
 ];
 
 function App() {
   const [UsersList, SetUserList] = useState<any>(users);
   let [OpenID, SetOpenID] = useState<number>(0);
 
-<<<<<<< HEAD
   const onID = (id: number): void => {
-=======
-const [UsersList,SetUserList] =  useState<any>(users);
-let [OpenID,SetOpenID] = useState<number>(0); 
-
- const onID = (id:number):void =>{
->>>>>>> origin/master
     SetOpenID(id);
   };
 
@@ -106,14 +80,8 @@ let [OpenID,SetOpenID] = useState<number>(0);
     return undefined;
   };
 
-<<<<<<< HEAD
   const userIndex = FromIdToPos(OpenID);
-  const userPageElement =
-    userIndex !== undefined ? <UserPage user={UsersList[userIndex]} /> : null;
-=======
-const userIndex = FromIdToPos(OpenID);
-const userPageElement = <UserPage user={UsersList}/>
->>>>>>> origin/master
+  const userPageElement = <UserPage user={UsersList} />;
 
   return (
     <BrowserRouter>
@@ -128,20 +96,12 @@ const userPageElement = <UserPage user={UsersList}/>
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
-<<<<<<< HEAD
-          <Route path="/explore" element={<Explore />} />
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/home">
-            <Route index element={<UserList users={UsersList} onID={onID} />} />
-            <Route path=":id/*" element={userPageElement} />
-=======
           <Route path="/explore">
-            <Route index element={<UserList users={UsersList} onID={onID}/>}/>
-            <Route path=":id/*" element={<UserPage user={UsersList}/>}/>
->>>>>>> origin/master
+            <Route index element={<UserList users={UsersList} onID={onID} />} />
+            <Route path=":id/*" element={<UserPage user={UsersList} />} />
           </Route>
           {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/home" element={<Home/>}/>
+          <Route path="/home" element={<Home />} />
         </Routes>
       </div>
     </BrowserRouter>

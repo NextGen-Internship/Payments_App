@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QArte.Services.DTOs
 {
-    public class Login
+    public class LoginDTO
     {
         [Required(ErrorMessage = "Username is required.")]
         public string Email { get; set; } = string.Empty;

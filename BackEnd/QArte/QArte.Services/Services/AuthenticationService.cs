@@ -11,19 +11,19 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QArte.Services.Services.Implementation
+namespace QArte.Services.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        //private readonly UserManager<User> _userMAnager;
         private readonly IUserService _userService;
-        private readonly ITokenService _tokenService;
+        private readonly ITokennService _tokenService;
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AuthenticationService(IUserService userService,ITokenService tokenService,
-            IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthenticationService(IUserService userService,ITokennService tokenService,
+            IConfiguration configuration, UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _userService = userService;
             _tokenService = tokenService;
@@ -32,7 +32,46 @@ namespace QArte.Services.Services.Implementation
             _signInManager = signInManager;
         }
 
-        public async Task<Response<string>> Login(Login loginUser)
+        public async Task<Response<string>> Register(RegisterDTO registerUser)
+        {
+            var userExist = await _userService.FindByEmailAsync(registerUser.Email);
+
+            if(userExist != null)
+            {
+                return new Response<string>()
+                {
+                    Succeed = false,
+                    Message = "User with this Email already exists!"
+                };
+            }
+            User user = new User();
+
+            var token = await RegisterUser(registerUser, user);
+
+            return token != null ? new Response<string> { Succeed = true, Data = token } : new Response<string> { Succeed = false, Message = "Invalid Registration" };
+        }
+
+        // register new user
+        private async Task<string?> RegisterUser(RegisterDTO registerUser, User user)
+        {
+            user.FirstName = registerUser.FirstName;
+            user.LastName = registerUser.LastName;
+            user.Email = registerUser.Email;
+            
+            
+            var token = _tokenService.GenerateJwtToken(user);
+            //CreateAsync creates new account and hash the password
+            var isCreated = await _userManager.CreateAsync(user, registerUser.Password);
+
+            if (!isCreated.Succeeded)
+            {
+                return null;
+            }
+
+            return token;
+        }
+
+        public async Task<Response<string>> Login(LoginDTO loginUser)
         {
             var user = await _userManager.FindByEmailAsync(loginUser.Email);
             if (user != null)
@@ -55,9 +94,7 @@ namespace QArte.Services.Services.Implementation
             };
         }
 
-        
-
-        private async Task<GoogleToken?> ValidateGoogleTokenAsync(string googleToken)
+        public async Task<GoogleToken?> ValidateGoogleTokenAsync(string googleToken)
         {
             using (var httpClient = new HttpClient())
             {
@@ -77,9 +114,9 @@ namespace QArte.Services.Services.Implementation
             await _signInManager.SignOutAsync();
         }
 
-        public Task<Response<string>> GoogleLoginAsync(LoginWithGoogle googleLogin)
+        public Task<Response<string>> GoogleLoginAsync(LoginWithGoogleDTO googleLogin)
         {
-            throw new NotImplementedException();
+           throw new NotImplementedException();
         }
     }
 

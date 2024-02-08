@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QArte.Services.DTOs
 {
-    public class LoginWithGoogle
+    public class LoginWithGoogleDTO
     {
         public string? GoogleToken { get; set; }
     }
