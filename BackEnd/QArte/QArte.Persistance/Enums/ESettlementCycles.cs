@@ -3,7 +3,7 @@ namespace QArte.Persistance.Enums
 {
 	public enum ESettlementCycles
 	{
-		Weekly, Monthly, Daily
+		Daily, Weekly, Monthly
 	}
 }
 

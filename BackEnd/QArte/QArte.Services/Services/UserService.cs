@@ -265,7 +265,7 @@ namespace QArte.Services.Services
                 await _qarteDBContext.Users.AddAsync(newUser);
                 BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
 
-                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
                 await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }
