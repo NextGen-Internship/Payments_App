@@ -32,7 +32,7 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-
+builder.Services.AddSingleton<QArte.Services.Services.AmazonData>();
 builder.Services.AddTransient<IBankAccountService, QArte.Services.Services.BankAccountService>();
 builder.Services.AddTransient<IFeeService, QArte.Services.Services.FeeService>();
 builder.Services.AddTransient<IGalleryService, QArte.Services.Services.GalleryService>();
@@ -47,7 +47,7 @@ builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
 builder.Services.AddTransient< QArte.Services.Services.TokenService>();
 
-//builder.Services.AddSingleton<IAmazonData, AmazonData>();
+
 
 builder.Services.AddMediatR(typeof(Program));
 

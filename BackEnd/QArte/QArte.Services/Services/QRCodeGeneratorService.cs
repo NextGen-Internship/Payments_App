@@ -9,27 +9,29 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using Amazon;
+using Amazon.S3.Util;
 using System.Net;
 using System.Net.Mail;
+using System.IO;
 
 namespace QArte.Services.Services
 {
     public class QRCodeGeneratorService : IQRCodeGeneratorService
     {
 
-        //private readonly AmazonData _amazonData;
-        //public QRCodeGeneratorService(AmazonData amazonData)
-        //{
-        //    _amazonData = amazonData;
-        //}
+        private readonly AmazonData _amazonData;
+        public QRCodeGeneratorService(AmazonData amazonData)
+        {
+            _amazonData = amazonData;
+        }
 
-        public string CreateQRCode(string URL, string pageID, string userID)
+        public async void CreateQRCode(string URL, string pageID, string userID)
         {
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
             string path = location + pageID;
             string qrPath = path + "/" + "QR.png";
             string logoPath = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/QArte_B.png";
-
+            string dummy = qrPath;
 
             if (!Directory.Exists(path))
             {
@@ -60,32 +62,60 @@ namespace QArte.Services.Services
 
             using var image = surfice.Snapshot();
             using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite(qrPath);
+            using Stream stream = File.Create(qrPath);
             data.SaveTo(stream);
-            SendMail(qrPath);
+            stream.Dispose();
 
-            return path;
+            //amazon putting
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey,region);
+            bool bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(client, _amazonData.BucketName);
+            if (!bucketExists)
+            {
+                PutBucketRequest bucketRequest = new PutBucketRequest()
+                {
+                    BucketName = _amazonData.BucketName,
+                    UseClientRegion = true
+                };
+                await client.PutBucketAsync(bucketRequest);
+            }
+            PutObjectRequest objectRequest = new PutObjectRequest()
+            {
+                BucketName = _amazonData.BucketName,
+                Key = $"{userID}"+"\\/"+$"{pageID}-{pageID}" + "QR.png",
+                InputStream = data.AsStream()
+            };
+            await client.PutObjectAsync(objectRequest);
+
+            SendMail(dummy);
 
         }
 
         public void SendMail(string image)
         {
             //send the image to mail
+            string senderEmail = "martin.kolev@blankfactor.com";
+            string senderPassword = "mjas tmmk ufnh svdb";
+            string recipientEmail = "martin.kolev@blankfactor.com";
+            string imageFilePath = image;
+
             MailMessage mail = new MailMessage();
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-            mail.From = new MailAddress("martin.kolev.dev@gmail.com");
-            mail.To.Add("martin.kolev.dev@gmail.com");
-            mail.Subject = "Test Mail";
-            mail.Body = "mail with attachment";
 
-            Attachment attachment;
-            attachment = new Attachment(image);
+            mail.From = new MailAddress(senderEmail);
+            mail.To.Add(recipientEmail);
+            mail.Subject = "Test Mail";
+            mail.Body = "Mail with attachment";
+
+            Attachment attachment = new Attachment(imageFilePath);
             mail.Attachments.Add(attachment);
 
             smtpClient.Port = 587;
-            smtpClient.Credentials = new NetworkCredential("martin.kolev.dev@gmail.com","AnIv1AI5O7!");
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
             smtpClient.EnableSsl = true;
+    
             smtpClient.Send(mail);
+
 
         }
 
