@@ -33,9 +33,8 @@ namespace QArte.Services.Services
             {
                 _qRCodeGenerator.DeleteQRCode(page.GalleryID.ToString(),page.UserID.ToString());
 
-                await _galleryService.DeleteAsync(page.GalleryID);
-
                 this._qArteDBContext.Pages.Remove(page);
+                await _galleryService.DeleteAsync(page.GalleryID);
                 await _qArteDBContext.SaveChangesAsync();
             }
            
@@ -51,9 +50,10 @@ namespace QArte.Services.Services
 
             _qRCodeGenerator.TotalDeleteQRCode(page.GalleryID.ToString(), page.UserID.ToString());
 
-            await _galleryService.DeleteAsync(page.GalleryID);
+            
 
             this._qArteDBContext.Pages.Remove(page);
+            await _galleryService.DeleteAsync(page.GalleryID);
             await _qArteDBContext.SaveChangesAsync();
 
             return page.GetDTO();
@@ -112,15 +112,19 @@ namespace QArte.Services.Services
             var newPage = obj.GetEntity();
             if (deletedPage == null)
             {
-
-                GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
-                newPage.GalleryID = galleryHolder.ID;
-                newPage.Gallery = galleryHolder.GetEntity();
+                if (newPage.GalleryID == 0)
+                {
+                    GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
+                    newPage.GalleryID = galleryHolder.ID;
+                    newPage.Gallery = galleryHolder.GetEntity();
+                }
+                
 
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
                 var user = await _qArteDBContext.Users.
                     FirstOrDefaultAsync(x => x.ID == newPage.UserID);
+
                 string userEmail = user.Email;
                 _qRCodeGenerator.CreateQRCode(newPage.QRLink, newPage.GalleryID.ToString(), newPage.UserID.ToString(), newPage.User.Email);
 
