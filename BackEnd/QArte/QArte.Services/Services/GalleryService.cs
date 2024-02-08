@@ -13,20 +13,33 @@ namespace QArte.Services.Services
 	public class GalleryService : IGalleryService
 	{
         private readonly QArteDBContext _qarteDBContext;
+        private readonly PictureService _pictureService;
 
-		public GalleryService(QArteDBContext qArteDBContext)
+		public GalleryService(QArteDBContext qArteDBContext, PictureService pictureService)
 		{
             _qarteDBContext = qArteDBContext;
+            _pictureService = pictureService;
 		}
 
         public async Task<GalleryDTO> DeleteAsync(int id)
         {
+            
+
             var gallery = await _qarteDBContext.Galleries
                 .Include(x=>x.Pictures)
                 .FirstOrDefaultAsync(x=>x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
+            
+
+
             _qarteDBContext.Galleries.Remove(gallery);
+
+            foreach(Picture picture in gallery.Pictures)
+            {
+                await _pictureService.DeleteAsync(picture.ID);
+            }
+            
             await _qarteDBContext.SaveChangesAsync();
 
             return gallery.GetDTO();
