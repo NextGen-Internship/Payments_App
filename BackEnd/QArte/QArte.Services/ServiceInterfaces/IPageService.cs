@@ -10,7 +10,7 @@ namespace QArte.Services.ServiceInterfaces
 	{
 		Task<PageDTO> GetPageByID(int id);
 		Task<IEnumerable<PageDTO>> GetPagesByUserID(int id);
-        Task TotalDeleteAsync(int iD);
+        Task<PageDTO> TotalDeleteAsync(int iD);
     }
 }
 
