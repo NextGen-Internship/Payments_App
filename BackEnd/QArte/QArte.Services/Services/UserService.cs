@@ -18,9 +18,10 @@ namespace QArte.Services.Services
         private readonly StripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
+
         private readonly IPaymentMethodsService _paymentMethodsService;
         private readonly ISettlementCycleService _settlementCycleService;
-
+        private readonly IPageService _pageService;
 
         public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService)
         {
@@ -28,8 +29,12 @@ namespace QArte.Services.Services
             _stripeService = stripeService;
             _bankAccountService = bankAccountService;
             _roleService = roleService;
+
             _paymentMethodsService = paymentMethodsService;
             _settlementCycleService = settlementCycleService;
+
+            _pageService = pageService;
+
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -61,6 +66,11 @@ namespace QArte.Services.Services
             await _roleService.DeleteAsync(user.RoleID);
 
             await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
+
+            foreach (Page page in user.Pages)
+            {
+                await _pageService.TotalDeleteAsync(page.ID);
+            }
 
             return user.GetDTO();
         }
@@ -303,7 +313,17 @@ namespace QArte.Services.Services
             };
 
             SettlementCycleDTO settlementCycleHolder = await _settlementCycleService.PostAsync(settlementCycle);
-
+            //create the first page of the user
+            PageDTO pageDTO = new PageDTO {
+                ID = 0,
+                Bio = "Your First Page!",
+                QRLink = "User URL or whatever",
+                UserID = 0,
+                GalleryID = 0
+            };
+            
+            PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+            
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
@@ -319,7 +339,8 @@ namespace QArte.Services.Services
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
             if (deletedUser == null)
-            { 
+            {
+                newUser.Pages.Add(pageHolder.GetEntity());
                 newUser.BankAccountID = bankHolder.ID;
                 newUser.RoleID = roleHolder.ID;
                 newUser.SettlementCycleID = settlementCycleHolder.ID;

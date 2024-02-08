@@ -25,18 +25,19 @@ namespace QArte.Services.Services
             _amazonData = amazonData;
         }
 
-        public async void CreateQRCode(string URL, string pageID, string userID)
+        public async void CreateQRCode(string URL, string galleryID, string userID, string userEmail)
         {
+            //also fetch the logo from the server
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
-            string path = location + pageID;
+            string path = location + galleryID;
             string qrPath = path + "/" + "QR.png";
             string logoPath = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/QArte_B.png";
-            string dummy = qrPath;
+            string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
-            if (!Directory.Exists(path))
-            {
-                DirectoryInfo directory = Directory.CreateDirectory(path);
-            }
+            //if (!Directory.Exists(path))
+            //{
+            //    DirectoryInfo directory = Directory.CreateDirectory(path);
+            //}
 
             SkiaSharp.SKBitmap sKBitmap = SkiaSharp.SKBitmap.Decode(logoPath);
             SkiaSharp.SKImage logo = SkiaSharp.SKImage.FromBitmap(sKBitmap);
@@ -62,9 +63,9 @@ namespace QArte.Services.Services
 
             using var image = surfice.Snapshot();
             using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-            using Stream stream = File.Create(qrPath);
-            data.SaveTo(stream);
-            stream.Dispose();
+            //using Stream stream = File.Create(qrPath);
+            //data.SaveTo(stream);
+            //stream.Dispose();
 
             //amazon putting
             var region = RegionEndpoint.EUCentral1;
@@ -82,21 +83,22 @@ namespace QArte.Services.Services
             PutObjectRequest objectRequest = new PutObjectRequest()
             {
                 BucketName = _amazonData.BucketName,
-                Key = $"Users\\/{userID}\\/{pageID}\\/{userID}_{pageID}_QR.png",
+                Key = dummy,
                 InputStream = data.AsStream()
             };
             await client.PutObjectAsync(objectRequest);
 
-            SendMail(dummy);
+            SendMail(dummy, userEmail, client);
 
         }
 
-        public void SendMail(string image)
+        public async void SendMail(string image, string userEmail, AmazonS3Client client)
         {
             //send the image to mail
             string senderEmail = "qartemail@gmail.com";
             string senderPassword = "rsbg uiet knzh kess";
             string recipientEmail = "martin.kolev@blankfactor.com";
+            //string recipientEmail = userEmail;
             string imageFilePath = image;
 
             MailMessage mail = new MailMessage();
@@ -107,7 +109,15 @@ namespace QArte.Services.Services
             mail.Subject = "Test Mail";
             mail.Body = "Mail with attachment";
 
-            Attachment attachment = new Attachment(imageFilePath);
+            GetObjectRequest getObjectRequest = new GetObjectRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = imageFilePath
+            };
+            using var response = await client.GetObjectAsync(getObjectRequest);
+            using var stream = response.ResponseStream;
+
+            Attachment attachment = new Attachment(stream,"QRCode.png");
             mail.Attachments.Add(attachment);
 
             smtpClient.Port = 587;
@@ -120,53 +130,46 @@ namespace QArte.Services.Services
         }
 
 
-        public string DeleteQRCode(string pageID,string userID)
+        public async void DeleteQRCode(string galleryID, string userID)
         {
+            //delete the amazon thing
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            string path = location + pageID;
+            string path = location + galleryID;
             string qrPath = path + "/" + "QR.png";
-
-            DirectoryInfo directory = new DirectoryInfo(path);
-
-            foreach(FileInfo file in directory.GetFiles())
-            {
-                file.Delete();
-            }
-
-            directory.Delete();
+            string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
 
-            return path;
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            await client.DeleteObjectAsync(_amazonData.BucketName, dummy);
+
         }
 
-        public IEnumerable<string> GetAll(string userID)
+        public async void TotalDeleteQRCode(string galleryID, string userID)
         {
+            //delete the amazon thing
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            DirectoryInfo directory = new DirectoryInfo(location);
+            string path = location + galleryID;
+            string qrPath = path + "/" + "QR.png";
+            string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
-            List<string> paths = new List<string>();
 
-            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
-            {
-                foreach (FileInfo file in directoryInfo.GetFiles())
-                {
-                    if (file.Name == "QR.png")
-                    {
-                        paths.Append(file.DirectoryName);
-                    }
-                }
-
-            }
-
-            return paths;
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            await client.DeleteObjectAsync(_amazonData.BucketName, dummy);
         }
 
-        public string GetQRCode(string pageID, string userID)
+        public async void GetQRCode(string galleryID, string userID, string userEmail)
         {
+            //get from amazon
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            string path = location + pageID;
-            string qrPath = path + "/" + "QR.png";
-            return qrPath;
+            string path = location + galleryID;
+            string qrPath = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
+
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+
+            SendMail(qrPath, userEmail, client);
         }
     }
 }
