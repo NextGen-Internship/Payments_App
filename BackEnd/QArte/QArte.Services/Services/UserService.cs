@@ -168,6 +168,19 @@ namespace QArte.Services.Services
             return user.StripeAccountID;
         }
 
+        public async Task<UserDTO> GetUserByStripeAccountID(string stripeId)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.StripeAccountID == stripeId)
+                ?? throw new ApplicationException("Not found");
+
+            return user.GetDTO();
+        }
+
         public async Task<string> GetCountryByID(int id)
         {
             var user = await _qarteDBContext.Users

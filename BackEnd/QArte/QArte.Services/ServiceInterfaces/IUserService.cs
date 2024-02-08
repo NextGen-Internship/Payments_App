@@ -16,7 +16,7 @@ namespace QArte.Services.ServiceInterfaces
 		Task<string> GetStripeAccountByID(int id);
         Task<string> GetCountryByID(int id);
 		Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle);
-
+		Task<UserDTO> GetUserByStripeAccountID(string stripeId);
     }
 }
 

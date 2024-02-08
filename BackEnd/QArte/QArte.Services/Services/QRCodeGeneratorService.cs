@@ -94,8 +94,8 @@ namespace QArte.Services.Services
         public void SendMail(string image)
         {
             //send the image to mail
-            string senderEmail = "martin.kolev@blankfactor.com";
-            string senderPassword = "mjas tmmk ufnh svdb";
+            string senderEmail = "qartemail@gmail.com";
+            string senderPassword = "rsbg uiet knzh kess";
             string recipientEmail = "martin.kolev@blankfactor.com";
             string imageFilePath = image;
 

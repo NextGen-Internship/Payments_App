@@ -8,6 +8,8 @@ using System.Text.Json;
 using QArte.Persistance.PersistanceConfigurations;
 using QArte.Services.ServiceInterfaces;
 using MediatR;
+using System.Net;
+using System.Net.Mail;
 
 namespace QArte.API.Controllers
 {
@@ -98,12 +100,34 @@ namespace QArte.API.Controllers
         }
 
 
+        private void sendEmail(UserDTO connectUser, long amount, string currency)
+        {
+            string senderEmail = "qartemail@gmail.com";
+            string senderPassword = "rsbg uiet knzh kess";
+
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+
+            mail.From = new MailAddress(senderEmail);
+            mail.To.Add(connectUser.Email);
+            mail.Subject = "QArté payout succeeded";
+            mail.Body = $"Transaction of {(double)amount / 100} {currency} \n" +
+                $"has been successfuly payed out to {connectUser.FirstName} {connectUser.LastName}\n \n" +
+                $"From QArté team";
+
+            smtpClient.Port = 587;
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+            smtpClient.EnableSsl = true;
+
+            smtpClient.Send(mail);
+        }
+
         [HttpPost("stripe-payment-webhook")]
         public async Task<IActionResult> StripePaymentWebhook()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            const string secret = ""; // add webhook secret
+            const string secret = "whsec_b30a7f6c8cec8ac6e15fcea10853be0a4cf663ecc3b638827bca61a73aafbd86";
 
             try
             {
@@ -123,9 +147,9 @@ namespace QArte.API.Controllers
 
                     var currency = session.Currency;
 
-                    var userToTransferMoneyTo = _userService.GetUserByID(userID);
+                    var userToTransferMoneyTo = await _userService.GetUserByID(userID);
 
-                    var userBankAccount = _bankAccountService.GetByIDAsync(userToTransferMoneyTo.Result.BankAccountID);
+                    var userBankAccount = await _bankAccountService.GetByIDAsync(userToTransferMoneyTo.BankAccountID);
 
                     FeeDTO newFee = new FeeDTO()
                     {
@@ -142,16 +166,27 @@ namespace QArte.API.Controllers
                         ID = 0,
                         TotalAmount = amount.Value - (amount.Value * newFee.Amount / 100),
                         InvoiceDate = DateTime.Today, //change
-                        BankAccountID = userBankAccount.Result.ID,
+                        BankAccountID = userBankAccount.ID,
                         FeeID = newFeePosted.ID
                     };
 
-                    await _bankAccountService.AddInvoice(userBankAccount.Result.ID, newInvoice);
+                    await _bankAccountService.AddInvoice(userBankAccount.ID, newInvoice);
 
 
-                    await _stripeService.CreateTansferAsync(userToTransferMoneyTo.Result, newInvoice.TotalAmount, currency);
+                    await _stripeService.CreateTansferAsync(userToTransferMoneyTo, newInvoice.TotalAmount, currency);
 
                      
+                }
+                if(stripeEvent.Type == Events.PayoutPaid)
+                {
+                    var payout = (Payout)stripeEvent.Data.Object;
+                    string connectAccID = payout.Destination.AccountId;
+                    long amount = payout.Amount;
+                    string currency = payout.Currency;
+
+                    UserDTO connectUser = await _userService.GetUserByStripeAccountID(connectAccID);
+
+                    sendEmail(connectUser, amount, currency);
                 }
             }
             catch(Exception ex)
@@ -161,17 +196,6 @@ namespace QArte.API.Controllers
 
 
             return Ok();
-        }
-
-
-        [HttpPost("stripe-payout-webhook")]
-        public async Task<IActionResult> StripePayoutWebhook()
-        {
-            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-
-            const string secret = ""; // add webhook secret
-
-
         }
     }
 }
