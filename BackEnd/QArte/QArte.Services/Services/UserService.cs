@@ -236,7 +236,9 @@ namespace QArte.Services.Services
             {
                 BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
                 RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+                newUser.BankAccount = bankHolder.GetEntity();
                 newUser.BankAccountID = bankHolder.ID;
+                newUser.Role = roleHolder.GetEnity();
                 newUser.RoleID = roleHolder.ID;
                 await _qarteDBContext.Users.AddAsync(newUser);
                 

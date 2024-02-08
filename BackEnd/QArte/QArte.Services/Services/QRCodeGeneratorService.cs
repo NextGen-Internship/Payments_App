@@ -9,6 +9,7 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using Amazon;
+using Amazon.S3.Util;
 using System.Net;
 using System.Net.Mail;
 using System.IO;
@@ -18,13 +19,13 @@ namespace QArte.Services.Services
     public class QRCodeGeneratorService : IQRCodeGeneratorService
     {
 
-        //private readonly AmazonData _amazonData;
-        //public QRCodeGeneratorService(AmazonData amazonData)
-        //{
-        //    _amazonData = amazonData;
-        //}
+        private readonly AmazonData _amazonData;
+        public QRCodeGeneratorService(AmazonData amazonData)
+        {
+            _amazonData = amazonData;
+        }
 
-        public string CreateQRCode(string URL, string pageID, string userID)
+        public async void CreateQRCode(string URL, string pageID, string userID)
         {
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
             string path = location + pageID;
@@ -64,9 +65,29 @@ namespace QArte.Services.Services
             using Stream stream = File.Create(qrPath);
             data.SaveTo(stream);
             stream.Dispose();
-            SendMail(dummy);
 
-            return path;
+            //amazon putting
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey,region);
+            bool bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(client, _amazonData.BucketName);
+            if (!bucketExists)
+            {
+                PutBucketRequest bucketRequest = new PutBucketRequest()
+                {
+                    BucketName = _amazonData.BucketName,
+                    UseClientRegion = true
+                };
+                await client.PutBucketAsync(bucketRequest);
+            }
+            PutObjectRequest objectRequest = new PutObjectRequest()
+            {
+                BucketName = _amazonData.BucketName,
+                Key = $"{userID}"+"\\/"+$"{pageID}-{pageID}" + "QR.png",
+                InputStream = data.AsStream()
+            };
+            await client.PutObjectAsync(objectRequest);
+
+            SendMail(dummy);
 
         }
 
@@ -75,7 +96,7 @@ namespace QArte.Services.Services
             //send the image to mail
             string senderEmail = "martin.kolev@blankfactor.com";
             string senderPassword = "mjas tmmk ufnh svdb";
-            string recipientEmail = "ema.kyuchukova@blankfactor.com";
+            string recipientEmail = "martin.kolev@blankfactor.com";
             string imageFilePath = image;
 
             MailMessage mail = new MailMessage();
