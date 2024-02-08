@@ -17,13 +17,15 @@ namespace QArte.Services.Services
         private readonly StripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
+        private readonly IPageService _pageService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService)
+        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPageService pageService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
             _bankAccountService = bankAccountService;
             _roleService = roleService;
+            _pageService = pageService;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -45,6 +47,12 @@ namespace QArte.Services.Services
 
             _qarteDBContext.Users.Remove(user);
             await _qarteDBContext.SaveChangesAsync();
+
+            foreach (Page page in user.Pages)
+            {
+                await _pageService.TotalDeleteAsync(page.ID);
+            }
+
 
             return user.GetDTO();
         }
@@ -213,7 +221,15 @@ namespace QArte.Services.Services
                 PaymentMethodID = 1
             };
             RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = ERoles.Artist };
-            
+
+            //create the first page of the user
+            PageDTO pageDTO = new PageDTO {
+                ID = 0,
+                Bio = "Your First Page!",
+                QRLink = "User URL or whatever",
+                UserID = 0,
+                GalleryID = 0
+            };
 
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -234,8 +250,10 @@ namespace QArte.Services.Services
 
             if (deletedUser == null)
             {
+                PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
                 BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
                 RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+                newUser.Pages.Add(pageHolder.GetEntity());
                 newUser.BankAccount = bankHolder.GetEntity();
                 newUser.BankAccountID = bankHolder.ID;
                 newUser.Role = roleHolder.GetEnity();
