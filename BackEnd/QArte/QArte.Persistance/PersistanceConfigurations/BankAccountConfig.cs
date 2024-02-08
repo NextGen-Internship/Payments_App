@@ -15,7 +15,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 
             builder.Property(s => s.IBAN).IsRequired();
 
-            builder.HasIndex(e => e.IBAN).IsUnique();
+            builder.HasIndex(e => e.IBAN);
         }
     }
 }

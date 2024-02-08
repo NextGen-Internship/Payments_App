@@ -95,8 +95,8 @@ namespace QArte.Services.Services
         public async void SendMail(string image, string userEmail, AmazonS3Client client)
         {
             //send the image to mail
-            string senderEmail = "martin.kolev@blankfactor.com";
-            string senderPassword = "mjas tmmk ufnh svdb";
+            string senderEmail = "qartemail@gmail.com";
+            string senderPassword = "rsbg uiet knzh kess";
             string recipientEmail = "martin.kolev@blankfactor.com";
             //string recipientEmail = userEmail;
             string imageFilePath = image;

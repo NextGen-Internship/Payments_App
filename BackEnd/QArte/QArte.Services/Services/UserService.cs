@@ -6,6 +6,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using Stripe;
 
 
 namespace QArte.Services.Services
@@ -17,15 +18,23 @@ namespace QArte.Services.Services
         private readonly StripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
+
+        private readonly IPaymentMethodsService _paymentMethodsService;
+        private readonly ISettlementCycleService _settlementCycleService;
         private readonly IPageService _pageService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPageService pageService)
+        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
             _bankAccountService = bankAccountService;
             _roleService = roleService;
+
+            _paymentMethodsService = paymentMethodsService;
+            _settlementCycleService = settlementCycleService;
+
             _pageService = pageService;
+
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -43,16 +52,25 @@ namespace QArte.Services.Services
                  .FirstOrDefaultAsync(x => x.ID == id)
                   ?? throw new ApplicationException("Not found");
 
+
+            int bankAc = user.BankAccountID;
+
             _stripeService.DeleteSubAccount(user);
 
             _qarteDBContext.Users.Remove(user);
+
             await _qarteDBContext.SaveChangesAsync();
+
+            await _bankAccountService.DeleteAsync(user.BankAccountID);
+
+            await _roleService.DeleteAsync(user.RoleID);
+
+            await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
 
             foreach (Page page in user.Pages)
             {
                 await _pageService.TotalDeleteAsync(page.ID);
             }
-
 
             return user.GetDTO();
         }
@@ -94,6 +112,46 @@ namespace QArte.Services.Services
                 }).ToListAsync();
         }
 
+        public async Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle)
+        { 
+            Enum.TryParse(typeof(ESettlementCycles), settlementCycle, out var parsedSettlementCycle);
+            return await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .Where(x=>x.SettlementCycle.SettlementCycles == (ESettlementCycles)parsedSettlementCycle)
+                .Select(y => new UserDTO
+                {
+                    ID = y.ID,
+                    FirstName = y.FirstName,
+                    LastName = y.LastName,
+                    Username = y.UserName,
+                    Password = y.Password,
+                    Email = y.Email,
+                    PictureURL = y.PictureUrl,
+                    PhoneNumber = y.PhoneNumber,
+                    isBanned = y.isBanned,
+                    RoleID = y.RoleID,
+                    BankAccountID = y.BankAccountID,
+                    Country = y.Country,
+                    StripeAccountID = y.StripeAccountID,
+                    City = y.City,
+                    postalCode = y.PostalCode,
+                    Address = y.address,
+                    SettlementCycleID = y.SettlementCycleID,
+                    Pages = y.Pages.Select(y => new PageDTO
+                    {
+                        ID = y.ID,
+                        Bio = y.Bio,
+                        GalleryID = y.GalleryID,
+                        UserID = y.UserID,
+                        QRLink = y.QRLink
+                    }).ToList()
+                }).ToListAsync();
+
+        }
+
         public async Task<string> GetEmailByID(int id)
         {
             var user = await _qarteDBContext.Users
@@ -118,6 +176,19 @@ namespace QArte.Services.Services
                 ?? throw new ApplicationException("Not found");
 
             return user.StripeAccountID;
+        }
+
+        public async Task<UserDTO> GetUserByStripeAccountID(string stripeId)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.StripeAccountID == stripeId)
+                ?? throw new ApplicationException("Not found");
+
+            return user.GetDTO();
         }
 
         public async Task<string> GetCountryByID(int id)
@@ -214,14 +285,34 @@ namespace QArte.Services.Services
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
+            PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO
+            {
+                ID = 0,
+                paymentName = obj.paymentMethodsEnum,
+            };
+
+            PaymentMethodDTO paymentMethodHolder = await _paymentMethodsService.PostAsync(paymentMethodDTO);
+
             BankAccountDTO bankAccountDTO = new BankAccountDTO
             {
-                IBAN = obj.IBAN,
                 ID = 0,
-                PaymentMethodID = 1
+                IBAN = obj.IBAN,
+                PaymentMethodID = paymentMethodHolder.ID
             };
-            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = ERoles.Artist };
 
+            BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
+
+            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = obj.roleEnum };
+
+            RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+
+            SettlementCycleDTO settlementCycle = new SettlementCycleDTO
+            {
+                ID = 0,
+                SettlementCycles = obj.SettlementCycleEnum,
+            };
+
+            SettlementCycleDTO settlementCycleHolder = await _settlementCycleService.PostAsync(settlementCycle);
             //create the first page of the user
             PageDTO pageDTO = new PageDTO {
                 ID = 0,
@@ -230,7 +321,9 @@ namespace QArte.Services.Services
                 UserID = 0,
                 GalleryID = 0
             };
-
+            
+            PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+            
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
@@ -239,30 +332,22 @@ namespace QArte.Services.Services
                 && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
                 x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
                 && x.RoleID == obj.RoleID && x.StripeAccountID == obj.StripeAccountID && x.Country == obj.Country
-                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode
-                && x.SettlementCycleID == obj.SettlementCycleID);
+                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode);
 
             var newUser = obj.GetEnity();
 
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
-
-
             if (deletedUser == null)
             {
-                PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
-                BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
-                RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
                 newUser.Pages.Add(pageHolder.GetEntity());
-                newUser.BankAccount = bankHolder.GetEntity();
                 newUser.BankAccountID = bankHolder.ID;
-                newUser.Role = roleHolder.GetEnity();
                 newUser.RoleID = roleHolder.ID;
+                newUser.SettlementCycleID = settlementCycleHolder.ID;
+
                 await _qarteDBContext.Users.AddAsync(newUser);
                 
-                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
-
-                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankHolder);
                 await _qarteDBContext.SaveChangesAsync();
                 return newUser.GetDTO();
             }

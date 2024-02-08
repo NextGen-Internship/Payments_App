@@ -17,7 +17,7 @@ namespace QArte.Services.DTOMappers
             return new SettlementCycleDTO
             {
                 ID = settlementCycle.ID,
-                DatePeriod = settlementCycle.DatePeriod
+                SettlementCycles = settlementCycle.SettlementCycles
 
             };
 
@@ -34,7 +34,7 @@ namespace QArte.Services.DTOMappers
             return new SettlementCycle
             {
                 ID = settlementCycleDTO.ID,
-                DatePeriod = settlementCycleDTO.DatePeriod
+                SettlementCycles = settlementCycleDTO.SettlementCycles
 
             };
 

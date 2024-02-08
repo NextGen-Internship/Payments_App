@@ -68,7 +68,7 @@ namespace QArte.Persistance.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DatePeriod = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SettlementCycles = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,7 +180,7 @@ namespace QArte.Persistance.Migrations
                         column: x => x.RoleID,
                         principalTable: "Role",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_SettlementCycles_SettlementCycleID",
                         column: x => x.SettlementCycleID,
@@ -225,8 +225,7 @@ namespace QArte.Persistance.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BankAccounts_IBAN",
                 table: "BankAccounts",
-                column: "IBAN",
-                unique: true);
+                column: "IBAN");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoice_FeeID",

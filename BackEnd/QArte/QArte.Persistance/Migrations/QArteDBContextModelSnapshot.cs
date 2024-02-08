@@ -39,8 +39,7 @@ namespace QArte.Persistance.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("IBAN")
-                        .IsUnique();
+                    b.HasIndex("IBAN");
 
                     b.HasIndex(new[] { "PaymentMethodID" }, "IX_BankAccount_PaymentMethodID");
 
@@ -214,8 +213,8 @@ namespace QArte.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<DateTime>("DatePeriod")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("SettlementCycles")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -386,7 +385,7 @@ namespace QArte.Persistance.Migrations
                     b.HasOne("QArte.Persistance.PersistanceModels.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QArte.Persistance.PersistanceModels.SettlementCycle", "SettlementCycle")

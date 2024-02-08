@@ -45,7 +45,6 @@ builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
 
 
-
 builder.Services.AddMediatR(typeof(Program));
 
 
@@ -63,7 +62,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -71,6 +72,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseRouting();
 
 app.UseCors("QarteApp");
@@ -80,6 +82,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+ 
 app.Run();
 

@@ -10,7 +10,7 @@ namespace QArte.Persistance.PersistanceConfigurations
     {
         public void Configure(EntityTypeBuilder<SettlementCycle> builder)
         {
-            builder.Property(e => e.DatePeriod).IsRequired();
+            builder.Property(e => e.SettlementCycles).IsRequired();
             builder.HasKey(k => k.ID);
         }
     }

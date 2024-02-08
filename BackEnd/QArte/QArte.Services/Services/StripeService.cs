@@ -14,16 +14,36 @@ namespace QArte.Services.Services
         {
         }
 
+        private string getPayoutInterval(User user)
+        {
+
+            switch (user.SettlementCycle.SettlementCycles)
+            {
+                case Persistance.Enums.ESettlementCycles.Daily:
+                    return "daily";
+                case Persistance.Enums.ESettlementCycles.Weekly:
+                    return "weekly";
+                case Persistance.Enums.ESettlementCycles.Monthly:
+                    return "monthly";
+                default:
+                    throw new ArgumentException("Invalid settlement cycle specified.");
+            }
+        }
 
         public async Task<string> CreateSubAccountAsync(User user, BankAccountDTO bankAccount)
         {
+            string payoutInterval = getPayoutInterval(user);
+
             var accountService = new AccountService();
+
             var account = await accountService.CreateAsync(new AccountCreateOptions
             {
                 Type = "custom",
                 Country = user.Country,
                 Email = user.Email,
-                BusinessType="individual",
+                BusinessType = "individual",
+
+
                 Capabilities = new AccountCapabilitiesOptions
                 {
                     CardPayments = new AccountCapabilitiesCardPaymentsOptions
@@ -54,9 +74,9 @@ namespace QArte.Services.Services
                     },
                     Phone = user.PhoneNumber,
                     Email = user.Email,
-                    
+
                 },
-                
+
                 TosAcceptance = new AccountTosAcceptanceOptions
                 {
                     Date = DateTime.UtcNow,
@@ -73,6 +93,20 @@ namespace QArte.Services.Services
                 {
                     ProductDescription = "Street art",
                     Mcc = "5971"
+                },
+
+                Settings = new AccountSettingsOptions
+                {
+                    Payouts = new AccountSettingsPayoutsOptions
+                    {
+                        Schedule = new AccountSettingsPayoutsScheduleOptions
+                        {
+                            Interval = payoutInterval,
+                            WeeklyAnchor = payoutInterval == "weekly" ? "monday" : null,
+                            MonthlyAnchor = payoutInterval == "monthly" ? 1 : null,
+                        }
+
+                    }
                 }
             });
             
