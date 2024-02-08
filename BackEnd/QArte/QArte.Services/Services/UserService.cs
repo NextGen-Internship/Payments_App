@@ -291,16 +291,15 @@ namespace QArte.Services.Services
         {
             
             var user = await _qarteDBContext.Users
-                .Where(u => u.Email == email)
                 .Include(u => u.BankAccount) 
                 .Include(u => u.Role)
                 .Include(u => u.Pages)
                 .Include(u => u.SettlementCycle)
+                .Where(u => u.Email == email)
                 .FirstOrDefaultAsync();
 
             if (user == null)
             {
-                // Вр
                 return null;
             }
 
@@ -311,19 +310,19 @@ namespace QArte.Services.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.UserName,
-                //Password = user.Password,
+                Password = user.Password,
                 Email = user.Email,
                 PictureURL = user.PictureUrl,
                 PhoneNumber = user.PhoneNumber,
                 Country = user.Country,
                 StripeAccountID = user.StripeAccountID,
-                //Address = user.Address,
+                Address = user.address,
                 City = user.City,
                 postalCode = user.PostalCode,
-               // isBanned = user.IsBanned,
-               // RoleID = user.RoleId,
-               // BankAccountID = user.BankAccountId,
-               // SettlementCycleID = user.SettlementCycleId,
+                isBanned = user.isBanned,
+                RoleID = user.RoleID,
+                BankAccountID = user.BankAccountID,
+                SettlementCycleID = user.SettlementCycleID,
                 Pages = user.Pages.Select(p => new PageDTO
                 {
                   

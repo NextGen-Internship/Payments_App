@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using QArte.Persistance.PersistanceModels;
 using QArte.Services.DTOs;
 using QArte.Services.ServiceInterfaces;
+using QArte.Services.DTOMappers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,7 +19,7 @@ namespace QArte.Services.Services
         private readonly IUserService _userService;
         private readonly ITokennService _tokenService;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<User> _userManager;
+        //private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
         public AuthenticationService(IUserService userService,ITokennService tokenService,
@@ -28,7 +29,7 @@ namespace QArte.Services.Services
             _userService = userService;
             _tokenService = tokenService;
             _configuration = configuration;
-            _userManager = userManager;
+            //_userManager = userManager;
             _signInManager = signInManager;
         }
 
@@ -36,7 +37,7 @@ namespace QArte.Services.Services
         {
             var userExist = await _userService.FindByEmailAsync(registerUser.Email);
 
-            if(userExist != null)
+            if (userExist != null)
             {
                 return new Response<string>()
                 {
@@ -58,10 +59,10 @@ namespace QArte.Services.Services
             user.LastName = registerUser.LastName;
             user.Email = registerUser.Email;
             user.UserName = registerUser.Username;
-            
+
             var token = _tokenService.GenerateJwtToken(user);
             //CreateAsync creates new account and hash the password
-            var isCreated = await _userManager.CreateAsync(user, registerUser.Password);
+            var isCreated = await _userService.CreateAsync(user, registerUser.Password);
 
             if (!isCreated.Succeeded)
             {
@@ -73,13 +74,13 @@ namespace QArte.Services.Services
 
         public async Task<Response<string>> Login(LoginDTO loginUser)
         {
-            var user = await _userManager.FindByEmailAsync(loginUser.Email);
+            var user = await _userService.FindByEmailAsync(loginUser.Email);
             if (user != null)
             {
-                var ruesult = await _signInManager.CheckPasswordSignInAsync(user, loginUser.Password, false);
-                if (ruesult.Succeeded)
+                var result = await _signInManager.CheckPasswordSignInAsync(user.GetEnity(), loginUser.Password, false);
+                if (result.Succeeded)
                 {
-                    var jwtToken = _tokenService.GenerateJwtToken(user);
+                    var jwtToken = _tokenService.GenerateJwtToken(user.GetEnity());
                     return new Response<string>()
                     {
                         Succeed = true,
