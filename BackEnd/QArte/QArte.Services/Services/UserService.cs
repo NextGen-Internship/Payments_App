@@ -252,6 +252,54 @@ namespace QArte.Services.Services
             return deletedUser.GetDTO();
         }
 
+        public async Task<UserDTO> CreateAsync(UserDTO obj)
+        {
+            BankAccountDTO bankAccountDTO = new BankAccountDTO
+            {
+                IBAN = obj.IBAN,
+                ID = 0,
+                PaymentMethodID = 1
+            };
+            RoleDTO roleDTO = new RoleDTO { ID = 0, ERole = ERoles.Artist };
+
+
+            var deletedUser = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.isBanned == obj.isBanned && x.BankAccountID == obj.BankAccountID
+                && x.Email == obj.Email && x.FirstName == obj.FirstName && x.LastName == obj.LastName &&
+                x.Password == obj.Password && x.PictureUrl == obj.PictureURL && x.UserName == obj.Username
+                && x.RoleID == obj.RoleID && x.StripeAccountID == obj.StripeAccountID && x.Country == obj.Country
+                && x.City == obj.City && x.address == obj.Address && x.PostalCode == obj.postalCode
+                && x.SettlementCycleID == obj.SettlementCycleID);
+
+            var newUser = obj.GetEnity();
+
+            newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
+
+
+
+            if (deletedUser == null)
+            {
+                BankAccountDTO bankHolder = await _bankAccountService.PostAsync(bankAccountDTO);
+                RoleDTO roleHolder = await _roleService.PostAsync(roleDTO);
+                newUser.BankAccountID = bankHolder.ID;
+                newUser.RoleID = roleHolder.ID;
+                await _qarteDBContext.Users.AddAsync(newUser);
+
+                BankAccountDTO bankAccount = await _bankAccountService.GetByIDAsync(newUser.BankAccountID);
+
+                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankAccount);
+                await _qarteDBContext.SaveChangesAsync();
+                return newUser.GetDTO();
+            }
+
+
+
+            return deletedUser.GetDTO();
+        }
+
         public async Task<UserDTO> UpdateAsync(int id, UserDTO obj)
         {
             _ = await UserExists(obj.ID, obj.Username, obj.Email)
