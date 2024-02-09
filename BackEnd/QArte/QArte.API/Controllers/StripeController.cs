@@ -16,13 +16,13 @@ namespace QArte.API.Controllers
     [Route("api/[controller]")]
     public class StripeController : ControllerBase 
 	{
-        private readonly StripeService _stripeService;
+        private readonly IStripeService _stripeService;
         private readonly IUserService _userService;
         private readonly IFeeService _feeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly ISettlementCycleService _settlementCycleService;
 
-        public StripeController(StripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
+        public StripeController(IStripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
         {
             _stripeService = stripeService;
             _userService = userService;

@@ -14,25 +14,8 @@ namespace QArte.Services.Services
         {
         }
 
-        private string getPayoutInterval(User user)
-        {
-
-            switch (user.SettlementCycle.SettlementCycles)
-            {
-                case Persistance.Enums.ESettlementCycles.Daily:
-                    return "daily";
-                case Persistance.Enums.ESettlementCycles.Weekly:
-                    return "weekly";
-                case Persistance.Enums.ESettlementCycles.Monthly:
-                    return "monthly";
-                default:
-                    throw new ArgumentException("Invalid settlement cycle specified.");
-            }
-        }
-
         public async Task<string> CreateSubAccountAsync(User user, BankAccountDTO bankAccount)
         {
-            string payoutInterval = getPayoutInterval(user);
 
             var accountService = new AccountService();
 
@@ -101,9 +84,7 @@ namespace QArte.Services.Services
                     {
                         Schedule = new AccountSettingsPayoutsScheduleOptions
                         {
-                            Interval = payoutInterval,
-                            WeeklyAnchor = payoutInterval == "weekly" ? "monday" : null,
-                            MonthlyAnchor = payoutInterval == "monthly" ? 1 : null,
+                           Interval = "manual",
                         }
 
                     }
@@ -156,16 +137,11 @@ namespace QArte.Services.Services
         {
             var service = new AccountService();
 
-            try
+
+            var result = service.Delete(user.StripeAccountID);
+            if (result.Deleted == true)
             {
-                var result = service.Delete(user.StripeAccountID);
-                if (result.Deleted == true)
-                {
-                    return;
-                }
-            }
-            catch
-            {
+                return;
             }
 
         }

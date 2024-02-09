@@ -12,10 +12,10 @@ namespace QArte.Services.Services.quartzPayouts
 {
 	public class PayoutSchedulerService : IJob
 	{
-		StripeService _stripeService;
+		IStripeService _stripeService;
         IUserService _userService;
 
-        public PayoutSchedulerService(StripeService stripeService, IUserService userService)
+        public PayoutSchedulerService(IStripeService stripeService, IUserService userService)
         {
             _stripeService = stripeService;
             _userService = userService;
@@ -32,7 +32,7 @@ namespace QArte.Services.Services.quartzPayouts
             mail.From = new MailAddress(senderEmail);
             mail.To.Add(connectUser.Email);
             mail.Subject = "QArté payout succeeded";
-            mail.Body = $"Transaction of {(double)amount / 100} {currency} \n" +
+            mail.Body = $"Transaction of {(double)amount / 100} {currency.ToUpper()} \n" +
                 $"has been successfuly payed out to {connectUser.FirstName} {connectUser.LastName}\n \n" +
                 $"From QArté team";
 

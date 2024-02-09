@@ -34,7 +34,7 @@ const users = [
 
   {
       name: 'Doe',
-      id: 1,
+      id: 2,
       profilePicture: 'path/to/profile.jpg',
       page:[
           {
