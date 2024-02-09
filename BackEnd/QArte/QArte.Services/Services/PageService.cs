@@ -116,12 +116,12 @@ namespace QArte.Services.Services
                 {
                     GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
                     newPage.GalleryID = galleryHolder.ID;
-                    newPage.Gallery = galleryHolder.GetEntity();
                 }
                 
 
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
+
                 var user = await _qArteDBContext.Users.
                     FirstOrDefaultAsync(x => x.ID == newPage.UserID);
 

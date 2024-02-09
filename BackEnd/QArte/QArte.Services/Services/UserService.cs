@@ -322,7 +322,7 @@ namespace QArte.Services.Services
                 GalleryID = 0
             };
             
-            PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+            
             
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -340,15 +340,22 @@ namespace QArte.Services.Services
 
             if (deletedUser == null)
             {
-                newUser.Pages.Add(pageHolder.GetEntity());
+                
                 newUser.BankAccountID = bankHolder.ID;
                 newUser.RoleID = roleHolder.ID;
                 newUser.SettlementCycleID = settlementCycleHolder.ID;
 
                 await _qarteDBContext.Users.AddAsync(newUser);
-                
-                newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankHolder);
+
+
                 await _qarteDBContext.SaveChangesAsync();
+
+                pageDTO.UserID = newUser.ID;
+                PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+                newUser.Pages.Add(pageHolder.GetEntity());
+                //newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankHolder);
+
+                
                 return newUser.GetDTO();
             }
 
