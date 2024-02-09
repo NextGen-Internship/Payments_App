@@ -11,12 +11,14 @@
     <None Remove="Services\" />
     <None Remove="ServiceInterfaces\" />
     <None Remove="Services\StripeService.config" />
+    <None Remove="Services\quartzPayouts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="DTOMappers\" />
     <Folder Include="Services\" />
     <Folder Include="ServiceInterfaces\" />
+    <Folder Include="Services\quartzPayouts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QArte.Persistance\QArte.Persistance.csproj" />
@@ -29,6 +31,8 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.305.23" />
 
+    <PackageReference Include="Quartz" Version="3.8.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
   </ItemGroup>
 </Project>
