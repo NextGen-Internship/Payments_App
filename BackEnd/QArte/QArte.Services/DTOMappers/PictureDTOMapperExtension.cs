@@ -17,8 +17,7 @@ namespace QArte.Services.DTOMappers
             {
                 ID = picture.ID,
                 PictureURL = picture.PictureURL,
-                GalleryID = picture.GalleryID
-
+                GalleryID = picture.GalleryID,
             };
 
         }
@@ -35,7 +34,7 @@ namespace QArte.Services.DTOMappers
                 ID = pictureDTO.ID,
                 PictureURL = pictureDTO.PictureURL,
                 GalleryID = pictureDTO.GalleryID
-
+                
             };
 
         }
