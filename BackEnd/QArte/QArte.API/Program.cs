@@ -28,21 +28,22 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-builder.Services.AddTransient<GalleryService>();
-builder.Services.AddTransient<PictureService>();
-builder.Services.AddSingleton<QArte.Services.Services.AmazonData>();
+
+
+builder.Services.AddTransient<IStripeService,QArte.Services.Services.StripeService>();
+builder.Services.AddTransient<IQRCodeGeneratorService,QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<IPictureService, PictureService>();
+builder.Services.AddSingleton<IAmazonData,QArte.Services.Services.AmazonData>();
 builder.Services.AddTransient<IBankAccountService, QArte.Services.Services.BankAccountService>();
 builder.Services.AddTransient<IFeeService, QArte.Services.Services.FeeService>();
 builder.Services.AddTransient<IGalleryService, QArte.Services.Services.GalleryService>();
 builder.Services.AddTransient<IInvoiceService, QArte.Services.Services.InvoiceService>();
 builder.Services.AddTransient<IPageService,QArte.Services.Services.PageService>();
 builder.Services.AddTransient<IPaymentMethodsService, QArte.Services.Services.PaymentMethodService>();
-builder.Services.AddTransient<IPictureService, QArte.Services.Services.PictureService>();
 builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>();
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
-builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
-builder.Services.AddTransient<QArte.Services.Services.StripeService>();
+
 
 
 builder.Services.AddMediatR(typeof(Program));
