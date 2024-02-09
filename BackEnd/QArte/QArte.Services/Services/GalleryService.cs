@@ -13,9 +13,9 @@ namespace QArte.Services.Services
 	public class GalleryService : IGalleryService
 	{
         private readonly QArteDBContext _qarteDBContext;
-        private readonly PictureService _pictureService;
+        private readonly IPictureService _pictureService;
 
-		public GalleryService(QArteDBContext qArteDBContext, PictureService pictureService)
+		public GalleryService(QArteDBContext qArteDBContext, IPictureService pictureService)
 		{
             _qarteDBContext = qArteDBContext;
             _pictureService = pictureService;
@@ -31,8 +31,6 @@ namespace QArte.Services.Services
                 ?? throw new ApplicationException("Not found");
 
             
-
-
             _qarteDBContext.Galleries.Remove(gallery);
 
             foreach(Picture picture in gallery.Pictures)
