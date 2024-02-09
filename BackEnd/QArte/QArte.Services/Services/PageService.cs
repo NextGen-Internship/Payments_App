@@ -116,7 +116,6 @@ namespace QArte.Services.Services
                 {
                     GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
                     newPage.GalleryID = galleryHolder.ID;
-                    newPage.Gallery = galleryHolder.GetEntity();
                 }
                 
 
