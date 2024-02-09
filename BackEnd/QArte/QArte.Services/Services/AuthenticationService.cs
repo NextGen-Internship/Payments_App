@@ -22,7 +22,7 @@ namespace QArte.Services.Services
         //private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AuthenticationService(IUserService userService,ITokennService tokenService,
+        public AuthenticationService(IUserService userService, ITokennService tokenService,
             IConfiguration configuration, UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
@@ -117,7 +117,7 @@ namespace QArte.Services.Services
 
         public Task<Response<string>> GoogleLoginAsync(LoginWithGoogleDTO googleLogin)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 
