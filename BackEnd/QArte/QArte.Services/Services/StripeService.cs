@@ -193,6 +193,51 @@ namespace QArte.Services.Services
             return await service.CreateAsync(options);
 
         }
+
+        private async Task<Balance> GetAccountBalanceAsync(UserDTO user)
+        {
+            var balanceOptions = new BalanceGetOptions();
+            var requestOptions = new RequestOptions
+            {
+                StripeAccount = user.StripeAccountID,
+            };
+
+            var balanceService = new BalanceService();
+
+            return await balanceService.GetAsync(balanceOptions, requestOptions);
+        }
+
+        public async Task<Payout> CreatePayoutAsync(UserDTO user)
+        {
+
+            Balance balance = await GetAccountBalanceAsync(user);
+
+            var balanceInCurrency = balance.Available.FirstOrDefault(b => b.Currency == "bgn");
+
+            if (balanceInCurrency == null)
+            {
+                throw new InvalidOperationException($"Balance not available in BGN");
+            }
+
+            var options = new PayoutCreateOptions
+            {
+                Amount = balanceInCurrency.Amount,
+                Currency = "bgn",
+            };
+
+            var service = new PayoutService();
+
+
+            var payout = await service.CreateAsync(options, new RequestOptions
+            {
+                StripeAccount = user.StripeAccountID,
+            });
+
+            return payout;
+
+
+        }
+
     }
 }
 

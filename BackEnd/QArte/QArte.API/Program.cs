@@ -9,6 +9,8 @@ using QArte.Services.Services;
 using Stripe;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
+using Quartz;
+using QArte.Services.Services.quartzPayouts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,9 +45,16 @@ builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.S
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
 builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<QArte.Services.Services.StripeService>();
+//builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
 
 
 builder.Services.AddMediatR(typeof(Program));
+
+builder.Services.AddQuartz(q =>
+{
+    q.AddJobAndTrigger<PayoutSchedulerService>(builder.Configuration);
+});
+builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);

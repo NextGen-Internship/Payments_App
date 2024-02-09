@@ -15,7 +15,7 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qarteDBContext;
-        private readonly StripeService _stripeService;
+        private readonly IStripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
 
@@ -23,7 +23,7 @@ namespace QArte.Services.Services
         private readonly ISettlementCycleService _settlementCycleService;
         private readonly IPageService _pageService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService)
+        public UserService(QArteDBContext qarteDBContext, IStripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService, IPageService pageService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
@@ -34,7 +34,7 @@ namespace QArte.Services.Services
             _settlementCycleService = settlementCycleService;
 
             _pageService = pageService;
-
+            _pageService = pageService;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)

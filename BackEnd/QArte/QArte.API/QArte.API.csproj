@@ -20,6 +20,8 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Stripe.net" Version="43.11.0" />
+    <PackageReference Include="Quartz" Version="3.8.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
   </ItemGroup>
 
   <ItemGroup>
