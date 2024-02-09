@@ -34,7 +34,7 @@ namespace QArte.Persistance.PersistanceConfigurations
 
 
             builder.HasOne(a => a.Role)
-                .WithMany(b => b.Users).OnDelete(DeleteBehavior.Restrict)
+                .WithMany(b => b.Users).OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(c => c.RoleID);
 
 

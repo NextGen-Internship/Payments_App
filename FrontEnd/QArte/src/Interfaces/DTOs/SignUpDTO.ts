@@ -16,5 +16,8 @@ interface SignUpDTO{
     isBanned:boolean;
     roleID:number;
     bankAccountID:number;
+    settlementCycleID:number;
+    settlementCycleEnum:number;
+    paymentMethodEnum:number;
 }
 export default SignUpDTO

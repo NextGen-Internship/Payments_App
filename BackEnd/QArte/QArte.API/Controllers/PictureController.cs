@@ -47,8 +47,9 @@ namespace QArte.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PictureDTO>> PostPicture([FromBody] PictureDTO obj)
+        public async Task<ActionResult<PictureDTO>> PostPicture(PictureDTO obj)
         {
+
             var query = new PostPictureCommand(obj);
             var request = await _mediatR.Send(query);
             return Ok(request);

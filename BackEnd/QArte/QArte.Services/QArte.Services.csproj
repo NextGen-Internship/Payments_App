@@ -33,5 +33,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.305.22" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.305.23" />
   </ItemGroup>
 </Project>

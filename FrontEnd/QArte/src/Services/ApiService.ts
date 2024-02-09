@@ -53,23 +53,23 @@ class ApiService {
         });
     }
 
-    // async put<T>(endpoint: string, data: any): Promise<T> {
-    //     return this.request<T>({
-    //         method: 'put',
-    //         url: `${this.baseUrl}/${endpoint}`,
-    //         data,
-    //     });
-    // }
-
-    async update<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
+    async put<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
         return this.request<T>({
-            method: 'update',
+            method: 'put',
             url: `${this.baseUrl}/${endpoint}`,
             data,
         });
     }
 
-    async delete<T>(endpoint: string): Promise<T> {
+    // async update<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
+    //     return this.request<T>({
+    //         method: 'update',
+    //         url: `${this.baseUrl}/${endpoint}`,
+    //         data,
+    //     });
+    // }
+
+    async delete<T>(endpoint: string): Promise<ApiResponseDTO> {
         return this.request<T>({
             method: 'delete',
             url: `${this.baseUrl}/${endpoint}`,

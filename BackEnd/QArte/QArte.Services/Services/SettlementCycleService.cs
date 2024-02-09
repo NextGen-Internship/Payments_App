@@ -25,37 +25,15 @@ namespace QArte.Services.Services
                   .Select(x => new SettlementCycleDTO
                   {
                       ID = x.ID,
-                      DatePeriod = x.DatePeriod
+                      SettlementCycles = x.SettlementCycles
                   }).ToListAsync();
 
-        }
-
-        public async Task<IEnumerable<SettlementCycleDTO>> GetSettlementCycleByDate(DateTime date)
-        {
-            return await _qArteDBContext.SettlementCycles
-                 .Where(x => x.DatePeriod == date)
-                 .Select(x => new SettlementCycleDTO
-                 {
-                     ID = x.ID,
-                     DatePeriod = x.DatePeriod
-                 }).ToListAsync();
         }
 
         public async Task<SettlementCycleDTO> GetSettlementCycleByID(int id)
         {
             var result = await _qArteDBContext.SettlementCycles.FirstOrDefaultAsync(x => x.ID == id);
             return result.GetDTO();
-        }
-
-        public async Task<IEnumerable<SettlementCycleDTO>> GetSettlementCyclesBeforeDate(DateTime date)
-        {
-            return await _qArteDBContext.SettlementCycles
-                .Where(x => x.DatePeriod == date)
-                .Select(x => new SettlementCycleDTO
-                {
-                    ID = x.ID,
-                    DatePeriod = x.DatePeriod
-                }).ToListAsync();
         }
 
         public async Task<SettlementCycleDTO> PostAsync(SettlementCycleDTO obj)
@@ -72,7 +50,7 @@ namespace QArte.Services.Services
         public async Task<SettlementCycleDTO> UpdateAsync(int id, SettlementCycleDTO obj)
         {
             var settlementCycle = await _qArteDBContext.SettlementCycles
-                        .Include(x => x.DatePeriod)
+                        .Include(x => x.SettlementCycles)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new ApplicationException("Not found");
 
@@ -85,7 +63,6 @@ namespace QArte.Services.Services
         public async Task<SettlementCycleDTO> DeleteAsync(int id)
         {
             var settlementCycle = await _qArteDBContext.SettlementCycles
-                        .Include(x => x.DatePeriod)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new ApplicationException("Not found");
 

@@ -15,7 +15,12 @@ namespace QArte.Services.ServiceInterfaces
 		Task<bool> isBanned(int id);
 		Task<string> GetStripeAccountByID(int id);
         Task<string> GetCountryByID(int id);
+
 		Task<UserDTO> FindByEmailAsync(string email);
+
+		Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle);
+		Task<UserDTO> GetUserByStripeAccountID(string stripeId);
+
     }
 }
 

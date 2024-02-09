@@ -18,6 +18,10 @@ import UserService from "../../Services/UserService";
 import SignUpDTO from "../../Interfaces/DTOs/SignUpDTO";
 const defaultTheme = createTheme();
 
+/*bankAccountID:number;
+    settlementCycleID:number;
+    settlementCycleEnum:number;
+    paymentMethodEnum:number; */
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +37,7 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [settlementCycleID, setSettlementCycleID] = useState("");
   const userService = new UserService(new ApiService());
   const navigate = useNavigate();
   const validateEmail = (email: string): boolean => {
@@ -60,6 +65,13 @@ export default function SignUp() {
     const id = 0;
     const phoneNumber = "+359888940130";
     const pictureURL = "";
+    IBAN:"BG80BNBG96611020345678";
+    isBanned:false;
+    roleID:0;
+    bankAccountID:0;
+    settlementCycleID:0;
+    settlementCycleEnum:0;
+    paymentMethodEnum:0;
 
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
@@ -93,6 +105,9 @@ export default function SignUp() {
           bankAccountID,
           stripeAccountID,
           pictureURL,
+          settlementCycleID,
+          settlementCycleEnum,
+          paymentMethodEnum,
         };
         console.log(userData);
         // sends data to API and recieve response
