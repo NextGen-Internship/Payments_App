@@ -2,31 +2,54 @@ import React from "react";
 import { useState } from "react";
 import './PageAdd';
 
-const PageAdd = ({onAdd}:any) =>{
+const PageAdd = ({userID}: any) =>{
     
     const [bio,setBio] = useState('');
     const [photos,setPhotos] = useState([]);
 
+
+    const postPage = async () => {
+        const qr = Math.floor(Math.random()*1000)+1; // to fix
+        try {
+            const response = await fetch('https://localhost:7191/api/Page/Post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id:0,
+                    bio,
+                    qrLink:qr.toString(),
+                    galleryID:0,
+                    userID: userID,
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('Failed to add page:', data);
+                throw new Error(`Failed to add page. Status: ${response.status}`);
+            }
+
+            console.log('Page added successfully:', data);
+        } catch (error) {
+            console.error('Error adding page:', error);
+        }
+    };
+
+
+  
     const onSubmit = (e:any) =>{
         e.preventDefault();
         if(!bio){
             alert("add bio");
             return;
         }
-        onAdd({
-            bio,
-            photos
-        });
         setBio('');
         setPhotos([]);
+        postPage();
     }
 
     return(
-        // <div>
-        //     <h1>PageAdd</h1>
-            
-        //     <button className="btn" style={{backgroundColor:"green"}} onClick={(e)=>onSubmit} >Save Page</button>
-        // </div>
         <form className="add-form" onSubmit={onSubmit}>
             <div className="form-control">
                 <label>Bio

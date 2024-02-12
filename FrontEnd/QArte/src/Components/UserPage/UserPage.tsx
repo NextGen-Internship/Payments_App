@@ -181,7 +181,7 @@ const UserPage = () =>{
         <div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-            {showAddPage && <PageAdd onAdd={addPage}/>}
+            {showAddPage && <PageAdd userID={User.id}/>}
             <div className="container">
                 <div className="container">
                     <img src={User.profilePicture} alt="Profile" />

@@ -49,7 +49,7 @@ namespace QArte.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("Post")]
         public async Task<ActionResult<PageDTO>> PostPage([FromBody] PageDTO obj)
         {
             var query = new PagePostCommand(obj);
