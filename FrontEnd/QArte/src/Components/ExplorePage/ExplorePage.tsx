@@ -2,7 +2,6 @@ import React,{Component, useState, useEffect, forwardRef, useRef} from "react";
 import './ExplorePage.css';
 import UserPage from "../UserPage/UserPage";
 import { BrowserRouter, Router, Route, Routes, Link, NavLink } from 'react-router-dom';
-import UserDTO from '../../Interfaces/DTOs/UserDTO';
 
 const ExplorePage = () =>{
 
