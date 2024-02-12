@@ -177,17 +177,7 @@ namespace QArte.API.Controllers
 
                      
                 }
-                if(stripeEvent.Type == Events.PayoutPaid)
-                {
-                    var payout = (Payout)stripeEvent.Data.Object;
-                    string connectAccID = payout.Destination.AccountId;
-                    long amount = payout.Amount;
-                    string currency = payout.Currency;
-
-                    UserDTO connectUser = await _userService.GetUserByStripeAccountID(connectAccID);
-
-                    sendEmail(connectUser, amount, currency);
-                }
+                
             }
             catch(Exception ex)
             {

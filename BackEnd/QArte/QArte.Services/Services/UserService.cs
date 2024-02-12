@@ -8,7 +8,6 @@ using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using Stripe;
 
-
 namespace QArte.Services.Services
 {
 	public class UserService : IUserService
@@ -442,45 +441,27 @@ namespace QArte.Services.Services
 
         public async Task<UserDTO> FindByEmailAsync(string email)
         {
-            
-            var user = await _qarteDBContext.Users
-                .Include(u => u.BankAccount) 
-                .Include(u => u.Role)
-                .Include(u => u.Pages)
-                .Include(u => u.SettlementCycle)
-                .Where(u => u.Email == email)
-                .FirstOrDefaultAsync();
+            var model = await _qarteDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return model?.GetDTO();
+        }
 
-            if (user == null)
-            {
-                return null;
-            }
+        //here it should be User user or UserDTO user???
+        public bool CheckByPasswordSignIn(UserDTO user, string password)
+        {
+            //import BCrypt.Net-Next
+            //the first return -> if we use User user
+            //return BCrypt.Net.BCrypt.Verify(password, user.Password);
 
-            
-            return new UserDTO
-            {
-                ID = user.ID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.UserName,
-                Password = user.Password,
-                Email = user.Email,
-                PictureURL = user.PictureUrl,
-                PhoneNumber = user.PhoneNumber,
-                Country = user.Country,
-                StripeAccountID = user.StripeAccountID,
-                Address = user.address,
-                City = user.City,
-                postalCode = user.PostalCode,
-                isBanned = user.isBanned,
-                RoleID = user.RoleID,
-                BankAccountID = user.BankAccountID,
-                SettlementCycleID = user.SettlementCycleID,
-                Pages = user.Pages.Select(p => new PageDTO
-                {
-                  
-                }).ToList()
-            };
+            //the second return -> if we use UserDTO user
+            var result = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            return result;
+
+        }
+
+        Task<List<UserDTO>> IUserService.GetBySettlementCycle(string settlementCycle)
+        {
+            throw new NotImplementedException();
         }
     }
 }

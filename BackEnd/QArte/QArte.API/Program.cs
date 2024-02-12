@@ -1,18 +1,12 @@
+
 using QArte.Persistance;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting.Server;
-using QArte.Persistance.PersistanceModels;
 using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
-using QArte.Persistance.PersistanceConfigurations;
 using Stripe;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +16,42 @@ var builder = WebApplication.CreateBuilder(args);
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "You api title", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+      {
+        {
+          new OpenApiSecurityScheme
+          {
+            Reference = new OpenApiReference
+              {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+              },
+              Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
+
+            },
+            new List<string>()
+          }
+        });
+});
 
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
@@ -32,51 +59,42 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-builder.Services.AddTransient<GalleryService>();
-builder.Services.AddTransient<PictureService>();
-builder.Services.AddSingleton<QArte.Services.Services.AmazonData>();
+
+builder.Services.AddTransient<IStripeService, QArte.Services.Services.StripeService>();
+builder.Services.AddTransient<IQRCodeGeneratorService, QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<IPictureService, PictureService>();
+builder.Services.AddSingleton<IAmazonData, QArte.Services.Services.AmazonData>();
 builder.Services.AddTransient<IBankAccountService, QArte.Services.Services.BankAccountService>();
 builder.Services.AddTransient<IFeeService, QArte.Services.Services.FeeService>();
 builder.Services.AddTransient<IGalleryService, QArte.Services.Services.GalleryService>();
 builder.Services.AddTransient<IInvoiceService, QArte.Services.Services.InvoiceService>();
-builder.Services.AddTransient<IPageService,QArte.Services.Services.PageService>();
+builder.Services.AddTransient<IPageService, QArte.Services.Services.PageService>();
 builder.Services.AddTransient<IPaymentMethodsService, QArte.Services.Services.PaymentMethodService>();
-builder.Services.AddTransient<IPictureService, QArte.Services.Services.PictureService>();
 builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>();
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
-builder.Services.AddTransient<QArte.Services.Services.QRCodeGeneratorService>();
-builder.Services.AddTransient<QArte.Services.Services.StripeService>();
-builder.Services.AddTransient< QArte.Services.Services.TokenService>();
+builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+builder.Services.AddTransient<ITokennService, TokennService>();
 
+//builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
 
 builder.Services.AddMediatR(typeof(Program));
 
+//builder.Services.AddQuartz(q =>
+//{
+//    q.AddJobAndTrigger<PayoutSchedulerService>(builder.Configuration);
+//});
+//builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
+
+
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
-
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-//    .AddEntityFrameworkStores<QArteDBContext>()
-//    .AddDefaultTokenProviders();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Secret"])),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
+//cors?
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("QarteApp", policyBuilder =>
     {
         policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191", "http://localhost:5173");
-
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
         policyBuilder.AllowCredentials();
@@ -96,10 +114,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-
 app.UseCors("QarteApp");
-
-app.UseRouting();
 
 app.UseHttpsRedirection();
 
@@ -107,32 +122,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
- 
+
 app.Run();
-
-//builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
-
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(jwt =>
-//{
-//    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Secret").Value);
-
-//    jwt.SaveToken = true;
-//    jwt.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(key),
-//        ValidateIssuer = false, // for dev
-//        ValidateAudience = false,//for dev
-//        RequireExpirationTime = false, //for dev - need to be updated when refresh token is added
-//        ValidateLifetime = true
-//    };
-//});
-
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-//            .AddEntityFrameworkStores<QArteDBContext>();

@@ -8,23 +8,20 @@ using Newtonsoft.Json;
 
 namespace QArte.Persistance.PersistanceModels
 {
-    public class GoogleToken
+    public class GoogleTokenInfoDTO
     {
         [Required]
         public bool Succeed { get; set; }
 
         public string? Message { get; set; }
 
-        [JsonProperty("given_name")]
+        [JsonProperty("First_name")]
         public string? FirstName { get; set; }
 
-        [JsonProperty("family_name")]
+        [JsonProperty("Last_name")]
         public string? LastName { get; set; }
 
-        [JsonProperty("picture")]
-        public string? ProfilePicture { get; set; }
-
-        [JsonProperty("email")]
+        [JsonProperty("Email")]
         public string? Email { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace QArte.Services.ServiceInterfaces
 {
     public interface ITokennService
     {
-        string GenerateJwtToken(User user);
+        string GenerateJwtToken(UserDTO user);
         
     }
 }

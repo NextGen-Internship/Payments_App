@@ -25,7 +25,7 @@ namespace QArte.Services.Services
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(UserDTO user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -33,7 +33,9 @@ namespace QArte.Services.Services
 
             var claims = new List<Claim>()
             {
+                    //down here new Claim(JwtRegisteredClaimNames.Email, user.getEntity().Email)???
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    //do i need to add userRole
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
             };

@@ -11,74 +11,40 @@ namespace QArte.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authService)
         {
-            _authenticationService = authenticationService;
+            _authService = authService;
         }
-
-        [HttpPost]
-        [Route("Register")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterDTO registerUser)
-        {
-            try
-            {
-                var response = await _authenticationService.Register(registerUser);
-
-                return response.Succeed == true ? Ok(response) : BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
-
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginDTO loginUser)
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginUser)
         {
             try
             {
-                var response = await _authenticationService.Login(loginUser);
-
+                var response = await _authService.Login(loginUser);
                 return response.Succeed == true ? Ok(response) : BadRequest(response);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                return StatusCode(500, $"An error occured:{ex.Message}");
             }
-
         }
 
-        [HttpPost("google-login")]
+        [HttpPost]
+        [Route("google-login")]
         public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogleDTO googleLogin)
         {
             try
             {
-                var response = await _authenticationService.GoogleLoginAsync(googleLogin);
+                var response = await _authService.GoogleLoginAsync(googleLogin);
 
                 return response.Succeed == true ? Ok(response) : BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
-
-        [HttpGet]
-        [Route("Logout")]
-        [Authorize]
-        public async Task<IActionResult> LogOut()
-        {
-            try
-            {
-                await _authenticationService.Logout();
-                return Ok();
             }
             catch (Exception ex)
             {
@@ -87,7 +53,3 @@ namespace QArte.API.Controllers
         }
     }
 }
-
-
-
-
