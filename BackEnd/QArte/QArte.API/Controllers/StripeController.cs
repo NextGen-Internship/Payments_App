@@ -8,8 +8,7 @@ using System.Text.Json;
 using QArte.Persistance.PersistanceConfigurations;
 using QArte.Services.ServiceInterfaces;
 using MediatR;
-using System.Net;
-using System.Net.Mail;
+
 
 namespace QArte.API.Controllers
 {
@@ -17,13 +16,13 @@ namespace QArte.API.Controllers
     [Route("api/[controller]")]
     public class StripeController : ControllerBase 
 	{
-        private readonly StripeService _stripeService;
+        private readonly IStripeService _stripeService;
         private readonly IUserService _userService;
         private readonly IFeeService _feeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly ISettlementCycleService _settlementCycleService;
 
-        public StripeController(StripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
+        public StripeController(IStripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
         {
             _stripeService = stripeService;
             _userService = userService;
@@ -100,27 +99,7 @@ namespace QArte.API.Controllers
         }
 
 
-        private void sendEmail(UserDTO connectUser, long amount, string currency)
-        {
-            string senderEmail = "qartemail@gmail.com";
-            string senderPassword = "rsbg uiet knzh kess";
 
-            MailMessage mail = new MailMessage();
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-
-            mail.From = new MailAddress(senderEmail);
-            mail.To.Add(connectUser.Email);
-            mail.Subject = "QArté payout succeeded";
-            mail.Body = $"Transaction of {(double)amount / 100} {currency} \n" +
-                $"has been successfuly payed out to {connectUser.FirstName} {connectUser.LastName}\n \n" +
-                $"From QArté team";
-
-            smtpClient.Port = 587;
-            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
-            smtpClient.EnableSsl = true;
-
-            smtpClient.Send(mail);
-        }
 
         [HttpPost("stripe-payment-webhook")]
         public async Task<IActionResult> StripePaymentWebhook()
@@ -177,7 +156,7 @@ namespace QArte.API.Controllers
 
                      
                 }
-                
+
             }
             catch(Exception ex)
             {

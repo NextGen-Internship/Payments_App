@@ -14,10 +14,10 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qArteDBContext;
-        private readonly QRCodeGeneratorService _qRCodeGenerator;
-        private readonly GalleryService _galleryService;
+        private readonly IQRCodeGeneratorService _qRCodeGenerator;
+        private readonly IGalleryService _galleryService;
 
-		public PageService(QArteDBContext qArteDBContext, QRCodeGeneratorService qR, GalleryService galleryService)
+		public PageService(QArteDBContext qArteDBContext, IQRCodeGeneratorService qR, IGalleryService galleryService)
 		{
             this._qArteDBContext = qArteDBContext;
             _qRCodeGenerator = qR;
@@ -116,7 +116,6 @@ namespace QArte.Services.Services
                 {
                     GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
                     newPage.GalleryID = galleryHolder.ID;
-                    newPage.Gallery = galleryHolder.GetEntity();
                 }
                 
 

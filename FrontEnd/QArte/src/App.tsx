@@ -37,6 +37,7 @@ const users = [
   },
 
   {
+<<<<<<< HEAD
     name: "Doe",
     id: 1,
     profilePicture: "path/to/profile.jpg",
@@ -61,6 +62,24 @@ const users = [
       },
     ],
   },
+=======
+      name: 'Doe',
+      id: 2,
+      profilePicture: 'path/to/profile.jpg',
+      page:[
+          {
+              id: 1,
+              bio: 'A brief bio about John Doe.',
+              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
+          },
+          {
+              id: 2,
+              bio: 'We are doing it!.',
+              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
+          },
+      ]
+  }
+>>>>>>> 996b4ce0df42fab56a61178824fbf0654178b9a6
 ];
 
 function App() {

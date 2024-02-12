@@ -14,7 +14,7 @@ namespace QArte.Services.Services
 	{
 
         private readonly QArteDBContext _qarteDBContext;
-        private readonly StripeService _stripeService;
+        private readonly IStripeService _stripeService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IRoleService _roleService;
 
@@ -22,7 +22,7 @@ namespace QArte.Services.Services
         private readonly ISettlementCycleService _settlementCycleService;
         private readonly IPageService _pageService;
 
-        public UserService(QArteDBContext qarteDBContext, StripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService)
+        public UserService(QArteDBContext qarteDBContext, IStripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService, IPageService pageService)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
@@ -33,6 +33,10 @@ namespace QArte.Services.Services
             _settlementCycleService = settlementCycleService;
 
             //_pageService = pageService;
+
+
+            _pageService = pageService;
+            _pageService = pageService;
 
         }
 
@@ -321,7 +325,7 @@ namespace QArte.Services.Services
                 GalleryID = 0
             };
             
-            PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+ //           PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
             
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -339,7 +343,7 @@ namespace QArte.Services.Services
 
             if (deletedUser == null)
             {
-                newUser.Pages.Add(pageHolder.GetEntity());
+//                newUser.Pages.Add(pageHolder.GetEntity());
                 newUser.BankAccountID = bankHolder.ID;
                 newUser.RoleID = roleHolder.ID;
                 newUser.SettlementCycleID = settlementCycleHolder.ID;

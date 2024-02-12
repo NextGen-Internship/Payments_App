@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace QArte.Services.DTOs
 {
@@ -7,6 +8,7 @@ namespace QArte.Services.DTOs
 		public int ID { get; set; }
 		public string PictureURL { get; set; }
 		public int GalleryID { get; set; }
+		public IFormFile file { get; set; }
 	}
 }
 

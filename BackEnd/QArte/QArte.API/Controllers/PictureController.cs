@@ -47,7 +47,7 @@ namespace QArte.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PictureDTO>> PostPicture(PictureDTO obj)
+        public async Task<ActionResult<PictureDTO>> PostPicture([FromForm] PictureDTO obj)
         {
 
             var query = new PostPictureCommand(obj);

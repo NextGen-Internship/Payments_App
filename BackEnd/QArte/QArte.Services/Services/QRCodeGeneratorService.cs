@@ -19,8 +19,9 @@ namespace QArte.Services.Services
     public class QRCodeGeneratorService : IQRCodeGeneratorService
     {
 
-        private readonly AmazonData _amazonData;
-        public QRCodeGeneratorService(AmazonData amazonData)
+        private readonly IAmazonData _amazonData;
+
+        public QRCodeGeneratorService(IAmazonData amazonData)
         {
             _amazonData = amazonData;
         }
@@ -168,6 +169,7 @@ namespace QArte.Services.Services
 
             var region = RegionEndpoint.EUCentral1;
             AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+
 
             SendMail(qrPath, userEmail, client);
         }

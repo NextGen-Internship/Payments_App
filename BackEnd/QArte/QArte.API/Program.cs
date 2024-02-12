@@ -5,8 +5,15 @@ using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
 using Stripe;
+
 using Microsoft.OpenApi.Models;
-using Swashbuckle.Swagger;
+//sing Swashbuckle.Swagger;
+
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
+using Quartz;
+using QArte.Services.Services.quartzPayouts;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,11 +66,17 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-
 builder.Services.AddTransient<IStripeService, QArte.Services.Services.StripeService>();
 builder.Services.AddTransient<IQRCodeGeneratorService, QArte.Services.Services.QRCodeGeneratorService>();
 builder.Services.AddTransient<IPictureService, PictureService>();
 builder.Services.AddSingleton<IAmazonData, QArte.Services.Services.AmazonData>();
+
+
+builder.Services.AddTransient<IStripeService,QArte.Services.Services.StripeService>();
+builder.Services.AddTransient<IQRCodeGeneratorService,QArte.Services.Services.QRCodeGeneratorService>();
+builder.Services.AddTransient<IPictureService, PictureService>();
+builder.Services.AddSingleton<IAmazonData,QArte.Services.Services.AmazonData>();
+
 builder.Services.AddTransient<IBankAccountService, QArte.Services.Services.BankAccountService>();
 builder.Services.AddTransient<IFeeService, QArte.Services.Services.FeeService>();
 builder.Services.AddTransient<IGalleryService, QArte.Services.Services.GalleryService>();
@@ -73,6 +86,7 @@ builder.Services.AddTransient<IPaymentMethodsService, QArte.Services.Services.Pa
 builder.Services.AddTransient<IRoleService, QArte.Services.Services.RoleService>();
 builder.Services.AddTransient<ISettlementCycleService, QArte.Services.Services.SettlementCycleService>();
 builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>();
+
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<ITokennService, TokennService>();
 
@@ -85,6 +99,17 @@ builder.Services.AddMediatR(typeof(Program));
 //    q.AddJobAndTrigger<PayoutSchedulerService>(builder.Configuration);
 //});
 //builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
+
+builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
+
+builder.Services.AddMediatR(typeof(Program));
+
+builder.Services.AddQuartz(q =>
+{
+    q.AddJobAndTrigger<PayoutSchedulerService>(builder.Configuration);
+});
+builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
+
 
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
