@@ -56,23 +56,6 @@ const users = [
 function App() {
 
 const [UsersList,SetUserList] =  useState<any>(users);
-let [OpenID,SetOpenID] = useState<number>(0); 
-
- const onID = (id:number):void =>{
-    SetOpenID(id);
-}
-
-const FromIdToPos = (id:number):number|undefined =>{
-    for(var i=0; i<UsersList.length;i++){
-        if(UsersList[i].id==id){
-            return i;
-        }
-    }
-    return undefined;
-}
-
-const userIndex = FromIdToPos(OpenID);
-const userPageElement = <UserPage user={UsersList}/>
 
   return (
     <BrowserRouter>
@@ -88,7 +71,7 @@ const userPageElement = <UserPage user={UsersList}/>
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
-            <Route index element={<UserList users={UsersList} onID={onID}/>}/>
+            <Route index element={<UserList users={UsersList}/>}/>
             <Route path=":id/*" element={<UserPage user={UsersList}/>}/>
           </Route>
           {/* <Route path="/" element={<Home />} /> */}

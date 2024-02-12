@@ -72,6 +72,8 @@ namespace QArte.Services.Services
 
             await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
 
+            await _paymentMethodsService.DeleteAsync(user.BankAccount.PaymentMethodID);
+
             return user.GetDTO();
         }
 

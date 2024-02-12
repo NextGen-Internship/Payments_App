@@ -3,7 +3,7 @@ import './UserList.css';
 import UserPage from "../UserPage/UserPage";
 import { BrowserRouter, Router, Route, Routes, Link, NavLink } from 'react-router-dom';
 
-const UserList = ({users, onID}:any) =>{
+const UserList = ({users}:any) =>{
 
     const [userList,SetUserList] = useState(users);
 
@@ -14,7 +14,7 @@ const UserList = ({users, onID}:any) =>{
             {users.map((user:any,index:any)=>(
                 <li key={index}>
                     <NavLink to={`${user.id}`}>
-                        <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onID(user.id)}>{user.name}</button>
+                        <button className="btn" style={{backgroundColor:"green"}} >{user.name}</button>
                     </NavLink>
                 </li>
             ))}
