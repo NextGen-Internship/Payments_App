@@ -118,43 +118,36 @@ namespace QArte.Services.Services
             string path = "";
             List<PictureDTO> pictureDTOs = new List<PictureDTO>();
 
-            foreach (User user in _qArteDBContext.Users)
+            foreach (Page page in _qArteDBContext.Pages)
             {
-                foreach(Page page in user.Pages)
+                if (page.GalleryID == id)
                 {
-                    if (page.GalleryID == id)
-                    {
-                        path = $"Users\\/{user.ID}\\/{page.GalleryID}\\/";
-                        break;
-                    }
-                }
-                if (path != "")
-                {
-                    break;
+                    path = $"Users\\/{page.UserID}\\/{page.GalleryID}\\/";
                 }
             }
 
             var gallery = await _qArteDBContext.Galleries
+                .Include(x=>x.Pictures)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
-
+            GalleryDTO galleryDTO = gallery.GetDTO();
 
             var region = RegionEndpoint.EUCentral1;
             AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
 
-            foreach(Picture picture in gallery.Pictures)
+            foreach(PictureDTO picture in galleryDTO.Pictures)
             {
-                GetObjectRequest getObjectRequest = new GetObjectRequest
+                GetPreSignedUrlRequest getPreSignedUrlRequest = new GetPreSignedUrlRequest
                 {
                     BucketName = _amazonData.BucketName,
-                    Key = picture.PictureURL
+                    Key = picture.PictureURL,
+                    Expires = DateTime.UtcNow.AddMinutes(1)
                 };
 
-                using var response = await client.GetObjectAsync(getObjectRequest);
-                using var stream = response.ResponseStream;
+               var response = client.GetPreSignedURL(getPreSignedUrlRequest);
 
-                PictureDTO pictureDTO = picture.GetDTO();
-                pictureDTO.PictureURL = stream.ToString();
+                PictureDTO pictureDTO = picture;
+                pictureDTO.PictureURL = response;
 
                 pictureDTOs.Add(pictureDTO);
 

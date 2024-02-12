@@ -1,11 +1,34 @@
 import React from "react";
 import './UserGallery.css';
 import Photo from "../Photo/Photo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const UserGallery = ({photos, onAddPhoto, onDeletePhoto}:any) =>{
+const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
 
     const[file, setFile] = useState();
+    const[photos, setPhotos] = useState([]);
+
+    useEffect(()=>{
+        const getPhotos =async () => {
+            try
+            {
+                const photosFromServer = await fetchPhotos();
+                setPhotos(photosFromServer);
+            }
+            catch(error)
+            {
+                console.error('Error fetching user data!', error);
+            }
+        }
+        getPhotos();
+    },[]);
+
+    const fetchPhotos = async()=>{
+        const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
+        const photoData = await res.json();
+        console.log(photoData)
+        return photoData;
+    }
 
     const handleOnChange = async(e:any)=>{
         let target = e.target.files;
@@ -13,6 +36,8 @@ const UserGallery = ({photos, onAddPhoto, onDeletePhoto}:any) =>{
         setFile(target[0]);
         
     }
+
+
 
     const AddPhoto = async()=>{
         if(file==undefined){
