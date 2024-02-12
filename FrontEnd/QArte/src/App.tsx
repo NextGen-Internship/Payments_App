@@ -194,7 +194,7 @@ const users = [
   },
   {
       name: 'Doe',
-      id: 2,
+      id: 1002,
       profilePicture: 'path/to/profile.jpg',
       page:[
           {
@@ -216,23 +216,6 @@ const users = [
 function App() {
 
 const [UsersList,SetUserList] =  useState<any>(users);
-let [OpenID,SetOpenID] = useState<number>(0); 
-
- const onID = (id:number):void =>{
-    SetOpenID(id);
-}
-
-const FromIdToPos = (id:number):number|undefined =>{
-    for(var i=0; i<UsersList.length;i++){
-        if(UsersList[i].id==id){
-            return i;
-        }
-    }
-    return undefined;
-}
-
-const userIndex = FromIdToPos(OpenID);
-const userPageElement = <UserPage user={UsersList}/>
 
   return (
     <BrowserRouter>
@@ -249,7 +232,7 @@ const userPageElement = <UserPage user={UsersList}/>
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
             <Route index element={<ExplorePage/>}/>
-            <Route path=":id/*" element={<UserPage user={UsersList}/>}/>
+            <Route path=":id/*" element={<UserPage/>}/>
           </Route>
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/home" element={<Home/>}/>

@@ -6,7 +6,7 @@ using QArte.Services.DTOMappers;
 using MediatR;
 namespace QArte.API.Queries.PictureQueries
 {
-	public class GetPictureByGalleryIDQuery : IRequest<PictureDTO>
+	public class GetPictureByGalleryIDQuery : IRequest<List<PictureDTO>>
 	{
 		public int Id;
 

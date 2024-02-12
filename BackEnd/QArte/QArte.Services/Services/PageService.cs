@@ -121,6 +121,7 @@ namespace QArte.Services.Services
 
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
+
                 var user = await _qArteDBContext.Users.
                     FirstOrDefaultAsync(x => x.ID == newPage.UserID);
 

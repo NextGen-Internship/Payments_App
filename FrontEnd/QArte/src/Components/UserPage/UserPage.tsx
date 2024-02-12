@@ -23,7 +23,7 @@ import StripeCheckout from "../Stripe/StripeCheckout";
 //     ]
 //   };
 
-const UserPage = ({user}:any) =>{
+const UserPage = () =>{
 
     const navigate=useNavigate();
 
@@ -31,35 +31,66 @@ const UserPage = ({user}:any) =>{
     const val = parseInt(id!);
 
     const[showAddPage,setAddPage] = useState(false);
-    const [User,setUsers] = useState<any>({});
+    const [User,setUser] = useState<any>({});
     const [Upages,setPages] = useState<any>([]);
 
 
     useEffect(()=>{
-        const getUser = async() =>{
-            try{
-                await fetchUser();
+        const getUser =async () => {
+            try
+            {
+                const userFromServer = await fetchUser();
+                const pagesFromServer = await fetchPages();
+                setUser(userFromServer);
+                setPages(pagesFromServer);
             }
-            catch(error){
-                console.error('Error fetching user data!',error);
+            catch(error)
+            {
+                console.error('Error fetching user data!', error);
             }
         }
-        getUser()
-    },[user]);
+        getUser();
+    },[]);
 
-    const fetchUser =async () => {
-        try {
-            const foundUser = user.find((u: any) => u.id === val);
-            if (foundUser) {
-                setUsers(foundUser);
-                setPages(foundUser.page);
-            } else {
-                console.error(`User with id ${val} not found.`);
-            }
-        } catch (error) {
-            console.error('Error fetching user data!', error);
-        }
+    const fetchUser = async()=>{
+        const res = await fetch(`https://localhost:7191/api/User/GetUserByID/${val}`);
+        const userData = await res.json();
+        console.log(userData);
+        return userData;
     }
+
+    const fetchPages = async()=>{
+        const res = await fetch(`https://localhost:7191/api/Page/GetByUserID/${val}`);
+        const pageData = await res.json();
+        console.log(pageData);
+        return pageData;
+    }
+
+    // useEffect(()=>{
+    //     const getUser = async() =>{
+    //         try{
+    //             await fetchUser();
+    //         }
+    //         catch(error){
+    //             console.error('Error fetching user data!',error);
+    //         }
+    //     }
+    //     getUser()
+    // },[user]);
+
+    // const fetchUser =async () => {
+    //     try {
+    //         const foundUser = user.find((u: any) => u.id === val);
+    //         if (foundUser) {
+    //             setUser(foundUser);
+    //             setPages(foundUser.page);
+    //         } else {
+    //             console.error(`User with id ${val} not found.`);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching user data!', error);
+    //     }
+    // }
 
 
     const PageRef = useRef<SubPageListerRef>(null);
@@ -132,7 +163,6 @@ const UserPage = ({user}:any) =>{
     const donateFunds=()=>{
         console.log("Donating");
         // navigate('/home');
-       console.log(user); 
        console.log(User);
        console.log("pages ");
        console.log(Upages);       
@@ -155,7 +185,7 @@ const UserPage = ({user}:any) =>{
             <div className="container">
                 <div className="container">
                     <img src={User.profilePicture} alt="Profile" />
-                    <h2>{User.name}</h2>
+                    <h2>{User.firstName+" "+User.lastName}</h2>
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
             </div>
