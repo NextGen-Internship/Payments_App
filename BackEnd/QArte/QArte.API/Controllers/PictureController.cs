@@ -39,7 +39,7 @@ namespace QArte.API.Controllers
         }
 
         [HttpGet("GetByGalleryID/{id}")]
-        public async Task<ActionResult<PictureDTO>> GetByGalleryID(int id)
+        public async Task<ActionResult<IEnumerable<PictureDTO>>> GetByGalleryID(int id)
         {
             var query = new GetPictureByGalleryIDQuery(id);
             var result = await _mediatR.Send(query);

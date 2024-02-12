@@ -110,7 +110,6 @@ namespace QArte.Services.Services
         {
             var paymentMethod = await _qArteDBContext.PaymentMethods
                         //.Include(x => x.BankAccounts)
-                        .Include(x => x.PaymentMethods)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new ApplicationException("Not found");
 

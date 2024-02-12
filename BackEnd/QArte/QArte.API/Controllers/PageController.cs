@@ -42,9 +42,9 @@ namespace QArte.API.Controllers
         }
 
         [HttpGet("GetByUserID/{Userid}")]
-        public async Task<ActionResult<List<PageDTO>>> GetByUserID(int id)
+        public async Task<ActionResult<List<PageDTO>>> GetByUserID(int Userid)
         {
-            var query = new PageGetByUserIDQuery(id);
+            var query = new PageGetByUserIDQuery(Userid);
             var result = await _mediatR.Send(query);
             return Ok(result);
         }

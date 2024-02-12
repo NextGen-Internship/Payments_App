@@ -9,7 +9,7 @@ namespace QArte.Services.ServiceInterfaces
 	public interface IPictureService : ICRUDshared<PictureDTO>
 	{
 		Task<PictureDTO> GetPictureByID(int id);
-		Task<PictureDTO> GetPicturesByGalleryID(int id);
+		Task<IEnumerable<PictureDTO>> GetPicturesByGalleryID(int id);
 	}
 }
 

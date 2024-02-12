@@ -43,6 +43,11 @@ namespace QArte.Services.DTOMappers
                 throw new ApplicationException("This userDTO is null");
             }
 
+            List<Page> pages = new List<Page>();
+            foreach(PageDTO pageDTO in userDTO.Pages)
+            {
+                pages.Add(pageDTO.GetEntity());
+            }
             return new User
             {
                 ID = userDTO.ID,
@@ -61,7 +66,9 @@ namespace QArte.Services.DTOMappers
                 City = userDTO.City,
                 address = userDTO.Address,
                 PostalCode = userDTO.postalCode,
-                SettlementCycleID = userDTO.SettlementCycleID
+                SettlementCycleID = userDTO.SettlementCycleID,
+               
+                
             };
         }
     }

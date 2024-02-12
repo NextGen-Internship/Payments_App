@@ -57,6 +57,11 @@ namespace QArte.Services.Services
 
             _stripeService.DeleteSubAccount(user);
 
+            foreach (Page page in user.Pages)
+            {
+                await _pageService.TotalDeleteAsync(page.ID);
+            }
+
             _qarteDBContext.Users.Remove(user);
 
             await _qarteDBContext.SaveChangesAsync();
@@ -67,10 +72,7 @@ namespace QArte.Services.Services
 
             await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
 
-            foreach (Page page in user.Pages)
-            {
-                await _pageService.TotalDeleteAsync(page.ID);
-            }
+            await _paymentMethodsService.DeleteAsync(user.BankAccount.PaymentMethodID);
 
             return user.GetDTO();
         }
@@ -314,15 +316,14 @@ namespace QArte.Services.Services
 
             SettlementCycleDTO settlementCycleHolder = await _settlementCycleService.PostAsync(settlementCycle);
             //create the first page of the user
-            PageDTO pageDTO = new PageDTO {
+            PageDTO pageDTO = new PageDTO
+            {
                 ID = 0,
                 Bio = "Your First Page!",
                 QRLink = "User URL or whatever",
                 UserID = 0,
                 GalleryID = 0
             };
-            
- //           PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
             
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
@@ -340,15 +341,22 @@ namespace QArte.Services.Services
 
             if (deletedUser == null)
             {
-//                newUser.Pages.Add(pageHolder.GetEntity());
                 newUser.BankAccountID = bankHolder.ID;
                 newUser.RoleID = roleHolder.ID;
                 newUser.SettlementCycleID = settlementCycleHolder.ID;
 
                 await _qarteDBContext.Users.AddAsync(newUser);
-                
+
                 newUser.StripeAccountID = await _stripeService.CreateSubAccountAsync(newUser, bankHolder);
+
                 await _qarteDBContext.SaveChangesAsync();
+
+                pageDTO.UserID = newUser.ID;
+                PageDTO pageHolder = await _pageService.PostAsync(pageDTO);
+                newUser.Pages.Add(pageHolder.GetEntity());
+                
+
+                
                 return newUser.GetDTO();
             }
 
