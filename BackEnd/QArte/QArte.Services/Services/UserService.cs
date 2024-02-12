@@ -57,6 +57,11 @@ namespace QArte.Services.Services
 
             _stripeService.DeleteSubAccount(user);
 
+            foreach (Page page in user.Pages)
+            {
+                await _pageService.TotalDeleteAsync(page.ID);
+            }
+
             _qarteDBContext.Users.Remove(user);
 
             await _qarteDBContext.SaveChangesAsync();
@@ -66,11 +71,6 @@ namespace QArte.Services.Services
             await _roleService.DeleteAsync(user.RoleID);
 
             await _settlementCycleService.DeleteAsync(user.SettlementCycleID);
-
-            foreach (Page page in user.Pages)
-            {
-                await _pageService.TotalDeleteAsync(page.ID);
-            }
 
             return user.GetDTO();
         }

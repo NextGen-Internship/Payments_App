@@ -12,6 +12,7 @@ using Amazon;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using Microsoft.AspNetCore.Http;
+using SkiaSharp;
 
 namespace QArte.Services.Services
 {
@@ -104,18 +105,62 @@ namespace QArte.Services.Services
 
             pictureDTO.PictureURL = stream.ToString();
 
+       
             return pictureDTO;
         }
 
-        public async Task<PictureDTO> GetPicturesByGalleryID(int id)
+        public async Task<IEnumerable<PictureDTO>> GetPicturesByGalleryID(int id)
         {
-            var picture = await _qArteDBContext.Pictures
-                .Include(x => x.Gallery)
-                .FirstOrDefaultAsync(x => x.GalleryID == id)
+            //fix this
+            //find the right amazon folder user->gallery id
+            //get all of the pictures in it
+            //push them out
+            string path = "";
+            List<PictureDTO> pictureDTOs = new List<PictureDTO>();
+
+            foreach (User user in _qArteDBContext.Users)
+            {
+                foreach(Page page in user.Pages)
+                {
+                    if (page.GalleryID == id)
+                    {
+                        path = $"Users\\/{user.ID}\\/{page.GalleryID}\\/";
+                        break;
+                    }
+                }
+                if (path != "")
+                {
+                    break;
+                }
+            }
+
+            var gallery = await _qArteDBContext.Galleries
+                .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
-            return picture.GetDTO();
 
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+
+            foreach(Picture picture in gallery.Pictures)
+            {
+                GetObjectRequest getObjectRequest = new GetObjectRequest
+                {
+                    BucketName = _amazonData.BucketName,
+                    Key = picture.PictureURL
+                };
+
+                using var response = await client.GetObjectAsync(getObjectRequest);
+                using var stream = response.ResponseStream;
+
+                PictureDTO pictureDTO = picture.GetDTO();
+                pictureDTO.PictureURL = stream.ToString();
+
+                pictureDTOs.Add(pictureDTO);
+
+            }
+
+            return pictureDTOs;
         }
 
         public async Task<PictureDTO> PostAsync(PictureDTO obj)

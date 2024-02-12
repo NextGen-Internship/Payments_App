@@ -7,18 +7,19 @@ using MediatR;
 
 namespace QArte.API.Handlers.PictureHandlers
 {
-	public class PictureGetByGalleryIDHandler : IRequestHandler<GetPictureByGalleryIDQuery, PictureDTO>
+	public class PictureGetByGalleryIDHandler : IRequestHandler<GetPictureByGalleryIDQuery, List<PictureDTO>>
 	{
         private readonly IPictureService _pictureService;
+
         public PictureGetByGalleryIDHandler(IPictureService pictureService)
         {
             _pictureService = pictureService;
         }
 
-        public async Task<PictureDTO> Handle(GetPictureByGalleryIDQuery request, CancellationToken cancellationToken)
+        public async Task<List<PictureDTO>> Handle(GetPictureByGalleryIDQuery request, CancellationToken cancellationToken)
         {
             var order = await _pictureService.GetPicturesByGalleryID(request.Id);
-            return order;
+            return (List<PictureDTO>)order;
         }
     }
 }
