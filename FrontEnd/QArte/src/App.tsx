@@ -34,7 +34,7 @@ const users = [
 
   {
       name: 'Doe',
-      id: 11,
+      id: 1002,
       profilePicture: 'path/to/profile.jpg',
       page:[
           {
@@ -72,7 +72,7 @@ const [UsersList,SetUserList] =  useState<any>(users);
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
             <Route index element={<UserList users={UsersList}/>}/>
-            <Route path=":id/*" element={<UserPage user={UsersList}/>}/>
+            <Route path=":id/*" element={<UserPage/>}/>
           </Route>
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/home" element={<Home/>}/>

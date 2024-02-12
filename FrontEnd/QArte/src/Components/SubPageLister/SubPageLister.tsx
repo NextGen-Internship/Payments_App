@@ -32,6 +32,7 @@ const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDel
               setPages(foundPage);
               console.log("here");
               console.log(foundPage);
+              console.log(awakePage);
           } else {
               console.error(`User with id ${awakePage} not found.`);
           }
