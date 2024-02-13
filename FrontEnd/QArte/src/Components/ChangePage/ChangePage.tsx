@@ -12,7 +12,7 @@ const ChangePage = ({id,onChange}:any) =>{
             alert("add bio");
             return;
         }
-        console.log({id,bio})
+
         onChange({
             id,
             bio,

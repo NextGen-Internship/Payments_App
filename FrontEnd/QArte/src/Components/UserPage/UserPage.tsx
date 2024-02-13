@@ -4,6 +4,7 @@ import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
 import StripeCheckout from "../Stripe/StripeCheckout";
+import ChangePage from "../ChangePage/ChangePage";
 
 // const user = {
 //     name: 'John Doe',
@@ -145,6 +146,7 @@ const UserPage = () =>{
             const res = await fetchPages();
             setPages(res);
             console.log('Page added successfully:', data);
+            console.log("THe full data", res);
         } catch (error) {
             console.error('Error adding page:', error);
         }
@@ -175,18 +177,9 @@ const UserPage = () =>{
     };
 
    const deletePage = async (id:any) =>{
-        console.log("Deleting page: "+id)
-        for(var i =0;i<Upages.length;i++){
-            if(Upages[i].id==id){
-                Upages.splice(i,1);
-            }
-        }
-        
+
         deletePageFetch(id);
 
-        setPages(Upages.filter((page:any)=>page.id!==id));
-        if(PageRef.current)
-            PageRef.current.Awake(Upages[0].id);
         console.log(Upages);
     }
 
@@ -226,24 +219,6 @@ const UserPage = () =>{
     
 
     const changePage = (page:any) =>{       
-
-        setPages(Upages.map((spage:any)=>{
-            if(spage.id===page.id){
-                return{...page};
-            }
-            else{return spage};
-        }))
-
-        // let awake=0;
-        for(var i=0;i<Upages.length;i++){
-            console.log(Upages[i].id);
-            if(Upages[i].id==page.id){
-                Upages[i]=page;
-                //awake=i;
-            }
-        }
-
-
         changePageFetch(page);
         // setPages(Upages);
         //PageRef.current.Awake(Upages[awake].id);
@@ -277,7 +252,7 @@ const UserPage = () =>{
                     <img src={User.profilePicture} alt="Profile" />
                     <h2>{User.firstName+" "+User.lastName}</h2>
                 </div>
-                <SubPageLister ref={PageRef} pages={Upages} onDelete={deletePage} onChange={changePage} onAddPhoto={addNewPhoto} onDeletePhoto={deletePhoto} />
+                <SubPageLister ref={PageRef} pages={Upages} />
             </div>
             <StripeCheckout userID = {User.id}></StripeCheckout>
         </div>

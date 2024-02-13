@@ -9,7 +9,7 @@ import { NavLink, Route, Routes, Outlet } from "react-router-dom";
       Awake: (id: any) => void;
     }
 
-const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDeletePhoto}:any,ref) =>{
+const SubPageLister = forwardRef(({ pages}:any,ref) =>{
 
     const [awakePage, setAwakePage] =useState<number>(0);
     const [Pages,setPages] = useState<any>([]);
