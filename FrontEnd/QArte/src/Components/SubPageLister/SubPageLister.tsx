@@ -59,27 +59,27 @@ const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDel
 
     return(
         //do a nav type page browsing
-        <div>
-            {pages.map((pages:any,index:number)=>(
-                <ul key={index}>
-                    <NavLink to={`${pages.id}`}>
-                        <button className="btn" style={{backgroundColor:"green"}}>
-                            Page {index+1}
-                        </button>
-                    </NavLink>
-                </ul>
-            ))}     
-            <Outlet/>
-             {/* <h2>{pages[awakePage].id}</h2>       
-            <Routes>
-                <Route path={`${pages.userID}'/'${pages[awakePage]}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
-            </Routes> */}
-        </div>
-        // <>
-        //     <PageNavContainer pages={Pages} onShow={onShow}/>
-        //     {Pages.length > 0 && <SubPageContainer page={Pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}
+        // <div>
+        //     {pages.map((pages:any,index:number)=>(
+        //         <ul key={index}>
+        //             <NavLink to={`${pages.id}`}>
+        //                 <button className="btn" style={{backgroundColor:"green"}}>
+        //                     Page {index+1}
+        //                 </button>
+        //             </NavLink>
+        //         </ul>
+        //     ))}     
+        //     <Outlet/>
+        //      {/* <h2>{pages[awakePage].id}</h2>       
+        //     <Routes>
+        //         <Route path={`${pages.userID}'/'${pages[awakePage]}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
+        //     </Routes> */}
+        // </div>
+        <>
+            <PageNavContainer pages={Pages} onShow={onShow}/>
+            {Pages.length > 0 && <SubPageContainer page={Pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}
 
-        // </>
+        </>
     )
 })
 export default SubPageLister;
