@@ -100,28 +100,55 @@ const UserPage = () =>{
         console.log(showAddPage);
     }
 
-    const addPage = (page:any):void =>{
-        const id = Math.floor(Math.random()*1000)+1;
-        const newPage = {id,...page}
-        var go = true;
+    const addPage = async (bio:any) =>{
+        // const id = Math.floor(Math.random()*1000)+1;
+        // const newPage = {id,...page}
+        // var go = true;
 
-        for(var i=0; i<Upages.length;i++){
-            if(Upages[i].id==newPage.id){
-                go=false;   
+        // for(var i=0; i<Upages.length;i++){
+        //     if(Upages[i].id==newPage.id){
+        //         go=false;   
+        //     }
+        // }
+        // if(go)
+        // {
+        //     Upages.push(newPage);
+        //     if(PageRef.current){
+        //         PageRef.current.Awake(Upages[Upages.length-1].id);}
+        // }
+        // else
+        // {
+        //     console.log("you have this page");
+        // }
+        // setPages(Upages);
+        // console.log(Upages);
+        const qr = Math.floor(Math.random()*1000)+1; // to fix
+        try {
+            const response = await fetch('https://localhost:7191/api/Page/Post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id:0,
+                    bio,
+                    qrLink:qr.toString(),
+                    galleryID:0,
+                    userID: User.id,
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('Failed to add page:', data);
+                throw new Error(`Failed to add page. Status: ${response.status}`);
             }
+            const res = await fetchPages();
+            setPages(res);
+            console.log('Page added successfully:', data);
+        } catch (error) {
+            console.error('Error adding page:', error);
         }
-        if(go)
-        {
-            Upages.push(newPage);
-            if(PageRef.current){
-                PageRef.current.Awake(Upages[Upages.length-1].id);}
-        }
-        else
-        {
-            console.log("you have this page");
-        }
-        setPages(Upages);
-        console.log(Upages);
+        
     }
 
     const deletePageFetch = async (id: any) => {
@@ -138,7 +165,8 @@ const UserPage = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-    
+            const res = await fetchPages();
+            setPages(res);
             console.log('Page deleted successfully.');
 
         } catch (error) {
@@ -185,7 +213,8 @@ const UserPage = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-    
+            const res = await fetchPages();
+            setPages(res);
             console.log('Page updated successfully.');
     
             // If you want to update the UI or perform other actions after the update, add them here.
@@ -242,7 +271,7 @@ const UserPage = () =>{
         <div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-            {showAddPage && <PageAdd userID={User.id}/>}
+            {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
                 <div className="container">
                     <img src={User.profilePicture} alt="Profile" />

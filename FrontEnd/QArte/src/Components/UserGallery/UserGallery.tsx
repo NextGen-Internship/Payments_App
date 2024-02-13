@@ -24,10 +24,12 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
         }
         console.log("THIS IS THE GALLERY");
         getPhotos();
-    },[]);
+    },[gallery]);
 
 
     const fetchPhotos = async()=>{
+        console.log("gallery")
+        console.log(gallery)
         const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
         const photoData = await res.json();
         //console.log("THIS IS THE GALLERY!")
@@ -63,7 +65,6 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
                 <button className="btn" style={{backgroundColor:"green"}} onClick={()=>AddPhoto()}>Add Photo</button>   
             </div>
             
-
             <div className="photo-grid">
                 {photos.map((photo:any,index:any)=>(
                     <Photo key={index} photo={photo} onDeletePhoto={onDeletePhoto}/>
