@@ -29,18 +29,27 @@ namespace QArte.Services.Services
         public async void CreateQRCode(string URL, string galleryID, string userID, string userEmail)
         {
             //also fetch the logo from the server
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
-            string path = location + galleryID;
-            string qrPath = path + "/" + "QR.png";
-            string logoPath = "/Users/Martin.Konov/Desktop/QArte_B.png";
+            string logoPath = "Public_Resources/QArte_B.png";
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
+
 
             //if (!Directory.Exists(path))
             //{
             //    DirectoryInfo directory = Directory.CreateDirectory(path);
             //}
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            bool bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(client, _amazonData.BucketName);
 
-            SkiaSharp.SKBitmap sKBitmap = SkiaSharp.SKBitmap.Decode(logoPath);
+            GetObjectRequest getObjectRequest = new GetObjectRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = logoPath
+            };
+            using var response = await client.GetObjectAsync(getObjectRequest);
+            using var stream = response.ResponseStream;
+
+            SkiaSharp.SKBitmap sKBitmap = SkiaSharp.SKBitmap.Decode(stream);
             SkiaSharp.SKImage logo = SkiaSharp.SKImage.FromBitmap(sKBitmap);
 
             using var generator = new QRCodeGenerator();
@@ -69,9 +78,7 @@ namespace QArte.Services.Services
             //stream.Dispose();
 
             //amazon putting
-            var region = RegionEndpoint.EUCentral1;
-            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey,region);
-            bool bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(client, _amazonData.BucketName);
+
             if (!bucketExists)
             {
                 PutBucketRequest bucketRequest = new PutBucketRequest()

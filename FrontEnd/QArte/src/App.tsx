@@ -13,6 +13,9 @@ import SuccessPage from './Components/Stripe/SuccessPage.jsx';
 import ErrorPage from './Components/Stripe/ErrorPage.jsx';
 import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
 import ExplorePage from "./Components/ExplorePage/ExplorePage.js";
+import SubPageContainer from "./Components/SubPageContainer/SubPageContainer.js";
+import UserGallery from "./Components/UserGallery/UserGallery.js";
+import Register from "./Pages/Register/Register.js";
 
 const users = [
   {
@@ -232,7 +235,9 @@ const [UsersList,SetUserList] =  useState<any>(users);
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
             <Route index element={<ExplorePage/>}/>
-            <Route path=":id/*" element={<UserPage/>}/>
+            <Route path=":id" element={<UserPage/>}>
+              <Route path=":id" element={<SubPageContainer/>}/>
+            </Route>
           </Route>
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/home" element={<Home/>}/>

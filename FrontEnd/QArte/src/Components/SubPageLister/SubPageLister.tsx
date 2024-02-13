@@ -3,6 +3,7 @@ import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
+import { NavLink, Route, Routes, Outlet } from "react-router-dom";
 
     export interface SubPageListerRef {
       Awake: (id: any) => void;
@@ -57,24 +58,28 @@ const SubPageLister = forwardRef(({ pages, onDelete, onChange, onAddPhoto, onDel
 
 
     return(
-        // <div>
-        //     {pages.map((page,index)=>(
-        //         <ul key={index}>
-        //             <NavLink to={`${page.id}`}>
-        //                 <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onID(page.id)}>
-        //                     Page {page.id}
-        //                 </button>
-        //             </NavLink>
-        //         </ul>
-        //     ))}
-        // </div>
-        <>
-            <PageNavContainer pages={Pages} onShow={onShow}/>
-            {Pages.length > 0 && <SubPageContainer page={Pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}
-            {/* <Routes path="/home-page/*">
-                <Route path={`${Userid}'/'${pages[awakePage].id}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
+        //do a nav type page browsing
+        <div>
+            {pages.map((pages:any,index:number)=>(
+                <ul key={index}>
+                    <NavLink to={`${pages.id}`}>
+                        <button className="btn" style={{backgroundColor:"green"}}>
+                            Page {index+1}
+                        </button>
+                    </NavLink>
+                </ul>
+            ))}     
+            <Outlet/>
+             {/* <h2>{pages[awakePage].id}</h2>       
+            <Routes>
+                <Route path={`${pages.userID}'/'${pages[awakePage]}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
             </Routes> */}
-        </>
+        </div>
+        // <>
+        //     <PageNavContainer pages={Pages} onShow={onShow}/>
+        //     {Pages.length > 0 && <SubPageContainer page={Pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}
+
+        // </>
     )
 })
 export default SubPageLister;
