@@ -42,16 +42,14 @@ const ExplorePage = () =>{
       }
     }
 
-    const handleSearch = (e : React.ChangeEvent<HTMLInputElement>) => {
-
-        const search = e.target.value.toLowerCase();
-        const filteredUsers = userList.filter((user : any) =>
-          `${user.firstName} ${user.lastName}`.toLowerCase().includes(search)
-        );
-        
-
-        setFilteredUsers(filteredUsers);
-        setSearchValue(search);
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const search = e.target.value.toLowerCase();
+      const filteredUsers = userList.filter((user: any) =>
+        user.username.toLowerCase().includes(search)
+      );
+  
+      setFilteredUsers(filteredUsers);
+      setSearchValue(search);
     }
 
 
@@ -59,20 +57,20 @@ const ExplorePage = () =>{
 
     return (
         <div>
-          <Stack spacing={2} sx={{ width: 400, textAlign: 'center', marginTop: '2%', marginBottom: '4%',paddingX : '2%'}}>
-            <Autocomplete
-              freeSolo
-              options={userList.map((user : any) => `${user.firstName} ${user.lastName}`)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Search users..."
-                  value={searchValue}
-                  onChange={handleSearch}
-                />
-              )}
-            />
-          </Stack>
+        <Stack spacing={2} sx={{ width: '20%', textAlign: 'center', marginTop: '2%', marginBottom: '4%', paddingX: '2%' }}>
+          <Autocomplete
+            freeSolo
+            options={userList.map((user: any) => user.username)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search users..."
+                value={searchValue}
+                onChange={handleSearch}
+              />
+            )}
+          />
+        </Stack>
 
           <ul>
             {filteredUsers.map((user:any , index: number) => (

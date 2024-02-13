@@ -14,22 +14,23 @@ const OutlinedCard = ({user} : any) => {
     <CardContent style={{ display: 'flex', alignItems: 'center' }}>
       <CardMedia
         component="img"
-        sx={{ height: 140, marginRight: '20px', width: 140}}
+        sx={{ height: '15%', marginRight: '20px', width: '8%'}}
         image="src/Components/ExplorePage/UserCard/QArte_B.png"
         title="userPicture"
       />
       <div>
+      <Typography variant="h4" component="div">
+          {user.username}
+        </Typography>
         <Typography
           component="div"
           sx={{ fontSize: 14, textDecoration: '' }}
           color="text.secondary"
           gutterBottom
         >
-          {`User ID: ${user.id}`}
-        </Typography>
-        <Typography variant="h5" component="div">
           {`${user.firstName} ${user.lastName}`}
         </Typography>
+
       </div>
     </CardContent>
   </React.Fragment>
