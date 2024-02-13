@@ -5,8 +5,8 @@ const StripeCheckout = ({userID} : any) =>
     const handleSubmit = async (event:any) => {
         event.preventDefault();
     
-        const successURL = 'http://localhost:5176/stripe-success';
-        const cancelURL = 'http://localhost:5176/stripe-error';
+        const successURL = 'http://localhost:5173/stripe-success';
+        const cancelURL = 'http://localhost:5173/stripe-error';
         try {
           const response = await fetch('https://localhost:7191/api/Stripe/create-checkout-session', {
             method: 'POST',
@@ -29,7 +29,6 @@ const StripeCheckout = ({userID} : any) =>
 
             window.location.href = redirectUrl;
           } else {
-
             console.error('Error creating checkout session');
           }
         } catch (error) {

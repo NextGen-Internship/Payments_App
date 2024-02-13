@@ -124,7 +124,29 @@ const UserPage = () =>{
         console.log(Upages);
     }
 
-   const deletePage = (id:any) =>{
+    const deletePageFetch = async (id: any) => {
+        try {
+            console.log("Deleting page: " + id);
+    
+            const response = await fetch(`https://localhost:7191/api/Page/DeleteByID/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to delete page. Status: ${response.status}`);
+            }
+    
+            console.log('Page deleted successfully.');
+
+        } catch (error) {
+            console.error('Error deleting page:', error);
+        }
+    };
+
+   const deletePage = async (id:any) =>{
         console.log("Deleting page: "+id)
         for(var i =0;i<Upages.length;i++){
             if(Upages[i].id==id){
@@ -132,11 +154,47 @@ const UserPage = () =>{
             }
         }
         
+        deletePageFetch(id);
+
         setPages(Upages.filter((page:any)=>page.id!==id));
         if(PageRef.current)
             PageRef.current.Awake(Upages[0].id);
         console.log(Upages);
     }
+
+    const changePageFetch = async (page: any) => {
+        try {
+            console.log("Updating page: ", page);
+    
+            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${page.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(
+                    {
+                        id : page.id,
+                        bio : page.bio,
+                        qrLink: 'string',
+                    }
+                ),
+            });
+    
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
+                throw new Error(`Failed to update page. Status: ${response.status}`);
+            }
+    
+            console.log('Page updated successfully.');
+    
+            // If you want to update the UI or perform other actions after the update, add them here.
+        } catch (error) {
+            console.error('Error updating page:', error);
+            
+        }
+    };
+    
 
     const changePage = (page:any) =>{       
 
@@ -155,6 +213,9 @@ const UserPage = () =>{
                 //awake=i;
             }
         }
+
+
+        changePageFetch(page);
         // setPages(Upages);
         //PageRef.current.Awake(Upages[awake].id);
         console.log(Upages);
@@ -181,7 +242,7 @@ const UserPage = () =>{
         <div>
             <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-            {showAddPage && <PageAdd onAdd={addPage}/>}
+            {showAddPage && <PageAdd userID={User.id}/>}
             <div className="container">
                 <div className="container">
                     <img src={User.profilePicture} alt="Profile" />
