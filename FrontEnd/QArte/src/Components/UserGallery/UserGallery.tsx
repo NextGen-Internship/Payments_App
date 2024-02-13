@@ -7,6 +7,7 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
 
     const[file, setFile] = useState();
     const[photos, setPhotos] = useState([]);
+    const[activeGallery,setActiveGallery] = useState();
 
     useEffect(()=>{
         const getPhotos =async () => {
@@ -14,18 +15,22 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
             {
                 const photosFromServer = await fetchPhotos();
                 setPhotos(photosFromServer);
+                setActiveGallery(gallery);
             }
             catch(error)
             {
                 console.error('Error fetching user data!', error);
             }
         }
+        console.log("THIS IS THE GALLERY");
         getPhotos();
     },[]);
+
 
     const fetchPhotos = async()=>{
         const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
         const photoData = await res.json();
+        //console.log("THIS IS THE GALLERY!")
         console.log(photoData)
         return photoData;
     }
@@ -34,10 +39,7 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
         let target = e.target.files;
         console.log('file', target);
         setFile(target[0]);
-        
     }
-
-
 
     const AddPhoto = async()=>{
         if(file==undefined){
@@ -55,6 +57,7 @@ const UserGallery = ({gallery, onAddPhoto, onDeletePhoto}:any) =>{
     return(
         <div className="container">
             <h3>Photo Gallery</h3>
+            <h2>{gallery}</h2>
             <div>
                 <input type="file" name="image" onChange={handleOnChange}></input> 
                 <button className="btn" style={{backgroundColor:"green"}} onClick={()=>AddPhoto()}>Add Photo</button>   
