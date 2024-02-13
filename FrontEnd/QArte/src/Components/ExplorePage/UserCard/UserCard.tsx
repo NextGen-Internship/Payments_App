@@ -5,16 +5,23 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import CardMedia from '@mui/material/CardMedia';
 
 const OutlinedCard = ({user} : any) => {
     console.log(user);
   const card = (
     <React.Fragment>
-      <CardContent>
-      <Typography
+    <CardContent style={{ display: 'flex', alignItems: 'center' }}>
+      <CardMedia
+        component="img"
+        sx={{ height: 140, marginRight: '20px', width: 140}}
+        image="src/Components/ExplorePage/UserCard/QArte_B.png"
+        title="userPicture"
+      />
+      <div>
+        <Typography
           component="div"
-          sx={{ fontSize: 14, textDecoration: ''}}
+          sx={{ fontSize: 14, textDecoration: '' }}
           color="text.secondary"
           gutterBottom
         >
@@ -23,19 +30,22 @@ const OutlinedCard = ({user} : any) => {
         <Typography variant="h5" component="div">
           {`${user.firstName} ${user.lastName}`}
         </Typography>
-      </CardContent>
-    </React.Fragment>
+      </div>
+    </CardContent>
+  </React.Fragment>
   );
 
   return (
-    <Box sx={{
+      <Card variant="elevation"
+      style={{
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '10vh',
-        paddingX: '20%',
-      }}>
-      <Card variant="elevation">{card}</Card>
-    </Box>
+        minHeight: '5vh',
+        marginTop: '2%',
+        marginLeft: '20%',
+        marginRight: '20%' }}>
+        {card}
+      </Card>
   );
 };
 

@@ -3,7 +3,6 @@ import './ExplorePage.css';
 import UserPage from "../UserPage/UserPage";
 import { BrowserRouter, Router, Route, Routes, Link, NavLink } from 'react-router-dom';
 import OutlinedCard from "./UserCard/UserCard"
-import FreeSolo from "./SearchBar/SearchBar"
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
