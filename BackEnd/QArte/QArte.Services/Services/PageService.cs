@@ -29,14 +29,14 @@ namespace QArte.Services.Services
             var page = await this._qArteDBContext.Pages
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
-            if(this._qArteDBContext.Pages.Count() >= 2)
-            {
-                _qRCodeGenerator.DeleteQRCode(page.GalleryID.ToString(),page.UserID.ToString());
 
-                this._qArteDBContext.Pages.Remove(page);
-                await _galleryService.DeleteAsync(page.GalleryID);
-                await _qArteDBContext.SaveChangesAsync();
-            }
+            
+            _qRCodeGenerator.DeleteQRCode(page.GalleryID.ToString(),page.UserID.ToString());
+
+            this._qArteDBContext.Pages.Remove(page);
+            await _galleryService.DeleteAsync(page.GalleryID);
+            await _qArteDBContext.SaveChangesAsync();
+            
            
 
             return page.GetDTO();
@@ -104,13 +104,13 @@ namespace QArte.Services.Services
                 Pictures = {},
             };
 
-            var deletedPage = await _qArteDBContext.Pages
-                                            .Include(x => x.Gallery)
-                                            .Include(x => x.User)
-                                            .IgnoreQueryFilters()
-                                            .FirstOrDefaultAsync(x => x.QRLink == obj.QRLink);
+            //var deletedPage = await _qArteDBContext.Pages
+            //                                .Include(x => x.Gallery)
+            //                                .Include(x => x.User)
+            //                                .IgnoreQueryFilters()
+            //                                .FirstOrDefaultAsync(x => x.QRLink == obj.QRLink);
             var newPage = obj.GetEntity();
-            if (deletedPage == null)
+            if (true)
             {
                 if (newPage.GalleryID == 0)
                 {
@@ -132,7 +132,7 @@ namespace QArte.Services.Services
             }
             else
             {
-                result = deletedPage.GetDTO();
+                //result = deletedPage.GetDTO();
 
             }
 

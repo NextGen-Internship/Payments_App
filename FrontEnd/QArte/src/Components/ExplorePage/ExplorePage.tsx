@@ -3,7 +3,6 @@ import './ExplorePage.css';
 import UserPage from "../UserPage/UserPage";
 import { BrowserRouter, Router, Route, Routes, Link, NavLink } from 'react-router-dom';
 
-
 const ExplorePage = () =>{
 
     const [userList,setUserList] = useState([]);

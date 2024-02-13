@@ -32,7 +32,7 @@ namespace QArte.Services.Services
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/"+userID+"/";
             string path = location + galleryID;
             string qrPath = path + "/" + "QR.png";
-            string logoPath = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/QArte_B.png";
+            string logoPath = "/Users/Martin.Konov/Desktop/QArte_B.png";
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
             //if (!Directory.Exists(path))
