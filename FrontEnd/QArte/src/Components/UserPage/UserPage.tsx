@@ -124,7 +124,33 @@ const UserPage = () =>{
         console.log(Upages);
     }
 
-   const deletePage = (id:any) =>{
+    const deletePageFetch = async (id: any) => {
+        try {
+            console.log("Deleting page: " + id);
+    
+            const response = await fetch(`https://localhost:7191/api/Page/DeleteByID/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to delete page. Status: ${response.status}`);
+            }
+    
+            console.log('Page deleted successfully.');
+    
+            // Remove the deleted page from the state
+            setPages(Upages.filter((page: any) => page.id !== id));
+    
+            // If you want to update the UI or perform other actions after deletion, add them here.
+        } catch (error) {
+            console.error('Error deleting page:', error);
+        }
+    };
+
+   const deletePage = async (id:any) =>{
         console.log("Deleting page: "+id)
         for(var i =0;i<Upages.length;i++){
             if(Upages[i].id==id){
@@ -132,6 +158,8 @@ const UserPage = () =>{
             }
         }
         
+        deletePageFetch(id);
+
         setPages(Upages.filter((page:any)=>page.id!==id));
         if(PageRef.current)
             PageRef.current.Awake(Upages[0].id);
