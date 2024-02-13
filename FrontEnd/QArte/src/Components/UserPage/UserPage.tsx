@@ -234,13 +234,6 @@ const UserPage = () =>{
        console.log(Upages[0].bio);
     }
     
-    const addNewPhoto=(newPhoto:any)=>{
-        console.log("adding a new photo " + newPhoto);
-    }
-
-    const deletePhoto=(deletedPhot:any)=>{
-        console.log("deleting "+ deletedPhot);
-    }
 
     return(
         <div>

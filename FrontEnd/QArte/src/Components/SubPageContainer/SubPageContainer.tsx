@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import ChangePage from "../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
 
-const SubPageContainer = ({onAddPhoto, onDeletePhoto}:any) =>{
+const SubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
     const [page,setPage] = useState({
@@ -106,7 +106,7 @@ const SubPageContainer = ({onAddPhoto, onDeletePhoto}:any) =>{
             <button className="btn" style={{backgroundColor:"green"}} onClick={()=> setShowChangePage(!ShowChangePage)}>Edit Page</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={()=> callPageDelete(page.id)}>Delete Page</button>    
             <UserBio bio = {page.bio}/>
-            {page.galleryID != '' &&<UserGallery gallery = {page.galleryID} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}
+            {page.galleryID != '' &&<UserGallery gallery = {page.galleryID}/>}
             {ShowChangePage && <ChangePage id={page.id} onChange={callPageChange}/>}   
         </div>
     );

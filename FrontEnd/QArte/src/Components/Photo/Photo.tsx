@@ -7,7 +7,7 @@ const Photo = ({photo, onDeletePhoto}:any)=>{
     return(
         <div>
             <img src={photo.pictureURL} alt={`'Photo ${photo.pictureURL}`}/>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=>onDeletePhoto(photo)}>Delete Photo</button> 
+            <button className="btn" style={{backgroundColor:"green"}} onClick={()=>onDeletePhoto(photo.id)}>Delete Photo</button> 
         </div>
     );
 };
