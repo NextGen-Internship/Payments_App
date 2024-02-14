@@ -1,12 +1,10 @@
 import React from "react";
 import PageNavButtons from "../PageNavButtons/PageNavButtons";
 
-const PageNavContainer = ({pages,onShow}:any)=>{
+const PageNavContainer = ({pages, index,onShow}:any)=>{
     return(
         <div>
-        {pages.map((page:any,index:any)=>(
-            <PageNavButtons key={index} index={index} id={page.id} onShow={onShow}/>
-        ))}
+            <PageNavButtons index={index} id={pages.id} onShow={onShow}/>
         </div>
     )
 }

@@ -235,7 +235,7 @@ const [UsersList,SetUserList] =  useState<any>(users);
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
             <Route index element={<ExplorePage/>}/>
-            <Route path=":id" element={<UserPage/>}>
+            <Route path=":id/*" element={<UserPage/>}>
               <Route path=":id" element={<SubPageContainer/>}/>
             </Route>
           </Route>

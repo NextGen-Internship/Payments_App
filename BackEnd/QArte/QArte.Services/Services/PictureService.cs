@@ -161,10 +161,11 @@ namespace QArte.Services.Services
             //Make it so it gets uploaded to the amazon
             string userID = "";
             string galleryID = obj.GalleryID.ToString();
+            Random random = new Random();
 
             var findPage = await _qArteDBContext.Pages.FirstOrDefaultAsync(x => x.GalleryID == obj.GalleryID);
             userID = findPage.UserID.ToString();
-            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{obj.ID}.png";
+            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{random.Next(1,1000000)+1}.png";
 
             PictureDTO result = null;
 

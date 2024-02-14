@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import './ChangePage.css'
 
-const ChangePage = ({id, photos,onChange}:any) =>{
+const ChangePage = ({id,onChange}:any) =>{
     
     const [bio,setBio] = useState('');
 
@@ -12,11 +12,10 @@ const ChangePage = ({id, photos,onChange}:any) =>{
             alert("add bio");
             return;
         }
-        console.log({id,bio,photos})
+
         onChange({
             id,
             bio,
-            photos
         });
 
         setBio('');

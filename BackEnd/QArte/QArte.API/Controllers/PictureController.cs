@@ -46,7 +46,7 @@ namespace QArte.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("Post")]
         public async Task<ActionResult<PictureDTO>> PostPicture([FromForm] PictureDTO obj)
         {
 
