@@ -10,7 +10,7 @@ namespace QArte.Services.ServiceInterfaces
     {
         void DeleteSubAccount(User user);
         Task<string> CreateSubAccountAsync(User user, BankAccountDTO bankAccount);
-        Task<Session> CreateCheckoutSession(string successUrl, string cancelUrl, string accountID);
+        Task<Session> CreateCheckoutSession(SuccCancelUrlDTO urls);
         Task<Transfer> CreateTansferAsync(UserDTO user, long amount, string currency);
         Task<Payout> CreatePayoutAsync(UserDTO user);
     }
