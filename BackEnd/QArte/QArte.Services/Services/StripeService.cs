@@ -94,43 +94,36 @@ namespace QArte.Services.Services
             return account.Id;
         }
 
-        public async Task<Session> CreateCheckoutSession(string successUrl, string cancelUrl, string accountID)
+        public async Task<Session> CreateCheckoutSession(SuccCancelUrlDTO urls)
         {
-            var options = new SessionCreateOptions
+            var domain = "https://localhost:7191";
+
+            var options = new SessionCreateOptions()
             {
-                PaymentMethodTypes = new List<string>
+                LineItems = new List<SessionLineItemOptions>()
+               {
+                   new SessionLineItemOptions()
+                   {
+                       Price = "price_1OgOm2Ly4Nh7di81hZ8EUENq",
+                       Quantity = 1,
+                   }
+               },
+                PaymentMethodTypes = new List<string>()
                 {
                     "card",
                 },
-                LineItems = new List<SessionLineItemOptions>
+                Metadata = new Dictionary<string, string>
                 {
-                    new SessionLineItemOptions
-                    {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency = "bgn",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "Donation"
-                            },
-                            UnitAmount = 0,
-                        },
-                        Quantity = 1
-                    },
+                    { "userID", urls.UserID.ToString() }
                 },
                 Mode = "payment",
-                SuccessUrl = successUrl,
-                CancelUrl = cancelUrl,
-                PaymentIntentData = new SessionPaymentIntentDataOptions
-                {
-                    TransferGroup = accountID
-                },
+                SuccessUrl = urls.SuccessURL,
+                CancelUrl = urls.CancelURL
             };
-
             var service = new SessionService();
-            
-            return await service.CreateAsync(options);
-            
+            Session session = await service.CreateAsync(options);
+
+            return session;
         }
 
         public void DeleteSubAccount(User user)
@@ -149,16 +142,12 @@ namespace QArte.Services.Services
         public async Task<Transfer> CreateTansferAsync(UserDTO user, long amount, string currency)
         {
 
-            var balanceService = new BalanceService();
-            var balance = balanceService.Get();
-
-
             var options = new TransferCreateOptions
             {
                 Amount = amount,
                 Currency = currency,
                 Destination = user.StripeAccountID,
-                Description = "Settlement cycle transfer",
+                Description = "Money payed after fee",
                 TransferGroup = "QArté",
                 
             };

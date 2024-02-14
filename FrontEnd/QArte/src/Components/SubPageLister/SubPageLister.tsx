@@ -59,6 +59,7 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
 
 
     return(
+
         // //do a nav type page browsing
         <div>
             {/* <PageNavContainer pages={Pages} onShow={onShow}/> */}
@@ -77,9 +78,6 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
         </div>
         // <>
         //     
-
-
-        // </>
     )
 })
 export default SubPageLister;

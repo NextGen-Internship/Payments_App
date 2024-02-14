@@ -32,51 +32,21 @@ namespace QArte.API.Controllers
         }
 
 
-        [HttpGet("getPubKey")]
-        public async Task<ActionResult<string>> GetPubKey()
-        {
-            string jsonFilePath = "./appsettings.Development.json";
-
-            string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
-
-            var stripeConfig = JsonSerializer.Deserialize<stripeconfig>(jsonContent);
-
-
-            return Ok(stripeConfig.Stripe.PubKey);
-        }
-
-
         [HttpPost("create-checkout-session")]
         public ActionResult CreateCheckoutSession([FromBody] SuccCancelUrlDTO urls)
         {
-            var domain = "https://localhost:7191";
 
-            var options = new SessionCreateOptions()
+            try
             {
-                LineItems = new List<SessionLineItemOptions>()
-               {
-                   new SessionLineItemOptions()
-                   {
-                       Price = "price_1OgOm2Ly4Nh7di81hZ8EUENq",
-                       Quantity = 1,
-                   }
-               },
-                PaymentMethodTypes = new List<string>()
-                {
-                    "card"
-                },
-                Metadata = new Dictionary<string, string>
-                {
-                    { "userID", urls.UserID.ToString() }
-                },
-                Mode = "payment",
-                SuccessUrl = urls.SuccessURL,
-                CancelUrl = urls.CancelURL
-            };
-            var service = new SessionService();
-            Session session = service.Create(options);
+                Session session = _stripeService.CreateCheckoutSession(urls).Result;
 
-            return new OkObjectResult(new { RedirectUrl = session.Url });
+                return new OkObjectResult(new { RedirectUrl = session.Url });
+            }
+            catch (StripeException stripeException)
+            {
+                return BadRequest($"Stripe Exception: {stripeException.Message}");
+            }
+
         }
 
 
