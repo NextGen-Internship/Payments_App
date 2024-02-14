@@ -113,6 +113,14 @@ namespace QArte.API.Controllers
             return Ok(request);
         }
 
+        [HttpPatch("ProfilePicture")]
+        public async Task<ActionResult<UserDTO>> UpdateProfilePicture(IFormFile formFile, int id)
+        {
+            var query = new UpdateProfilePictureCommand(id, formFile);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
 
         [HttpDelete("DeleteByID/{id}")]
         public async Task<ActionResult<UserDTO>> DeleteUserAccount(int id)

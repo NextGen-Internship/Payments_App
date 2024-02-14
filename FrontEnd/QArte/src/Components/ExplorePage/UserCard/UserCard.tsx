@@ -15,7 +15,7 @@ const OutlinedCard = ({user} : any) => {
       <CardMedia
         component="img"
         sx={{ height: '15%', marginRight: '20px', width: '8%'}}
-        image="src/Components/ExplorePage/UserCard/QArte_B.png"
+        image={user.pictureURL}
         title="userPicture"
       />
       <div>

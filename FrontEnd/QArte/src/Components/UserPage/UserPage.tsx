@@ -242,7 +242,7 @@ const UserPage = () =>{
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
                 <div className="container">
-                    <img src={User.profilePicture} alt="Profile" />
+                    <img src={User.pictureURL} alt="Profile" />
                     <h2>{User.firstName+" "+User.lastName}</h2>
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} />

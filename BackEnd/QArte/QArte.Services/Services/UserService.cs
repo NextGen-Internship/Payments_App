@@ -7,7 +7,11 @@ using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using Stripe;
-
+using Microsoft.AspNetCore.Http;
+using Amazon.S3.Model;
+using Amazon.S3.Util;
+using Amazon;
+using Amazon.S3;
 
 namespace QArte.Services.Services
 {
@@ -23,7 +27,9 @@ namespace QArte.Services.Services
         private readonly ISettlementCycleService _settlementCycleService;
         private readonly IPageService _pageService;
 
-        public UserService(QArteDBContext qarteDBContext, IStripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService, IPageService pageService)
+        private readonly IAmazonData _amazonData;
+
+        public UserService(QArteDBContext qarteDBContext, IStripeService stripeService, IBankAccountService bankAccountService, IRoleService roleService, IPaymentMethodsService paymentMethodsService, ISettlementCycleService settlementCycleService, IPageService pageService, IAmazonData amazonData)
         {
             _qarteDBContext = qarteDBContext;
             _stripeService = stripeService;
@@ -35,6 +41,8 @@ namespace QArte.Services.Services
 
             _pageService = pageService;
             _pageService = pageService;
+
+            _amazonData = amazonData;
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -79,7 +87,9 @@ namespace QArte.Services.Services
 
         public async Task<IEnumerable<UserDTO>> GetAsync()
         {
-            return await _qarteDBContext.Users
+            List<UserDTO> finalList = new List<UserDTO>();
+
+            List<UserDTO> users = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)
                 .Include(x => x.Pages)
@@ -112,6 +122,28 @@ namespace QArte.Services.Services
                         QRLink = y.QRLink
                     }).ToList()
                 }).ToListAsync();
+
+            RegionEndpoint region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+
+            foreach(UserDTO userDTO in users)
+            {
+                GetPreSignedUrlRequest getPreSignedUrlRequest = new GetPreSignedUrlRequest
+                {
+                    BucketName = _amazonData.BucketName,
+                    Key = userDTO.PictureURL,
+                    Expires = DateTime.UtcNow.AddMinutes(1)
+                };
+
+                var response = client.GetPreSignedURL(getPreSignedUrlRequest);
+
+                UserDTO userDTO1 = userDTO;
+                userDTO1.PictureURL = response;
+
+                finalList.Add(userDTO1);
+            }
+
+            return finalList;
         }
 
         public async Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle)
@@ -218,7 +250,18 @@ namespace QArte.Services.Services
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new ApplicationException("Not found");
 
-            return user.GetDTO();
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            GetPreSignedUrlRequest getPreSignedUrlRequest = new GetPreSignedUrlRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = user.PictureUrl,
+                Expires = DateTime.UtcNow.AddMinutes(1)
+            };
+            var response = client.GetPreSignedURL(getPreSignedUrlRequest);
+            UserDTO userDTO = user.GetDTO();
+            userDTO.PictureURL = response;
+            return userDTO;
         }
 
         public async Task<string> GetUsernameByID(int id)
@@ -287,6 +330,11 @@ namespace QArte.Services.Services
 
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
+            //make it fetch the default picture
+            string defaultPicPath = "Public_Resources/QArte_B.png";
+
+            obj.PictureURL = defaultPicPath;
+
             PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO
             {
                 ID = 0,
@@ -400,7 +448,34 @@ namespace QArte.Services.Services
 
         }
 
+        public async Task<UserDTO> PostUserProfilePicture(int id,IFormFile profilePicture)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.BankAccount)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new ApplicationException("Not found");
 
+            string path = $"Users\\/{user.ID.ToString()}\\/{user.ID.ToString()}_Profile.png";
+            user.PictureUrl = path;
+            await _qarteDBContext.SaveChangesAsync();
+
+            RegionEndpoint region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+
+            PutObjectRequest objectRequest = new PutObjectRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = path,
+                InputStream = profilePicture.OpenReadStream()
+            };
+
+            await client.PutObjectAsync(objectRequest);
+
+            return user.GetDTO();
+        }
     }
 }
 
