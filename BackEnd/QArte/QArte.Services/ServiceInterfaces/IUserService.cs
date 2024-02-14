@@ -3,6 +3,7 @@ using QArte.Services.DTOs;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using QArte.Persistance.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace QArte.Services.ServiceInterfaces
 {
@@ -17,6 +18,7 @@ namespace QArte.Services.ServiceInterfaces
         Task<string> GetCountryByID(int id);
 		Task<IEnumerable<UserDTO>> GetBySettlementCycle(string settlementCycle);
 		Task<UserDTO> GetUserByStripeAccountID(string stripeId);
+		Task<UserDTO> PostUserProfilePicture(int id,IFormFile profilePicture);
     }
 }
 

@@ -5,24 +5,11 @@ import PageAdd from "../../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
 import StripeCheckout from "../../Stripe/StripeCheckout";
 import ChangePage from "../../ChangePage/ChangePage";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography'
 
-// const user = {
-//     name: 'John Doe',
-//     id: 1,
-//     profilePicture: 'path/to/profile.jpg',
-//     page:[
-//         {
-//             id: 1,
-//             bio: 'A brief bio about John Doe.',
-//             photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-//         },
-//         {
-//             id: 2,
-//             bio: 'We are doing it!.',
-//             photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-//         },
-//     ]
-//   };
 
 const UserPage = () =>{
 
@@ -66,33 +53,6 @@ const UserPage = () =>{
         console.log(pageData);
         return pageData;
     }
-
-    // useEffect(()=>{
-    //     const getUser = async() =>{
-    //         try{
-    //             await fetchUser();
-    //         }
-    //         catch(error){
-    //             console.error('Error fetching user data!',error);
-    //         }
-    //     }
-    //     getUser()
-    // },[user]);
-
-    // const fetchUser =async () => {
-    //     try {
-    //         const foundUser = user.find((u: any) => u.id === val);
-    //         if (foundUser) {
-    //             setUser(foundUser);
-    //             setPages(foundUser.page);
-    //         } else {
-    //             console.error(`User with id ${val} not found.`);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching user data!', error);
-    //     }
-    // }
-
 
     const PageRef = useRef<SubPageListerRef>(null);
     
@@ -206,19 +166,38 @@ const UserPage = () =>{
 
     
 
-    return(
+    return (
         <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-            {showAddPage && <PageAdd onAdd={addPage}/>}
-            <div className="container">
-                <div className="container">
-                    <img src={User.profilePicture} alt="Profile" />
-                    <h2>{User.firstName+" "+User.lastName}</h2>
-                </div>
-                <SubPageLister ref={PageRef} pages={Upages} />
+          {showAddPage && <PageAdd onAdd={addPage} />}
+          <Card sx={{ maxWidth: '70%', backgroundColor: 'transparent', border: "none", boxShadow: "none" }}>
+            <div className="user-info-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className="user-image-container" style={{ flex: 1 }}>
+                <CardMedia
+                  component="img"
+                  sx={{ height: '25%', width: '25%', borderRadius: '50%' }}
+                  image={User.pictureURL}
+                  title="userPicture"
+                />
+              </div>
+      
+              <div className="user-details" style={{ flex: 1, textAlign: 'center' }}>
+                <Typography variant="h4" component="div" sx={{ marginBottom: '10px' }}>
+                  {User.username}
+                </Typography>
+                <Typography component="div" sx={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
+                  {`${User.firstName} ${User.lastName}`}
+                </Typography>
+              </div>
+      
             </div>
-            <StripeCheckout userID = {User.id}></StripeCheckout>
+          </Card>
+              <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%'}}>
+                <SubPageLister ref={PageRef} pages={Upages} />
+              </div>
+      
+          <StripeCheckout userID={User.id}></StripeCheckout>
         </div>
-    );
+      );
+      
 };
 export default UserPage;

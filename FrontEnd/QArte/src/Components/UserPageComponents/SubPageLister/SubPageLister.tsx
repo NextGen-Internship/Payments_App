@@ -80,7 +80,7 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
           <Button
             id="show-pages-button"
             variant="contained"
-            style={{ backgroundColor: "green", width: '30%' }}
+            style={{ backgroundColor: "green", width: '70%' }}
             endIcon={<ArrowDropDownIcon />}
             onClick={handleMenuClick}>
             Show Pages
@@ -93,7 +93,7 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
             onClose={handleMenuClose}
             >
             {pages.map((page: any, index: number) => (
-                <MenuItem key={index} style={{ width: menuItemWidth }} onClick={() => onShow(page.id)}>
+                <MenuItem key={index} style={{ width: menuItemWidth }} onClick={handleMenuClose}>
                 <div style={{ width: '100%' }}>
                     <NavLink to={`${page.id}`} style={{ textDecoration: 'none' }}>
                     <PageNavContainer pages={page} index={index} onShow={onShow} />
