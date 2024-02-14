@@ -1,10 +1,10 @@
 import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
 import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
-import PageAdd from "../PageAdd/PageAdd";
+import PageAdd from "../../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
-import StripeCheckout from "../Stripe/StripeCheckout";
-import ChangePage from "../ChangePage/ChangePage";
+import StripeCheckout from "../../Stripe/StripeCheckout";
+import ChangePage from "../../ChangePage/ChangePage";
 
 // const user = {
 //     name: 'John Doe',
@@ -102,27 +102,6 @@ const UserPage = () =>{
     }
 
     const addPage = async (bio:any) =>{
-        // const id = Math.floor(Math.random()*1000)+1;
-        // const newPage = {id,...page}
-        // var go = true;
-
-        // for(var i=0; i<Upages.length;i++){
-        //     if(Upages[i].id==newPage.id){
-        //         go=false;   
-        //     }
-        // }
-        // if(go)
-        // {
-        //     Upages.push(newPage);
-        //     if(PageRef.current){
-        //         PageRef.current.Awake(Upages[Upages.length-1].id);}
-        // }
-        // else
-        // {
-        //     console.log("you have this page");
-        // }
-        // setPages(Upages);
-        // console.log(Upages);
         const qr = Math.floor(Math.random()*1000)+1; // to fix
         try {
             const response = await fetch('https://localhost:7191/api/Page/Post', {
@@ -225,19 +204,10 @@ const UserPage = () =>{
         console.log(Upages);
     }
 
-    const donateFunds=()=>{
-        console.log("Donating");
-        // navigate('/home');
-       console.log(User);
-       console.log("pages ");
-       console.log(Upages);       
-       console.log(Upages[0].bio);
-    }
     
 
     return(
         <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">

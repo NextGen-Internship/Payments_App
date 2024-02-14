@@ -1,6 +1,5 @@
 import React,{Component, useState, useEffect, forwardRef, useRef} from "react";
 import './ExplorePage.css';
-import UserPage from "../UserPage/UserPage";
 import { BrowserRouter, Router, Route, Routes, Link, NavLink } from 'react-router-dom';
 import OutlinedCard from "./UserCard/UserCard"
 import Autocomplete from '@mui/material/Autocomplete';

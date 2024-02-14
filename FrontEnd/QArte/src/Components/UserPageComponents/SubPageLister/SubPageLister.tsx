@@ -4,6 +4,12 @@ import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
 import { NavLink, Route, Routes, Outlet } from "react-router-dom";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import MenuList from '@mui/material/MenuList';
+
 
     export interface SubPageListerRef {
       Awake: (id: any) => void;
@@ -11,6 +17,7 @@ import { NavLink, Route, Routes, Outlet } from "react-router-dom";
 
 const SubPageLister = forwardRef(({ pages}:any,ref) =>{
 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [awakePage, setAwakePage] =useState<number>(0);
     const [Pages,setPages] = useState<any>([]);
 
@@ -58,26 +65,45 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
     }));
 
 
-    return(
+    const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+      };
 
-        // //do a nav type page browsing
+      const menuItemWidth = document.getElementById('show-pages-button')?.offsetWidth;
+      return (
         <div>
-            {/* <PageNavContainer pages={Pages} onShow={onShow}/> */}
-            {/* {Pages.length > 0 && <SubPageContainer page={Pages[awakePage]} onDelete={onDelete} onChange={onChange} onAddPhoto={onAddPhoto} onDeletePhoto={onDeletePhoto}/>}  */}
-            {pages.map((page:any,index:number)=>(
-                <ul key={index}>
-                    <NavLink to={`${page.id}`}>
-                        <PageNavContainer pages={page} index={index} onShow={onShow}/>
+          {/* Dropdown menu trigger button */}
+          <Button
+            id="show-pages-button"
+            variant="contained"
+            style={{ backgroundColor: "green", width: '30%' }}
+            endIcon={<ArrowDropDownIcon />}
+            onClick={handleMenuClick}>
+            Show Pages
+          </Button>
+    
+          {/* Dropdown menu */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            >
+            {pages.map((page: any, index: number) => (
+                <MenuItem key={index} style={{ width: menuItemWidth }} onClick={() => onShow(page.id)}>
+                <div style={{ width: '100%' }}>
+                    <NavLink to={`${page.id}`} style={{ textDecoration: 'none' }}>
+                    <PageNavContainer pages={page} index={index} onShow={onShow} />
                     </NavLink>
-                </ul>
-            ))}     
-            <Outlet/>       
-            {/* <Routes>
-                <Route path={`${pages.userID}'/'${awakePage}`} element={<SubPageContainer page={pages[awakePage]} onDelete={onDelete} onChange={onChange}/>}/>
-            </Routes> */}
+                </div>
+                </MenuItem>
+            ))}
+            </Menu>
+          <Outlet />
         </div>
-        // <>
-        //     
-    )
+      );
 })
 export default SubPageLister;

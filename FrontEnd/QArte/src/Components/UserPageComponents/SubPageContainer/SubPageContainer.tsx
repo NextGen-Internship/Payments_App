@@ -1,8 +1,8 @@
 import React from "react";
 import UserBio from "../UserBio/UserBio";
-import UserGallery from "../UserGallery/UserGallery";
+import UserGallery from "../../UserGallery/UserGallery";
 import { useState, useEffect } from "react";
-import ChangePage from "../ChangePage/ChangePage";
+import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
 
 const SubPageContainer = () =>{
