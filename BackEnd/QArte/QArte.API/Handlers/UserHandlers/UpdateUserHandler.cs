@@ -4,7 +4,7 @@ using QArte.Services.DTOs;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.DTOMappers;
 using MediatR;
-using QArte.API.Commands.GalleryCommands;
+
 
 namespace QArte.API.Handlers.UserHandlers
 {
