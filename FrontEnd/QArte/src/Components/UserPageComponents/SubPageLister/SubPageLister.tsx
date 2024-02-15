@@ -80,7 +80,7 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
           <Button
             id="show-pages-button"
             variant="contained"
-            style={{ backgroundColor: "green", width: '70%' }}
+            style={{ backgroundColor: "green", width: '40%' }}
             endIcon={<ArrowDropDownIcon />}
             onClick={handleMenuClick}>
             Show Pages

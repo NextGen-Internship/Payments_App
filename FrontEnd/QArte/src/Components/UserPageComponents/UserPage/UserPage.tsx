@@ -21,6 +21,7 @@ const UserPage = () =>{
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
     const [Upages,setPages] = useState<any>([]);
+    const [selectedPage, setSelectedPage] = useState(null);
 
 
     useEffect(()=>{
@@ -169,35 +170,40 @@ const UserPage = () =>{
     return (
         <div>
           {showAddPage && <PageAdd onAdd={addPage} />}
-          <Card sx={{ maxWidth: '70%', backgroundColor: 'transparent', border: "none", boxShadow: "none" }}>
-            <div className="user-info-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div className="user-image-container" style={{ flex: 1 }}>
-                <CardMedia
-                  component="img"
-                  sx={{ height: '25%', width: '25%', borderRadius: '50%' }}
-                  image={User.pictureURL}
-                  title="userPicture"
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* User Info Container */}
+            <div className="user-info-container" style={{ display: 'flex', alignItems: 'flex-end', flex: 1 }}>
+              {/* User Image Container */}
+              <div className="user-image-container" style={{ margin: '30px'}}>
+                <img
+                  style={{ height: '225px', width: '225px', borderRadius: '50%'}}
+                  src={User.pictureURL}
+                  alt="userPicture"
                 />
               </div>
       
-              <div className="user-details" style={{ flex: 1, textAlign: 'center' }}>
-                <Typography variant="h4" component="div" sx={{ marginBottom: '10px' }}>
+              {/* User Details */}
+              <div className="user-details" style={{ textAlign: 'left', marginLeft: '5px'}}>
+                <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
                   {User.username}
                 </Typography>
-                <Typography component="div" sx={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
+                <Typography component="div" style={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
                   {`${User.firstName} ${User.lastName}`}
                 </Typography>
               </div>
-      
             </div>
-          </Card>
-              <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%'}}>
-                <SubPageLister ref={PageRef} pages={Upages} />
-              </div>
       
-          <StripeCheckout userID={User.id}></StripeCheckout>
+            {/* SubPageLister Container */}
+            <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%', marginRight: '10%' }}>
+              <SubPageLister ref={PageRef} pages={Upages} />
+            </div>
+          </div>
+      
+          {/* Stripe Checkout Component */}
+          {/* <StripeCheckout userID={User.id} /> */}
         </div>
       );
+      
       
 };
 export default UserPage;
