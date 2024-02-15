@@ -113,7 +113,7 @@ namespace QArte.API.Controllers
             return Ok(request);
         }
 
-        [HttpPatch("ProfilePicture")]
+        [HttpPatch("ProfilePicture/{id}")]
         public async Task<ActionResult<UserDTO>> UpdateProfilePicture(IFormFile formFile, int id)
         {
             var query = new UpdateProfilePictureCommand(id, formFile);
