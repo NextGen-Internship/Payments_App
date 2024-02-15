@@ -20,6 +20,8 @@ interface SignUpDTO{
     SettlementCycleID: 0,
     paymentMethodEnum: 0,
     roleEnum: 0,
+    
+
 }
 export default SignUpDTO
 
