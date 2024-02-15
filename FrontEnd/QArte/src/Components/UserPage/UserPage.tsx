@@ -34,6 +34,7 @@ const UserPage = () =>{
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
     const [Upages,setPages] = useState<any>([]);
+    const [file,setFile] = useState();
 
 
     useEffect(()=>{
@@ -225,25 +226,60 @@ const UserPage = () =>{
         console.log(Upages);
     }
 
-    const donateFunds=()=>{
-        console.log("Donating");
-        // navigate('/home');
-       console.log(User);
-       console.log("pages ");
-       console.log(Upages);       
-       console.log(Upages[0].bio);
+    const UploadPhoto = async (file:any)=>{
+        try {
+            const formData = new FormData();
+            formData.append("formFile",file);
+            formData.append("id",String(User.id));
+            const response = await fetch(`https://localhost:7191/api/User/ProfilePicture/${User.id}`, {
+                method: 'PATCH',
+                headers: {
+
+                },
+                body: formData
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('Failed to add page:', data);
+                throw new Error(`Failed to add page. Status: ${response.status}`);
+            }
+            const res = await fetchUser();
+            setUser(res);
+            console.log('Page added successfully:', data);
+            console.log("THe full data", res);
+        } catch (error) {
+            console.error('Error adding page:', error);
+        }
+    }
+
+    const handleOnChange = async(e:any)=>{
+        let target = e.target.files;
+        console.log('file', target);
+        setFile(target[0]);
+    }
+
+    const AddPhoto = async()=>{
+        if(file==undefined){
+            alert("Choose an image")
+        }
+        else
+        {
+            console.log(file);
+            UploadPhoto(file);
+        }
     }
     
 
     return(
         <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={donateFunds}>DebugSome</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
             {showAddPage && <PageAdd onAdd={addPage}/>}
             <div className="container">
                 <div className="container">
                     <img src={User.pictureURL} alt="Profile" />
                     <h2>{User.firstName+" "+User.lastName}</h2>
+                    <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
+                    <button className="btn" style={{backgroundColor:"green"}} onClick={AddPhoto} >Change Profile Picture</button>
                 </div>
                 <SubPageLister ref={PageRef} pages={Upages} />
             </div>

@@ -112,7 +112,7 @@ const UserGallery = ({gallery}:any) =>{
             <h3>Photo Gallery</h3>
             <h2>{gallery}</h2>
             <div>
-                <input type="file" name="image" accept=".jng, .png" onChange={handleOnChange}></input> 
+                <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
                 <button className="btn" style={{backgroundColor:"green"}} onClick={()=>AddPhoto()}>Add Photo</button>   
             </div>
             
