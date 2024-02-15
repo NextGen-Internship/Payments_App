@@ -18,6 +18,7 @@ namespace QArte.Services.DTOMappers
             {
                 ID = page.ID,
                 Bio = page.Bio,
+                PageName = page.PageName,
                 QRLink = page.QRLink,
                 GalleryID = page.GalleryID,
                 UserID = page.UserID
@@ -39,6 +40,7 @@ namespace QArte.Services.DTOMappers
             {
                 ID = pageDTO.ID,
                 Bio = pageDTO.Bio,
+                PageName = pageDTO.PageName,
                 QRLink = pageDTO.QRLink,
                 GalleryID = pageDTO.GalleryID,
                 UserID = pageDTO.UserID

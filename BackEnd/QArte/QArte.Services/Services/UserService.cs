@@ -368,6 +368,7 @@ namespace QArte.Services.Services
             {
                 ID = 0,
                 Bio = "Your First Page!",
+                PageName = "First Page",
                 QRLink = "User URL or whatever",
                 UserID = 0,
                 GalleryID = 0

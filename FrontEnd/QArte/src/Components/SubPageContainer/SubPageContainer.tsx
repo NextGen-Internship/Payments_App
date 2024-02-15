@@ -10,6 +10,7 @@ const SubPageContainer = () =>{
     const [ShowChangePage, setShowChangePage] = useState(false);
     const [page,setPage] = useState({
         id:'',
+        pageName:'',
         bio:'',
         galleryID:'',
         qrLink:'',
@@ -43,19 +44,19 @@ const SubPageContainer = () =>{
         return pageData;
     }
 
-    const callPageChange = async (page:any) =>{
+    const callPageChange = async (pages:any) =>{
         try {
-            console.log("Updating page: ", page);
-    
-            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${page.id}`, {
+            console.log("Updating page: ", pages);
+            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(
                     {
-                        id : page.id,
-                        bio : page.bio,
+                        id : pages.id,
+                        bio : pages.bio,
+                        pageName:pages.name,
                         qrLink: 'string',
                     }
                 ),
@@ -69,7 +70,8 @@ const SubPageContainer = () =>{
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
-    
+            console.log(page.userID);
+            window.location.href = `http://localhost:5173/explore/${page.userID}`
             // If you want to update the UI or perform other actions after the update, add them here.
         } catch (error) {
             console.error('Error updating page:', error);
@@ -79,7 +81,6 @@ const SubPageContainer = () =>{
     }
 
     const callPageDelete = async (id:any) =>{
-        console.log(id);
         try {
             console.log("Deleting page: " + id);
     
@@ -102,7 +103,7 @@ const SubPageContainer = () =>{
 
     return(
         <div> 
-            <h1>{id}</h1>
+            <h1>{page.pageName}</h1>
             <button className="btn" style={{backgroundColor:"green"}} onClick={()=> setShowChangePage(!ShowChangePage)}>Edit Page</button>
             <button className="btn" style={{backgroundColor:"green"}} onClick={()=> callPageDelete(page.id)}>Delete Page</button>    
             <UserBio bio = {page.bio}/>

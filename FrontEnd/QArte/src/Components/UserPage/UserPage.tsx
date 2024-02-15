@@ -2,7 +2,7 @@ import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
 import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
-import {useParams, useNavigate} from "react-router-dom"
+import {useParams, useNavigate, useLocation} from "react-router-dom"
 import StripeCheckout from "../Stripe/StripeCheckout";
 import ChangePage from "../ChangePage/ChangePage";
 
@@ -41,8 +41,9 @@ const UserPage = () =>{
         const getUser =async () => {
             try
             {
+                console.log("val "+val)
                 const userFromServer = await fetchUser();
-                const pagesFromServer = await fetchPages();
+                const pagesFromServer = await fetchPages(userFromServer.id);
                 setUser(userFromServer);
                 setPages(pagesFromServer);
             }
@@ -60,9 +61,15 @@ const UserPage = () =>{
         console.log(userData);
         return userData;
     }
+    const fetchUserID = async()=>{
+        const res = await fetch(`https://localhost:7191/api/User/GetUserByID/${User.id}`);
+        const userData = await res.json();
+        console.log(userData);
+        return userData;
+    }
 
-    const fetchPages = async()=>{
-        const res = await fetch(`https://localhost:7191/api/Page/GetByUserID/${val}`);
+    const fetchPages = async(id:number)=>{
+        const res = await fetch(`https://localhost:7191/api/Page/GetByUserID/${id}`);
         const pageData = await res.json();
         console.log(pageData);
         return pageData;
@@ -102,7 +109,7 @@ const UserPage = () =>{
         console.log(showAddPage);
     }
 
-    const addPage = async (bio:any) =>{
+    const addPage = async (changes:any) =>{
         // const id = Math.floor(Math.random()*1000)+1;
         // const newPage = {id,...page}
         // var go = true;
@@ -125,6 +132,7 @@ const UserPage = () =>{
         // setPages(Upages);
         // console.log(Upages);
         const qr = Math.floor(Math.random()*1000)+1; // to fix
+        //const qr = window.location.href;
         try {
             const response = await fetch('https://localhost:7191/api/Page/Post', {
                 method: 'POST',
@@ -133,7 +141,8 @@ const UserPage = () =>{
                 },
                 body: JSON.stringify({
                     id:0,
-                    bio,
+                    bio:changes.bio,
+                    PageName:changes.name,
                     qrLink:qr.toString(),
                     galleryID:0,
                     userID: User.id,
@@ -144,7 +153,7 @@ const UserPage = () =>{
                 console.error('Failed to add page:', data);
                 throw new Error(`Failed to add page. Status: ${response.status}`);
             }
-            const res = await fetchPages();
+            const res = await fetchPages(User.id);
             setPages(res);
             console.log('Page added successfully:', data);
             console.log("THe full data", res);
@@ -168,7 +177,7 @@ const UserPage = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-            const res = await fetchPages();
+            const res = await fetchPages(User.id);
             setPages(res);
             console.log('Page deleted successfully.');
 
@@ -207,7 +216,7 @@ const UserPage = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-            const res = await fetchPages();
+            const res = await fetchPages(User.id);
             setPages(res);
             console.log('Page updated successfully.');
     
@@ -243,7 +252,7 @@ const UserPage = () =>{
                 console.error('Failed to add page:', data);
                 throw new Error(`Failed to add page. Status: ${response.status}`);
             }
-            const res = await fetchUser();
+            const res = await fetchUserID();
             setUser(res);
             console.log('Page added successfully:', data);
             console.log("THe full data", res);
@@ -255,6 +264,8 @@ const UserPage = () =>{
     const handleOnChange = async(e:any)=>{
         let target = e.target.files;
         console.log('file', target);
+        let v = window.location.href;
+        console.log(v);
         setFile(target[0]);
     }
 

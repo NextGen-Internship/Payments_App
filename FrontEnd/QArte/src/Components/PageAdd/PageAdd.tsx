@@ -5,6 +5,7 @@ import './PageAdd';
 const PageAdd = ({onAdd}: any) =>{
     
     const [bio,setBio] = useState('');
+    const [name,setName] = useState('');
     const [photos,setPhotos] = useState([]);
 
 
@@ -44,14 +45,17 @@ const PageAdd = ({onAdd}: any) =>{
             alert("add bio");
             return;
         }
-        onAdd(bio)
+        onAdd({bio,name})
     }
 
     return(
         <form className="add-form" onSubmit={onSubmit}>
             <div className="form-control">
+                <label>Page Name
+                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={name} onChange={(e)=>setName(e.target.value)}></input>
+                </label>
                 <label>Bio
-                <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
+                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
                 </label>
             </div>
             <input type="submit" value='Save Page' className="btn" style={{backgroundColor:"green"}}></input>

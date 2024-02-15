@@ -2,11 +2,11 @@ import React from "react";
 import './PageNavButtons.css';
 
 
-const PageNavButtons = ({id,onShow, index}:any) =>{
+const PageNavButtons = ({page,onShow, index}:any) =>{
 
     return(
         <>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onShow(id)}>Page {index+1}</button>
+            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> onShow(page.id)}>{page.pageName}</button>
         </>
     )
 

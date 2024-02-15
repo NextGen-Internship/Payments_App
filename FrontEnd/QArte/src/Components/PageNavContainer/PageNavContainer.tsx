@@ -4,7 +4,7 @@ import PageNavButtons from "../PageNavButtons/PageNavButtons";
 const PageNavContainer = ({pages, index,onShow}:any)=>{
     return(
         <div>
-            <PageNavButtons index={index} id={pages.id} onShow={onShow}/>
+            <PageNavButtons index={index} page={pages} onShow={onShow}/>
         </div>
     )
 }
