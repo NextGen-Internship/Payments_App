@@ -279,14 +279,37 @@ const UserPage = () =>{
             UploadPhoto(file);
         }
     }
+
+    const DeleteUser = async ()=>
+    {
+        try {
+            console.log("Deleting user: " + User.id);
+    
+            const response = await fetch(`https://localhost:7191/api/User/DeleteByID/${User.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to delete user. Status: ${response.status}`);
+            }
+            window.location.href = `http://localhost:5174/explore`;
+            console.log('User deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting user:', error);
+        }
+    }
     
 
     return(
         <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-            {showAddPage && <PageAdd onAdd={addPage}/>}
+            <button className="btn" style={{backgroundColor:"green"}} onClick={DeleteUser} >Delete User</button>
             <div className="container">
-                <div className="container">
+                <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
+                {showAddPage && <PageAdd onAdd={addPage}/>}
+                <div className="container">    
                     <img src={User.pictureURL} alt="Profile" />
                     <h2>{User.firstName+" "+User.lastName}</h2>
                     <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 

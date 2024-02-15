@@ -39,10 +39,14 @@ namespace QArte.Services.Services
             _paymentMethodsService = paymentMethodsService;
             _settlementCycleService = settlementCycleService;
 
+            //_pageService = pageService;
+
+
             _pageService = pageService;
             _pageService = pageService;
 
             _amazonData = amazonData;
+
         }
 
         public async Task<bool> UserExists(int id, string username, string email)
@@ -449,7 +453,8 @@ namespace QArte.Services.Services
 
         }
 
-        public async Task<UserDTO> PostUserProfilePicture(int id,IFormFile profilePicture)
+
+        public async Task<UserDTO> PostUserProfilePicture(int id, IFormFile profilePicture)
         {
             var user = await _qarteDBContext.Users
                 .Include(x => x.Role)
@@ -476,6 +481,26 @@ namespace QArte.Services.Services
             await client.PutObjectAsync(objectRequest);
 
             return user.GetDTO();
+        }
+
+        public async Task<UserDTO> FindByEmailAsync(string email)
+        {
+            var model = await _qarteDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return model?.GetDTO();
+        }
+
+        //here it should be User user or UserDTO user???
+        public bool CheckByPasswordSignIn(UserDTO user, string password)
+        {
+            //import BCrypt.Net-Next
+            //the first return -> if we use User user
+            //return BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            //the second return -> if we use UserDTO user
+            var result = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            return result;
+
         }
     }
 }

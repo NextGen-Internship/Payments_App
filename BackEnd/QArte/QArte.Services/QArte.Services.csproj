@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
     <None Remove="DTOs\" />
     <None Remove="DTOMappers\" />
@@ -29,10 +30,17 @@
     <PackageReference Include="Stripe.net" Version="43.11.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.26" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.26" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.305.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.305.23" />
+
 
     <PackageReference Include="Quartz" Version="3.8.0" />
     <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+
   </ItemGroup>
 </Project>

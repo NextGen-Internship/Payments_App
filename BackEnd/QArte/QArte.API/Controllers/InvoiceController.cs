@@ -9,17 +9,6 @@ using QArte.API.Queries.InvoiceQueries;
 using QArte.API.Commands.InvoiceCommands;
 using QArte.API.Queries.BankAccountQueries;
 
-/*
- public Task<InvoiceDTO> DeleteAsync(int id)
-  public Task<IEnumerable<InvoiceDTO>> GetAsync()
-  public Task<InvoiceDTO> GetInvoiceByBankAccountID(int id)
-  public Task<InvoiceDTO> GetInvoiceByFeeID(int id)
-  public Task<InvoiceDTO> GetInvoiceByID(int id)
-  public Task<InvoiceDTO> GetInvoiceBySettlementCycleID(int id)
-  public Task<InvoiceDTO> PostAsync(InvoiceDTO obj)
-  public Task<InvoiceDTO> UpdateAsync(int id, InvoiceDTO obj)
-*/
-
 namespace QArte.API.Controllers
 {
     [ApiController]

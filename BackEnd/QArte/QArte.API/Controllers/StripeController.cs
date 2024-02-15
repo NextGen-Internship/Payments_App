@@ -126,6 +126,7 @@ namespace QArte.API.Controllers
 
                      
                 }
+
             }
             catch(Exception ex)
             {

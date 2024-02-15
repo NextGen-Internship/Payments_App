@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
 import Home from "./Pages/Home/Home.js";
@@ -7,33 +7,38 @@ import SignUp from "./Pages/SignUp/SignUp.js";
 import About from "./Pages/About/About.js";
 import Blog from "./Pages/Blog/Blog.js";
 import Explore from "./Pages/Explore/Explore.js";
-import UserPage from './Components/UserPage/UserPage.js';
-import UserList from './Components/ExplorePage/ExplorePage.js';
-import SuccessPage from './Components/Stripe/SuccessPage.jsx';
-import ErrorPage from './Components/Stripe/ErrorPage.jsx';
-import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
-import ExplorePage from "./Components/ExplorePage/ExplorePage.js";
-import SubPageContainer from "./Components/SubPageContainer/SubPageContainer.js";
-import UserGallery from "./Components/UserGallery/UserGallery.js";
-import Register from "./Pages/Register/Register.js";
+import UserList from './Components/ExplorePage/ExplorePage.tsx';
+import ExplorePage from "./Components/ExplorePage/ExplorePage.tsx";
+import SubPageContainer from "./Components/SubPageContainer/SubPageContainer.tsx";
+import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
+import UserPage from "./Components/UserPage/UserPage.tsx";
+import SuccessPage from "./Components/Stripe/SuccessPage.jsx";
+import ErrorPage from "./Components/Stripe/ErrorPage.jsx";
+import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
+//import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
+
 
 const users = [
   {
-      name: 'John Doe',
-      id: 25,
-      profilePicture: 'path/to/profile.jpg',
-      page:[
-          {
-              id: 1,
-              bio: 'A brief bio about John Doe.',
-              photos: ['/src/assets/QArte_B.png', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-          },
-          {
-              id: 2,
-              bio: 'We are doing it!.',
-              photos: ['/src/assets/QArte_B.png', 'path/to/photo3.jpg']
-          },
-      ]
+    name: "John Doe",
+    id: 25,
+    profilePicture: "path/to/profile.jpg",
+    page: [
+      {
+        id: 1,
+        bio: "A brief bio about John Doe.",
+        photos: [
+          "/src/assets/QArte_B.png",
+          "path/to/photo2.jpg",
+          "path/to/photo3.jpg",
+        ],
+      },
+      {
+        id: 2,
+        bio: "We are doing it!.",
+        photos: ["/src/assets/QArte_B.png", "path/to/photo3.jpg"],
+      },
+    ],
   },
   {
     name: 'Jane Smith',
@@ -212,24 +217,23 @@ const users = [
           },
       ]
   }
-];
-
-
+]
 
 function App() {
-
-const [UsersList,SetUserList] =  useState<any>(users);
-
   return (
     <BrowserRouter>
       <div>
         <ResponsiveAppBar />
         <Routes>
-          <Route path="/stripe-checkout" element={<StripeCheckout />} /> 
-          <Route path="/stripe-success" element={<SuccessPage />} /> 
-          <Route path="/stripe-error" element={<ErrorPage />} /> 
+          <Route path="/stripe-checkout" element={<StripeCheckout />} />
+          <Route path="/stripe-success" element={<SuccessPage />} />
+          <Route path="/stripe-error" element={<ErrorPage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/aditionalInformation"
+            element={<AditionalInformation />}
+          />
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
@@ -240,7 +244,7 @@ const [UsersList,SetUserList] =  useState<any>(users);
             </Route>
           </Route>
           {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/home" element={<Home/>}/>
+          <Route path="/home" element={<Home />} />
         </Routes>
       </div>
     </BrowserRouter>
@@ -248,7 +252,3 @@ const [UsersList,SetUserList] =  useState<any>(users);
 }
 
 export default App;
-
-
-
-

@@ -13,18 +13,17 @@ class UserService{
 
     constructor(apiService: ApiService) {
         this.apiService = apiService;
+        //console.log(import.meta.env);
+        
     }
-
+    
     async registerUser(data: SignUpDTO) : Promise<ApiResponseDTO> {
-        const formData = new FormData();
-        formData.append('firstName', data.firstName);
-        formData.append('lastName', data.lastName);
-        formData.append('email', data.email);
-        formData.append('password', data.password);
-    
-        return this.apiService.post<ApiResponseDTO>(this.SIGNUP_ENDPOINT, formData);
+        const response = await this.apiService.post<ApiResponseDTO>(this.SIGNUP_ENDPOINT, data) ;
+        response.data;
+        console.log(response);
+        return response;
       }
-    
+
       async loginUser(data: SignInDTO): Promise<ApiResponseDTO> {
         return this.apiService.post<ApiResponseDTO>(this.SIGNIN_ENDPOINT, data);
       }
