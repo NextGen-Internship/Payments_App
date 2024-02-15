@@ -2,6 +2,7 @@ import React from "react";
 import './UserGallery.css';
 import Photo from "../Photo/Photo";
 import { useState, useEffect } from "react";
+import { Button, Grid } from "@mui/material";
 
 const UserGallery = ({gallery}:any) =>{
 
@@ -107,17 +108,21 @@ const UserGallery = ({gallery}:any) =>{
         }
     }
 
-    return(
-        <div className="container">
-            <h3>Photo Gallery</h3>
-            <h2>{gallery}</h2>
-            <div>
-                <input type="file" name="image" accept=".jng, .png" onChange={handleOnChange}></input> 
-                <button className="btn" style={{backgroundColor:"green"}} onClick={()=>AddPhoto()}>Add Photo</button>   
-            </div>
-            
+    return (
+        <div className="gallery-container">
+            <Grid container justifyContent="flex-end" alignItems="flex-start" spacing={2}>
+                <Grid item>
+                    <input type="file" name="image" accept=".jng, .png" onChange={handleOnChange}></input>
+                </Grid>
+                <Grid item>
+                    <Button variant="contained" color="primary" onClick={AddPhoto}>
+                        Add Photo
+                    </Button>
+                </Grid>
+            </Grid>
+
             <div className="photo-grid">
-                {photos.map((photo:any,index:any)=>(
+                {photos.map((photo:any, index:any) => (
                     <Photo key={index} photo={photo} onDeletePhoto={DeletePhoto}/>
                 ))}
             </div>

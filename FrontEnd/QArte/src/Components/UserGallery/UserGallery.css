@@ -32,11 +32,15 @@ body {
     color: #777;
   }
   
+  .gallery-container {
+    padding: 20px;
+}
+
   .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-  }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
   
-  /* Add more styles as needed */
   

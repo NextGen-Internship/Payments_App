@@ -49,14 +49,14 @@ const SubPageContainer = () =>{
         try {
             console.log("Updating page: ", page);
     
-            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${page.id}`, {
+            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${page.page.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(
                     {
-                        id : page.id,
+                        id : page.page.id,
                         bio : page.bio,
                         qrLink: 'string',
                     }
@@ -116,7 +116,7 @@ const SubPageContainer = () =>{
             Edit bio
           </Button>
           </div >
-          {ShowChangePage && <ChangePage id={page.id} onChange={callPageChange} />}
+          {ShowChangePage && <ChangePage onChange={callPageChange}  page={page}/>}
           {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
         </div>
       );
