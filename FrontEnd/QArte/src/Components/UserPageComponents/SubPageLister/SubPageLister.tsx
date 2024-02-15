@@ -15,7 +15,7 @@ import MenuList from '@mui/material/MenuList';
       Awake: (id: any) => void;
     }
 
-const SubPageLister = forwardRef(({ pages}:any,ref) =>{
+const SubPageLister = forwardRef(({ pages, onSelectedPage }:any,ref) =>{
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [awakePage, setAwakePage] =useState<number>(0);
@@ -73,6 +73,11 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
         setAnchorEl(null);
       };
 
+      const handleMenuItemClick = (pageId: number) => {
+        handleMenuClose();
+        onSelectedPage(pageId);
+      };
+
       const menuItemWidth = document.getElementById('show-pages-button')?.offsetWidth;
       return (
         <div>
@@ -80,7 +85,7 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
           <Button
             id="show-pages-button"
             variant="contained"
-            style={{ backgroundColor: "green", width: '40%' }}
+            style={{ backgroundColor: "green", width: '40%', marginRight: '25%'}}
             endIcon={<ArrowDropDownIcon />}
             onClick={handleMenuClick}>
             Show Pages
@@ -93,11 +98,9 @@ const SubPageLister = forwardRef(({ pages}:any,ref) =>{
             onClose={handleMenuClose}
             >
             {pages.map((page: any, index: number) => (
-                <MenuItem key={index} style={{ width: menuItemWidth }} onClick={handleMenuClose}>
+                <MenuItem key={index} style={{ width: menuItemWidth }} onClick={()=>{handleMenuItemClick(page.id)}}>
                 <div style={{ width: '100%' }}>
-                    <NavLink to={`${page.id}`} style={{ textDecoration: 'none' }}>
                     <PageNavContainer pages={page} index={index} onShow={onShow} />
-                    </NavLink>
                 </div>
                 </MenuItem>
             ))}

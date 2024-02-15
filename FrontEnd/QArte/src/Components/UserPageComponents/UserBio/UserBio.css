@@ -2,17 +2,18 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
   }
   
-  .container {
-    max-width: 800px;
+  .my-container {
+    width: 100%;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+    border: none;
+    float: left;
   }
   
   img {
@@ -26,6 +27,7 @@ body {
   
   h2, h3 {
     color: #555;
+    margin-bottom: 10px;
   }
   
   p {

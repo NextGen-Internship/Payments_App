@@ -4,6 +4,8 @@ import UserGallery from "../../UserGallery/UserGallery";
 import { useState, useEffect } from "react";
 import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "@mui/material";
+import './SubPageContainer.css'
 
 const SubPageContainer = () =>{
 
@@ -100,16 +102,24 @@ const SubPageContainer = () =>{
         }
     }
 
-    return(
-        <div> 
-            <h1>{id}</h1>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> setShowChangePage(!ShowChangePage)}>Edit Page</button>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> callPageDelete(page.id)}>Delete Page</button>    
-            <UserBio bio = {page.bio}/>
-            {page.galleryID != '' &&<UserGallery gallery = {page.galleryID}/>}
-            {ShowChangePage && <ChangePage id={page.id} onChange={callPageChange}/>}   
+    return (
+        <div className="sub-page-container">
+          <div className="top-bar">
+            <h1>{page.id}</h1>
+            <Button variant="contained" color="error" size="small" style={{height:'20%', width:'20%'}} onClick={() => callPageDelete(page.id)}>
+              Delete Page
+            </Button>
+          </div>
+          <div className="bio-editPageButton-container">
+          <UserBio bio={page.bio} />
+          <Button variant="contained" color="primary" size="small" style={{height: '20%', width:'20%'}} onClick={() => setShowChangePage(!ShowChangePage)}>
+            Edit bio
+          </Button>
+          </div >
+          {ShowChangePage && <ChangePage id={page.id} onChange={callPageChange} />}
+          {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
         </div>
-    );
+      );
 };
 
 export default SubPageContainer;

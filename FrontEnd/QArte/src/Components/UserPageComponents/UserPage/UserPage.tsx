@@ -9,20 +9,22 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography'
+import SubPageContainer from "../SubPageContainer/SubPageContainer";
+import PageNavigator from '../PageNavigator'
 
 
 const UserPage = () =>{
-
-    const navigate=useNavigate();
-
+    
+    
     const{id} = useParams();
     const val = parseInt(id!);
-
+    
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
     const [Upages,setPages] = useState<any>([]);
-    const [selectedPage, setSelectedPage] = useState(null);
-
+    const [selectedPage, setSelectedPage] = useState<number | null>(null);
+    
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const getUser =async () => {
@@ -61,6 +63,7 @@ const UserPage = () =>{
         setAddPage(!showAddPage);
         console.log(showAddPage);
     }
+
 
     const addPage = async (bio:any) =>{
         const qr = Math.floor(Math.random()*1000)+1; // to fix
@@ -165,11 +168,23 @@ const UserPage = () =>{
         console.log(Upages);
     }
 
-    
+    const onSelectedPage = (pageId: number) => {
+        setSelectedPage(pageId);
+        //navigate(`${window.location.pathname}/${pageId}`);
+      };
+
+    // useEffect(() => {
+    // if (selectedPage !== null) {
+    //     navigate(`/explore/${User.id}/${selectedPage}`);
+    //     setSelectedPage(null);
+    // }
+    // }, [selectedPage, navigate]);
 
     return (
         <div>
           {showAddPage && <PageAdd onAdd={addPage} />}
+          
+          {/* User Info and SubPageLister Container */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             {/* User Info Container */}
             <div className="user-info-container" style={{ display: 'flex', alignItems: 'flex-end', flex: 1 }}>
@@ -181,7 +196,7 @@ const UserPage = () =>{
                   alt="userPicture"
                 />
               </div>
-      
+          
               {/* User Details */}
               <div className="user-details" style={{ textAlign: 'left', marginLeft: '5px'}}>
                 <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
@@ -192,17 +207,27 @@ const UserPage = () =>{
                 </Typography>
               </div>
             </div>
-      
+          
             {/* SubPageLister Container */}
-            <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%', marginRight: '10%' }}>
-              <SubPageLister ref={PageRef} pages={Upages} />
+            <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%', marginRight: '%' }}>
+              <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage}/>
             </div>
           </div>
       
+          {/* New Container Div for PageNavigator */}
+          <div style={{ marginTop: '40%' }}>
+            {selectedPage != null && (
+              <div>
+                <PageNavigator pageId={selectedPage} userId={User.id} />
+              </div>
+            )}
+          </div>
+      
           {/* Stripe Checkout Component */}
-          {/* <StripeCheckout userID={User.id} /> */}
+          <StripeCheckout userID={User.id} />
         </div>
       );
+      
       
       
 };
