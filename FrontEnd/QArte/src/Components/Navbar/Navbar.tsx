@@ -13,12 +13,20 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../store/loginSlice";
+import { RootState } from "@reduxjs/toolkit/query";
 
-const pages = ["Home", "About", "Blog", "Explore", "SignIn", "SignUp"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Home", "About", "Explore", "SignIn", "SignUp"];
+const settings = ["Profile", "Account", "Logout"];
 
 export function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userImage = useSelector((state: RootState) => state.user.avatar);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -43,9 +51,30 @@ export function ResponsiveAppBar() {
   };
 
   const handleNavClick = (page: string) => {
-    navigate(`/${page.toLowerCase()}`);
+    // if (page === "SignIn") {
+    //   navigate("/signin");
+    // } else if (page === "SignUp") {
+    //   navigate("/signup");
+    // } else {
+    //   navigate(`/${page.toLowerCase()}`);
+    // }
+    // navigate(`/${page.toLowerCase()}`);
+    // handleCloseNavMenu();
+    // console.log(page);
+
     handleCloseNavMenu();
-    console.log(page);
+    handleCloseUserMenu();
+    if (page === "SignIn" || page === "SignUp") {
+      navigate(`/${page.toLowerCase()}`);
+    } else {
+      navigate(`/${page.toLowerCase()}`);
+    }
+  };
+  const handleLogout = () => {
+    dispatch(clearUser());
+    // localStorage.removeItem("userImage");
+    // localStorage.removeItem("token");
+    navigate("/signin");
   };
 
   return (
@@ -148,7 +177,11 @@ export function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                <Avatar
+                  alt="Profile Image"
+                  src={userImage || "/static/images/avatar/2.jpg"}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -168,7 +201,7 @@ export function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleLogout}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

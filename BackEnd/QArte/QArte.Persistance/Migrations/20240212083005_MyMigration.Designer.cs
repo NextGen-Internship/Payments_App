@@ -12,7 +12,7 @@ using QArte.Persistance;
 namespace QArte.Persistance.Migrations
 {
     [DbContext(typeof(QArteDBContext))]
-    [Migration("20240209083519_MyMigration")]
+    [Migration("20240212083005_MyMigration")]
     partial class MyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

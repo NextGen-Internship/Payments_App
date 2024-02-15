@@ -18,10 +18,6 @@ import UserService from "../../Services/UserService";
 import SignUpDTO from "../../Interfaces/DTOs/SignUpDTO";
 const defaultTheme = createTheme();
 
-/*bankAccountID:number;
-    settlementCycleID:number;
-    settlementCycleEnum:number;
-    paymentMethodEnum:number; */
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,11 +29,14 @@ export default function SignUp() {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [IBAN, setIBAN] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [settlementCycleID, setSettlementCycleID] = useState("");
+  const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
+
   const userService = new UserService(new ApiService());
   const navigate = useNavigate();
   const validateEmail = (email: string): boolean => {
@@ -45,6 +44,7 @@ export default function SignUp() {
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(String(email).toLowerCase());
   };
+
   const validatePassword = (password: string): boolean => {
     return password.length >= 8;
   };
@@ -59,19 +59,19 @@ export default function SignUp() {
     let isValid = true;
 
     const isBanned = false;
-    const roleID = 1;
-    const bankAccountID = 4;
-    const stripeAccountID = "BG80BNBG96611020345678";
-    const id = 0;
+    const roleID = 0;
     const phoneNumber = "+359888940130";
     const pictureURL = "";
-    IBAN:"BG80BNBG96611020345678";
-    isBanned:false;
-    roleID:0;
-    bankAccountID:0;
-    settlementCycleID:0;
-    settlementCycleEnum:0;
-    paymentMethodEnum:0;
+    //const bankAccountID = 4;
+    //const stripeAccountID = "BG80BNBG96611020345678";
+    //const id = 0;
+    //
+
+    // IBAN: "BG80BNBG96611020345678";
+    //isBanned: false;
+    // bankAccountID: 0;
+    // settlementCycleID: 0;
+    // paymentMethodEnum: 0;
 
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
@@ -88,35 +88,37 @@ export default function SignUp() {
     if (isValid) {
       try {
         const userData: SignUpDTO = {
-          id,
-          email,
-          password,
-          username,
-          firstName,
-          lastName,
-          address,
-          country,
-          city,
-          postalCode,
-          IBAN,
-          phoneNumber,
-          isBanned,
-          roleID,
-          bankAccountID,
-          stripeAccountID,
-          pictureURL,
-          settlementCycleID,
-          settlementCycleEnum,
-          paymentMethodEnum,
+          ID: 0,
+          Email: email,
+          Password: password,
+          Username: username,
+          FirstName: firstName,
+          LastName: lastName,
+          Address: address,
+          Country: country,
+          City: city,
+          postalCode: postalCode,
+          IBAN: IBAN,
+          PhoneNumber: phoneNumber,
+          isBanned: isBanned,
+          RoleID: 0,
+          BankAccountID: 0,
+          stripeAccountID: "",
+          PictureURL: pictureURL,
+          SettlementCycleEnum: 0,
+          SettlementCycleID: 0,
+          paymentMethodEnum: 0,
+          roleEnum: 0,
         };
         console.log(userData);
         // sends data to API and recieve response
         const response: ApiResponseDTO = await userService.registerUser(
           userData
         );
+
         console.log(response);
 
-        // checking the from Api response
+        // checking from Api response
         if (response.succeed) {
           console.log("Registration successful", response.message);
           // collect the token
@@ -234,6 +236,17 @@ export default function SignUp() {
               autoComplete="family-name"
               onChange={(e) => setLastName(e.target.value)}
             />
+            {/* PhoneNumber */}
+            {/* <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="phoneNumber"
+              label="phoneNumber"
+              name="phoneNumber"
+              autoComplete="phoneNumber"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            /> */}
             <TextField
               margin="normal"
               required

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
+//new
 namespace QArte.Services.DTOs
 {
     public class LoginDTO

@@ -6,4 +6,5 @@ namespace QArte.Services.DTOs
 		public string Token { get; set; }
 	}
 }
- 
+//new
+

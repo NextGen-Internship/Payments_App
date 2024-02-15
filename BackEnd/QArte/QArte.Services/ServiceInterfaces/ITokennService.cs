@@ -15,3 +15,4 @@ namespace QArte.Services.ServiceInterfaces
         
     }
 }
+//new

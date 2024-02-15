@@ -8,7 +8,7 @@ using Stripe;
 
 using Microsoft.OpenApi.Models;
 //sing Swashbuckle.Swagger;
-
+//new
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
 using Quartz;

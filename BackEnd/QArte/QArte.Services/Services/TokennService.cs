@@ -13,7 +13,7 @@ using QArte.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
-
+//new
 namespace QArte.Services.Services
 {
     public class TokennService : ITokennService
@@ -35,6 +35,11 @@ namespace QArte.Services.Services
             {
                     //down here new Claim(JwtRegisteredClaimNames.Email, user.getEntity().Email)???
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("FirstName", user.FirstName ?? ""),
+                    new Claim("LastName", user.LastName ?? ""),
+                    new Claim("City", user.City ?? ""),
+                    new Claim("Country", user.Country ?? ""),
+                    new Claim("IBAN", user.IBAN ?? ""),
                     //do i need to add userRole
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())

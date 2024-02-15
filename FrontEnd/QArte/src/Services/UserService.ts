@@ -24,13 +24,6 @@ class UserService{
         return response;
       }
 
-      // async createBankAccount(data: <ApiResponseDTO>){
-      //   const response = await this.apiService.post<ApiResponseDTO>(this.POSTBA_ENDPOINT, data);
-      //   response.data;
-      //   console.log(response);
-      //   return response;
-      // }
-    
       async loginUser(data: SignInDTO): Promise<ApiResponseDTO> {
         return this.apiService.post<ApiResponseDTO>(this.SIGNIN_ENDPOINT, data);
       }

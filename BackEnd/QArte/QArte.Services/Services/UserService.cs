@@ -8,6 +8,7 @@ using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using Stripe;
 
+//new
 namespace QArte.Services.Services
 {
 	public class UserService : IUserService

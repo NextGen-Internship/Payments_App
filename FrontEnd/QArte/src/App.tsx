@@ -6,12 +6,14 @@ import SignIn from "./Pages/SignIn/SignIn.tsx";
 import SignUp from "./Pages/SignUp/SignUp.tsx";
 import About from "./Pages/About/About.tsx";
 import Blog from "./Pages/Blog/Blog.tsx";
+import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 import Explore from "./Pages/Explore/Explore.tsx";
 import UserPage from "./Components/UserPage/UserPage.tsx";
 import UserList from "./Components/UserList/UserList.tsx";
 import SuccessPage from "./Components/Stripe/SuccessPage.jsx";
 import ErrorPage from "./Components/Stripe/ErrorPage.jsx";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
+//import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 
 const users = [
   {
@@ -37,9 +39,8 @@ const users = [
   },
 
   {
-<<<<<<< HEAD
     name: "Doe",
-    id: 1,
+    id: 2,
     profilePicture: "path/to/profile.jpg",
     page: [
       {
@@ -62,24 +63,6 @@ const users = [
       },
     ],
   },
-=======
-      name: 'Doe',
-      id: 2,
-      profilePicture: 'path/to/profile.jpg',
-      page:[
-          {
-              id: 1,
-              bio: 'A brief bio about John Doe.',
-              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-          },
-          {
-              id: 2,
-              bio: 'We are doing it!.',
-              photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-          },
-      ]
-  }
->>>>>>> 996b4ce0df42fab56a61178824fbf0654178b9a6
 ];
 
 function App() {
@@ -112,6 +95,10 @@ function App() {
           <Route path="/stripe-error" element={<ErrorPage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/aditionalInformation"
+            element={<AditionalInformation />}
+          />
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />

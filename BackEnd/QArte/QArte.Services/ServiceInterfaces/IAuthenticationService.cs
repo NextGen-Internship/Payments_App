@@ -17,3 +17,4 @@ namespace QArte.Services.ServiceInterfaces
         Task<Response<string>> GoogleLoginAsync(LoginWithGoogleDTO googleLogin);
     }
 }
+//new

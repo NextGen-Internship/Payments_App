@@ -5,15 +5,10 @@ class ApiService {
     private baseUrl = import.meta.env.VITE_BASE_URL;
 
     private async handleResponse(response: any):Promise<ApiResponseDTO> {
-        // console.log(response.status)
-        // if (response.status!=200) {
-        //     throw new Error(response.data.errorMessage);
-        // }
-        // return response.data;
-        
-        //creating new object
-        console.groupCollapsed(response.status);
+        //console.groupCollapsed(response.status);
+        console.log(response.status);
         const succeed = response.status == 200;
+        
         let message = '';
         let data = null;
 

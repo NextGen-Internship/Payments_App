@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QArte.Persistance;
 
+//new
 namespace QArte.Services.Services
 {
     public class AuthenticationService : IAuthenticationService
@@ -104,8 +105,10 @@ namespace QArte.Services.Services
                     Email = validation.Email,
                     FirstName = validation.FirstName,
                     LastName = validation.LastName,
-                    IBAN = googleLogin.IBAN,
-                    Password = "IzIHi8kbpIqZvhpUs3UD2o1i3D9779##!@"
+                    //and all that sh** stuff like this template googleLogin.PhoneNumber 
+                    //IBAN = googleLogin.IBAN,
+                    //Password = "IzIHi8kbpIqZvhpUs3UD2o1i3D9779##!@"
+                    //
                     //ToDo: Add bank information and city address...
                 };
                 try

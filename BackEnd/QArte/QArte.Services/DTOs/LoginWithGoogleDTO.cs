@@ -13,3 +13,4 @@ namespace QArte.Services.DTOs
         //ToDo: Add bank information
     }
 }
+//new

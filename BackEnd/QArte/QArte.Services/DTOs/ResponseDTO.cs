@@ -13,3 +13,4 @@ namespace QArte.Services.DTOs
         public T? Data { get; set; }
     }
 }
+//new

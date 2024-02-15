@@ -6,7 +6,7 @@ using QArte.Services.DTOs;
 using QArte.Persistance.PersistanceModels;
 using Microsoft.AspNetCore.Authorization;
 using QArte.Persistance.PersistanceConfigurations;
-
+//new
 namespace QArte.API.Controllers
 {
     [ApiController]
