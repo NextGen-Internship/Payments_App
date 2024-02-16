@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/loginSlice";
 import { RootState } from "@reduxjs/toolkit/query";
 
-const pages = ["Home", "About", "Explore", "SignIn", "SignUp"];
+const pages = ["Home", "Explore", "SignIn", "SignUp"];
 const settings = ["Profile", "Account", "Logout"];
 
 export function ResponsiveAppBar() {

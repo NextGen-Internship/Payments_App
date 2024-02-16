@@ -40,22 +40,6 @@ namespace QArte.Services.Services
             {
                 //here result is boolean value
                 var result = _userService.CheckByPasswordSignIn(user, loginUser.Password);
-                /*if (result.Succeeded)
-                {
-                    var jwtToken = _tokenService.GenerateJwtToken(user.GetEnity());
-                    return new Response<string>()
-                    {
-                        Succeed = true,
-                        Data = jwtToken
-                    };
-                }
-                
-                return new Response<string>()
-                {
-                Succeed = false,
-                Message = "Invalid User"
-                };
-                 */
                 if (result == false)
                 {
                     return new Response<string>()
@@ -105,12 +89,13 @@ namespace QArte.Services.Services
                     Email = validation.Email,
                     FirstName = validation.FirstName,
                     LastName = validation.LastName,
-                    //and all that sh** stuff like this template googleLogin.PhoneNumber 
+                    //and all that stuff like this template googleLogin.PhoneNumber 
                     //IBAN = googleLogin.IBAN,
                     //Password = "IzIHi8kbpIqZvhpUs3UD2o1i3D9779##!@"
                     //
                     //ToDo: Add bank information and city address...
                 };
+
                 try
                 {
                     existingUser = await _userService.PostAsync(newRegUser);
@@ -136,11 +121,11 @@ namespace QArte.Services.Services
         }
 
         //validate google id token and returns info about the user after successfull login
-        private async Task<GoogleTokenInfoDTO?> ValidateGoogleTokenAsync(string googleToken)
+        public async Task<GoogleTokenInfoDTO?> ValidateGoogleTokenAsync(string googleToken)
         {
             using (var httpClient = new HttpClient())
             {
-                var validationEndpoint = _configuration["GoogleOAuth:ValidationEndpoint"] + googleToken;
+                var validationEndpoint = _configuration["GoogleOAuth:ValidationEndpoint"] + googleToken ?? "";
                 var response = await httpClient.GetAsync(validationEndpoint);
                 if (!response.IsSuccessStatusCode)
                 {

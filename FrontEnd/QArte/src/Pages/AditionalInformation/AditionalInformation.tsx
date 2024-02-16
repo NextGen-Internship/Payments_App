@@ -15,8 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAvatar} from "../../store/loginSlice";
-
+import { setAvatar } from "../../store/loginSlice";
 
 const defaultTheme = createTheme();
 
@@ -55,7 +54,7 @@ export default function AditionalInformation() {
   //const [decodedToken, setDecodedToken] = useState("");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     const googleToken = localStorage.getItem("googleToken");
@@ -76,40 +75,43 @@ export default function AditionalInformation() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const googleToken = localStorage.getItem("googleToken") ?? "";
     const isBanned = false;
     const phoneNumber = "+359888940130";
     const password = generateRandomPassword();
     const fullData = {
-      ID: 0,
-      Email: email ?? "",
-      Password: password,
-      Username: username,
-      FirstName: firstName,
-      LastName: lastName,
-      Address: address,
-      Country: country,
-      City: city,
-      postalCode: postalCode,
-      IBAN: IBAN,
-      PhoneNumber: phoneNumber,
-      isBanned: isBanned,
-      RoleID: 0,
-      BankAccountID: 0,
-      stripeAccountID: "",
-      PictureURL: picture,
-      SettlementCycleEnum: 0,
-      SettlementCycleID: 0,
-      paymentMethodEnum: 0,
-      roleEnum: 0,
+      userInfo: {
+        ID: 0,
+        Email: email ?? "",
+        Password: password,
+        Username: username,
+        FirstName: firstName,
+        LastName: lastName,
+        Address: address,
+        Country: country,
+        City: city,
+        PostalCode: postalCode,
+        IBAN: IBAN,
+        PhoneNumber: phoneNumber,
+        IsBanned: isBanned,
+        RoleID: 0,
+        BankAccountID: 0,
+        StripeAccountID: "",
+        PictureURL: picture,
+        SettlementCycleEnum: 0,
+        SettlementCycleID: 0,
+        PaymentMethodEnum: 0,
+        RoleEnum: 0,
+      },
+      googleToken: googleToken,
     };
 
     try {
       const response = await axios.post(
-        "https://localhost:7191/api/User/PostUser",
+        "https://localhost:7191/api/Authentication/google-login",
         fullData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("googleToken")}`,
             "Content-Type": "application/json",
           },
         }

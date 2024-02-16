@@ -15,6 +15,7 @@ namespace QArte.Services.ServiceInterfaces
     {
         Task<Response<string>> Login(LoginDTO loginUser);
         Task<Response<string>> GoogleLoginAsync(LoginWithGoogleDTO googleLogin);
+        Task<GoogleTokenInfoDTO?> ValidateGoogleTokenAsync(string googleToken);
     }
 }
 //new

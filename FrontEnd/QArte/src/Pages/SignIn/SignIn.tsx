@@ -92,11 +92,31 @@ export default function SignIn() {
   };
 
   const handleLoginWithgoogle = async (CredentialResponse: any) => {
-    console.log("Login with google success.", CredentialResponse);
-    localStorage.setItem("googleToken", CredentialResponse.credential);
-    //localStorage.setItem("userImage", CredentialResponse.profileObj.imageUrl);
-    dispatch(setLoggedIn(true));
-    navigate("/aditionalInformation");
+    // console.log("Login with google success.", CredentialResponse);
+    // localStorage.setItem("googleToken", CredentialResponse.credential);
+    // //localStorage.setItem("userImage", CredentialResponse.profileObj.imageUrl);
+    // dispatch(setLoggedIn(true));
+    // //if user exists -> if yes => get login with google method from backend
+    // navigate("/aditionalInformation");
+    console.log("Login with Google success.", CredentialResponse);
+    const token = CredentialResponse.credential;
+    localStorage.setItem("googleToken", token);
+    try {
+      const response = await axios.post(
+        "https://localhost:7191/api/Authentication/google-signIn",
+        { token }, // Directly passing the object
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(response.data);
+      if (response.data.userExists) {
+        dispatch(setLoggedIn(true));
+        navigate("/home");
+      } else {
+        navigate("/aditionalInformation");
+      }
+    } catch (error) {
+      console.error("Error during the sign-in process:", error);
+    }
   };
 
   const error = () => {
