@@ -1,4 +1,5 @@
 import react, { Component } from 'react';
+import Button from '@mui/material/Button';
 
 const StripeCheckout = ({userID} : any) => 
 {
@@ -37,9 +38,17 @@ const StripeCheckout = ({userID} : any) =>
       };
     
       return (
-        <div>
+        <div style={{ display:'flex', alignItems:'center', justifyContent: 'center'}}>
           <form onSubmit={handleSubmit}>
-            <button type="submit" className="btn" style={{backgroundColor:"green"}}>Checkout</button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success" 
+              size="large"
+              style={{position:'fixed', bottom: '20px', left: '20px',fontSize: '24px', padding: '20px 30px'}}
+            >
+              Checkout
+            </Button>
           </form>
         </div>
       );

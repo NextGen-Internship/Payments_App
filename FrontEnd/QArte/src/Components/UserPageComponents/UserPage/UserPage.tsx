@@ -1,40 +1,30 @@
 import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
 import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
-import PageAdd from "../PageAdd/PageAdd";
-import {useParams, useNavigate, useLocation} from "react-router-dom"
-import StripeCheckout from "../Stripe/StripeCheckout";
-import ChangePage from "../ChangePage/ChangePage";
+import PageAdd from "../../PageAdd/PageAdd";
+import {useParams, useNavigate} from "react-router-dom"
+import StripeCheckout from "../../Stripe/StripeCheckout";
+import ChangePage from "../../ChangePage/ChangePage";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography'
+import SubPageContainer from "../SubPageContainer/SubPageContainer";
+import PageNavigator from '../PageNavigator'
 
-// const user = {
-//     name: 'John Doe',
-//     id: 1,
-//     profilePicture: 'path/to/profile.jpg',
-//     page:[
-//         {
-//             id: 1,
-//             bio: 'A brief bio about John Doe.',
-//             photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-//         },
-//         {
-//             id: 2,
-//             bio: 'We are doing it!.',
-//             photos: ['path/to/photo1.jpg', 'path/to/photo2.jpg', 'path/to/photo3.jpg']
-//         },
-//     ]
-//   };
 
 const UserPage = () =>{
-
-    const navigate=useNavigate();
-
+    
+    
     const{id} = useParams();
     const val = parseInt(id!);
-
+    
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
     const [Upages,setPages] = useState<any>([]);
-    const [file,setFile] = useState();
+    const [selectedPage, setSelectedPage] = useState<number | null>(null);
+    
+    const navigate = useNavigate();
 
 
     useEffect(()=>{
@@ -75,33 +65,6 @@ const UserPage = () =>{
         return pageData;
     }
 
-    // useEffect(()=>{
-    //     const getUser = async() =>{
-    //         try{
-    //             await fetchUser();
-    //         }
-    //         catch(error){
-    //             console.error('Error fetching user data!',error);
-    //         }
-    //     }
-    //     getUser()
-    // },[user]);
-
-    // const fetchUser =async () => {
-    //     try {
-    //         const foundUser = user.find((u: any) => u.id === val);
-    //         if (foundUser) {
-    //             setUser(foundUser);
-    //             setPages(foundUser.page);
-    //         } else {
-    //             console.error(`User with id ${val} not found.`);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching user data!', error);
-    //     }
-    // }
-
-
     const PageRef = useRef<SubPageListerRef>(null);
     
     const Try = ()=>{
@@ -109,28 +72,7 @@ const UserPage = () =>{
         console.log(showAddPage);
     }
 
-    const addPage = async (changes:any) =>{
-        // const id = Math.floor(Math.random()*1000)+1;
-        // const newPage = {id,...page}
-        // var go = true;
-
-        // for(var i=0; i<Upages.length;i++){
-        //     if(Upages[i].id==newPage.id){
-        //         go=false;   
-        //     }
-        // }
-        // if(go)
-        // {
-        //     Upages.push(newPage);
-        //     if(PageRef.current){
-        //         PageRef.current.Awake(Upages[Upages.length-1].id);}
-        // }
-        // else
-        // {
-        //     console.log("you have this page");
-        // }
-        // setPages(Upages);
-        // console.log(Upages);
+    const addPage = async (bio:any) =>{
         const qr = Math.floor(Math.random()*1000)+1; // to fix
         //const qr = window.location.href;
         try {
@@ -141,8 +83,8 @@ const UserPage = () =>{
                 },
                 body: JSON.stringify({
                     id:0,
-                    bio:changes.bio,
-                    PageName:changes.name,
+                    bio:bio.bio,
+                    PageName:bio.name,
                     qrLink:qr.toString(),
                     galleryID:0,
                     userID: User.id,
@@ -263,13 +205,13 @@ const UserPage = () =>{
 
     const handleOnChange = async(e:any)=>{
         let target = e.target.files;
+        AddPhoto(target[0]);
         console.log('file', target);
         let v = window.location.href;
         console.log(v);
-        setFile(target[0]);
     }
 
-    const AddPhoto = async()=>{
+    const AddPhoto = async(file:any)=>{
         if(file==undefined){
             alert("Choose an image")
         }
@@ -301,24 +243,67 @@ const UserPage = () =>{
             console.error('Error deleting user:', error);
         }
     }
-    
+    const onSelectedPage = (pageId: number) => {
+        setSelectedPage(pageId);
+      };
 
-    return(
-        <div>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={DeleteUser} >Delete User</button>
-            <div className="container">
-                <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-                {showAddPage && <PageAdd onAdd={addPage}/>}
-                <div className="container">    
-                    <img src={User.pictureURL} alt="Profile" />
-                    <h2>{User.firstName+" "+User.lastName}</h2>
-                    <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
-                    <button className="btn" style={{backgroundColor:"green"}} onClick={AddPhoto} >Change Profile Picture</button>
+    // return(
+    //     <div>
+    //         <button className="btn" style={{backgroundColor:"green"}} onClick={DeleteUser} >Delete User</button>
+    //         <div className="container">
+    //             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
+    //             {showAddPage && <PageAdd onAdd={addPage}/>}
+    //             <div className="container">    
+    //                 <img src={User.pictureURL} alt="Profile" />
+    //                 <h2>{User.firstName+" "+User.lastName}</h2>
+    //                 <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
+    //                 <button className="btn" style={{backgroundColor:"green"}} onClick={AddPhoto} >Change Profile Picture</button>
+
+
+    return (
+            <div className="top-of-page">
+              {showAddPage && <PageAdd onAdd={addPage} />}
+              
+              {/* User Info and SubPageLister Container */}
+              <div style={{ textAlign: 'center' }}>
+                {/* User Image Container */}
+                <div className="user-image-container" style={{ marginTop: '30px' }}>
+                  <img
+                    style={{ height: '225px', width: '225px', borderRadius: '50%' }}
+                    src={User.pictureURL}
+                    alt="userPicture"
+                  />
                 </div>
-                <SubPageLister ref={PageRef} pages={Upages} />
+          
+                {/* User Details */}
+                <div className="user-details" style={{ marginTop: '10px' }}>
+                  <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
+                    {User.username}
+                  </Typography>
+                  <Typography component="div" style={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
+                    {`${User.firstName} ${User.lastName}`}
+                  </Typography>
+                </div>
+              </div>
+          
+              <div>
+                <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
+                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage}/>
+                </a>
+                {selectedPage != null && (
+                  <div>
+                    <PageNavigator pageId={selectedPage} userId={User.id} />
+                  </div>
+                )}
+              </div>
+          
+              {/* Stripe Checkout Component */}
+              <StripeCheckout userID={User.id} />
             </div>
-            <StripeCheckout userID = {User.id}></StripeCheckout>
-        </div>
-    );
+          );
+          
+      
+      
+      
 };
 export default UserPage;

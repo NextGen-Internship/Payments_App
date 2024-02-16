@@ -2,12 +2,19 @@ import React from "react";
 import './UserGallery.css';
 import Photo from "../Photo/Photo";
 import { useState, useEffect } from "react";
+import { Button, Grid } from "@mui/material";
+import Input from '@mui/material/Input';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const UserGallery = ({gallery}:any) =>{
 
     const[file, setFile] = useState();
     const[photos, setPhotos] = useState([]);
     const[activeGallery,setActiveGallery] = useState();
+    const[model, setModel] = useState(false);
+    const [tempImgSrc, setTempImgSrc] = useState('');
 
     useEffect(()=>{
         const getPhotos =async () => {
@@ -90,38 +97,64 @@ const UserGallery = ({gallery}:any) =>{
     }
 
     const handleOnChange = async(e:any)=>{
-        let target = e.target.files;
+        const target = e.target.files;
         console.log('file', target);
-        setFile(target[0]);
+        //setFile(target[0]);
+        AddPhoto(target[0]);
     }
 
-    const AddPhoto = async()=>{
-        if(file==undefined){
+    const AddPhoto = async(newFile:any)=>{
+        if(newFile==undefined){
             alert("Choose an image")
         }
         else
         {
-            console.log(file);
-            UploadPhoto(file);
-            setFile(undefined);
+            console.log(newFile);
+            UploadPhoto(newFile);
         }
     }
 
-    return(
-        <div className="container">
-            <h3>Photo Gallery</h3>
-            <h2>{gallery}</h2>
-            <div>
-                <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
-                <button className="btn" style={{backgroundColor:"green"}} onClick={()=>AddPhoto()}>Add Photo</button>   
-            </div>
-            
-            <div className="photo-grid">
-                {photos.map((photo:any,index:any)=>(
-                    <Photo key={index} photo={photo} onDeletePhoto={DeletePhoto}/>
-                ))}
-            </div>
+    const onClickPhoto= async(picURL:any) =>
+    {
+        setModel(true);
+        setTempImgSrc(picURL);
+    }
+
+    return (
+        <div className="gallery-container">
+        <div className="buttonContainer" style={{ textAlign: "right", marginBottom: "30px" }}>
+            <label htmlFor="image-upload">
+            <Input
+                id="image-upload"
+                type="file"
+                name="image"
+                onChange={handleOnChange}
+                style={{ display: "none" }}
+            />
+            <Button
+                variant="contained"
+                component="span"
+                startIcon={<CloudUploadIcon />}
+                style={{ marginRight: "2%" }}
+            >
+                Upload Image
+            </Button>
+            </label>
         </div>
-    );
+
+        <div className={model ? "model open" : "model"}>
+            <img src={tempImgSrc} />
+            <CloseIcon onClick={() => setModel(false)} />
+        </div>
+
+        <div className="gallery">
+            {photos.map((photo: any, index: any) => (
+            <Photo key={index} photo={photo} onDeletePhoto={DeletePhoto} onClickPhoto={onClickPhoto} />
+            ))}
+        </div>
+        </div>
+
+      );
+      
 };
 export default UserGallery;

@@ -1,9 +1,14 @@
 import React from "react";
 import UserBio from "../UserBio/UserBio";
-import UserGallery from "../UserGallery/UserGallery";
+import UserGallery from "../../UserGallery/UserGallery";
 import { useState, useEffect } from "react";
-import ChangePage from "../ChangePage/ChangePage";
+import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import './SubPageContainer.css'
 
 const SubPageContainer = () =>{
 
@@ -46,15 +51,17 @@ const SubPageContainer = () =>{
 
     const callPageChange = async (pages:any) =>{
         try {
+
             console.log("Updating page: ", pages);
-            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.id}`, {
+    
+            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.page.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(
                     {
-                        id : pages.id,
+                        id : pages.page.id,
                         bio : pages.bio,
                         pageName:pages.name,
                         qrLink: 'string',
@@ -71,7 +78,9 @@ const SubPageContainer = () =>{
             setPage(res);
             console.log('Page updated successfully.');
             console.log(page.userID);
+            setShowChangePage(false);
             window.location.href = `http://localhost:5173/explore/${page.userID}`
+           
             // If you want to update the UI or perform other actions after the update, add them here.
         } catch (error) {
             console.error('Error updating page:', error);
@@ -101,16 +110,30 @@ const SubPageContainer = () =>{
         }
     }
 
-    return(
-        <div> 
-            <h1>{page.pageName}</h1>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> setShowChangePage(!ShowChangePage)}>Edit Page</button>
-            <button className="btn" style={{backgroundColor:"green"}} onClick={()=> callPageDelete(page.id)}>Delete Page</button>    
-            <UserBio bio = {page.bio}/>
-            {page.galleryID != '' &&<UserGallery gallery = {page.galleryID}/>}
-            {ShowChangePage && <ChangePage id={page.id} onChange={callPageChange}/>}   
+
+    return (
+        <div className="sub-page-container" style={{ width: '100%', position: 'relative' }}>
+          <div className="top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
+            <h1 style={{ marginLeft: '1%' }}>{page.pageName}</h1>
         </div>
-    );
+            {/* Delete Page Button */}
+            <IconButton
+              size="large"
+              onClick={() => callPageDelete(page.id)}
+              style={{ color: 'red', marginLeft: 'auto'}}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: '3rem', strokeWidth: 2 } }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <div className="bio-editPageButton-container">
+          <UserBio bio={page.bio} onEditClick={() => setShowChangePage(!ShowChangePage)} />
+          </div>
+          {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />}
+          {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
+        </div>
+      );
 };
 
 export default SubPageContainer;
