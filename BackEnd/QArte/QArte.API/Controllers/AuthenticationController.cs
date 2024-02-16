@@ -1,350 +1,211 @@
 ﻿using System;
-using System.Text;
-using QArte.API.Handlers;
 using QArte.Services.Services;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using QArte.Services.DTOs;
 using QArte.Persistance.PersistanceModels;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using QArte.Persistance.PersistanceConfigurations;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.Security.Cryptography;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+//new
+namespace QArte.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    //[Authorize]
+    public class AuthenticationController : ControllerBase
+    {
+        private readonly IAuthenticationService _authService;
+        private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
+        private readonly ITokennService _tokenService;
 
-//namespace QArte.API.Controllers
-//{
-//	[ApiController]
-//	[Route("api/[controller]")]
-//	public class AuthenticationController : ControllerBase
-//	{
+        public AuthenticationController(IAuthenticationService authService, IUserService userService,
+                                        IConfiguration configuration,ITokennService tokenService)
+        {
+            _authService = authService;
+            _userService = userService;
+            _configuration = configuration;
+            _tokenService = tokenService;
 
-//		private readonly IAuthService _auth;
+        }
 
-//		public AuthenticationController(IAuthService auth)
-//		{
-//			_auth = auth;
-//		}
-
-//        [HttpPost]
-//        [ProducesResponseType(200)]
-//        [ProducesResponseType(401)]
-//        public async Task<ActionResult<IEnumerable<ResponseAuthDTO>>> Login(RequestAuthDTO model)
-//        {
-//            return Ok(await _auth.AuthenticateAsync(model));
-//        }
-//    }
-//}
-
-//namespace QArte.API.Controllers
-//{
-//    [ApiController]
-//    [Route("api/[controller]")]
-//    public class AuthenticationController : ControllerBase
-//    {
-//        private readonly UserManager<User> _userManager;
-//        //private readonly JwtConfig _jwtConfig;
-//        private readonly IConfiguration _configuration;
-
-//        //public AuthenticationController(UserManager<IdentityUser> userManager, JwtConfig jwtConfig)
-//        public AuthenticationController(UserManager<User> userManager, IConfiguration configuration)
-//        {
-//            _userManager = userManager;
-//            //_jwtConfig = jwtConfig;
-//            _configuration = configuration;
-//        }
-
-//        [HttpPost]
-//        [Route("Register")]
-//        public async Task<IActionResult> Register([FromBody] UserRegistrationRequestDTO requestDTO)
-//        {
-//            //Validate the incoming request
-//            if (ModelState.IsValid)
-//            {
-//                //we need to check if the email already exist
-//                var user_exist = await _userManager.FindByEmailAsync(requestDTO.Email);
-
-//                if (user_exist != null)
-//                {
-//                    return BadRequest(new AuthResult()
-//                    {
-//                        Result = false,
-//                        Errors = new List<string>()
-//                        {
-//                            "Email already exist."
-//                        }
-//                    });
-//                }
-
-//                //creating a user
-//                var new_user = new User()
-//                {
-//                    Email = requestDTO.Email,
-//                    UserName = requestDTO.Email
-//                };
-
-//                var is_created = await _userManager.CreateAsync(new_user, requestDTO.Password);
-
-//                if (is_created.Succeeded)
-//                {
-//                    //generate the token
-//                    var token = GenerateJwtToken(new_user);
-
-//                    return Ok(new AuthResult()
-//                    {
-//                        Result = true,
-//                        Token = token
-//                    });
-//                }
-
-//                return BadRequest(new AuthResult()
-//                {
-//                    Errors = new List<string>()
-//                    {
-//                        "Server error."
-//                    },
-//                    Result = false
-//                });
-//            }
-
-//            return BadRequest();
-//        }
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginUser)
+        {
+            try
+            {
+                var response = await _authService.Login(loginUser);
+                return response.Succeed == true ? Ok(response) : BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occured:{ex.Message}");
+            }
+        }
 
 
-//        [HttpPost]
-//        [Route("Login")]
-//        public async Task<IActionResult> Login([FromBody] UserLoginRequestDTO loginRequest)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                //chech if the user
-//                var existing_user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        //[HttpPost]
+        //[Route("google-login")]
+        //public async Task<IActionResult> GoogleLogin([FromBody] UserDTO user, [FromQuery] string token)
+        //{
+        //    try
+        //    {
+        //        //create object LoginWithGoogleDTO and the needed information
+        //        var googleLogin = new LoginWithGoogleDTO
+        //        {
+        //            UserInfo = user,
+        //            GoogleToken = token
+        //        };
+        //        var response = await _authService.GoogleLoginAsync(token);
 
-//                if (existing_user == null)
-//                    return BadRequest(new AuthResult()
-//                    {
-//                        Errors = new List<string>()
-//                    {
-//                        "Invalid payload."
-//                    },
-//                        Result = false
-//                    });
+        //        return response.Succeed ? Ok(response) : BadRequest(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"An error occurred: {ex.Message}");
+        //    }
+        //}
 
-//                var isCorrect = await _userManager.CheckPasswordAsync(existing_user, loginRequest.Password);
+        [HttpPost]
+        [Route ("google-signIn")]
+        //public async Task<IActionResult> SignIn([FromBody] string token)
+        public async Task<IActionResult> SignIn([FromBody] GoogleLoginDTO token)
+        {
+            
+            try
+            {
+                var validation = await _authService.ValidateGoogleTokenAsync(token.Token);//if valid token
+                if (validation == null || string.IsNullOrEmpty(validation.Email))
+                {
+                    return BadRequest(new { UserExists = false, Token = ""});
+                }
 
-//                if (!isCorrect)
-//                    return BadRequest(new AuthResult()
-//                    {
-//                        Errors = new List<string>()
-//                        {
-//                            "Invalid credentials."
-//                        },
-//                        Result = false
-//                    });
+                var existingUser = await _userService.FindByEmailAsync(validation.Email);
 
-//                var jwtToken = GenerateJwtToken(existing_user);
+                var jwtToken = _tokenService.GenerateJwtToken(existingUser);
+                //var successResponse = new Response<string>()
+                //{
+                //    Succeed = true,
+                //    Message = "Successfull.",
+                //    Data = jwtToken
+                //};
+                return Ok(new { UserExists = true, Token = jwtToken });
+            }
 
-//                return Ok(new AuthResult()
-//                {
-//                    Token = jwtToken,
-//                    Result = true
-//                });
-//            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
 
-//            return BadRequest(new AuthResult()
-//            {
+        [HttpPost]
+        [Route("google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogleDTO googleUser)
+        {
+            try
+            {
+                var user = googleUser.UserInfo;
+                var validation = await _authService.ValidateGoogleTokenAsync(googleUser?.GoogleToken);
+                if (validation == null || string.IsNullOrEmpty(validation.Email))
+                {
+                    return BadRequest("Invalid Google token.");
+                }
 
-//                Errors = new List<string>()
-//                    {
-//                        "Invalid payload"
-//                    },
-//                Result = false
-//            });
-//        }
+                var jwtToken = _tokenService.GenerateJwtToken(user);
 
+                var successResponse = new Response<string>()
+                {
+                    Succeed = true,
+                    Message = "Successfull.",
+                    Data = jwtToken
+                };
 
-//        private string GenerateJwtToken(User user)
-//        {
-//            var jwtTokenHandler = new JwtSecurityTokenHandler();
-//            var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig").Value);
+                // create new user
+                //user.Email = validation.Email; //here the email from the token
+                // generate new password
+                //user.Password = GenerateRandomPassword();
 
-//            //token descriptor
-//            var tokenDescriptor = new SecurityTokenDescriptor()
-//            {
-//                Subject = new ClaimsIdentity(new[]
-//                {
-//                    new Claim("Id", user.ID.ToString()),
-//                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-//                    new Claim(JwtRegisteredClaimNames.Email, value: user.Email),
-//                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-//                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
-//                }),
-//                Expires = DateTime.Now.AddHours(1),
-//                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-//            };
+                // send email with new password
 
-//            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-//            return jwtTokenHandler.WriteToken(token);
-//        }
+                //create user
+                user.Password = GenerateRandomPassword();
+                var createUserResponse = await _userService.PostAsync(user);
 
-//    }
-//}
+                if(createUserResponse.ID == 0)
+                {
+                    return BadRequest(new Response<string>()
+                    {
+                        Succeed = false,
+                        Message = "User not created",
+                    });
+                }
+               
+            // generate jwt token for the new user 
+               
+                return Ok(successResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
 
+        private string GenerateRandomPassword(int length = 12)
+        {
+            const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var passwordChars = new char[length];
 
+            // Using RandomNumberGenerator for generating random bytes
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                byte[] randomBytes = new byte[length];
+                rng.GetBytes(randomBytes);
 
+                for (int i = 0; i < length; i++)
+                {
+                    int pos = randomBytes[i] % allowedChars.Length;
+                    passwordChars[i] = allowedChars[pos];
+                }
+            }
 
-//first_working_code
-//namespace QArte.API.Controllers
-//{
-//	[ApiController]
-//	[Route("api/[controller]")]
-//	public class AuthenticationController : ControllerBase
-//	{
-//		private readonly UserManager<IdentityUser> _userManager;
-//		//private readonly JwtConfig _jwtConfig;
-//		private readonly IConfiguration _configuration;
-
-//		//public AuthenticationController(UserManager<IdentityUser> userManager, JwtConfig jwtConfig)
-//		public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration configuration)
-//		{
-//			_userManager = userManager;
-//			//_jwtConfig = jwtConfig;
-//			_configuration = configuration;
-//		}
-
-//		[HttpPost]
-//		[Route("Register")]
-//		public async Task<IActionResult> Register([FromBody] UserRegistrationRequestDTO requestDTO)
-//		{
-//			//Validate the incoming request
-//			if (ModelState.IsValid)
-//			{
-//				//we need to check if the email already exist
-//				var user_exist = await _userManager.FindByEmailAsync(requestDTO.Email);
-
-//				if (user_exist != null)
-//				{
-//					return BadRequest(new AuthResult()
-//					{
-//						Result = false,
-//						Errors = new List<string>()
-//						{
-//							"Email already exist."
-//						}
-//					});
-//				}
-
-//				//creating a user
-//				var new_user = new IdentityUser()
-//				{
-//					Email = requestDTO.Email,
-//					UserName = requestDTO.Email
-//				};
-
-//				var is_created = await _userManager.CreateAsync(new_user, requestDTO.Password);
-
-//				if (is_created.Succeeded)
-//				{
-//					//generate the token
-//					var token = GenerateJwtToken(new_user);
-
-//					return Ok(new AuthResult()
-//					{
-//						Result = true,
-//						Token = token
-//					});
-//				}
-
-//				return BadRequest(new AuthResult()
-//				{
-//					Errors = new List<string>()
-//					{
-//						"Server error."
-//					},
-//					Result = false
-//				});
-//			}
-
-//			return BadRequest();
-//		}
+            return new string(passwordChars);
+        }
 
 
-//		[HttpPost]
-//		[Route("Login")]
-//		public async Task<IActionResult> Login([FromBody] UserLoginRequestDTO loginRequest)
-//		{
-//			if (ModelState.IsValid)
-//			{
-//				//chech if the user
-//				var existing_user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        //validate google id token and returns info about the user after successfull login
+        private async Task<GoogleTokenInfoDTO?> ValidateGoogleTokenAsync(string googleToken)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var validationEndpoint = _configuration["GoogleOAuth:ValidationEndpoint"] + googleToken;
+                var response = await httpClient.GetAsync(validationEndpoint);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<GoogleTokenInfoDTO>(responseContent);
+            }
+        }
 
-//				if (existing_user == null)
-//					return BadRequest(new AuthResult()
-//					{
-//						Errors = new List<string>()
-//					{
-//						"Invalid payload."
-//					},
-//						Result = false
-//					});
+        //[HttpPost]
+        //[Route("google-login")]
+        //public async Task<IActionResult> GoogleLogin([FromBody] LoginWithGoogleDTO googleLogin)
+        //{
+        //    try
+        //    {
+        //        var response = await _authService.GoogleLoginAsync(googleLogin);
 
-//				var isCorrect = await _userManager.CheckPasswordAsync(existing_user, loginRequest.Password);
-
-//				if (!isCorrect)
-//					return BadRequest(new AuthResult()
-//					{
-//						Errors = new List<string>()
-//						{
-//							"Invalid credentials."
-//						},
-//						Result = false
-//					});
-
-//				var jwtToken = GenerateJwtToken(existing_user);
-
-//				return Ok(new AuthResult()
-//				{
-//					Token = jwtToken,
-//					Result = true
-//				});
-//			}
-
-//			return BadRequest(new AuthResult()
-//			{
-
-//				Errors = new List<string>()
-//					{
-//						"Invalid payload"
-//					},
-//				Result = false
-//			});
-//		}
-
-
-//		private string GenerateJwtToken(IdentityUser user)
-//		{
-//			var jwtTokenHandler = new JwtSecurityTokenHandler();
-//			var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig").Value);
-
-//			//token descriptor
-//			var tokenDescriptor = new SecurityTokenDescriptor()
-//			{
-//				Subject = new ClaimsIdentity(new[]
-//				{
-//					new Claim("Id", user.Id),
-//					new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-//					new Claim(JwtRegisteredClaimNames.Email, value: user.Email),
-//					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-//					new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
-//				}),
-//				Expires = DateTime.Now.AddHours(1),
-//				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-//			};
-
-//			var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-//			return jwtTokenHandler.WriteToken(token);
-//		}
-
-//	}
-//}
+        //        return response.Succeed == true ? Ok(response) : BadRequest(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"An error occurred: {ex.Message}");
+        //    }
+        //}
+    }
+}

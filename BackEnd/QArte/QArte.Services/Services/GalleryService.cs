@@ -31,13 +31,13 @@ namespace QArte.Services.Services
                 ?? throw new ApplicationException("Not found");
 
             
-            _qarteDBContext.Galleries.Remove(gallery);
+            
 
             foreach(Picture picture in gallery.Pictures)
             {
                 await _pictureService.DeleteAsync(picture.ID);
             }
-            
+            _qarteDBContext.Galleries.Remove(gallery);
             await _qarteDBContext.SaveChangesAsync();
 
             return gallery.GetDTO();

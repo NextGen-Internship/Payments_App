@@ -65,6 +65,7 @@ namespace QArte.Services.Services
                 .Select(x => new PageDTO
                 {
                     ID = x.ID,
+                    PageName = x.PageName,
                     Bio = x.Bio,
                     QRLink = x.QRLink,
                     GalleryID = x.GalleryID,
@@ -87,6 +88,7 @@ namespace QArte.Services.Services
                 .Select(x => new PageDTO
                 {
                     ID = x.ID,
+                    PageName = x.PageName,
                     Bio = x.Bio,
                     QRLink = x.QRLink,
                     GalleryID = x.GalleryID,
@@ -96,6 +98,7 @@ namespace QArte.Services.Services
 
         public async Task<PageDTO> PostAsync(PageDTO obj)
         {
+            string qrLink = $"http://localhost:5173/explore/{obj.UserID}/";
             PageDTO result = null;
 
             GalleryDTO galleryDTO = new GalleryDTO
@@ -117,9 +120,13 @@ namespace QArte.Services.Services
                     GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
                     newPage.GalleryID = galleryHolder.ID;
                 }
-                
-
                 await this._qArteDBContext.Pages.AddAsync(newPage);
+                await _qArteDBContext.SaveChangesAsync();
+
+                var page = await this._qArteDBContext.Pages
+                    .FirstOrDefaultAsync(x => x.GalleryID == newPage.GalleryID);
+
+                page.QRLink = qrLink + page.ID;
                 await _qArteDBContext.SaveChangesAsync();
 
                 var user = await _qArteDBContext.Users.
@@ -153,6 +160,7 @@ namespace QArte.Services.Services
             }
 
             page.ID = obj.ID;
+            page.PageName = obj.PageName;
             page.Bio = obj.Bio;
             await _qArteDBContext.SaveChangesAsync();
 

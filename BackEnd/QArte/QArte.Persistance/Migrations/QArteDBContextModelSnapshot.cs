@@ -129,6 +129,10 @@ namespace QArte.Persistance.Migrations
                     b.Property<int>("GalleryID")
                         .HasColumnType("int");
 
+                    b.Property<string>("PageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("QRLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");

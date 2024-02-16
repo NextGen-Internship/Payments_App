@@ -20,9 +20,9 @@ import { Link, useNavigate } from "react-router-dom";
 import UserService from "../../Services/UserService";
 import ApiService from "../../Services/ApiService";
 import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
-
-const apiService = new ApiService();
-const userService = new UserService(apiService);
+import SignInDTO from "../../Interfaces/DTOs/SignInDTO";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser, setLoggedIn } from "../../store/loginSlice.ts";
 
 function Copyright(props: any) {
   return (
@@ -45,46 +45,90 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+const apiService = new ApiService();
+const userService = new UserService(apiService);
+
 export default function SignIn() {
-  const [user, setUser] = React.useState<TokenResponse | null>(null);
-  const [profile, setProfile] = React.useState<any[]>([]);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    if (user) {
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setProfile(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user]);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
+
+    const signInData: SignInDTO = {
+      email: email,
+      password: password,
+      pages: [
+        {
+          id: 0,
+          pageName: "",
+          bio: "",
+          qrLink: "",
+          galleryID: 0,
+          userID: 0
+        }
+      ]
+    };
+
+    try {
+      const response = await userService.loginUser(signInData);
+      if (response.succeed) {
+        dispatch(setLoggedIn(true)); //save into redux that the user is loggedin successfuly
+        dispatch(setUser(response.data)); //save data about the user into redux
+        localStorage.setItem("token", response.data.token); //store the token into localstorage
+        navigate("/home"); //navigate to home page
+      } else {
+        alert(`Login failed: ${response.message}`);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login.");
+    }
   };
 
-  const success = (response: CredentialResponse) => {
-    console.log(response);
+  const handleLoginWithgoogle = async (CredentialResponse: any) => {
+    // console.log("Login with google success.", CredentialResponse);
+    // localStorage.setItem("googleToken", CredentialResponse.credential);
+    // //localStorage.setItem("userImage", CredentialResponse.profileObj.imageUrl);
+    // dispatch(setLoggedIn(true));
+    // //if user exists -> if yes => get login with google method from backend
+    // navigate("/aditionalInformation");
+    console.log("Login with Google success.", CredentialResponse);
+    const token = CredentialResponse.credential;
+    localStorage.setItem("googleToken", token);
+    try {
+      const response = await axios.post(
+        "https://localhost:7191/api/Authentication/google-signIn",
+        { token }, // Directly passing the object
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(response.data);
+      if (response.data.userExists) {
+        dispatch(setLoggedIn(true));
+        navigate("/home");
+      } else {
+        navigate("/aditionalInformation");
+      }
+    } catch (error) {
+      console.error("Error during the sign-in process:", error);
+    }
   };
 
   const error = () => {
-    console.log("error");
+    console.log("Google login error");
   };
-
+  /*const success = (response: CredentialResponse) => {
+    console.log(response);
+    // Assuming response.credential contains the token you need
+    const googleToken = response.credential;
+    localStorage.setItem('googleToken', googleToken);
+    navigate("/profile");
+  };*/
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -142,7 +186,7 @@ export default function SignIn() {
               Sign In
             </Button>
 
-            <GoogleLogin onSuccess={success} onError={error} />
+            <GoogleLogin onSuccess={handleLoginWithgoogle} onError={error} />
 
             <Grid container>
               <Grid item xs>
@@ -151,7 +195,7 @@ export default function SignIn() {
                 </LinkMui>
               </Grid>
               <Grid item>
-                <Link to="/signUp" variant="body2" component="{Link}">
+                <Link to="/signUp">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

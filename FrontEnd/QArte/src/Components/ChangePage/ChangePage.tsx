@@ -5,6 +5,7 @@ import './ChangePage.css'
 const ChangePage = ({id,onChange}:any) =>{
     
     const [bio,setBio] = useState('');
+    const [name,setName] = useState('');
 
     const onSubmit = (e:any) =>{
         e.preventDefault();
@@ -16,9 +17,11 @@ const ChangePage = ({id,onChange}:any) =>{
         onChange({
             id,
             bio,
+            name
         });
 
         setBio('');
+        setName('');
     }
 
     return(
@@ -28,9 +31,14 @@ const ChangePage = ({id,onChange}:any) =>{
         //     <button className="btn" style={{backgroundColor:"green"}} onClick={(e)=>onSubmit} >Save Page</button>
         // </div>a>
             <form className="add-form" onSubmit={onSubmit}>
+                <div>
+                    <label>Page Name
+                        <input className="write" name="bio" id="bio" type='text' placeholder="Page Name" value={name} onChange={(e)=>setName(e.target.value)}></input>
+                    </label>
+                </div>
                 <div className="form-control">
                     <label>Bio
-                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
+                        <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
                     </label>
                 </div>
                 <input type="submit" value='Save Page' className="btn" style={{backgroundColor:"green"}}></input>
