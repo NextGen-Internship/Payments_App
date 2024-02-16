@@ -295,7 +295,7 @@ const UserPage = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete user. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5174/explore`;
+            window.location.href = `http://localhost:5173/home`;
             console.log('User deleted successfully.');
         } catch (error) {
             console.error('Error deleting user:', error);
