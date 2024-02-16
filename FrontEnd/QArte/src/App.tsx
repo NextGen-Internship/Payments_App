@@ -7,16 +7,17 @@ import SignUp from "./Pages/SignUp/SignUp.js";
 import About from "./Pages/About/About.js";
 import Blog from "./Pages/Blog/Blog.js";
 import Explore from "./Pages/Explore/Explore.js";
-import UserList from './Components/ExplorePage/ExplorePage.tsx';
-import ExplorePage from "./Components/ExplorePage/ExplorePage.tsx";
-import SubPageContainer from "./Components/SubPageContainer/SubPageContainer.tsx";
 import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
-import UserPage from "./Components/UserPage/UserPage.tsx";
-import SuccessPage from "./Components/Stripe/SuccessPage.jsx";
-import ErrorPage from "./Components/Stripe/ErrorPage.jsx";
-import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
 //import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
-
+import UserPage from './Components/UserPageComponents/UserPage/UserPage.js';
+import UserList from './Components/ExplorePage/ExplorePage.js';
+import SuccessPage from './Components/Stripe/SuccessPage.jsx';
+import ErrorPage from './Components/Stripe/ErrorPage.jsx';
+import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
+import ExplorePage from "./Components/ExplorePage/ExplorePage.js";
+import SubPageContainer from "./Components/UserPageComponents/SubPageContainer/SubPageContainer.js";
+import UserGallery from "./Components/UserGallery/UserGallery.js";
+import Register from "./Pages/Register/Register.js";
 
 const users = [
   {
