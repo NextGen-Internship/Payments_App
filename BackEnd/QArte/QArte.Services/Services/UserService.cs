@@ -447,6 +447,34 @@ namespace QArte.Services.Services
         public async Task<UserDTO> FindByEmailAsync(string email)
         {
             var model = await _qarteDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if(model == null)
+            {
+                return new UserDTO
+                {
+                    Email = "",
+                    Password = "",
+                    FirstName = "",
+                    LastName = "",
+                    BankAccountID = 0,
+                    Address = "",
+                    SettlementCycleEnum = 0,
+                    ID = 0,
+                    City = "",
+                    RoleID = 0,
+                    roleEnum = 0,
+                    Country = "",
+                    IBAN = "",
+                    SettlementCycleID = 0,
+                    StripeAccountID = "",
+                    isBanned = false,
+                    paymentMethodsEnum = 0,
+                    PhoneNumber = "",
+                    PictureURL = "",
+                    postalCode = "",
+                    Username = "",
+                    Pages = {},
+                };
+            }
             return model?.GetDTO();
         }
 

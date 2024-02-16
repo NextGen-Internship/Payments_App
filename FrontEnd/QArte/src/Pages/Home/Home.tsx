@@ -17,7 +17,7 @@ const Home = () => {
   const artworks = [
     { title: "Artwork 1", img: "src/assets/SERDIKA.png" },
     { title: "Artwork 2", img: "src/assets/snimka.png" },
-    { title: "Artwork 2", img: "src/assets/snimkaSS.png" },
+    { title: "Artwork 3", img: "src/assets/snimkaSS.png" },
   ];
 
   return (

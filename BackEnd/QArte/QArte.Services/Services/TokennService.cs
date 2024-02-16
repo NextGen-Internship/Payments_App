@@ -34,12 +34,9 @@ namespace QArte.Services.Services
             var claims = new List<Claim>()
             {
                     //down here new Claim(JwtRegisteredClaimNames.Email, user.getEntity().Email)???
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
                     new Claim("FirstName", user.FirstName ?? ""),
                     new Claim("LastName", user.LastName ?? ""),
-                    new Claim("City", user.City ?? ""),
-                    new Claim("Country", user.Country ?? ""),
-                    new Claim("IBAN", user.IBAN ?? ""),
                     //do i need to add userRole
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
