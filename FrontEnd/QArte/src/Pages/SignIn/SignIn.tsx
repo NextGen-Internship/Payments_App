@@ -21,7 +21,6 @@ import UserService from "../../Services/UserService";
 import ApiService from "../../Services/ApiService";
 import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
 import SignInDTO from "../../Interfaces/DTOs/SignInDTO";
-import AuthUtils from "../../utils/AuthUtils.ts";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, setLoggedIn } from "../../store/loginSlice.ts";
 
@@ -64,6 +63,16 @@ export default function SignIn() {
     const signInData: SignInDTO = {
       email: email,
       password: password,
+      pages: [
+        {
+          id: 0,
+          pageName: "",
+          bio: "",
+          qrLink: "",
+          galleryID: 0,
+          userID: 0
+        }
+      ]
     };
 
     try {
@@ -166,7 +175,7 @@ export default function SignIn() {
                 </LinkMui>
               </Grid>
               <Grid item>
-                <Link to="/signUp" variant="body2" component="{Link}">
+                <Link to="/signUp">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

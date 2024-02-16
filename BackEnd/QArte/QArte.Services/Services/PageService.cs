@@ -120,7 +120,6 @@ namespace QArte.Services.Services
                     GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
                     newPage.GalleryID = galleryHolder.ID;
                 }
-
                 await this._qArteDBContext.Pages.AddAsync(newPage);
                 await _qArteDBContext.SaveChangesAsync();
 
