@@ -74,6 +74,8 @@ const SubPageContainer = () =>{
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
+
+            setShowChangePage(false);
     
             // If you want to update the UI or perform other actions after the update, add them here.
         } catch (error) {
@@ -111,14 +113,6 @@ const SubPageContainer = () =>{
             <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
             <h1 style={{ marginLeft: '1%' }}>This is page name</h1>
             
-            {/* Edit Bio Button */}
-            <IconButton
-              size="large"
-              style={{ color: 'blue' }}
-              onClick={() => setShowChangePage(!ShowChangePage)}
-            >
-              <EditIcon />
-            </IconButton>
         </div>
             {/* Delete Page Button */}
             <IconButton
@@ -131,7 +125,7 @@ const SubPageContainer = () =>{
             </IconButton>
           </div>
           <div className="bio-editPageButton-container">
-            <UserBio bio={page.bio} />
+          <UserBio bio={page.bio} onEditClick={() => setShowChangePage(!ShowChangePage)} />
           </div>
           {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />}
           {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
