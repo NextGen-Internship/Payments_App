@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
 import './SubPageContainer.css'
 
 const SubPageContainer = () =>{
@@ -103,20 +106,34 @@ const SubPageContainer = () =>{
     }
 
     return (
-        <div className="sub-page-container">
-          <div className="top-bar">
-            <h1>{page.id}</h1>
-            <Button variant="contained" color="error" size="small" style={{height:'20%', width:'20%'}} onClick={() => callPageDelete(page.id)}>
-              Delete Page
-            </Button>
+        <div className="sub-page-container" style={{ width: '100%', position: 'relative' }}>
+          <div className="top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
+            <h1 style={{ marginLeft: '1%' }}>This is page name</h1>
+            
+            {/* Edit Bio Button */}
+            <IconButton
+              size="large"
+              style={{ color: 'blue' }}
+              onClick={() => setShowChangePage(!ShowChangePage)}
+            >
+              <EditIcon />
+            </IconButton>
+        </div>
+            {/* Delete Page Button */}
+            <IconButton
+              size="large"
+              onClick={() => callPageDelete(page.id)}
+              style={{ color: 'red', marginLeft: 'auto'}}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: '3rem', strokeWidth: 2 } }}
+            >
+              <CloseIcon />
+            </IconButton>
           </div>
           <div className="bio-editPageButton-container">
-          <UserBio bio={page.bio} />
-          <Button variant="contained" color="primary" size="small" style={{height: '20%', width:'20%'}} onClick={() => setShowChangePage(!ShowChangePage)}>
-            Edit bio
-          </Button>
-          </div >
-          {ShowChangePage && <ChangePage onChange={callPageChange}  page={page}/>}
+            <UserBio bio={page.bio} />
+          </div>
+          {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />}
           {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
         </div>
       );

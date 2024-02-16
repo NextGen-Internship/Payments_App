@@ -181,52 +181,47 @@ const UserPage = () =>{
     // }, [selectedPage, navigate]);
 
     return (
-        <div>
-          {showAddPage && <PageAdd onAdd={addPage} />}
+            <div className="top-of-page">
+              {showAddPage && <PageAdd onAdd={addPage} />}
+              
+              {/* User Info and SubPageLister Container */}
+              <div style={{ textAlign: 'center' }}>
+                {/* User Image Container */}
+                <div className="user-image-container" style={{ marginTop: '30px' }}>
+                  <img
+                    style={{ height: '225px', width: '225px', borderRadius: '50%' }}
+                    src={User.pictureURL}
+                    alt="userPicture"
+                  />
+                </div>
           
-          {/* User Info and SubPageLister Container */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            {/* User Info Container */}
-            <div className="user-info-container" style={{ display: 'flex', alignItems: 'flex-end', flex: 1 }}>
-              {/* User Image Container */}
-              <div className="user-image-container" style={{ margin: '30px'}}>
-                <img
-                  style={{ height: '225px', width: '225px', borderRadius: '50%'}}
-                  src={User.pictureURL}
-                  alt="userPicture"
-                />
+                {/* User Details */}
+                <div className="user-details" style={{ marginTop: '10px' }}>
+                  <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
+                    {User.username}
+                  </Typography>
+                  <Typography component="div" style={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
+                    {`${User.firstName} ${User.lastName}`}
+                  </Typography>
+                </div>
               </div>
           
-              {/* User Details */}
-              <div className="user-details" style={{ textAlign: 'left', marginLeft: '5px'}}>
-                <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
-                  {User.username}
-                </Typography>
-                <Typography component="div" style={{ fontSize: 14, textDecoration: '' }} color="text.secondary" gutterBottom>
-                  {`${User.firstName} ${User.lastName}`}
-                </Typography>
-              </div>
-            </div>
-          
-            {/* SubPageLister Container */}
-            <div className="show-pages-button" style={{ flex: 1, textAlign: 'right', width: '35%', marginRight: '%' }}>
-              <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage}/>
-            </div>
-          </div>
-      
-          {/* New Container Div for PageNavigator */}
-          <div style={{ marginTop: '40%' }}>
-            {selectedPage != null && (
               <div>
-                <PageNavigator pageId={selectedPage} userId={User.id} />
+                <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
+                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage}/>
+                </a>
+                {selectedPage != null && (
+                  <div>
+                    <PageNavigator pageId={selectedPage} userId={User.id} />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-      
-          {/* Stripe Checkout Component */}
-          <StripeCheckout userID={User.id} />
-        </div>
-      );
+          
+              {/* Stripe Checkout Component */}
+              <StripeCheckout userID={User.id} />
+            </div>
+          );
+          
       
       
       

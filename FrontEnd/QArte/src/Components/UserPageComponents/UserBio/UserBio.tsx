@@ -4,7 +4,7 @@ import './UserBio.css'
 const UserBio = ({bio}:any)=>{
     return(
         <div className="my-container">
-            <h3>Bio</h3>
+            <h2>Bio</h2>
             <p>{bio}</p>
         </div>
     );
