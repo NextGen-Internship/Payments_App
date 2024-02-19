@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 
-const PageNavButtons = ({ id, onShow, index }: any) => {
+const PageNavButtons = ({ index, onShow, page }: any) => {
     return (
       <div
         style={{
@@ -10,9 +10,9 @@ const PageNavButtons = ({ id, onShow, index }: any) => {
           padding: '8px', 
           margin: '4px',
         }}
-        onClick={() => onShow(id)}
+        onClick={() => onShow(index)}
       >
-        Page {index + 1}
+        {page.pageName}
       </div>
     );
   };

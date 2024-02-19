@@ -11,6 +11,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography'
 import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import PageNavigator from '../PageNavigator'
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
 
 
 const UserPage = () =>{
@@ -97,6 +101,7 @@ const UserPage = () =>{
             }
             const res = await fetchPages(User.id);
             setPages(res);
+            setAddPage(false);
             console.log('Page added successfully:', data);
             console.log("THe full data", res);
         } catch (error) {
@@ -247,36 +252,59 @@ const UserPage = () =>{
         setSelectedPage(pageId);
       };
 
-    // return(
-    //     <div>
-    //         <button className="btn" style={{backgroundColor:"green"}} onClick={DeleteUser} >Delete User</button>
-    //         <div className="container">
-    //             <button className="btn" style={{backgroundColor:"green"}} onClick={Try} >Add Page</button>
-    //             {showAddPage && <PageAdd onAdd={addPage}/>}
-    //             <div className="container">    
-    //                 <img src={User.pictureURL} alt="Profile" />
-    //                 <h2>{User.firstName+" "+User.lastName}</h2>
-    //                 <input type="file" name="image" accept=".jpeg, .png" onChange={handleOnChange}></input> 
-    //                 <button className="btn" style={{backgroundColor:"green"}} onClick={AddPhoto} >Change Profile Picture</button>
-
+    const onAddPage = () => {
+        setAddPage(true); 
+     };
 
     return (
             <div className="top-of-page">
-              {showAddPage && <PageAdd onAdd={addPage} />}
               
               {/* User Info and SubPageLister Container */}
               <div style={{ textAlign: 'center' }}>
                 {/* User Image Container */}
-                <div className="user-image-container" style={{ marginTop: '30px' }}>
-                  <img
-                    style={{ height: '225px', width: '225px', borderRadius: '50%' }}
-                    src={User.pictureURL}
-                    alt="userPicture"
-                  />
+                <div className="user-image-container" style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div className="delete-user-button" style={{ marginLeft: 'auto', marginRight: '2%' }}>
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: 'red', color: 'white' }}
+                        onClick={DeleteUser}
+                    >
+                        Delete User
+                    </Button>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                    <img
+                        style={{ height: '225px', width: '225px', borderRadius: '50%' }}
+                        src={User.pictureURL}
+                        alt="userPicture"
+                    />
+                    </div>
+                    <div className="Edit-user-image">
+                    <label htmlFor="profile-picture-upload">
+                        <Input
+                        id="profile-picture-upload"
+                        type="file"
+                        name="image"
+                        onChange={handleOnChange}
+                        style={{ display: "none" }}
+                        />
+                        <IconButton
+                        size="large"
+                        title="Edit profile picture"
+                        component="span" 
+                        style={{ color: 'blue'}}
+                        >
+                        <EditIcon />
+                        </IconButton>
+                    </label>
+                    </div>
                 </div>
-          
+                        
                 {/* User Details */}
                 <div className="user-details" style={{ marginTop: '10px' }}>
+
+                </div>
+
                   <Typography variant="h4" component="div" style={{ marginBottom: '10px' }}>
                     {User.username}
                   </Typography>
@@ -284,15 +312,19 @@ const UserPage = () =>{
                     {`${User.firstName} ${User.lastName}`}
                   </Typography>
                 </div>
-              </div>
+
+
           
               <div>
                 <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
-                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage}/>
+                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage}/>
                 </a>
+
+                {showAddPage && <PageAdd onAdd={addPage} />}
+
                 {selectedPage != null && (
                   <div>
-                    <PageNavigator pageId={selectedPage} userId={User.id} />
+                    <PageNavigator pageId={selectedPage} userId={User.id}/>
                   </div>
                 )}
               </div>

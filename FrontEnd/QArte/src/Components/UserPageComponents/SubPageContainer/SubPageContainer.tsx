@@ -115,12 +115,13 @@ const SubPageContainer = () =>{
         <div className="sub-page-container" style={{ width: '100%', position: 'relative' }}>
           <div className="top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
-            <h1 style={{ marginLeft: '1%' }}>{page.pageName}</h1>
+            <h1 style={{ marginLeft: '10%' }}>{page.pageName}</h1>
         </div>
             {/* Delete Page Button */}
             <IconButton
               size="large"
               onClick={() => callPageDelete(page.id)}
+              title="Delete page"
               style={{ color: 'red', marginLeft: 'auto'}}
               sx={{ '& .MuiSvgIcon-root': { fontSize: '3rem', strokeWidth: 2 } }}
             >
@@ -128,9 +129,9 @@ const SubPageContainer = () =>{
             </IconButton>
           </div>
           <div className="bio-editPageButton-container">
-          <UserBio bio={page.bio} onEditClick={() => setShowChangePage(!ShowChangePage)} />
+          <UserBio page={page} callPageChange={callPageChange}/>
           </div>
-          {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />}
+          {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
           {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
         </div>
       );

@@ -1,65 +1,64 @@
 import React from "react";
 import { useState } from "react";
-import './PageAdd';
+import { Grid, TextField, Button } from '@mui/material';
+import './PageAdd.css'; // Assuming you have a CSS file for styling
 
-const PageAdd = ({onAdd}: any) =>{
-    
-    const [bio,setBio] = useState('');
-    const [name,setName] = useState('');
-    const [photos,setPhotos] = useState([]);
+const PageAdd = ({ onAdd }: any) => {
+    const [bio, setBio] = useState('');
+    const [name, setName] = useState('');
 
-
-    // const postPage = async () => {
-    //     const qr = Math.floor(Math.random()*1000)+1; // to fix
-    //     try {
-    //         const response = await fetch('https://localhost:7191/api/Page/Post', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 id:0,
-    //                 bio,
-    //                 qrLink:qr.toString(),
-    //                 galleryID:0,
-    //                 userID: userID,
-    //             }),
-    //         });
-    //         const data = await response.json();
-    //         if (!response.ok) {
-    //             console.error('Failed to add page:', data);
-    //             throw new Error(`Failed to add page. Status: ${response.status}`);
-    //         }
-
-    //         console.log('Page added successfully:', data);
-    //     } catch (error) {
-    //         console.error('Error adding page:', error);
-    //     }
-    // };
-
-
-  
-    const onSubmit = (e:any) =>{
+    const onSubmit = (e: any) => {
         e.preventDefault();
-        if(!bio){
+        if (!bio) {
             alert("add bio");
             return;
         }
-        onAdd({bio,name})
+        onAdd({ bio, name });
     }
 
-    return(
-        <form className="add-form" onSubmit={onSubmit}>
-            <div className="form-control">
-                <label>Page Name
-                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={name} onChange={(e)=>setName(e.target.value)}></input>
-                </label>
-                <label>Bio
-                    <input className="write" name="bio" id="bio" type='text' placeholder="bio" value={bio} onChange={(e)=>setBio(e.target.value)}></input>
-                </label>
-            </div>
-            <input type="submit" value='Save Page' className="btn" style={{backgroundColor:"green"}}></input>
-        </form>
+     return (
+        <div className="center-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <form className="add-form" onSubmit={onSubmit}>
+                <Grid container spacing={2} direction="column" alignItems="center">
+                    {/* Page Name Input */}
+                    <Grid item style={{ width: '100%' }}>
+                        <TextField
+                            fullWidth
+                            label="Page Name"
+                            variant="outlined"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            style={{ marginBottom: '8px' }}
+                        />
+                    </Grid>
+
+                    {/* Bio Input */}
+                    <Grid item style={{ width: '100%' }}>
+                        <TextField
+                            fullWidth
+                            label="Bio"
+                            variant="outlined"
+                            name="bio"
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                            style={{ marginBottom: '16px' }}
+                        />
+                    </Grid>
+
+                    {/* Submit Button */}
+                    <Grid item> 
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            style={{ backgroundColor: 'green' }}
+                        >
+                            Save Page
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </div>
     )
 }
 

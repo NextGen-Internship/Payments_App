@@ -41,7 +41,7 @@ const ChangePage = ({ onChange, page }: any) => {
                     placeholder="Edit bio..."
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
-                    style={{ width: '400px'}}
+                    style={{ width: '200px'}}
                 />
             </div>
         {/* //     <button className="btn" style={{backgroundColor:"green"}} onClick={(e)=>onSubmit} >Save Page</button>
