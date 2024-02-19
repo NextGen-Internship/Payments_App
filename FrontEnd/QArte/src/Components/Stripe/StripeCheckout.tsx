@@ -45,9 +45,9 @@ const StripeCheckout = ({userID} : any) =>
               variant="contained"
               color="success" 
               size="large"
-              style={{position:'fixed', bottom: '20px', left: '20px',fontSize: '24px', padding: '20px 30px'}}
+              style={{position:'fixed', bottom: '20px', left: '20px',fontSize: '20px', padding: '20px 30px'}}
             >
-              Checkout
+              Donate
             </Button>
           </form>
         </div>
