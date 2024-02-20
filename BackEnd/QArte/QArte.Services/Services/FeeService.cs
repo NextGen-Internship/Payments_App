@@ -7,6 +7,7 @@ using QArte.Persistance;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
 using QArte.Services.DTOMappers;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -30,7 +31,7 @@ namespace QArte.Services.Services
 
             var fee = await _qArteDBContext.Fees
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
             return fee.GetDTO();
         }
 
@@ -52,7 +53,7 @@ namespace QArte.Services.Services
 
             var fee = await this._qArteDBContext.Fees
                     .FirstOrDefaultAsync(x => x.ID == id)
-                    ?? throw new ApplicationException("Not found");
+                    ?? throw new AppException("Not found");
 
             this._qArteDBContext.Fees.Remove(fee);
             await _qArteDBContext.SaveChangesAsync();
@@ -76,15 +77,15 @@ namespace QArte.Services.Services
         {
 
             //_ = await FeeExists(obj.ID)
-            //        == true ? throw new ApplicationException(obj.ID.ToString()) : 0;
+            //        == true ? throw new AppException(obj.ID.ToString()) : 0;
 
             var fee = await this._qArteDBContext.Fees
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             if (obj.ID == null)
             {
-                throw new ApplicationException("Bad input");
+                throw new AppException("Bad input");
             }
 
             fee.ID = obj.ID;
@@ -99,7 +100,7 @@ namespace QArte.Services.Services
         public async Task<FeeDTO> PostAsync(FeeDTO obj)
         {
             _ = await FeeExists(obj.ID)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
             FeeDTO result = null;
 

@@ -7,6 +7,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -41,7 +42,7 @@ namespace QArte.Services.Services
         {
             var result = await _qArteDBContext.PaymentMethods
                             .FirstOrDefaultAsync(x => x.ID == id)
-                            ?? throw new ApplicationException("Not found");
+                            ?? throw new AppException("Not found");
             return result.GetDTO();
         }
 
@@ -51,7 +52,7 @@ namespace QArte.Services.Services
         {
             var result = await _qArteDBContext.PaymentMethods
                             .FirstOrDefaultAsync(x => x.ID == id)
-                            ?? throw new ApplicationException("Not found");
+                            ?? throw new AppException("Not found");
             return result.GetDTO();
         }
 
@@ -90,12 +91,12 @@ namespace QArte.Services.Services
         public async Task<PaymentMethodDTO> UpdateAsync(int id, PaymentMethodDTO obj)
         {
             _ = await PaymentMethodExists(obj.ID)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
             var paymentMethod = await this._qArteDBContext.PaymentMethods
                         //.Include(x => x.BankAccounts)
                     .FirstOrDefaultAsync(x => x.ID == id)
-                    ?? throw new ApplicationException("Not found");
+                    ?? throw new AppException("Not found");
 
 
             paymentMethod.ID = obj.ID;
@@ -111,7 +112,7 @@ namespace QArte.Services.Services
             var paymentMethod = await _qArteDBContext.PaymentMethods
                         //.Include(x => x.BankAccounts)
                         .FirstOrDefaultAsync(x => x.ID == id)
-                        ?? throw new ApplicationException("Not found");
+                        ?? throw new AppException("Not found");
 
             this._qArteDBContext.PaymentMethods.Remove(paymentMethod);
             await _qArteDBContext.SaveChangesAsync();

@@ -7,6 +7,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -28,7 +29,7 @@ namespace QArte.Services.Services
             var gallery = await _qarteDBContext.Galleries
                 .Include(x=>x.Pictures)
                 .FirstOrDefaultAsync(x=>x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             
             
@@ -64,7 +65,7 @@ namespace QArte.Services.Services
             var gallery = await _qarteDBContext.Galleries
                        .Include(x => x.Pictures)
                        .FirstOrDefaultAsync(x => x.ID == id)
-                       ?? throw new ApplicationException("Not found");
+                       ?? throw new AppException("Not found");
 
             return gallery.GetDTO();
         }
@@ -85,7 +86,7 @@ namespace QArte.Services.Services
             var Gallery = await _qarteDBContext.Galleries
                 .Include(x=>x.Pictures)
                 .FirstOrDefaultAsync(x=>x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             Gallery.ID = obj.ID;
             await _qarteDBContext.SaveChangesAsync();

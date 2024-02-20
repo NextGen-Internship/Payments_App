@@ -7,6 +7,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -31,7 +32,7 @@ namespace QArte.Services.Services
                 .Include(x => x.PaymentMethod)
                 .Include(x => x.Invoices)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             this._qArteDBContext.BankAccounts.Remove(bankAccount);
             await _qArteDBContext.SaveChangesAsync();
@@ -89,7 +90,7 @@ namespace QArte.Services.Services
                         .Include(x => x.PaymentMethod)
                         .Include(x => x.Invoices)
                         .FirstOrDefaultAsync(x => x.IBAN == IBAN)
-                        ?? throw new ApplicationException("String not found");
+                        ?? throw new AppException("String not found");
 
             return bankAccount.GetDTO();
         }
@@ -100,14 +101,14 @@ namespace QArte.Services.Services
                           .Include(x => x.PaymentMethod)
                           .Include(x => x.Invoices)
                           .FirstOrDefaultAsync(x => x.ID == id)
-                          ?? throw new ApplicationException("Not found");
+                          ?? throw new AppException("Not found");
             return bankAccount.GetDTO();
         }
 
         async Task<BankAccountDTO> ICRUDshared<BankAccountDTO>.PostAsync(BankAccountDTO obj)
         {
             _ = await BankAccountExists(obj.ID, obj.IBAN)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
 
 
@@ -124,7 +125,7 @@ namespace QArte.Services.Services
                             .Include(x => x.PaymentMethod)
                             .Include(x => x.Invoices)
                             .FirstOrDefaultAsync(x => x.ID == BankAccID)
-                        ?? throw new ApplicationException("Not found");
+                        ?? throw new AppException("Not found");
 
             bankAccount.Invoices.Add(obj.GetEntity());
             await _qArteDBContext.SaveChangesAsync();
@@ -136,17 +137,17 @@ namespace QArte.Services.Services
         async Task<BankAccountDTO> ICRUDshared<BankAccountDTO>.UpdateAsync(int id, BankAccountDTO obj)
         {
             _ = await BankAccountExists(obj.ID, obj.IBAN)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
             var BankAccount = await this._qArteDBContext.BankAccounts
                 .Include(x => x.PaymentMethod)
                 .Include(x => x.Invoices)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             if (obj.IBAN == null)
             {
-                throw new ApplicationException("Bad input");
+                throw new AppException("Bad input");
             }
 
             BankAccount.ID = obj.ID;

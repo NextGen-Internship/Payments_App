@@ -6,6 +6,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -52,7 +53,7 @@ namespace QArte.Services.Services
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.BankAccountID == id)
-                    ?? throw new ApplicationException("Not found");
+                    ?? throw new AppException("Not found");
             return result.GetDTO();
         }
 
@@ -62,7 +63,7 @@ namespace QArte.Services.Services
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.FeeID == id)
-                    ?? throw new ApplicationException("Not found");
+                    ?? throw new AppException("Not found");
             return result.GetDTO();
 
         }
@@ -74,7 +75,7 @@ namespace QArte.Services.Services
                     .Include(x => x.BankAccount)
                     .Include(x => x.Fee)
                     .FirstOrDefaultAsync(x => x.ID == id)
-                    ?? throw new ApplicationException("Not found");
+                    ?? throw new AppException("Not found");
             return result.GetDTO();
 
         }
@@ -88,7 +89,7 @@ namespace QArte.Services.Services
         public async Task<InvoiceDTO> PostAsync(InvoiceDTO obj)
         {
             _ = await InvoiceExists(obj.ID)
-                != true ? 0 : throw new ApplicationException("Not found");
+                != true ? 0 : throw new AppException("Not found");
 
 
             var deletedInvoice = await InvoiceExists(obj.ID);
@@ -105,14 +106,14 @@ namespace QArte.Services.Services
         public async Task<InvoiceDTO> UpdateAsync(int id, InvoiceDTO obj)
         {
             _ = await InvoiceExists(obj.ID)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
 
             var Invoice = await this._qArteDBContext.Invoices
                                     .Include(x => x.BankAccount)
                                     .Include(x => x.Fee)
                                     .FirstOrDefaultAsync(x => x.ID == id)
-                                    ?? throw new ApplicationException("Not found");
+                                    ?? throw new AppException("Not found");
 
 
             Invoice.TotalAmount = obj.TotalAmount;
@@ -129,7 +130,7 @@ namespace QArte.Services.Services
                                     .Include(x => x.BankAccount)
                                     .Include(x => x.Fee)
                                     .FirstOrDefaultAsync(x => x.ID == id)
-                                    ?? throw new ApplicationException("Not found");
+                                    ?? throw new AppException("Not found");
             this._qArteDBContext.Invoices.Remove(invoice);
             await _qArteDBContext.SaveChangesAsync();
             return invoice.GetDTO();

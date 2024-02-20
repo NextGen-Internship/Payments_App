@@ -7,6 +7,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 namespace QArte.Services.Services
 {
     public class SettlementCycleService : ISettlementCycleService
@@ -52,7 +53,7 @@ namespace QArte.Services.Services
             var settlementCycle = await _qArteDBContext.SettlementCycles
                         .Include(x => x.SettlementCycles)
                         .FirstOrDefaultAsync(x => x.ID == id)
-                        ?? throw new ApplicationException("Not found");
+                        ?? throw new AppException("Not found");
 
             settlementCycle.ID = obj.ID;
             await _qArteDBContext.SaveChangesAsync();
@@ -64,7 +65,7 @@ namespace QArte.Services.Services
         {
             var settlementCycle = await _qArteDBContext.SettlementCycles
                         .FirstOrDefaultAsync(x => x.ID == id)
-                        ?? throw new ApplicationException("Not found");
+                        ?? throw new AppException("Not found");
 
             _qArteDBContext.SettlementCycles.Remove(settlementCycle);
             await _qArteDBContext.SaveChangesAsync();
