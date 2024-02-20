@@ -14,9 +14,8 @@ import ErrorPage from './Components/Stripe/ErrorPage.jsx';
 import  StripeCheckout from './Components/Stripe/StripeCheckout.jsx'
 import ExplorePage from "./Components/ExplorePage/ExplorePage.js";
 import SubPageContainer from "./Components/UserPageComponents/SubPageContainer/SubPageContainer.js";
-import UserGallery from "./Components/UserGallery/UserGallery.js";
-import Register from "./Pages/Register/Register.js";
-import PageAdd from "./Components/PageAdd/PageAdd.js";
+import ProfilePage from "./Components/UserProfile/ProfilePage/ProfilePage.js";
+import ProfileSubPageContainer from './Components/UserProfile/ProfileSubPageContainer/ProfileSubPageContainer.js'
 
 
 
@@ -43,7 +42,10 @@ function App() {
               <Route path=":id" element={<SubPageContainer/>}/>
             </Route>
           </Route>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/profile/*" element={<ProfilePage />}>
+            <Route path=":pageNumber" element={<ProfileSubPageContainer />} />
+          </Route>
+
           <Route path="/home" element={<Home/>}/>
         </Routes>
       </div>

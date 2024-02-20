@@ -1,6 +1,6 @@
 import React from "react";
-import UserBio from "../UserBio/UserBio";
-import UserGallery from "../UserGallery/UserGallery";
+import ProfileUserBio from "../ProfileUserBio/ProfileUserBio";
+import ProfileUserGallery from "../ProfileUserGallery/ProfileUserGallery";
 import { useState, useEffect } from "react";
 import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,9 +9,9 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import './SubPageContainer.css'
+import './ProfileSubPageContainer.css';
 
-const SubPageContainer = () =>{
+const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
     const [page,setPage] = useState({
@@ -24,7 +24,7 @@ const SubPageContainer = () =>{
     });
 
     const navigate=useNavigate();
-    const{id} = useParams();
+    const{pageNumber} = useParams();
 
     useEffect(()=>{
         const getPage =async () => {
@@ -40,10 +40,10 @@ const SubPageContainer = () =>{
         }
         console.log("THIS IS THE Page");
         getPage();
-    },[id]);
+    },[pageNumber]);
 
     const fetchPage = async()=>{
-        const res = await fetch(`https://localhost:7191/api/Page/GetByID/${id}`);
+        const res = await fetch(`https://localhost:7191/api/Page/GetByID/${pageNumber}`);
         const pageData = await res.json();
         //console.log("THIS IS THE GALLERY!")
         console.log(pageData)
@@ -75,7 +75,7 @@ const SubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/explore/${page.userID}`
+            window.location.href = `http://localhost:5173/profile`;
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
@@ -104,7 +104,7 @@ const SubPageContainer = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/explore/${page.userID}`;
+            window.location.href = `http://localhost:5173/profile`;
             console.log('Page deleted successfully.');
         } catch (error) {
             console.error('Error deleting page:', error);
@@ -118,13 +118,24 @@ const SubPageContainer = () =>{
             <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
             <h1 style={{ marginLeft: '10%' }}>{page.pageName}</h1>
         </div>
+            {/* Delete Page Button */}
+            <IconButton
+              size="large"
+              onClick={() => callPageDelete(page.id)}
+              title="Delete page"
+              style={{ color: 'red', marginLeft: 'auto', marginRight:'3%'}}
+              sx={{ '& .MuiSvgIcon-root': { fontSize: '3rem', strokeWidth: 2 } }}
+            >
+              <DeleteIcon />
+            </IconButton>
           </div>
           <div className="bio-editPageButton-container">
-          <UserBio page={page} callPageChange={callPageChange}/>
+          <ProfileUserBio page={page} callPageChange={callPageChange}/>
           </div>
-          {page.galleryID !== "" && <UserGallery gallery={page.galleryID} />}
+          {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
+          {page.galleryID !== "" && <ProfileUserGallery gallery={page.galleryID} />}
         </div>
       );
 };
 
-export default SubPageContainer;
+export default ProfileSubPageContainer;
