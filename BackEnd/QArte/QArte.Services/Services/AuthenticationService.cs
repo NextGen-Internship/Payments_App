@@ -52,13 +52,16 @@ namespace QArte.Services.Services
                 {
                     Succeed = true,
                     Message = "Successfull login.",
-                    Data = jwtToken
+                    Data = jwtToken,
+                    ID = user.ID
+                    
                 };
             }
             return new Response<string>
             {
                 Succeed = false,
                 Message = "User not found"
+              
             };
 
         }

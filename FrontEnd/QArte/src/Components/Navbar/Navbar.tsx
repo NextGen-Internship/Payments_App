@@ -16,16 +16,19 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/loginSlice";
-import { RootState } from "@reduxjs/toolkit/query";
+//import { RootState } from "@reduxjs/toolkit/query";
+import { RootState } from "../../store/store";
 
 const pages = ["Home", "Explore", "SignIn", "SignUp"];
-const settings = ["Profile", "Account", "Logout"];
+const settings = ["Profile", "Logout"];
 
 export function ResponsiveAppBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const userImage = useSelector((state: RootState) => state.user.avatar);
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  //const userImage = useSelector((state: RootState) => state.user.avatar);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -51,17 +54,6 @@ export function ResponsiveAppBar() {
   };
 
   const handleNavClick = (page: string) => {
-    // if (page === "SignIn") {
-    //   navigate("/signin");
-    // } else if (page === "SignUp") {
-    //   navigate("/signup");
-    // } else {
-    //   navigate(`/${page.toLowerCase()}`);
-    // }
-    // navigate(`/${page.toLowerCase()}`);
-    // handleCloseNavMenu();
-    // console.log(page);
-
     handleCloseNavMenu();
     handleCloseUserMenu();
     if (page === "SignIn" || page === "SignUp") {
@@ -70,13 +62,15 @@ export function ResponsiveAppBar() {
       navigate(`/${page.toLowerCase()}`);
     }
   };
+
   const handleLogout = () => {
     dispatch(clearUser());
-    // localStorage.removeItem("userImage");
-    // localStorage.removeItem("token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("googleToken");
+    localStorage.removeItem("userPictureUrl");
+    localStorage.removeItem("userId");
     navigate("/signin");
   };
-
   return (
     <AppBar position="static" sx={{ backgroundColor: "lightgrey" }}>
       <Container maxWidth="xl">
@@ -96,7 +90,7 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            QArte
+            QArté
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -128,11 +122,30 @@ export function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleNavClick(page)}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {/* Render "Home" and "Explore" when logged in */}
+              {isLoggedIn &&
+                ["Home", "Explore"].map((page) => (
+                  <MenuItem key={page} onClick={() => handleNavClick(page)}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              {/* Render "SignIn" and "SignUp" when logged out */}
+              {!isLoggedIn && (
+                <React.Fragment>
+                  <MenuItem onClick={() => handleNavClick("Home")}>
+                    <Typography textAlign="center">Home</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleNavClick("Explore")}>
+                    <Typography textAlign="center">Explore</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleNavClick("SignIn")}>
+                    <Typography textAlign="center">SignIn</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleNavClick("SignUp")}>
+                    <Typography textAlign="center">SignUp</Typography>
+                  </MenuItem>
+                </React.Fragment>
+              )}
             </Menu>
           </Box>
 
@@ -153,7 +166,7 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            QArte
+            QArté
           </Typography>
 
           <Box
@@ -164,20 +177,22 @@ export function ResponsiveAppBar() {
             }}
           >
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => handleNavClick(page)}
-                sx={{ my: 2, mx: 2, color: "black", display: "block" }}
-              >
-                {page}
-              </Button>
+              <React.Fragment key={page}>
+                {(!isLoggedIn || ["Home", "Explore"].includes(page)) && (
+                  <Button
+                    onClick={() => handleNavClick(page)}
+                    sx={{ my: 2, mx: 2, color: "black" }}
+                  >
+                    {page}
+                  </Button>
+                )}
+              </React.Fragment>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                 <Avatar
                   alt="Profile Image"
                   src={userImage || "/static/images/avatar/2.jpg"}
@@ -211,4 +226,139 @@ export function ResponsiveAppBar() {
       </Container>
     </AppBar>
   );
+
+  // return (
+  //   <AppBar position="static" sx={{ backgroundColor: "lightgrey" }}>
+  //     <Container maxWidth="xl">
+  //       <Toolbar disableGutters>
+  //         <Typography
+  //           variant="h6"
+  //           noWrap
+  //           component="a"
+  //           href="#"
+  //           sx={{
+  //             mr: 2,
+  //             display: { xs: "none", md: "flex" },
+  //             fontFamily: "monospace",
+  //             fontWeight: 700,
+  //             letterSpacing: ".3rem",
+  //             color: "black",
+  //             textDecoration: "none",
+  //           }}
+  //         >
+  //           QArté
+  //         </Typography>
+
+  //         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+  //           <IconButton
+  //             size="large"
+  //             aria-label="account of current user"
+  //             aria-controls="menu-appbar"
+  //             aria-haspopup="true"
+  //             onClick={handleOpenNavMenu}
+  //             color="inherit"
+  //           >
+  //             <MenuIcon />
+  //           </IconButton>
+  //           <Menu
+  //             id="menu-appbar"
+  //             anchorEl={anchorElNav}
+  //             anchorOrigin={{
+  //               vertical: "bottom",
+  //               horizontal: "left",
+  //             }}
+  //             keepMounted
+  //             transformOrigin={{
+  //               vertical: "top",
+  //               horizontal: "left",
+  //             }}
+  //             open={Boolean(anchorElNav)}
+  //             onClose={handleCloseNavMenu}
+  //             sx={{
+  //               display: { xs: "block", md: "none" },
+  //             }}
+  //           >
+  //             {pages.map((page) => (
+  //               <MenuItem key={page} onClick={() => handleNavClick(page)}>
+  //                 <Typography textAlign="center">{page}</Typography>
+  //               </MenuItem>
+  //             ))}
+  //           </Menu>
+  //         </Box>
+
+  //         <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+  //         <Typography
+  //           variant="h5"
+  //           noWrap
+  //           component="a"
+  //           href="#"
+  //           sx={{
+  //             mr: 2,
+  //             display: { xs: "flex", md: "none" },
+  //             flexGrow: 1,
+  //             fontFamily: "monospace",
+  //             fontWeight: 700,
+  //             letterSpacing: ".3rem",
+  //             color: "inherit",
+  //             textDecoration: "none",
+  //           }}
+  //         >
+  //           QArté
+  //         </Typography>
+
+  //         <Box
+  //           sx={{
+  //             flexGrow: 1,
+  //             display: { xs: "none", md: "flex" },
+  //             justifyContent: "flex-end",
+  //           }}
+  //         >
+  //           {pages.map((page) => (
+  //             <Button
+  //               key={page}
+  //               onClick={() => handleNavClick(page)}
+  //               sx={{ my: 2, mx: 2, color: "black", display: "block" }}
+  //             >
+  //               {page}
+  //             </Button>
+  //           ))}
+  //         </Box>
+
+  //         <Box sx={{ flexGrow: 0 }}>
+  //           <Tooltip title="Open settings">
+  //             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+  //               {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+  //               <Avatar
+  //                 alt="Profile Image"
+  //                 src={userImage || "/static/images/avatar/2.jpg"}
+  //               />
+  //             </IconButton>
+  //           </Tooltip>
+  //           <Menu
+  //             sx={{ mt: "45px" }}
+  //             id="menu-appbar"
+  //             anchorEl={anchorElUser}
+  //             anchorOrigin={{
+  //               vertical: "top",
+  //               horizontal: "right",
+  //             }}
+  //             keepMounted
+  //             transformOrigin={{
+  //               vertical: "top",
+  //               horizontal: "right",
+  //             }}
+  //             open={Boolean(anchorElUser)}
+  //             onClose={handleCloseUserMenu}
+  //           >
+  //             {settings.map((setting) => (
+  //               <MenuItem key={setting} onClick={handleLogout}>
+  //                 <Typography textAlign="center">{setting}</Typography>
+  //               </MenuItem>
+  //             ))}
+  //           </Menu>
+  //         </Box>
+  //       </Toolbar>
+  //     </Container>
+  //   </AppBar>
+  // );
 }

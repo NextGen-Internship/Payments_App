@@ -102,6 +102,16 @@ export default function AditionalInformation() {
         SettlementCycleID: 0,
         PaymentMethodEnum: 0,
         RoleEnum: 0,
+        pages: [
+          {
+            id: 0,
+            pageName: "",
+            bio: "",
+            qrLink: "",
+            galleryID: 0,
+            userID: 0,
+          },
+        ],
       },
       googleToken: googleToken,
     };

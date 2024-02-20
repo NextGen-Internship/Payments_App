@@ -17,7 +17,7 @@ const ProfilePage = () =>{
     
     // const{Uid} = useParams();
     // const val = parseInt(Uid!);
-    const Uid = 2;
+    const Uid = 10;
     const val = Uid;
     
     const[showAddPage,setAddPage] = useState(false);
