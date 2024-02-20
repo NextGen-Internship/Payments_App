@@ -87,13 +87,22 @@ namespace QArte.API.Controllers
                 var existingUser = await _userService.FindByEmailAsync(validation.Email);
 
                 var jwtToken = _tokenService.GenerateJwtToken(existingUser);
+                if(existingUser.Email == "")
+                {
+                    //add and the id of the user from DB
+                    return Ok(new { UserExists = false, Token = jwtToken, UserId = existingUser.ID});
+                }
+                else
+                {
+                    return Ok(new { UserExists = true, Token = jwtToken, UserId = existingUser.ID });
+                }
                 //var successResponse = new Response<string>()
                 //{
                 //    Succeed = true,
                 //    Message = "Successfull.",
                 //    Data = jwtToken
                 //};
-                return Ok(new { UserExists = true, Token = jwtToken });
+                
             }
 
             catch (Exception ex)

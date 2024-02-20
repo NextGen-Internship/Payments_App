@@ -116,9 +116,10 @@ export default function SignUp() {
               bio: "",
               qrLink: "",
               galleryID: 0,
-              userID: 0
-            }
-          ]};
+              userID: 0,
+            },
+          ],
+        };
         console.log(userData);
         // sends data to API and recieve response
         const response: ApiResponseDTO = await userService.registerUser(
@@ -323,9 +324,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/signin">
-                  Already have an account? Sign in
-                </Link>
+                <Link to="/signin">Already have an account? Sign in</Link>
               </Grid>
             </Grid>
           </Box>

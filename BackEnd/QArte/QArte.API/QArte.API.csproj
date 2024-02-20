@@ -120,4 +120,7 @@
     <Folder Include="Handlers\StripeHandlers\" />
 
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+  </ItemGroup>
 </Project>
