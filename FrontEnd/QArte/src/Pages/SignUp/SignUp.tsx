@@ -29,13 +29,13 @@ export default function SignUp() {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [IBAN, setIBAN] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
+  //const [PhoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [settlementCycleID, setSettlementCycleID] = useState("");
-  const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
+  //const [settlementCycleID, setSettlementCycleID] = useState("");
+  //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
 
   const userService = new UserService(new ApiService());
   const navigate = useNavigate();
