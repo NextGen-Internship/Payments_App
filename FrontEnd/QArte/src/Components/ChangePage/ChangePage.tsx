@@ -33,7 +33,7 @@ const ChangePage = ({ onChange, page }: any) => {
     return (
         <div style={{alignContent: 'center'}}>
         <form className="add-form" onSubmit={onSubmit}>
-            <div className="form-control" style={{ marginLeft: '50%'}}>
+            <div className="form-control" style={{ marginLeft: '50%', width: '100%'}}>
                 <TextareaAutosize
                     className="write"
                     name="bio"
@@ -41,7 +41,7 @@ const ChangePage = ({ onChange, page }: any) => {
                     placeholder="Edit bio..."
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
-                    style={{ width: "300px"}}
+                    style={{ width: '200px'}}
                 />
             </div>
         {/* //     <button className="btn" style={{backgroundColor:"green"}} onClick={(e)=>onSubmit} >Save Page</button>
