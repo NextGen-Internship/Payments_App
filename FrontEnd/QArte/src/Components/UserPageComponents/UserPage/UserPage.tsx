@@ -16,8 +16,8 @@ import PageNavigator from '../PageNavigator'
 const UserPage = () =>{
     
     
-    const{id} = useParams();
-    const val = parseInt(id!);
+    const{Uid} = useParams();
+    const val = parseInt(Uid!);
     
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});

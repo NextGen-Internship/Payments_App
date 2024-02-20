@@ -240,7 +240,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/explore">
             <Route index element={<ExplorePage/>}/>
-            <Route path=":id/*" element={<UserPage/>}>
+            <Route path=":Uid/*" element={<UserPage/>}>
               <Route path=":id" element={<SubPageContainer/>}/>
             </Route>
           </Route>
