@@ -1,8 +1,6 @@
 import { useEffect, useImperativeHandle } from "react";
-import SubPageContainer from "../SubPageContainer/SubPageContainer";
-import './SubPageLister.css';
 import { useState , forwardRef} from "react";
-import PageNavContainer from "../PageNavContainer/PageNavContainer";
+import ProfilePageNavContainer from "../ProfilePageNavContainer/ProfilePageNavContainer";
 import { NavLink, Route, Routes, Outlet, useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,7 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
       Awake: (id: any) => void;
     }
 
-const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:any,ref) =>{
+const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:any,ref) =>{
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [awakePage, setAwakePage] =useState<number>(0);
@@ -83,7 +81,7 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
 
       const handleAddPageClick = () => {
         handleMenuClose();
-        navigate(`/explore/${userID}`);
+        navigate(`/profile`);
         onSelectedPage(null);
         onAddPage(true);
       };
@@ -113,14 +111,23 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
         {pages.map((page: any, index: number) => (
           <MenuItem key={index} style={{ width: menuItemWidth }} onClick={() => { handleMenuItemClick(page.id) }}>
             <div style={{ width: '100%' }}>
-              <PageNavContainer pages={page} index={index} onShow={onShow} />
+              <ProfilePageNavContainer pages={page} index={index} onShow={onShow} />
             </div>
           </MenuItem>
         ))}
+        {/* "Add page" button */}
+        <MenuItem style={{ width: menuItemWidth }} onClick={handleAddPageClick}>
+          <div style={{ width: '100%', backgroundColor: 'transparent'}}>
+            <Button variant="text" color="primary" fullWidth> 
+              Add Page
+              <AddIcon style={{ marginLeft: 'auto' }} />
+            </Button>
+          </div>
+        </MenuItem>
       </Menu>
       <Outlet />
     </>
   );
       
 })
-export default SubPageLister;
+export default ProfileSubPageLister;

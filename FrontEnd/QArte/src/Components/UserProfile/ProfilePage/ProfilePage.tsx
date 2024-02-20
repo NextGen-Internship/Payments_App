@@ -1,26 +1,24 @@
 import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
-import './UserPage.css';
-import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
+import './ProfilePage.css';
+import ProfileSubPageLister, {SubPageListerRef} from "../ProfileSubPageLister/ProfileSubPageLister";
+import PageAdd from "../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
 import StripeCheckout from "../../Stripe/StripeCheckout";
-import ChangePage from "../../ChangePage/ChangePage";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography'
-import SubPageContainer from "../SubPageContainer/SubPageContainer";
-import PageNavigator from '../PageNavigator'
+import PageNavigator from '../ProfilePageNavigator'
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 
 
-const UserPage = () =>{
+const ProfilePage = () =>{
     
     
-    const{Uid} = useParams();
-    const val = parseInt(Uid!);
+    // const{Uid} = useParams();
+    // const val = parseInt(Uid!);
+    const Uid = 2;
+    const val = Uid;
     
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
@@ -261,13 +259,41 @@ const UserPage = () =>{
               {/* User Info and SubPageLister Container */}
               <div style={{ textAlign: 'center' }}>
                 {/* User Image Container */}
-                <div className="user-image-container" style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div className="user-image-container" style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div className="delete-user-button" style={{ marginLeft: 'auto', marginRight: '2%' }}>
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: 'red', color: 'white' }}
+                        onClick={DeleteUser}
+                    >
+                        Delete User
+                    </Button>
+                    </div>
                     <div style={{ textAlign: 'center' }}>
                     <img
                         style={{ height: '225px', width: '225px', borderRadius: '50%' }}
                         src={User.pictureURL}
                         alt="userPicture"
                     />
+                    </div>
+                    <div className="Edit-user-image">
+                    <label htmlFor="profile-picture-upload">
+                        <Input
+                        id="profile-picture-upload"
+                        type="file"
+                        name="image"
+                        onChange={handleOnChange}
+                        style={{ display: "none" }}
+                        />
+                        <IconButton
+                        size="large"
+                        title="Edit profile picture"
+                        component="span" 
+                        style={{ color: 'blue'}}
+                        >
+                        <EditIcon />
+                        </IconButton>
+                    </label>
                     </div>
                 </div>
                         
@@ -288,8 +314,10 @@ const UserPage = () =>{
           
               <div>
                 <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
-                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage} userID={User.id}/>
+                  <ProfileSubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage} userID={User.id}/>
                 </a>
+
+                {showAddPage && <PageAdd onAdd={addPage} />}
 
                 {selectedPage != null && (
                   <div>
@@ -297,9 +325,6 @@ const UserPage = () =>{
                   </div>
                 )}
               </div>
-          
-              {/* Stripe Checkout Component */}
-              <StripeCheckout userID={User.id} />
             </div>
           );
           
@@ -307,4 +332,4 @@ const UserPage = () =>{
       
       
 };
-export default UserPage;
+export default ProfilePage;

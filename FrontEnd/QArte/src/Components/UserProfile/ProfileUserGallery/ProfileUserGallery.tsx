@@ -1,6 +1,6 @@
 import React from "react";
-import './UserGallery.css';
-import Photo from "../Photo/Photo";
+import './ProfileUserGallery.css';
+import PhotoInProfile from "../PhotoInProfile/PhotoInProfile";
 import { useState, useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import Input from '@mui/material/Input';
@@ -8,7 +8,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const UserGallery = ({gallery}:any) =>{
+const ProfileUserGallery = ({gallery}:any) =>{
 
     const[file, setFile] = useState();
     const[photos, setPhotos] = useState([]);
@@ -149,7 +149,7 @@ const UserGallery = ({gallery}:any) =>{
 
         <div className="gallery">
             {photos.map((photo: any, index: any) => (
-            <Photo key={index} photo={photo} onDeletePhoto={DeletePhoto} onClickPhoto={onClickPhoto} />
+            <PhotoInProfile key={index} photo={photo} onDeletePhoto={DeletePhoto} onClickPhoto={onClickPhoto} />
             ))}
         </div>
         </div>
@@ -157,4 +157,4 @@ const UserGallery = ({gallery}:any) =>{
       );
       
 };
-export default UserGallery;
+export default ProfileUserGallery;

@@ -1,10 +1,10 @@
 import React from "react";
-import './Photo.css'
+import './PhotoInProfile.css'
 import { Button } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
-const Photo = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
+const PhotoInProfile = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
     console.log(photo);
     return (
         <div className="alabala">
@@ -34,4 +34,4 @@ const Photo = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
 
 };
 
-export default Photo;
+export default PhotoInProfile;
