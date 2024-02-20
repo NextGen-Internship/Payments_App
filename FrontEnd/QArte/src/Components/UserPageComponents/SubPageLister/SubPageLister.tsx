@@ -117,15 +117,6 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
             </div>
           </MenuItem>
         ))}
-        {/* "Add page" button */}
-        <MenuItem style={{ width: menuItemWidth }} onClick={handleAddPageClick}>
-          <div style={{ width: '100%', backgroundColor: 'transparent'}}>
-            <Button variant="text" color="primary" fullWidth> 
-              Add Page
-              <AddIcon style={{ marginLeft: 'auto' }} />
-            </Button>
-          </div>
-        </MenuItem>
       </Menu>
       <Outlet />
     </>

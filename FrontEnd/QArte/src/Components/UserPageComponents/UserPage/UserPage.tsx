@@ -1,7 +1,6 @@
 import React,{Component, useState, forwardRef, useRef, useEffect} from "react";
 import './UserPage.css';
 import SubPageLister, {SubPageListerRef} from "../SubPageLister/SubPageLister";
-import PageAdd from "../PageAdd/PageAdd";
 import {useParams, useNavigate} from "react-router-dom"
 import StripeCheckout from "../../Stripe/StripeCheckout";
 import ChangePage from "../../ChangePage/ChangePage";
@@ -262,41 +261,13 @@ const UserPage = () =>{
               {/* User Info and SubPageLister Container */}
               <div style={{ textAlign: 'center' }}>
                 {/* User Image Container */}
-                <div className="user-image-container" style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <div className="delete-user-button" style={{ marginLeft: 'auto', marginRight: '2%' }}>
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: 'red', color: 'white' }}
-                        onClick={DeleteUser}
-                    >
-                        Delete User
-                    </Button>
-                    </div>
+                <div className="user-image-container" style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div style={{ textAlign: 'center' }}>
                     <img
                         style={{ height: '225px', width: '225px', borderRadius: '50%' }}
                         src={User.pictureURL}
                         alt="userPicture"
                     />
-                    </div>
-                    <div className="Edit-user-image">
-                    <label htmlFor="profile-picture-upload">
-                        <Input
-                        id="profile-picture-upload"
-                        type="file"
-                        name="image"
-                        onChange={handleOnChange}
-                        style={{ display: "none" }}
-                        />
-                        <IconButton
-                        size="large"
-                        title="Edit profile picture"
-                        component="span" 
-                        style={{ color: 'blue'}}
-                        >
-                        <EditIcon />
-                        </IconButton>
-                    </label>
                     </div>
                 </div>
                         
@@ -319,8 +290,6 @@ const UserPage = () =>{
                 <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
                   <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage} userID={User.id}/>
                 </a>
-
-                {showAddPage && <PageAdd onAdd={addPage} />}
 
                 {selectedPage != null && (
                   <div>

@@ -122,32 +122,13 @@ const UserGallery = ({gallery}:any) =>{
 
     return (
         <div className="gallery-container">
-        <div className="buttonContainer" style={{ textAlign: "right", marginBottom: "30px" }}>
-            <label htmlFor="image-upload">
-            <Input
-                id="image-upload"
-                type="file"
-                name="image"
-                onChange={handleOnChange}
-                style={{ display: "none" }}
-            />
-            <Button
-                variant="contained"
-                component="span"
-                startIcon={<CloudUploadIcon />}
-                style={{ marginRight: "2%" }}
-            >
-                Upload Image
-            </Button>
-            </label>
-        </div>
 
         <div className={model ? "model open" : "model"}>
             <img src={tempImgSrc} />
             <CloseIcon onClick={() => setModel(false)} />
         </div>
 
-        <div className="gallery">
+        <div className="gallery" style={{marginTop: '50px'}}>
             {photos.map((photo: any, index: any) => (
             <Photo key={index} photo={photo} onDeletePhoto={DeletePhoto} onClickPhoto={onClickPhoto} />
             ))}

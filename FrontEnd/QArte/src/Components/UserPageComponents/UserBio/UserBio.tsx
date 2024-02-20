@@ -64,41 +64,10 @@ const UserBio = ({page, callPageChange}:any)=>{
   }
   
   return (
-    editMode ? (
-      <div className="input-container">
-        
-        <textarea
-          id="nameTextarea"
-          defaultValue={page.pageName}
-          style={{ height: textareaNameHeight, resize: 'vertical' }}
-          onChange={(e) => {setName(e.target.value)}}
-        />
-
-        <textarea
-          id="bioTextarea"
-          defaultValue={bio}
-          style={{ height: textareaBioHeight, resize: 'vertical' }}
-          onChange={(e) => {setBio(e.target.value)}}
-        />
-        <div style={{ marginTop: '10px' }}> {/* Add some margin */}
-          <Button variant="outlined" onClick={changeEditMode}>Cancel</Button>
-          {' '}
-          <Button variant="contained" color="primary" onClick={onSubmit}>OK</Button>
-        </div>
-      </div>
-    ) : (
       <div className="my-container" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
         <p>{bio}</p>
-        <IconButton
-          size="large"
-          style={{ color: 'blue', position: 'absolute', top: 0, right: 0 }}
-          onClick={changeEditMode}
-        >
-          <EditIcon />
-        </IconButton>
       </div>
-    )
-  );
+    );
 };
 
 export default UserBio;
