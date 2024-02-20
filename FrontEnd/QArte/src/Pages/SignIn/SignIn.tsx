@@ -1,5 +1,5 @@
 // import * as React from "react";
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,7 +23,7 @@ import ApiService from "../../Services/ApiService";
 import SignInDTO from "../../Interfaces/DTOs/SignInDTO";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, setLoggedIn, setAvatar } from "../../store/loginSlice.ts";
-import { RootState } from "../../store/store.ts";
+//import { RootState } from "../../store/store.ts";
 import { jwtDecode } from "jwt-decode";
 
 function Copyright(props: any) {
@@ -55,7 +55,7 @@ export default function SignIn() {
   // const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const avatarUrl = useSelector((state: RootState) => state.user.avatar);
+  //const avatarUrl = useSelector((state: RootState) => state.user.avatar);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

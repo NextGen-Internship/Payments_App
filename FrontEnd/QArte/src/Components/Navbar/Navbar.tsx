@@ -13,21 +13,20 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useState, useEffect } from "react";
+//import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/loginSlice";
-//import { RootState } from "@reduxjs/toolkit/query";
 import { RootState } from "../../store/store";
 
 const pages = ["Home", "Explore", "SignIn", "SignUp"];
-const settings = ["Profile", "Logout"];
+//const settings = ["Logout"];
 
 export function ResponsiveAppBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userImage = useSelector((state: RootState) => state.user.avatar);
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-
+  const settings = isLoggedIn ? ["Profile", "Logout"] : [];
   //const userImage = useSelector((state: RootState) => state.user.avatar);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -53,10 +52,20 @@ export function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  // const handleNavClick = (page: string) => {
+  //   handleCloseNavMenu();
+  //   handleCloseUserMenu();
+  //   if (page === "SignIn" || page === "SignUp") {
+  //     navigate(`/${page.toLowerCase()}`);
+  //   } else {
+  //     navigate(`/${page.toLowerCase()}`);
+  //   }
+  // };
   const handleNavClick = (page: string) => {
-    handleCloseNavMenu();
-    handleCloseUserMenu();
-    if (page === "SignIn" || page === "SignUp") {
+    // Add logic to navigate to the Profile page
+    if (page === "Profile") {
+      navigate("/profile");
+    } else if (page === "SignIn" || page === "SignUp") {
       navigate(`/${page.toLowerCase()}`);
     } else {
       navigate(`/${page.toLowerCase()}`);
@@ -92,7 +101,7 @@ export function ResponsiveAppBar() {
           >
             QArté
           </Typography>
-
+          {/* mobile version */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -129,6 +138,16 @@ export function ResponsiveAppBar() {
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
+              {isLoggedIn && (
+                <MenuItem onClick={() => navigate("/profile")}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+              )}
+              {isLoggedIn && (
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
               {/* Render "SignIn" and "SignUp" when logged out */}
               {!isLoggedIn && (
                 <React.Fragment>
@@ -215,11 +234,21 @@ export function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleLogout}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+              {isLoggedIn && (
+                <MenuItem onClick={() => navigate("/profile")}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+              )}
+              {isLoggedIn && (
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
