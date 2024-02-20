@@ -3,7 +3,7 @@ import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
-import { NavLink, Route, Routes, Outlet } from "react-router-dom";
+import { NavLink, Route, Routes, Outlet, useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
@@ -16,11 +16,12 @@ import AddIcon from '@mui/icons-material/Add';
       Awake: (id: any) => void;
     }
 
-const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage }:any,ref) =>{
+const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:any,ref) =>{
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [awakePage, setAwakePage] =useState<number>(0);
     const [Pages,setPages] = useState<any>([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
       const getPages = async() =>{
@@ -76,13 +77,15 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage }:any,ref) 
 
       const handleMenuItemClick = (pageId: number) => {
         handleMenuClose();
+        onAddPage(false);
         onSelectedPage(pageId);
       };
 
       const handleAddPageClick = () => {
-        onAddPage();
-        onShow(-1);
         handleMenuClose();
+        navigate(`/explore/${userID}`);
+        onSelectedPage(null);
+        onAddPage(true);
       };
 
       const menuItemWidth = document.getElementById('show-pages-button')?.offsetWidth;
@@ -116,8 +119,8 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage }:any,ref) 
         ))}
         {/* "Add page" button */}
         <MenuItem style={{ width: menuItemWidth }} onClick={handleAddPageClick}>
-          <div style={{ width: '100%' }}>
-            <Button variant="text" color="primary" fullWidth>
+          <div style={{ width: '100%', backgroundColor: 'transparent'}}>
+            <Button variant="text" color="primary" fullWidth> 
               Add Page
               <AddIcon style={{ marginLeft: 'auto' }} />
             </Button>

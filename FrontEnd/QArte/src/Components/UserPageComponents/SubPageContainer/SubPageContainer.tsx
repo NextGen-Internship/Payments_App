@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './SubPageContainer.css'
 
 const SubPageContainer = () =>{
@@ -74,12 +75,12 @@ const SubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
+            window.location.href = `http://localhost:5173/explore/${page.userID}`
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
             console.log(page.userID);
             setShowChangePage(false);
-            window.location.href = `http://localhost:5173/explore/${page.userID}`
            
             // If you want to update the UI or perform other actions after the update, add them here.
         } catch (error) {
@@ -122,10 +123,10 @@ const SubPageContainer = () =>{
               size="large"
               onClick={() => callPageDelete(page.id)}
               title="Delete page"
-              style={{ color: 'red', marginLeft: 'auto'}}
+              style={{ color: 'red', marginLeft: 'auto', marginRight:'3%'}}
               sx={{ '& .MuiSvgIcon-root': { fontSize: '3rem', strokeWidth: 2 } }}
             >
-              <CloseIcon />
+              <DeleteIcon />
             </IconButton>
           </div>
           <div className="bio-editPageButton-container">

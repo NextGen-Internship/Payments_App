@@ -20,8 +20,8 @@ import Button from '@mui/material/Button';
 const UserPage = () =>{
     
     
-    const{id} = useParams();
-    const val = parseInt(id!);
+    const{Uid} = useParams();
+    const val = parseInt(Uid!);
     
     const[showAddPage,setAddPage] = useState(false);
     const [User,setUser] = useState<any>({});
@@ -252,8 +252,8 @@ const UserPage = () =>{
         setSelectedPage(pageId);
       };
 
-    const onAddPage = () => {
-        setAddPage(true); 
+    const onAddPage = (set: boolean) => {
+        setAddPage(set); 
      };
 
     return (
@@ -317,7 +317,7 @@ const UserPage = () =>{
           
               <div>
                 <a className="show-pages-dropdown" style={{ textAlign: 'center', width: '35%', marginRight: '3%' }}>
-                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage}/>
+                  <SubPageLister ref={PageRef} pages={Upages} onSelectedPage={onSelectedPage} onAddPage={onAddPage} userID={User.id}/>
                 </a>
 
                 {showAddPage && <PageAdd onAdd={addPage} />}
