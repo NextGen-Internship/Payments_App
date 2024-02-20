@@ -76,6 +76,7 @@
     <None Remove="Queries\InvoiceQueries\" />
     <None Remove="Queries\PaymentMethodQueries\" />
     <None Remove="Queries\SettlementCycleQueries\" />
+    <None Remove="MiddleWare\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -117,5 +118,6 @@
     <Folder Include="Queries\StripeQueries\" />
     <Folder Include="Handlers\StripeHandlers\" />
 
+    <Folder Include="MiddleWare\" />
   </ItemGroup>
 </Project>

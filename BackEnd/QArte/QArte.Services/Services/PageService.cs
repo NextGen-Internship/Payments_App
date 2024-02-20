@@ -7,7 +7,7 @@ using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using QArte.Services.Services;
-
+using QArte.Persistance.Helpers;
 namespace QArte.Services.Services
 {
 	public class PageService : IPageService
@@ -28,7 +28,7 @@ namespace QArte.Services.Services
         {
             var page = await this._qArteDBContext.Pages
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             
             _qRCodeGenerator.DeleteQRCode(page.GalleryID.ToString(),page.UserID.ToString());
@@ -46,7 +46,7 @@ namespace QArte.Services.Services
         {
             var page = await this._qArteDBContext.Pages
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             _qRCodeGenerator.TotalDeleteQRCode(page.GalleryID.ToString(), page.UserID.ToString());
 
@@ -77,7 +77,7 @@ namespace QArte.Services.Services
         {
             var page = await _qArteDBContext.Pages
               .FirstOrDefaultAsync(x => x.ID == id)
-              ?? throw new ApplicationException("Not found");
+              ?? throw new AppException("Not found");
             return page.GetDTO();
         }
 
@@ -152,11 +152,11 @@ namespace QArte.Services.Services
                 .Include(x => x.Gallery)
                 .Include(x => x.User)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             if (obj.QRLink == null)
             {
-                throw new ApplicationException("Bad input");
+                throw new AppException("Bad input");
             }
 
             page.ID = obj.ID;

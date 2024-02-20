@@ -6,6 +6,7 @@ using QArte.Persistance.Enums;
 using QArte.Persistance;
 using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -23,7 +24,7 @@ namespace QArte.Services.Services
         {
             var role = await this._qArteDBContext.Role
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             this._qArteDBContext.Role.Remove(role);
             await _qArteDBContext.SaveChangesAsync();
@@ -52,7 +53,7 @@ namespace QArte.Services.Services
             var role = await _qArteDBContext.Role
               //.Include(x=>x.Users)
               .FirstOrDefaultAsync(x => x.ID == id)
-              ?? throw new ApplicationException("Not found");
+              ?? throw new AppException("Not found");
             return role.GetDTO();
         }
 
@@ -85,7 +86,7 @@ namespace QArte.Services.Services
             var Role = await this._qArteDBContext.Role
                 //.Include(x => x.Users)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             Role.ID = obj.ID;
             Role.ERole = obj.ERole;

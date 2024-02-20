@@ -12,6 +12,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Util;
 using Amazon;
 using Amazon.S3;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -62,7 +63,7 @@ namespace QArte.Services.Services
                  .Include(x=>x.Pages)
                  .Include(x=>x.SettlementCycle)
                  .FirstOrDefaultAsync(x => x.ID == id)
-                  ?? throw new ApplicationException("Not found");
+                  ?? throw new AppException("Not found");
 
 
             int bankAc = user.BankAccountID;
@@ -198,7 +199,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x=>x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.Email;
         }
@@ -211,7 +212,7 @@ namespace QArte.Services.Services
                 .Include(x => x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.StripeAccountID;
         }
@@ -224,7 +225,7 @@ namespace QArte.Services.Services
                 .Include(x => x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.StripeAccountID == stripeId)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.GetDTO();
         }
@@ -237,7 +238,7 @@ namespace QArte.Services.Services
                 .Include(x => x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.Country;
         }
@@ -252,7 +253,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             var region = RegionEndpoint.EUCentral1;
             AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
@@ -276,7 +277,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.UserName;
         }
@@ -327,7 +328,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             return user.isBanned;
         }
@@ -421,7 +422,7 @@ namespace QArte.Services.Services
         public async Task<UserDTO> UpdateAsync(int id, UserDTO obj)
         {
             _ = await UserExists(obj.ID, obj.Username, obj.Email)
-                == true ? throw new ApplicationException("Not found") : 0;
+                == true ? throw new AppException("Not found") : 0;
 
             var user = await _qarteDBContext.Users
                 .Include(x => x.Role)
@@ -429,7 +430,7 @@ namespace QArte.Services.Services
                 .Include(x=>x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             user.ID = obj.ID;
             user.FirstName = obj.FirstName;
@@ -462,7 +463,7 @@ namespace QArte.Services.Services
                 .Include(x => x.Pages)
                 .Include(x => x.SettlementCycle)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             string path = $"Users\\/{user.ID.ToString()}\\/{user.ID.ToString()}_Profile.png";
             user.PictureUrl = path;

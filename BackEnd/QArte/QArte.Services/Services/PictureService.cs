@@ -13,6 +13,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Util;
 using Microsoft.AspNetCore.Http;
 using SkiaSharp;
+using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
@@ -88,7 +89,7 @@ namespace QArte.Services.Services
             var picture = await _qArteDBContext.Pictures
                 .Include(x => x.Gallery)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
 
             var region = RegionEndpoint.EUCentral1;
             AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
@@ -127,7 +128,7 @@ namespace QArte.Services.Services
             var gallery = await _qArteDBContext.Galleries
                 .Include(x=>x.Pictures)
                 .FirstOrDefaultAsync(x => x.ID == id)
-                ?? throw new ApplicationException("Not found");
+                ?? throw new AppException("Not found");
             GalleryDTO galleryDTO = gallery.GetDTO();
 
             var region = RegionEndpoint.EUCentral1;
@@ -225,11 +226,11 @@ namespace QArte.Services.Services
             var Picture = await _qArteDBContext.Pictures
                                 .Include(x => x.Gallery)
                                 .FirstOrDefaultAsync(x => x.ID == id)
-                                ?? throw new ApplicationException("Not found");
+                                ?? throw new AppException("Not found");
 
             if (obj.PictureURL == null)
             {
-                throw new ApplicationException("Bad input");
+                throw new AppException("Bad input");
             }
 
             var region = RegionEndpoint.EUCentral1;

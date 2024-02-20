@@ -5,7 +5,7 @@ using MediatR;
 using QArte.Services.ServiceInterfaces;
 using QArte.Services.Services;
 using Stripe;
-
+using QArte.API.MiddleWare;
 using Microsoft.OpenApi.Models;
 //sing Swashbuckle.Swagger;
 //new
@@ -128,7 +128,7 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
