@@ -14,15 +14,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { TokenResponse } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+//import { TokenResponse } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 import UserService from "../../Services/UserService";
 import ApiService from "../../Services/ApiService";
-import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
+//import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
 import SignInDTO from "../../Interfaces/DTOs/SignInDTO";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser, setLoggedIn } from "../../store/loginSlice.ts";
+import { setUser, setLoggedIn, setAvatar } from "../../store/loginSlice.ts";
+import { RootState } from "../../store/store.ts";
+import { jwtDecode } from "jwt-decode";
 
 function Copyright(props: any) {
   return (
@@ -53,6 +55,7 @@ export default function SignIn() {
   // const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const avatarUrl = useSelector((state: RootState) => state.user.avatar);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,18 +73,33 @@ export default function SignIn() {
           bio: "",
           qrLink: "",
           galleryID: 0,
-          userID: 0
-        }
-      ]
+          userID: 0,
+        },
+      ],
     };
 
     try {
       const response = await userService.loginUser(signInData);
       if (response.succeed) {
-        dispatch(setLoggedIn(true)); //save into redux that the user is loggedin successfuly
-        dispatch(setUser(response.data)); //save data about the user into redux
-        localStorage.setItem("token", response.data.token); //store the token into localstorage
-        navigate("/home"); //navigate to home page
+        dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
+        dispatch(setUser(response.data)); // Save user data into Redux
+
+        const token = response.data.data; // Token is directly in `Data`
+        const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
+
+        if (token) {
+          localStorage.setItem("token", token);
+        } else {
+          console.error("Token is missing in the response.");
+        }
+
+        if (userId) {
+          localStorage.setItem("userId", userId.toString());
+        } else {
+          console.error("User ID is missing in the response.");
+        }
+
+        navigate("/home");
       } else {
         alert(`Login failed: ${response.message}`);
       }
@@ -91,28 +109,34 @@ export default function SignIn() {
     }
   };
 
+  //working and set the googlePicture into the avatar
   const handleLoginWithgoogle = async (CredentialResponse: any) => {
-    // console.log("Login with google success.", CredentialResponse);
-    // localStorage.setItem("googleToken", CredentialResponse.credential);
-    // //localStorage.setItem("userImage", CredentialResponse.profileObj.imageUrl);
-    // dispatch(setLoggedIn(true));
-    // //if user exists -> if yes => get login with google method from backend
-    // navigate("/aditionalInformation");
     console.log("Login with Google success.", CredentialResponse);
     const token = CredentialResponse.credential;
     localStorage.setItem("googleToken", token);
     try {
+      // Decode the token to get the user's info including the picture URL
+      const decodedToken = jwtDecode(token);
+      const pictureUrl = decodedToken.picture;
       const response = await axios.post(
         "https://localhost:7191/api/Authentication/google-signIn",
-        { token }, // Directly passing the object
+        { token },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log(response.data);
       if (response.data.userExists) {
         dispatch(setLoggedIn(true));
+
+        if (response.data.userId) {
+          localStorage.setItem("userId", response.data.userId.toString());
+        }
+
+        if (pictureUrl) {
+          localStorage.setItem("userPictureUrl", pictureUrl);
+          dispatch(setAvatar(pictureUrl));
+        }
         navigate("/home");
       } else {
-        navigate("/aditionalInformation");
+        navigate("/additionalInformation");
       }
     } catch (error) {
       console.error("Error during the sign-in process:", error);
@@ -122,13 +146,7 @@ export default function SignIn() {
   const error = () => {
     console.log("Google login error");
   };
-  /*const success = (response: CredentialResponse) => {
-    console.log(response);
-    // Assuming response.credential contains the token you need
-    const googleToken = response.credential;
-    localStorage.setItem('googleToken', googleToken);
-    navigate("/profile");
-  };*/
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -195,9 +213,7 @@ export default function SignIn() {
                 </LinkMui>
               </Grid>
               <Grid item>
-                <Link to="/signUp">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Link to="/signUp">{"Don't have an account? Sign Up"}</Link>
               </Grid>
             </Grid>
           </Box>

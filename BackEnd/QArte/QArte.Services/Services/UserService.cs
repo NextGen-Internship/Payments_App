@@ -512,7 +512,7 @@ namespace QArte.Services.Services
                     PictureURL = "",
                     postalCode = "",
                     Username = "",
-                    Pages = {},
+                    Pages = { },
                 };
             }
             return model?.GetDTO();
