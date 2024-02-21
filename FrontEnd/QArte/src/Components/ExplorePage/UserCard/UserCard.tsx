@@ -3,18 +3,15 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
-
-// import React from "react";
 import { Box } from "@mui/material";
 
 const OutlinedCard = ({ user }: any) => {
   return (
     <Box
       sx={{
-        margin: "2% 20%", // Adjust margins for larger screens
+        margin: "2% 20%",
         "@media (max-width:600px)": {
-          // Media query for small screens
-          margin: "2% 5%", // Reduced side margins on small screens
+          margin: "2% 5%",
         },
       }}
     >
@@ -22,25 +19,23 @@ const OutlinedCard = ({ user }: any) => {
         variant="outlined"
         sx={{
           display: "flex",
-          //flexDirection: { xs: "column", sm: "row" }, // Vertical layout on small devices
-          flexDirection: "column",
-          justifyContent: "center",
-          //alignItems: "center",
-          alignItems: "flex-start",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
           minHeight: "15vh",
         }}
       >
         <CardMedia
           component="img"
           sx={{
-            width: { xs: "50%", sm: "8%" }, // Responsive width
-            height: "auto", // Adjust height automatically
+            width: 180,
+            height: 180,
+            borderRadius: "50%",
             marginRight: "20px",
+            objectFit: "cover",
             "@media (max-width:600px)": {
-              // Adjustments for small screens
-              marginRight: "0",
-              marginBottom: "10px",
-              width: "40%", // Adjust width on small screens
+              width: 140,
+              height: 140,
             },
           }}
           image={user.pictureURL}
@@ -51,13 +46,8 @@ const OutlinedCard = ({ user }: any) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            flexGrow: 1,
           }}
-          // sx={{
-          //   display: "flex",
-          //   flexDirection: "column",
-          //   //alignItems: { xs: "center", sm: "flex-start" }, // Center-align on small screens
-          //   alignItems: "flex-start",
-          // }}
         >
           <Typography
             variant="h5"
@@ -81,50 +71,3 @@ const OutlinedCard = ({ user }: any) => {
 };
 
 export default OutlinedCard;
-
-// const OutlinedCard = ({ user }: any) => {
-//   console.log(user);
-//   const card = (
-//     <React.Fragment>
-//       <CardContent style={{ display: "flex", alignItems: "center" }}>
-//         <CardMedia
-//           component="img"
-//           sx={{ height: "15%", marginRight: "20px", width: "8%" }}
-//           image={user.pictureURL}
-//           title="userPicture"
-//         />
-//         <div>
-//           <Typography variant="h4" component="div" sx={{ marginTop: "15%" }}>
-//             {user.username}
-//           </Typography>
-//           <Typography
-//             component="div"
-//             sx={{ fontSize: 14, textDecoration: "" }}
-//             color="text.secondary"
-//             gutterBottom
-//           >
-//             {`${user.firstName} ${user.lastName}`}
-//           </Typography>
-//         </div>
-//       </CardContent>
-//     </React.Fragment>
-//   );
-
-//   return (
-//     <Card
-//       variant="elevation"
-//       style={{
-//         justifyContent: "center",
-//         alignItems: "center",
-//         minHeight: "5vh",
-//         marginTop: "2%",
-//         marginLeft: "20%",
-//         marginRight: "20%",
-//       }}
-//     >
-//       {card}
-//     </Card>
-//   );
-// };
-
-// export default OutlinedCard;

@@ -1,16 +1,10 @@
-import React, {
-  Component,
-  useState,
-  forwardRef,
-  useRef,
-  useEffect,
-} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./ProfilePage.css";
 import ProfileSubPageLister, {
   SubPageListerRef,
 } from "../ProfileSubPageLister/ProfileSubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StripeCheckout from "../../Stripe/StripeCheckout";
 import Typography from "@mui/material/Typography";
 import PageNavigator from "../ProfilePageNavigator";
@@ -18,10 +12,10 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const ProfilePage = () => {
-  // const{Uid} = useParams();
-  // const val = parseInt(Uid!);
   const Uid = localStorage.getItem("userId");
   const val = Uid;
 

@@ -28,9 +28,9 @@ class UserService{
         return this.apiService.post<ApiResponseDTO>(this.SIGNIN_ENDPOINT, data);
       }
     
-      async loginUserWithGoogle(data: LoginWithGoogleDTO): Promise<ApiResponseDTO> {
-        return this.apiService.post<ApiResponseDTO>(this.LOGIN_WITH_GOOGLE_ENDPOINT, data);
-      }
+      // async loginUserWithGoogle(data: LoginWithGoogleDTO): Promise<ApiResponseDTO> {
+      //   return this.apiService.post<ApiResponseDTO>(this.LOGIN_WITH_GOOGLE_ENDPOINT, data);
+      // }
     
     //   async logout(): Promise<ApiResponseDTO> {
     //     return this.apiService.get<ApiResponseDTO>(this.LOGOUT_ENDPOINT);
