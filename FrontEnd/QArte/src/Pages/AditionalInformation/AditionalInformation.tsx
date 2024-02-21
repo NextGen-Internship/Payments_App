@@ -16,6 +16,8 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAvatar } from "../../store/loginSlice";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import SignIn from "../SignIn/SignIn";
 import { setLoggedIn } from "../../store/loginSlice.ts";
 
@@ -200,9 +202,14 @@ export default function AditionalInformation() {
               id="country"
               label="Country"
               name="country"
-              autoComplete="country"
+              select
+              value={country}
               onChange={(e) => setCountry(e.target.value)}
-            />
+            >
+              {/* Menu Items for US and BG */}
+              <MenuItem value="US">United States</MenuItem>
+              <MenuItem value="BG">Bulgaria</MenuItem>
+            </TextField>
             {/* City */}
             <TextField
               margin="normal"
