@@ -167,6 +167,18 @@ namespace QArte.Services.Services
             return page.GetDTO();
         }
 
+        public async Task<PageDTO> GetQRCode(int id)
+        {
+            var page = await _qArteDBContext.Pages
+              .FirstOrDefaultAsync(x => x.ID == id)
+              ?? throw new AppException("Not found");
+            var user = await _qArteDBContext.Users
+                .FirstOrDefaultAsync(x => x.ID == page.UserID);
+
+            _qRCodeGenerator.GetQRCode(page.GalleryID.ToString(), page.UserID.ToString(), user.Email);
+
+            return page.GetDTO();
+        }
     }
 }
 

@@ -17,9 +17,7 @@ import ProfileSubPageContainer from "./Components/UserProfile/ProfileSubPageCont
 import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
-
 import Footer from "./Components/Footer/Footer.tsx";
-
 
 function App() {
   return (
@@ -27,27 +25,30 @@ function App() {
       <Box display="flex" flexDirection="column" minHeight="100vh">
         <ResponsiveAppBar />
 
-        <Box component="main" flexGrow={1}>
-          <Routes>
-            <Route path="/stripe-checkout" element={<StripeCheckout />} />
-            <Route path="/stripe-success" element={<SuccessPage />} />
-            <Route path="/stripe-error" element={<ErrorPage />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            {/* Additional routes */}
-            <Route path="/about" element={<About />} />
-            <Route path="/explore" element={<ExplorePage />} />
-            <Route
-              path="/additionalInformation"
-              element={<AditionalInformation />}
-            />
-            {/* Nested routes for /explore */}
-            <Route path="/profile/*" element={<ProfilePage />} />
-            {/* Nested routes for /profile */}
-            <Route path="/home" element={<Home />} />
-            {/* Add more routes as needed */}
-          </Routes>
-        </Box>
+        <Routes>
+          <Route path="/stripe-checkout" element={<StripeCheckout />} />
+          <Route path="/stripe-success" element={<SuccessPage />} />
+          <Route path="/stripe-error" element={<ErrorPage />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="additionalInformation" element={<AditionalInformation/>} />
+          <Route path="/about" element={<About />} />
+
+          {/* <Route path="/blog" element={<Blog />} /> */}
+          <Route path="/explore">
+            <Route index element={<ExplorePage />} />
+            <Route path=":Uid/*" element={<UserPage />}>
+              <Route path=":id" element={<SubPageContainer />} />
+            </Route>
+          </Route>
+          <Route path="/profile/*" element={<ProfilePage />}>
+            <Route path=":pageNumber" element={<ProfileSubPageContainer />} />
+          </Route>
+
+          <Route path="/home" element={<Home />} />
+        </Routes>
+
         <Footer />
       </Box>
     </BrowserRouter>

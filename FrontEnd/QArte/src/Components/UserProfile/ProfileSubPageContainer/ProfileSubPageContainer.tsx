@@ -111,6 +111,15 @@ const ProfileSubPageContainer = () =>{
         }
     }
 
+    const GetQRCode = async ()=>{
+        try{
+            console.log("Fething QRCode");
+            const respose = await fetch(`https://localhost:7191/api/Page/GetQRCode/${page.id}`);
+        }catch(error){
+            console.error("Error getting QRCODE");
+        }
+    }
+
 
     return (
         <div className="sub-page-container" style={{ width: '100%', position: 'relative' }}>
@@ -134,6 +143,9 @@ const ProfileSubPageContainer = () =>{
           </div>
           {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
           {page.galleryID !== "" && <ProfileUserGallery gallery={page.galleryID} />}
+          <div>
+            <Button onClick={GetQRCode}>Get Page QRCode</Button>
+          </div>
         </div>
       );
 };
