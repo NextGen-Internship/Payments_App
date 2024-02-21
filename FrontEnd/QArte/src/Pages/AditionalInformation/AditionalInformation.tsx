@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAvatar } from "../../store/loginSlice";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import SignIn from "../SignIn/SignIn";
+import { setLoggedIn } from "../../store/loginSlice.ts";
 
 const defaultTheme = createTheme();
 
@@ -131,8 +133,11 @@ export default function AditionalInformation() {
 
       // checking for successful login
       if (response.status === 200) {
-        console.log("Success");
-        navigate("/home");
+        console.log(response.data.succeed);
+        if (response.data.succeed === true) {
+          dispatch(setLoggedIn(true));
+          navigate("/profile");
+        }
       } else {
         throw new Error("Error while trying to login");
       }

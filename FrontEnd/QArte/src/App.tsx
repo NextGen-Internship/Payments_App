@@ -1,6 +1,7 @@
 //import {useState} from "react";
-import React from "react";
+//import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Box } from "@mui/material";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
 import Home from "./Pages/Home/Home.js";
 import SignIn from "./Pages/SignIn/SignIn.js";
@@ -17,36 +18,38 @@ import AditionalInformation from "./Pages/AditionalInformation/AditionalInformat
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
 
+import Footer from "./Components/Footer/Footer.tsx";
+
 
 function App() {
   return (
     <BrowserRouter>
-      <div>
+      <Box display="flex" flexDirection="column" minHeight="100vh">
         <ResponsiveAppBar />
-        <Routes>
-          <Route path="/stripe-checkout" element={<StripeCheckout />} />
-          <Route path="/stripe-success" element={<SuccessPage />} />
-          <Route path="/stripe-error" element={<ErrorPage />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          {/* <Route path="/register" element={<Register />} /> */}
-          <Route path="additionalInformation" element={<AditionalInformation/>} />
-          <Route path="/about" element={<About />} />
 
-          {/* <Route path="/blog" element={<Blog />} /> */}
-          <Route path="/explore">
-            <Route index element={<ExplorePage />} />
-            <Route path=":Uid/*" element={<UserPage />}>
-              <Route path=":id" element={<SubPageContainer />} />
-            </Route>
-          </Route>
-          <Route path="/profile/*" element={<ProfilePage />}>
-            <Route path=":pageNumber" element={<ProfileSubPageContainer />} />
-          </Route>
-
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </div>
+        <Box component="main" flexGrow={1}>
+          <Routes>
+            <Route path="/stripe-checkout" element={<StripeCheckout />} />
+            <Route path="/stripe-success" element={<SuccessPage />} />
+            <Route path="/stripe-error" element={<ErrorPage />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            {/* Additional routes */}
+            <Route path="/about" element={<About />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route
+              path="/additionalInformation"
+              element={<AditionalInformation />}
+            />
+            {/* Nested routes for /explore */}
+            <Route path="/profile/*" element={<ProfilePage />} />
+            {/* Nested routes for /profile */}
+            <Route path="/home" element={<Home />} />
+            {/* Add more routes as needed */}
+          </Routes>
+        </Box>
+        <Footer />
+      </Box>
     </BrowserRouter>
   );
 }
