@@ -48,27 +48,7 @@ namespace QArte.API.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("google-login")]
-        //public async Task<IActionResult> GoogleLogin([FromBody] UserDTO user, [FromQuery] string token)
-        //{
-        //    try
-        //    {
-        //        //create object LoginWithGoogleDTO and the needed information
-        //        var googleLogin = new LoginWithGoogleDTO
-        //        {
-        //            UserInfo = user,
-        //            GoogleToken = token
-        //        };
-        //        var response = await _authService.GoogleLoginAsync(token);
-
-        //        return response.Succeed ? Ok(response) : BadRequest(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"An error occurred: {ex.Message}");
-        //    }
-        //}
+       
 
         [HttpPost]
         [Route ("google-signIn")]
@@ -126,25 +106,18 @@ namespace QArte.API.Controllers
 
                 var jwtToken = _tokenService.GenerateJwtToken(user);
 
+                //create user
+                user.Password = GenerateRandomPassword();
+                var createUserResponse = await _userService.PostAsync(user);
                 var successResponse = new Response<string>()
                 {
                     Succeed = true,
                     Message = "Successfull.",
-                    Data = jwtToken
+                    Data = jwtToken,
+                    ID = createUserResponse.ID,
                 };
 
-                // create new user
-                //user.Email = validation.Email; //here the email from the token
-                // generate new password
-                //user.Password = GenerateRandomPassword();
-
-                // send email with new password
-
-                //create user
-                user.Password = GenerateRandomPassword();
-                var createUserResponse = await _userService.PostAsync(user);
-
-                if(createUserResponse.ID == 0)
+                if (createUserResponse.ID == 0)
                 {
                     return BadRequest(new Response<string>()
                     {

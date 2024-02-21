@@ -135,8 +135,11 @@ export default function AditionalInformation() {
       if (response.status === 200) {
         console.log(response.data.succeed);
         if (response.data.succeed === true) {
+          console.log(response);
           dispatch(setLoggedIn(true));
-          navigate("/profile");
+          localStorage.setItem("userId", response.data.id.toString());
+          //localStorage.setItem("userPictureUrl", picture);
+          navigate("/home");
         }
       } else {
         throw new Error("Error while trying to login");
