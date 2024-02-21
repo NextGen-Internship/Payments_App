@@ -76,7 +76,7 @@ namespace QArte.Services.Services
                 await _pageService.TotalDeleteAsync(page.ID);
             }
 
-            if(user.PictureUrl!= "Public_Resources/QArte_B.png")
+            if(user.PictureUrl!= "Public_Resources/QArte_B.jpg")
             {
                 var region = RegionEndpoint.EUCentral1;
                 AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
