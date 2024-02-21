@@ -29,7 +29,7 @@ namespace QArte.Services.Services
         public async void CreateQRCode(string URL, string galleryID, string userID, string userEmail)
         {
             //also fetch the logo from the server
-            string logoPath = "Public_Resources/QArte_B.png";
+            string logoPath = "Public_Resources/QArte_B.jpg";
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
 

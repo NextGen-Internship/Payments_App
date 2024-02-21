@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 // import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+// import "slick-carousel/slick/slick-theme.css"; 
 
 const Home = () => {
   const navigate = useNavigate();

@@ -344,7 +344,7 @@ namespace QArte.Services.Services
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
             //make it fetch the default picture
-            string defaultPicPath = "Public_Resources/QArte_B.png";
+            string defaultPicPath = "Public_Resources/QArte_B.jpg";
 
             obj.PictureURL = defaultPicPath;
 
