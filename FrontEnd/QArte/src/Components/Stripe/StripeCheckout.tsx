@@ -89,7 +89,7 @@ const StripeCheckout = ({ userID }: any) => {
           padding: "20px 30px",
         }}
       >
-        Checkout
+        Donate
       </Button>
       <Snackbar
         open={openSnackbar}

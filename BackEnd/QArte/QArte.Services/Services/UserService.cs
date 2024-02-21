@@ -13,6 +13,7 @@ using Amazon.S3.Util;
 using Amazon;
 using Amazon.S3;
 using QArte.Persistance.Helpers;
+using SkiaSharp;
 
 namespace QArte.Services.Services
 {
@@ -74,6 +75,10 @@ namespace QArte.Services.Services
             {
                 await _pageService.TotalDeleteAsync(page.ID);
             }
+
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            await client.DeleteObjectAsync(_amazonData.BucketName, user.PictureUrl);
 
             _qarteDBContext.Users.Remove(user);
 

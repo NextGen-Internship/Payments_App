@@ -16,9 +16,10 @@ import ProfileSubPageContainer from "./Components/UserProfile/ProfileSubPageCont
 //import Blog from "./Pages/Blog/Blog.js";
 //import ExplorePage from "./Pages/Explore/Explore.tsx";
 //import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
-//import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
+import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
+
 
 const users = [
   {
@@ -277,6 +278,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="additionalInformation" element={<AditionalInformation/>} />
           <Route path="/about" element={<About />} />
 
           {/* <Route path="/blog" element={<Blog />} /> */}
