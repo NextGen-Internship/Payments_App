@@ -66,7 +66,7 @@ namespace QArte.Services.Services
                 Color = SkiaSharp.SKColors.White,
                 IsAntialias = true,
             };
-            canvas.DrawRect(new SkiaSharp.SKRect(210, 210, 210 + 100, 210 + 113), paint);
+            canvas.DrawRect(new SkiaSharp.SKRect(210, 250, 210 + 100, 210 + 113), paint);
 
 
             canvas.DrawImage(logo, 210, 210);

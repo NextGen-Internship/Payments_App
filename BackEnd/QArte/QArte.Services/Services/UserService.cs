@@ -76,7 +76,7 @@ namespace QArte.Services.Services
                 await _pageService.TotalDeleteAsync(page.ID);
             }
 
-            if(user.PictureUrl!= "Public_Resources/QArte_B.jpg")
+            if(user.PictureUrl!= "Public_Resources/QArte_BO.jpg")
             {
                 var region = RegionEndpoint.EUCentral1;
                 AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
@@ -344,7 +344,7 @@ namespace QArte.Services.Services
         public async Task<UserDTO> PostAsync(UserDTO obj)
         {
             //make it fetch the default picture
-            string defaultPicPath = "Public_Resources/QArte_B.jpg";
+            string defaultPicPath = "Public_Resources/QArte_BO.jpg";
 
             obj.PictureURL = defaultPicPath;
 
