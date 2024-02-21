@@ -20,13 +20,19 @@ import ProfileSubPageContainer from "./Components/UserProfile/ProfileSubPageCont
 import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
+
 import Footer from "./Components/Footer/Footer.tsx";
+
+
+
+
 
 function App() {
   return (
     <BrowserRouter>
       <Box display="flex" flexDirection="column" minHeight="100vh">
         <ResponsiveAppBar />
+
         <Box component="main" flexGrow={1}>
           <Routes>
             <Route path="/stripe-checkout" element={<StripeCheckout />} />
