@@ -167,7 +167,7 @@ namespace QArte.Services.Services
             await client.DeleteObjectAsync(_amazonData.BucketName, dummy);
         }
 
-        public async void GetQRCode(string galleryID, string userID, string userEmail)
+        public void GetQRCode(string galleryID, string userID, string userEmail)
         {
             //get from amazon
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";

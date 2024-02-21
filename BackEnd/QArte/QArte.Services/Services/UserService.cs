@@ -76,9 +76,12 @@ namespace QArte.Services.Services
                 await _pageService.TotalDeleteAsync(page.ID);
             }
 
-            var region = RegionEndpoint.EUCentral1;
-            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
-            await client.DeleteObjectAsync(_amazonData.BucketName, user.PictureUrl);
+            if(user.PictureUrl!= "Public_Resources/QArte_B.png")
+            {
+                var region = RegionEndpoint.EUCentral1;
+                AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+                await client.DeleteObjectAsync(_amazonData.BucketName, user.PictureUrl);
+            }
 
             _qarteDBContext.Users.Remove(user);
 
