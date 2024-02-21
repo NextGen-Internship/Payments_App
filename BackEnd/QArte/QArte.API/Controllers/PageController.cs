@@ -49,6 +49,15 @@ namespace QArte.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetQRCode/{id}")]
+        public async Task<ActionResult<PageDTO>> GetQRCode(int id)
+        {
+            var query = new QRCodeGetByID(id);
+            var result = await _mediatR.Send(query);
+            return Ok(result);
+        }
+
+
         [HttpPost("Post")]
         public async Task<ActionResult<PageDTO>> PostPage([FromBody] PageDTO obj)
         {

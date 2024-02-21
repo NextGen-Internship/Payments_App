@@ -29,7 +29,7 @@ namespace QArte.Services.Services
         public async void CreateQRCode(string URL, string galleryID, string userID, string userEmail)
         {
             //also fetch the logo from the server
-            string logoPath = "Public_Resources/QArte_B.png";
+            string logoPath = "Public_Resources/QArte_B.jpg";
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
 
@@ -66,7 +66,7 @@ namespace QArte.Services.Services
                 Color = SkiaSharp.SKColors.White,
                 IsAntialias = true,
             };
-            canvas.DrawRect(new SkiaSharp.SKRect(210, 210, 210 + 100, 210 + 113), paint);
+            canvas.DrawRect(new SkiaSharp.SKRect(210, 250, 210 + 100, 210 + 113), paint);
 
 
             canvas.DrawImage(logo, 210, 210);
@@ -167,7 +167,7 @@ namespace QArte.Services.Services
             await client.DeleteObjectAsync(_amazonData.BucketName, dummy);
         }
 
-        public async void GetQRCode(string galleryID, string userID, string userEmail)
+        public void GetQRCode(string galleryID, string userID, string userEmail)
         {
             //get from amazon
             string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
