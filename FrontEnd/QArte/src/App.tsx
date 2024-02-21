@@ -1,6 +1,7 @@
 //import {useState} from "react";
-import React from "react";
+//import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Box } from "@mui/material";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
 import Home from "./Pages/Home/Home.js";
 import SignIn from "./Pages/SignIn/SignIn.js";
@@ -19,15 +20,14 @@ import ProfileSubPageContainer from "./Components/UserProfile/ProfileSubPageCont
 import AditionalInformation from "./Pages/AditionalInformation/AditionalInformation.tsx";
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
-
-
-
+import Footer from "./Components/Footer/Footer.tsx";
 
 function App() {
   return (
     <BrowserRouter>
-      <div>
+      <Box display="flex" flexDirection="column" minHeight="100vh">
         <ResponsiveAppBar />
+
         <Routes>
           <Route path="/stripe-checkout" element={<StripeCheckout />} />
           <Route path="/stripe-success" element={<SuccessPage />} />
@@ -51,7 +51,9 @@ function App() {
 
           <Route path="/home" element={<Home />} />
         </Routes>
-      </div>
+
+        <Footer />
+      </Box>
     </BrowserRouter>
   );
 }

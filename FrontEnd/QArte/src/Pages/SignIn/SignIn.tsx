@@ -15,15 +15,13 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { GoogleLogin } from "@react-oauth/google";
-//import { TokenResponse } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 import UserService from "../../Services/UserService";
 import ApiService from "../../Services/ApiService";
-//import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
 import SignInDTO from "../../Interfaces/DTOs/SignInDTO";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser, setLoggedIn, setAvatar } from "../../store/loginSlice.ts";
-//import { RootState } from "../../store/store.ts";
+
 import { jwtDecode } from "jwt-decode";
 
 function Copyright(props: any) {
@@ -34,12 +32,12 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <LinkMui color="inherit" href="https://mui.com/">
+      {/* {"Copyright © "} */}
+      {/* <LinkMui color="inherit" href="https://mui.com/">
         Your Website
-      </LinkMui>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      </LinkMui>{" "} */}
+      {/* {new Date().getFullYear()} */}
+      {/* {"."} */}
     </Typography>
   );
 }
@@ -134,7 +132,7 @@ export default function SignIn() {
           localStorage.setItem("userPictureUrl", pictureUrl);
           dispatch(setAvatar(pictureUrl));
         }
-        navigate("/home");
+        navigate("/profile");
       } else {
         navigate("/additionalInformation");
       }
