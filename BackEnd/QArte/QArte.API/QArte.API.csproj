@@ -120,7 +120,4 @@
 
     <Folder Include="MiddleWare\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
-  </ItemGroup>
 </Project>

@@ -16,6 +16,8 @@ import ApiService from "../../Services/ApiService";
 import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
 import UserService from "../../Services/UserService";
 import SignUpDTO from "../../Interfaces/DTOs/SignUpDTO";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 const defaultTheme = createTheme();
 
 export default function SignUp() {
@@ -25,7 +27,7 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [country, setCountry] = useState("");
+  // const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [IBAN, setIBAN] = useState("");
@@ -34,6 +36,7 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
   //const [settlementCycleID, setSettlementCycleID] = useState("");
   //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
 
@@ -95,7 +98,7 @@ export default function SignUp() {
           FirstName: firstName,
           LastName: lastName,
           Address: address,
-          Country: country,
+          Country: selectedCountry,
           City: city,
           postalCode: postalCode,
           IBAN: IBAN,
@@ -275,9 +278,14 @@ export default function SignUp() {
               id="country"
               label="Country"
               name="country"
-              autoComplete="country"
-              onChange={(e) => setCountry(e.target.value)}
-            />
+              select
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value)}
+            >
+              {/* Menu Items for US and BG */}
+              <MenuItem value="US">United States</MenuItem>
+              <MenuItem value="BG">Bulgaria</MenuItem>
+            </TextField>
             {/* City */}
             <TextField
               margin="normal"
