@@ -54,6 +54,9 @@ namespace QArte.Services.Services.quartzPayouts
                 {
                     var payout = await _stripeService.CreatePayoutAsync(user);
 
+                    if (payout == null)
+                        continue;
+
                     sendEmail(user, payout.Amount, payout.Currency);
                 }
                 catch (Exception ex)

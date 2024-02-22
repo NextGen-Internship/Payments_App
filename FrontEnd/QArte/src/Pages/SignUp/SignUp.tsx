@@ -27,11 +27,10 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  // const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [IBAN, setIBAN] = useState("");
-  //const [PhoneNumber, setPhoneNumber] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -63,7 +62,6 @@ export default function SignUp() {
 
     const isBanned = false;
     const roleID = 0;
-    const phoneNumber = "+359888940130";
     const pictureURL = "";
     //const bankAccountID = 4;
     //const stripeAccountID = "BG80BNBG96611020345678";
@@ -102,7 +100,7 @@ export default function SignUp() {
           City: city,
           postalCode: postalCode,
           IBAN: IBAN,
-          PhoneNumber: phoneNumber,
+          PhoneNumber: PhoneNumber,
           isBanned: isBanned,
           RoleID: 0,
           BankAccountID: 0,
@@ -250,7 +248,7 @@ export default function SignUp() {
               onChange={(e) => setLastName(e.target.value)}
             />
             {/* PhoneNumber */}
-            {/* <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -259,7 +257,7 @@ export default function SignUp() {
               name="phoneNumber"
               autoComplete="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
-            /> */}
+            />
             <TextField
               margin="normal"
               required

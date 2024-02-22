@@ -184,6 +184,11 @@ namespace QArte.Services.Services
                 throw new InvalidOperationException($"Balance not available in BGN");
             }
 
+            if(balanceInCurrency.Amount == 0)
+            {
+                return null;
+            }
+
             var options = new PayoutCreateOptions
             {
                 Amount = balanceInCurrency.Amount,
