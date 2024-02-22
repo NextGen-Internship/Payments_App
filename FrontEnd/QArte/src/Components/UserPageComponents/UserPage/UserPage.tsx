@@ -280,10 +280,21 @@ const UserPage = () => {
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <img
-              style={{ height: "225px", width: "225px", borderRadius: "50%" }}
-              src={User.pictureURL}
-              alt="userPicture"
+          <CardMedia
+              component="img"
+              sx={{
+                width: 180,
+                height: 180,
+                borderRadius: "50%",
+                marginRight: "20px",
+                objectFit: "cover",
+                "@media (max-width:600px)": {
+                  width: 140,
+                  height: 140,
+                },
+              }}
+              image={User.pictureURL}
+              alt="User Picture"
             />
           </div>
         </div>
