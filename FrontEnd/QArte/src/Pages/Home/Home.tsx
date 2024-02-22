@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -12,10 +12,11 @@ import {
   Dialog,
   IconButton,
   Box,
+  Slide,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 // import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css"; 
+// import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,11 +30,11 @@ const Home = () => {
     { title: "Los Angeles,US", img: "src/assets/la,us.webp" },
   ];
 
-  const owners = [
-    { name: "Owner 1", img: "src/assets/owner1.jpg", title: "Founder" },
-    { name: "Owner 2", img: "src/assets/owner2.jpg", title: "Co-Founder" },
-    { name: "Owner 3", img: "src/assets/owner3.jpg", title: "Co-Founder" },
-  ];
+  // const owners = [
+  //   { name: "Owner 1", img: "src/assets/owner1.jpg", title: "Founder" },
+  //   { name: "Owner 2", img: "src/assets/owner2.jpg", title: "Co-Founder" },
+  //   { name: "Owner 3", img: "src/assets/owner3.jpg", title: "Co-Founder" },
+  // ];
 
   const handleClickOpenImage = (img: any) => {
     setSelectedImg(img);
@@ -67,17 +68,36 @@ const Home = () => {
       }}
     >
       <Container>
-        <Typography variant="h2" component="h1" gutterBottom>
-          Welcome to QArté
-        </Typography>
-        <Typography variant="h5" sx={{ mb: 4, color: "grey" }}>
-          Explore the world of art and creativity
-        </Typography>
+        <Slide direction="down" in={checked} mountOnEnter unmountOnExit>
+          <Typography variant="h2" component="h1" gutterBottom>
+            Welcome to QArté
+          </Typography>
+        </Slide>
+        <Slide
+          direction="up"
+          in={checked}
+          mountOnEnter
+          unmountOnExit
+          timeout={500}
+        >
+          <Typography variant="h5" sx={{ mb: 4, color: "grey" }}>
+            Explore the world of art and creativity
+          </Typography>
+        </Slide>
         <Button
           variant="contained"
           color="primary"
           onClick={handleVideoOpen}
-          sx={{ py: 1, px: 3, mt: 2 }}
+          sx={{
+            py: 1,
+            px: 3,
+            mt: 2,
+            background: "#ffeef2",
+            color: "black",
+            "&:hover": {
+              backgroundColor: "theColorYouWantOnHover",
+            },
+          }}
         >
           Watch Video
         </Button>
@@ -85,14 +105,25 @@ const Home = () => {
     </Box>
   );
 
-  // const handleVideoOpen = () => {
-  //   setVideoOpen(true);
-  // };
+  const [checked, setChecked] = useState(false);
 
-  // const handleVideoClose = () => {
-  //   setVideoOpen(false);
-  // };
+  useEffect(() => {
+    setChecked(true);
+  }, []);
+
+  // useEffect(() => {
+  //   // Check if the animation has already been played by looking for a flag in sessionStorage
+  //   const animationPlayed = sessionStorage.getItem("animationPlayed");
+
+  //   if (!animationPlayed) {
+  //     setChecked(true);
+  //     // Set a flag in sessionStorage to indicate the animation has been played
+  //     sessionStorage.setItem("animationPlayed", "true");
+  //   }
+  // }, []);
+
   return (
+    //<Box sx={{ bgcolor: "#ffeef2", minHeight: "100vh" }}>
     <Container maxWidth="lg">
       <HeroSection />
       <Typography variant="h4" sx={{ mt: 5, mb: 3 }}>
@@ -211,7 +242,7 @@ const Home = () => {
         <Typography variant="h4" gutterBottom>
           About Us
         </Typography>
-        <Typography sx={{ marginBottom: "40px" }}>
+        <Typography sx={{ marginBottom: "40px", color: "black" }}>
           QArté is a platform dedicated to showcasing the beauty and diversity
           of art from around the world. Whether you are an artist looking to
           share your work or an art lover eager to discover new pieces, Artistic
@@ -234,7 +265,7 @@ const Home = () => {
           a larger story of human creativity.
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {owners.map((owner, index) => (
+          {/* {owners.map((owner, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card sx={{ maxWidth: 345, mx: "auto" }}>
                 <CardMedia
@@ -253,220 +284,12 @@ const Home = () => {
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          ))} */}
         </Grid>
       </Container>
     </Container>
+    //</Box>
   );
 };
 
 export default Home;
-
-// const Home = () => {
-//   const navigate = useNavigate();
-//   const [open, setOpen] = useState(false);
-//   const [selectedImg, setSelectedImg] = useState(null);
-//   const [videoOpen, setVideoOpen] = useState(false);
-
-//   const artworks = [
-//     { title: "Sofia,Bulgaria", img: "src/assets/serdikaSofia.jpeg" },
-//     { title: "Paris,France", img: "src/assets/paris.jpeg" },
-//     { title: "Los Angeles,US", img: "src/assets/la,us.webp" },
-//   ];
-
-//   // const owners = [
-//   //   { name: "Owner 1", img: "src/assets/owner1.jpg", title: "Founder" },
-//   //   { name: "Owner 2", img: "src/assets/owner2.jpg", title: "Co-Founder" },
-//   //   { name: "Owner 3", img: "src/assets/owner3.jpg", title: "Co-Founder" },
-//   // ];
-
-//   const handleClickOpen = (img: any) => {
-//     setSelectedImg(img);
-//     setOpen(true);
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   const HeroSection = () => (
-//     <Box
-//       sx={{
-//         position: "relative",
-//         height: "50vh",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         backgroundImage: "url(path-to-your-hero-background.jpg)",
-//         backgroundSize: "cover",
-//         backgroundPosition: "center",
-//         color: "#fff",
-//       }}
-//     >
-//       <Container>
-//         <Typography variant="h2" component="h1" gutterBottom>
-//           Welcome to QArté
-//         </Typography>
-//         <Typography variant="h5" sx={{ mb: 4, color: "grey" }}>
-//           Explore the world of art and creativity
-//         </Typography>
-//         <Button
-//           variant="contained"
-//           color="primary"
-//           onClick={() => navigate("/explore")}
-//           sx={{
-//             py: 1,
-//             px: 3,
-//             background: "lightgray",
-//             "&:hover": {
-//               backgroundColor: "#b0b0b0",
-//             },
-//             color: "black",
-//           }}
-//         >
-//           Explore now
-//         </Button>
-//       </Container>
-//     </Box>
-//   );
-
-//   const handleVideoOpen = () => {
-//     setVideoOpen(true);
-//   };
-
-//   const handleVideoClose = () => {
-//     setVideoOpen(false);
-//   };
-//   return (
-//     <Container maxWidth="lg">
-//       <HeroSection />
-//       <Typography variant="h4" sx={{ mt: 5, mb: 3 }}>
-//         Featured Artworks
-//       </Typography>
-//       <Grid container spacing={4}>
-//         {artworks.map((artwork, index) => (
-//           <Grid item xs={12} sm={6} md={4} key={index}>
-//             <Card
-//               sx={{
-//                 maxWidth: 345,
-//                 mx: "auto",
-//                 overflow: "hidden",
-//                 transition: "0.3s",
-//                 "&:hover": {
-//                   transform: "scale(1.05)",
-//                   boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-//                 },
-//               }}
-//             >
-//               <CardActionArea onClick={() => handleClickOpen(artwork.img)}>
-//                 <CardMedia
-//                   component="img"
-//                   height="140"
-//                   image={artwork.img}
-//                   alt={artwork.title}
-//                   sx={{
-//                     objectFit: "cover",
-//                     width: "100%",
-//                     transition: "transform 0.5s ease-in-out",
-//                     "&:hover": {
-//                       transform: "scale(2.0)",
-//                     },
-//                   }}
-//                 />
-//                 <CardContent
-//                   style={{
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     justifyContent: "space-between",
-//                     minHeight: 10,
-//                   }}
-//                 >
-//                   <Typography gutterBottom variant="h5" component="div">
-//                     {artwork.title}
-//                   </Typography>
-//                 </CardContent>
-//               </CardActionArea>
-//             </Card>
-//           </Grid>
-//         ))}
-//       </Grid>
-
-//       <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         aria-labelledby="image-viewer"
-//         maxWidth="lg"
-//         fullWidth
-//         sx={{
-//           "& .MuiDialog-paper": {
-//             maxWidth: "90%",
-//             maxHeight: "90%",
-//             backgroundColor: "transparent",
-//             boxShadow: "none",
-//           },
-//         }}
-//       >
-//         <IconButton
-//           aria-label="close"
-//           onClick={handleClose}
-//           sx={{
-//             position: "absolute",
-//             right: 8,
-//             top: 8,
-//             color: (theme) => theme.palette.grey[500],
-//           }}
-//         >
-//           <CloseIcon />
-//         </IconButton>
-//         <img
-//           src={selectedImg}
-//           alt="Fullscreen Art"
-//           style={{
-//             width: "100%",
-//             height: "auto",
-//             maxHeight: "100vh",
-//             display: "block",
-//             margin: "auto",
-//           }}
-//         />
-//       </Dialog>
-
-//       {/* About Section */}
-//       <Container sx={{ my: 5 }}>
-//         <Typography variant="h4" gutterBottom>
-//           About Us
-//         </Typography>
-//         <Typography>
-//           QArté is a platform dedicated to showcasing the beauty and diversity
-//           of art from around the world. Whether you are an artist looking to
-//           share your work or an art lover eager to discover new pieces, Artistic
-//           offers a space to connect, explore, and inspire.
-//         </Typography>
-//         {/* <Grid container spacing={4} justifyContent="center">
-//           {owners.map((owner, index) => (
-//             <Grid item xs={12} sm={6} md={4} key={index}>
-//               <Card sx={{ maxWidth: 345, mx: "auto" }}>
-//                 <CardMedia
-//                   component="img"
-//                   height="300" // Adjust the height as needed
-//                   image={owner.img}
-//                   alt={owner.name}
-//                 />
-//                 <CardContent>
-//                   <Typography gutterBottom variant="h5" component="div">
-//                     {owner.name}
-//                   </Typography>
-//                   <Typography variant="body2" color="text.secondary">
-//                     {owner.title}
-//                   </Typography>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//           ))}
-//         </Grid> */}
-//       </Container>
-//     </Container>
-//   );
-// };
-
-// export default Home;

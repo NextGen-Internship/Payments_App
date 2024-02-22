@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
 import Home from "./Pages/Home/Home.js";
-import SignIn from "./Pages/SignIn/SignIn.js";
+import Login from "./Pages/SignIn/Login.js";
 import SignUp from "./Pages/SignUp/SignUp.js";
 import About from "./Pages/About/About.js";
 //import UserList from './Components/ExplorePage/ExplorePage.js';
@@ -29,10 +29,13 @@ function App() {
           <Route path="/stripe-checkout" element={<StripeCheckout />} />
           <Route path="/stripe-success" element={<SuccessPage />} />
           <Route path="/stripe-error" element={<ErrorPage />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           {/* <Route path="/register" element={<Register />} /> */}
-          <Route path="additionalInformation" element={<AditionalInformation/>} />
+          <Route
+            path="additionalInformation"
+            element={<AditionalInformation />}
+          />
           <Route path="/about" element={<About />} />
 
           {/* <Route path="/blog" element={<Blog />} /> */}

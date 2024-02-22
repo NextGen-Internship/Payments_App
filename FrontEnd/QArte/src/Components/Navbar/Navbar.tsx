@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/loginSlice";
 import { RootState } from "../../store/store";
 
-const pages = ["Home", "Explore", "SignIn", "SignUp"];
+const pages = ["Home", "Explore", "Login", "SignUp"];
 //const settings = ["Logout"];
 
 export function ResponsiveAppBar() {
@@ -56,7 +56,7 @@ export function ResponsiveAppBar() {
     // Add logic to navigate to the Profile page
     if (page === "Profile") {
       navigate("/profile");
-    } else if (page === "SignIn" || page === "SignUp") {
+    } else if (page === "Login" || page === "SignUp") {
       navigate(`/${page.toLowerCase()}`);
     } else {
       navigate(`/${page.toLowerCase()}`);
@@ -72,7 +72,7 @@ export function ResponsiveAppBar() {
     navigate("/signin");
   };
   return (
-    <AppBar position="static" sx={{ backgroundColor: "lightgrey" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
