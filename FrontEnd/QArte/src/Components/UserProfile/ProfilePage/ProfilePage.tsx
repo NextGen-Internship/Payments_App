@@ -374,53 +374,44 @@ const ProfilePage = () => {
     <div className="top-of-page">
       {/* User Info and SubPageLister Container */}
       <div style={{ textAlign: "center" }}>
-      <div style={{ textAlign: "start", marginLeft: '2%', marginTop: '2%' }}>
-            <Button ref={buttonRef} onClick={() => { onClickSettlementCycle() }}>Change settlement cycle</Button>
-            {ShowSettlementCycle && 
-                <div>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="settlementCycle"
-                    label="Settlement Cycle"
-                    name="settlementCycle"
-                    select
-                    size="small"
-                    sx={{ width: textFieldWidth }}
-                    value={settlementCycle}
-                    onChange={(e) => setSettlementCycle(e.target.value)}
-                    SelectProps={{
-                      IconComponent: () => null,
-                      native: false,
-                    }}
-                  >
-                    {settlementCycles.map((cycle, index) => (
-                      <MenuItem key={index} value={cycle}>
-                        {cycle}
-                        {currentSettlementCycle === cycle && (
-                          <CheckIcon style={{ marginLeft: 'auto' }} />
-                        )}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                    <div>
-                     <Button onClick={() => onSubmitChangedSettlementCycle()}>Submit</Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: '2%', marginTop: '2%' }}>
+        <div style={{ textAlign: "start", marginLeft: '2%'}}>
+              <Button ref={buttonRef} onClick={() => { onClickSettlementCycle() }}>Change settlement cycle</Button>
+              {ShowSettlementCycle && 
+                  <div>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="settlementCycle"
+                      label="Settlement Cycle"
+                      name="settlementCycle"
+                      select
+                      size="small"
+                      sx={{ width: textFieldWidth }}
+                      value={settlementCycle}
+                      onChange={(e) => setSettlementCycle(e.target.value)}
+                      SelectProps={{
+                        IconComponent: () => null,
+                        native: false,
+                      }}
+                    >
+                      {settlementCycles.map((cycle, index) => (
+                        <MenuItem key={index} value={cycle}>
+                          {cycle}
+                          {currentSettlementCycle === cycle && (
+                            <CheckIcon style={{ marginLeft: 'auto' }} />
+                          )}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                      <div>
+                      <Button onClick={() => onSubmitChangedSettlementCycle()}>Submit</Button>
 
-                    </div>
-                </div>
-            }
-        </div>
-        {/* User Image Container */}
-        <div
-          className="user-image-container"
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+                      </div>
+                  </div>
+              }
+          </div>
           <div
             className="delete-user-button"
             style={{ marginLeft: "auto", marginRight: "2%" }}
@@ -433,6 +424,18 @@ const ProfilePage = () => {
               Delete User
             </Button>
           </div>
+        </div>
+        {/* User Image Container */}
+        <div
+          className="user-image-container"
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+
           <div style={{ textAlign: "center" }}>
               <CardMedia
               component="img"
