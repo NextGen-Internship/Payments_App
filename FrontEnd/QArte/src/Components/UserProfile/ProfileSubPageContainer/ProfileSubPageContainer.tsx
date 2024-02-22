@@ -9,17 +9,11 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import './ProfileSubPageContainer.css';
 
 const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
-    const [ShowSettlementCycle, setShowSettlementCycle] = useState(false);
-    const [settlementCycle, setSettlementCycle] = useState("");
-    const [settlementCycles, setSettlementCycles] = useState(["Daily", "Weekly", "Monthly"]);
-    const [currentSettlementCycle, setCurrentSettlementCycle] = useState("");
 
 
     const [page,setPage] = useState({
@@ -123,6 +117,8 @@ const ProfileSubPageContainer = () =>{
         try{
             console.log("Fething QRCode");
             const respose = await fetch(`https://localhost:7191/api/Page/GetQRCode/${page.id}`);
+
+            alert("The QR code was sent to your email.")
         }catch(error){
             console.error("Error getting QRCODE");
         }
@@ -130,7 +126,7 @@ const ProfileSubPageContainer = () =>{
 
 
     return (
-        <div className="sub-page-container" style={{ width: '100%', position: 'relative' }}>
+        <div className="sub-page-container" style={{ width: '100%', position: 'relative',  display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div className="top-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
             <h1 style={{ marginLeft: '10%' }}>{page.pageName}</h1>
@@ -151,13 +147,13 @@ const ProfileSubPageContainer = () =>{
           </div>
           {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
           {page.galleryID !== "" && <ProfileUserGallery gallery={page.galleryID} />}
-          <div>
-            <div>
-            <Button onClick={GetQRCode}>Get Page QRCode</Button>
-            </div>
-
-
+          <div style={{ marginTop: '30px', position: 'relative'}}>
+            <Button 
+            variant="contained"
+            onClick={GetQRCode}>Get Page QRCode
+            </Button>
           </div>
+            
         </div>
       );
 };
