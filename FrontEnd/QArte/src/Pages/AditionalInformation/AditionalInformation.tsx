@@ -52,8 +52,8 @@ export default function AditionalInformation() {
   const [city, setCity] = useState<string>("");
   const [postalCode, setPostalCode] = useState<string>("");
   const [IBAN, setIBAN] = useState<string>("");
-  // const [settlementCycleID, setSettlementCycleID] = useState<string>("");
-  // const [paymentMethodEnum, setPaymentMethodEnum] = useState<string>("");
+  const [settlementCycle, setSettlementCycle] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
 
   //const [decodedToken, setDecodedToken] = useState("");
 
@@ -96,13 +96,13 @@ export default function AditionalInformation() {
         City: city,
         PostalCode: postalCode,
         IBAN: IBAN,
-        PhoneNumber: phoneNumber,
+        PhoneNumber: PhoneNumber,
         IsBanned: isBanned,
         RoleID: 0,
         BankAccountID: 0,
         StripeAccountID: "",
         PictureURL: picture,
-        SettlementCycleEnum: 0,
+        SettlementCycleEnum: parseInt(settlementCycle),
         SettlementCycleID: 0,
         PaymentMethodEnum: 0,
         RoleEnum: 0,
@@ -194,6 +194,16 @@ export default function AditionalInformation() {
               autoComplete="address"
               onChange={(e) => setAddress(e.target.value)}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="phoneNumber"
+              label="phoneNumber"
+              name="phoneNumber"
+              autoComplete="phoneNumber"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
             {/* Country */}
             <TextField
               margin="normal"
@@ -210,6 +220,7 @@ export default function AditionalInformation() {
               <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
+
             {/* City */}
             <TextField
               margin="normal"
@@ -242,6 +253,22 @@ export default function AditionalInformation() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
+            {/* SettlementCycle */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="settlementCycle"
+              label="settlementCycle"
+              name="settlementCycle"
+              select
+              value={settlementCycle}
+              onChange={(e) => setSettlementCycle(e.target.value)}
+            >
+              <MenuItem value="0">Daily</MenuItem>
+              <MenuItem value="1">Weekly</MenuItem>
+              <MenuItem value="2">Monthly</MenuItem>
+            </TextField>
             <FormControlLabel
               control={<Checkbox value="agree" color="primary" />}
               label="I agree to the terms and conditions"

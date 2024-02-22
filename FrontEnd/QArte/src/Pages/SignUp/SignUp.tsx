@@ -285,22 +285,7 @@ export default function SignUp() {
               <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
-            {/* SettlementCycle */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="settlementCycle"
-              label="settlementCycle"
-              name="settlementCycle"
-              select
-              value={settlementCycle}
-              onChange={(e) => setSettlementCycle(e.target.value)}
-            >
-              <MenuItem value="0">Daily</MenuItem>
-              <MenuItem value="1">Weekly</MenuItem>
-              <MenuItem value="2">Monthly</MenuItem>
-            </TextField>
+
 
             {/* City */}
             <TextField
@@ -334,6 +319,22 @@ export default function SignUp() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
+            {/* SettlementCycle */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="settlementCycle"
+              label="settlementCycle"
+              name="settlementCycle"
+              select
+              value={settlementCycle}
+              onChange={(e) => setSettlementCycle(e.target.value)}
+            >
+              <MenuItem value="0">Daily</MenuItem>
+              <MenuItem value="1">Weekly</MenuItem>
+              <MenuItem value="2">Monthly</MenuItem>
+            </TextField>
             <FormControlLabel
               control={<Checkbox value="agree" color="primary" />}
               label="I agree to the terms and conditions"
