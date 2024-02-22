@@ -85,6 +85,13 @@ export default function Login() {
         const token = response.data.data; // Token is directly in `Data`
         const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
 
+        const pictureUrl = response.data.picUrl;
+        if (pictureUrl) {
+          console.log("RESPONSE")
+          console.log(response.data.picUrl);
+          localStorage.setItem("userPictureUrl", pictureUrl);
+          dispatch(setAvatar(pictureUrl));
+        }
         if (token) {
           localStorage.setItem("token", token);
         } else {
@@ -115,7 +122,6 @@ export default function Login() {
     try {
       // Decode the token to get the user's info including the picture URL
       const decodedToken = jwtDecode(token);
-      const pictureUrl = decodedToken.picture;
       const response = await axios.post(
         "https://localhost:7191/api/Authentication/google-signIn",
         { token },
@@ -128,7 +134,10 @@ export default function Login() {
           localStorage.setItem("userId", response.data.userId.toString());
         }
 
+        const pictureUrl = response.data.picUrl;
         if (pictureUrl) {
+          console.log("RESPONSE")
+          console.log(response.data.picUrl);
           localStorage.setItem("userPictureUrl", pictureUrl);
           dispatch(setAvatar(pictureUrl));
         }
