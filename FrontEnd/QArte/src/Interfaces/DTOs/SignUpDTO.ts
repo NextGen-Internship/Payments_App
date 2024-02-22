@@ -16,8 +16,8 @@ interface SignUpDTO{
     BankAccountID: 0,
     stripeAccountID: "",
     PictureURL: string,
-    SettlementCycleEnum: 0,
-    SettlementCycleID: 0,
+    SettlementCycleEnum: number,
+    SettlementCycleID: number,
     paymentMethodEnum: 0,
     roleEnum: 0,
     pages: [
@@ -32,28 +32,3 @@ interface SignUpDTO{
       ]
 }
 export default SignUpDTO
-
-
-// interface SignUpDTO{
-//     ID:number;
-//     firstName:string;
-//     lastName:string;
-//     username:string
-//     Password:string;
-//     Email:string;
-//     pictureURL:string;
-//     phoneNumber:string;
-//     country:string;
-//     stripeAccountID:string;
-//     address:string;
-//     city:string;
-//     postalCode:string;
-//     IBAN:string;
-//     isBanned:boolean;
-//     roleID:number;
-//     bankAccountID:number;
-//     settlementCycleID:number;
-//     settlementCycleEnum:number;
-//     paymentMethodEnum:number;
-// }
-// export default SignUpDTO

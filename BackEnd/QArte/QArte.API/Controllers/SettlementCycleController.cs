@@ -35,7 +35,7 @@ namespace QArte.API.Controllers
         }
 
         //..
-        [HttpGet("GetByFeeID/{feeId}")]
+        [HttpGet("GetByID/{id}")]
         public async Task<ActionResult<PaymentMethodDTO>> GetByID(int id)
         {
             var query = new GetSettlementCycleByIDQuery(id);
