@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAvatar } from "../../store/loginSlice";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import SignIn from "../SignIn/SignIn";
+import SignIn from "../SignIn/Login.tsx";
 import { setLoggedIn } from "../../store/loginSlice.ts";
 
 const defaultTheme = createTheme();

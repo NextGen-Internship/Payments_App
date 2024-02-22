@@ -11,6 +11,8 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { Snackbar } from "@mui/material";
+import IconButton from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ApiService from "../../Services/ApiService";
 import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
@@ -39,6 +41,18 @@ export default function SignUp() {
   const [selectedCountry, setSelectedCountry] = useState("");
   //const [settlementCycleID, setSettlementCycleID] = useState("");
   //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const userService = new UserService(new ApiService());
   const navigate = useNavigate();
@@ -318,10 +332,10 @@ export default function SignUp() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="agree" color="primary" />}
               label="I agree to the terms and conditions"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
