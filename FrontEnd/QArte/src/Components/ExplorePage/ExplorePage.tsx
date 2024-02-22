@@ -76,9 +76,7 @@ const ExplorePage = () => {
       <ul>
         {filteredUsers.map((user: any, index: number) => (
           <li key={index} style={{ listStyle: "none" }}>
-            <NavLink to={`${user.id}`} style={{ textDecoration: "none" }}>
               <OutlinedCard user={user} />
-            </NavLink>
           </li>
         ))}
       </ul>

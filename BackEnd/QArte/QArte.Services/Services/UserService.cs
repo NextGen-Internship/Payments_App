@@ -495,6 +495,7 @@ namespace QArte.Services.Services
         public async Task<UserDTO> FindByEmailAsync(string email)
         {
             var model = await _qarteDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+
             if(model == null)
             {
                 return new UserDTO
@@ -523,7 +524,20 @@ namespace QArte.Services.Services
                     Pages = { },
                 };
             }
-            return model?.GetDTO();
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            GetPreSignedUrlRequest getPreSignedUrlRequest = new GetPreSignedUrlRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = model.PictureUrl,
+                Expires = DateTime.UtcNow.AddMinutes(1)
+            };
+            var response = client.GetPreSignedURL(getPreSignedUrlRequest);
+            UserDTO userDTO = model.GetDTO();
+            userDTO.PictureURL = response;
+
+
+            return userDTO;
         }
 
         //here it should be User user or UserDTO user???
@@ -538,6 +552,22 @@ namespace QArte.Services.Services
 
             return result;
 
+        }
+
+        public string GetProfilePictureByUser(UserDTO user)
+        {
+
+            var region = RegionEndpoint.EUCentral1;
+            AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
+            GetPreSignedUrlRequest getPreSignedUrlRequest = new GetPreSignedUrlRequest
+            {
+                BucketName = _amazonData.BucketName,
+                Key = user.PictureURL,
+                Expires = DateTime.UtcNow.AddMinutes(2)
+            };
+            var response = client.GetPreSignedURL(getPreSignedUrlRequest);
+
+            return response;
         }
     }
 }

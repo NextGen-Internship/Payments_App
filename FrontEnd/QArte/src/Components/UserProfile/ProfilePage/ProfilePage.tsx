@@ -14,9 +14,13 @@ import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import CardMedia from "@mui/material/CardMedia";
+import { useDispatch, useSelector } from "react-redux";
+import { setAvatar } from "../../../store/loginSlice";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import CheckIcon from '@mui/icons-material/Check';
+
 
 const ProfilePage = () => {
   const Uid = localStorage.getItem("userId");
@@ -34,6 +38,7 @@ const ProfilePage = () => {
 
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -241,10 +246,18 @@ const ProfilePage = () => {
         console.error("Failed to add page:", data);
         throw new Error(`Failed to add page. Status: ${response.status}`);
       }
+      
       const res = await fetchUserID();
       setUser(res);
       console.log("Page added successfully:", data);
       console.log("THe full data", res);
+      const pictureUrl = res.pictureURL;
+      if (pictureUrl) {
+        console.log("RESPONSE")
+        console.log(response);
+        localStorage.setItem("userPictureUrl", pictureUrl);
+        dispatch(setAvatar(pictureUrl));
+      }
     } catch (error) {
       console.error("Error adding page:", error);
     }
@@ -416,10 +429,21 @@ const ProfilePage = () => {
             </Button>
           </div>
           <div style={{ textAlign: "center" }}>
-            <img
-              style={{ height: "225px", width: "225px", borderRadius: "50%" }}
-              src={User.pictureURL}
-              alt="userPicture"
+              <CardMedia
+              component="img"
+              sx={{
+                width: 180,
+                height: 180,
+                borderRadius: "50%",
+                marginRight: "20px",
+                objectFit: "cover",
+                "@media (max-width:600px)": {
+                  width: 140,
+                  height: 140,
+                },
+              }}
+              image={User.pictureURL}
+              alt="User Picture"
             />
           </div>
           <div className="Edit-user-image">

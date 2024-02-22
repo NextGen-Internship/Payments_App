@@ -81,6 +81,13 @@ export default function SignIn() {
       if (response.succeed) {
         dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
         dispatch(setUser(response.data)); // Save user data into Redux
+        const pictureUrl = response.data.picUrl;
+        if (pictureUrl) {
+          console.log("RESPONSE")
+          console.log(response.data.picUrl);
+          localStorage.setItem("userPictureUrl", pictureUrl);
+          dispatch(setAvatar(pictureUrl));
+        }
 
         const token = response.data.data; // Token is directly in `Data`
         const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
@@ -115,7 +122,7 @@ export default function SignIn() {
     try {
       // Decode the token to get the user's info including the picture URL
       const decodedToken = jwtDecode(token);
-      const pictureUrl = decodedToken.picture;
+      
       const response = await axios.post(
         "https://localhost:7191/api/Authentication/google-signIn",
         { token },
@@ -127,8 +134,10 @@ export default function SignIn() {
         if (response.data.userId) {
           localStorage.setItem("userId", response.data.userId.toString());
         }
-
+        const pictureUrl = response.data.picUrl;
         if (pictureUrl) {
+          console.log("RESPONSE")
+          console.log(response);
           localStorage.setItem("userPictureUrl", pictureUrl);
           dispatch(setAvatar(pictureUrl));
         }

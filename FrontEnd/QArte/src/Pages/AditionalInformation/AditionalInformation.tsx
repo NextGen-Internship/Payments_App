@@ -139,6 +139,13 @@ export default function AditionalInformation() {
           dispatch(setLoggedIn(true));
           localStorage.setItem("userId", response.data.id.toString());
           //localStorage.setItem("userPictureUrl", picture);
+          const pictureUrl = response.data.picUrl;
+          if (pictureUrl) {
+            console.log("RESPONSE")
+            console.log(response);
+            localStorage.setItem("userPictureUrl", pictureUrl);
+            dispatch(setAvatar(pictureUrl));
+          }
           navigate("/home");
         }
       } else {
