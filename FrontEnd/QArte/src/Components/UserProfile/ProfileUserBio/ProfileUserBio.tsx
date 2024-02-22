@@ -2,6 +2,8 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import './ProfileUserBio.css';
 
 
@@ -12,6 +14,8 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
   const [editMode, setEditMode] = useState(false);
   const [textareaBioHeight, setTextareaBioHeight] = useState('auto');
   const [textareaNameHeight, setTextareaNameHeight] = useState('auto');
+  const [correctName,SetCorrectName] = useState("");
+  const [correctBio,SetCorrectBio] = useState("");
 
   useEffect(() => {
       setBio(page?.bio || ''); 
@@ -34,28 +38,27 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
     }
   }, [editMode, name]);
 
+  const validateText = (text:string):boolean=>{
+    return text!="";
+  }
 
   const onSubmit = (e: any) => {
-    setEditMode(false);
-      e.preventDefault();
-      if (!bio) {
-          alert("Add bio");
-          return;
-      }
+    
+    //Fix this!
 
-      if(!name)
-      {
-        alert("Add name");
-        return;
-      }
-      callPageChange({
+    let isValid = true;
+
+      if(isValid){
+        callPageChange({
           page,
           bio,
           name
       });
-
+      setEditMode(false);
       setBio('');
       setName('');
+      }
+
   }
 
   const changeEditMode = () => 
@@ -65,13 +68,14 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
   
   return (
     editMode ? (
-      <div className="input-container">
+      <Box className="input-container" component="form" onSubmit={onSubmit}>
         
         <textarea
           id="nameTextarea"
           defaultValue={page.pageName}
           style={{ height: textareaNameHeight, resize: 'vertical' }}
           onChange={(e) => {setName(e.target.value)}}
+          required={true}
         />
 
         <textarea
@@ -79,13 +83,15 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
           defaultValue={bio}
           style={{ height: textareaBioHeight, resize: 'vertical' }}
           onChange={(e) => {setBio(e.target.value)}}
+          required={true}
+
         />
         <div style={{ marginTop: '10px' }}> {/* Add some margin */}
           <Button variant="outlined" onClick={changeEditMode}>Cancel</Button>
           {' '}
-          <Button variant="contained" color="primary" onClick={onSubmit}>OK</Button>
+          <Button variant="contained" type="submit" color="primary">OK</Button>
         </div>
-      </div>
+      </Box>
     ) : (
       <div className="my-container" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
         <p>{bio}</p>

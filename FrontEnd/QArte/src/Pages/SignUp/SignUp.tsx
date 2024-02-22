@@ -29,16 +29,16 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  // const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [IBAN, setIBAN] = useState("");
-  //const [PhoneNumber, setPhoneNumber] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [settlementCycle, setSettlementCycle] = useState("");
   //const [settlementCycleID, setSettlementCycleID] = useState("");
   //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
 
@@ -77,7 +77,6 @@ export default function SignUp() {
 
     const isBanned = false;
     const roleID = 0;
-    const phoneNumber = "+359888940130";
     const pictureURL = "";
     //const bankAccountID = 4;
     //const stripeAccountID = "BG80BNBG96611020345678";
@@ -116,13 +115,13 @@ export default function SignUp() {
           City: city,
           postalCode: postalCode,
           IBAN: IBAN,
-          PhoneNumber: phoneNumber,
+          PhoneNumber: PhoneNumber,
           isBanned: isBanned,
           RoleID: 0,
           BankAccountID: 0,
           stripeAccountID: "",
           PictureURL: pictureURL,
-          SettlementCycleEnum: 0,
+          SettlementCycleEnum: parseInt(settlementCycle),
           SettlementCycleID: 0,
           paymentMethodEnum: 0,
           roleEnum: 0,
@@ -264,7 +263,7 @@ export default function SignUp() {
               onChange={(e) => setLastName(e.target.value)}
             />
             {/* PhoneNumber */}
-            {/* <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -273,7 +272,7 @@ export default function SignUp() {
               name="phoneNumber"
               autoComplete="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
-            /> */}
+            />
             <TextField
               margin="normal"
               required
@@ -300,6 +299,7 @@ export default function SignUp() {
               <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
+
             {/* City */}
             <TextField
               margin="normal"
@@ -332,10 +332,23 @@ export default function SignUp() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="agree" color="primary" />}
-              label="I agree to the terms and conditions"
-            /> */}
+
+            {/* SettlementCycle */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="settlementCycle"
+              label="settlementCycle"
+              name="settlementCycle"
+              select
+              value={settlementCycle}
+              onChange={(e) => setSettlementCycle(e.target.value)}
+            >
+              <MenuItem value="0">Daily</MenuItem>
+              <MenuItem value="1">Weekly</MenuItem>
+              <MenuItem value="2">Monthly</MenuItem>
+            </TextField>
             <Button
               type="submit"
               fullWidth

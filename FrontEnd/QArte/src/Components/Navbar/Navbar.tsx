@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -79,7 +79,7 @@ export function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#"
+            href="/home"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -90,7 +90,8 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            QArté
+            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
+            
           </Typography>
           {/* mobile version */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -200,6 +201,7 @@ export function ResponsiveAppBar() {
             ))}
           </Box>
 
+          {isLoggedIn&&
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -236,7 +238,7 @@ export function ResponsiveAppBar() {
                 </MenuItem>
               )}
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>

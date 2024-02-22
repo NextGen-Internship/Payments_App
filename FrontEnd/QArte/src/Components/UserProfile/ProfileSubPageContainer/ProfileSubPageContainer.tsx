@@ -9,11 +9,19 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 import './ProfileSubPageContainer.css';
 
 const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
+    const [ShowSettlementCycle, setShowSettlementCycle] = useState(false);
+    const [settlementCycle, setSettlementCycle] = useState("");
+    const [settlementCycles, setSettlementCycles] = useState(["Daily", "Weekly", "Monthly"]);
+    const [currentSettlementCycle, setCurrentSettlementCycle] = useState("");
+
+
     const [page,setPage] = useState({
         id:'',
         pageName:'',
@@ -144,10 +152,16 @@ const ProfileSubPageContainer = () =>{
           {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
           {page.galleryID !== "" && <ProfileUserGallery gallery={page.galleryID} />}
           <div>
+            <div>
             <Button onClick={GetQRCode}>Get Page QRCode</Button>
+            </div>
+
+
           </div>
         </div>
       );
 };
 
 export default ProfileSubPageContainer;
+
+

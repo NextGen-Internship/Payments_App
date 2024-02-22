@@ -29,6 +29,7 @@ const PageAdd = ({ onAdd }: any) => {
                             name="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            required={true}
                             style={{ marginBottom: '8px' }}
                         />
                     </Grid>
@@ -42,6 +43,7 @@ const PageAdd = ({ onAdd }: any) => {
                             name="bio"
                             value={bio}
                             onChange={(e) => setBio(e.target.value)}
+                            required={true}
                             style={{ marginBottom: '16px' }}
                         />
                     </Grid>

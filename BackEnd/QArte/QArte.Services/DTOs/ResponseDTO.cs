@@ -12,6 +12,7 @@ namespace QArte.Services.DTOs
         public string? Message { get; set; }
         public T? Data { get; set; }
         public int ID { get; set; }
+        public string? picUrl { get; set; }
     }
 }
 //new
