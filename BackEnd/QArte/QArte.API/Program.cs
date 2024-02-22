@@ -66,10 +66,10 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<QArteDBContext>(
                options => options.UseSqlServer(connectionString));
 
-builder.Services.AddTransient<IStripeService, QArte.Services.Services.StripeService>();
-builder.Services.AddTransient<IQRCodeGeneratorService, QArte.Services.Services.QRCodeGeneratorService>();
-builder.Services.AddTransient<IPictureService, PictureService>();
-builder.Services.AddSingleton<IAmazonData, QArte.Services.Services.AmazonData>();
+//builder.Services.AddTransient<IStripeService, QArte.Services.Services.StripeService>();
+//builder.Services.AddTransient<IQRCodeGeneratorService, QArte.Services.Services.QRCodeGeneratorService>();
+//builder.Services.AddTransient<IPictureService, PictureService>();
+//builder.Services.AddSingleton<IAmazonData, QArte.Services.Services.AmazonData>();
 
 
 builder.Services.AddTransient<IStripeService,QArte.Services.Services.StripeService>();
@@ -90,15 +90,9 @@ builder.Services.AddTransient<IUserService, QArte.Services.Services.UserService>
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<ITokennService, TokennService>();
 
-//builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
+
 
 builder.Services.AddMediatR(typeof(Program));
-
-//builder.Services.AddQuartz(q =>
-//{
-//    q.AddJobAndTrigger<PayoutSchedulerService>(builder.Configuration);
-//});
-//builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
 builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
 
@@ -114,7 +108,6 @@ builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComple
 
 builder.Services.AddSqlServer<QArteDBContext>(connectionString);
 
-//cors?
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("QarteApp", policyBuilder =>
