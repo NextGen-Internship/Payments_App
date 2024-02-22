@@ -332,7 +332,6 @@ export default function SignUp() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
-
             {/* SettlementCycle */}
             <TextField
               margin="normal"
@@ -349,6 +348,7 @@ export default function SignUp() {
               <MenuItem value="1">Weekly</MenuItem>
               <MenuItem value="2">Monthly</MenuItem>
             </TextField>
+
             <Button
               type="submit"
               fullWidth
