@@ -15,6 +15,8 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
+import { useDispatch, useSelector } from "react-redux";
+import { setAvatar } from "../../../store/loginSlice";
 
 const ProfilePage = () => {
   const Uid = localStorage.getItem("userId");
@@ -26,6 +28,7 @@ const ProfilePage = () => {
   const [selectedPage, setSelectedPage] = useState<number | null>(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -201,10 +204,18 @@ const ProfilePage = () => {
         console.error("Failed to add page:", data);
         throw new Error(`Failed to add page. Status: ${response.status}`);
       }
+      
       const res = await fetchUserID();
       setUser(res);
       console.log("Page added successfully:", data);
       console.log("THe full data", res);
+      const pictureUrl = res.pictureURL;
+      if (pictureUrl) {
+        console.log("RESPONSE")
+        console.log(response);
+        localStorage.setItem("userPictureUrl", pictureUrl);
+        dispatch(setAvatar(pictureUrl));
+      }
     } catch (error) {
       console.error("Error adding page:", error);
     }

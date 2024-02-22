@@ -53,8 +53,8 @@ namespace QArte.Services.Services
                     Succeed = true,
                     Message = "Successfull login.",
                     Data = jwtToken,
-                    ID = user.ID
-                    
+                    ID = user.ID,
+                    picUrl = user.PictureURL
                 };
             }
             return new Response<string>

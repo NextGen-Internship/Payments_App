@@ -22,5 +22,6 @@ namespace QArte.Services.ServiceInterfaces
         Task<UserDTO> FindByEmailAsync(string email);
         bool CheckByPasswordSignIn(UserDTO user, string password);
         //Task<List<UserDTO>> GetBySettlementCycle(string settlementCycle);
+        string GetProfilePictureByUser(UserDTO user);
     }
 }

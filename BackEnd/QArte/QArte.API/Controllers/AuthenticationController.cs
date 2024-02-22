@@ -70,11 +70,11 @@ namespace QArte.API.Controllers
                 if(existingUser.Email == "")
                 {
                     //add and the id of the user from DB
-                    return Ok(new { UserExists = false, Token = jwtToken, UserId = existingUser.ID});
+                    return Ok(new { UserExists = false, Token = jwtToken, UserId = existingUser.ID, picUrl = existingUser.PictureURL});
                 }
                 else
                 {
-                    return Ok(new { UserExists = true, Token = jwtToken, UserId = existingUser.ID });
+                    return Ok(new { UserExists = true, Token = jwtToken, UserId = existingUser.ID, picUrl = existingUser.PictureURL });
                 }
                 //var successResponse = new Response<string>()
                 //{
@@ -115,6 +115,7 @@ namespace QArte.API.Controllers
                     Message = "Successfull.",
                     Data = jwtToken,
                     ID = createUserResponse.ID,
+                    picUrl = _userService.GetProfilePictureByUser(createUserResponse)
                 };
 
                 if (createUserResponse.ID == 0)
