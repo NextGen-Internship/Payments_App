@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 //import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../../store/loginSlice";
+import { clearUser, setLoggedIn } from "../../store/loginSlice";
 import { RootState } from "../../store/store";
 
 const pages = ["Home", "Explore", "Login", "SignUp"];
@@ -65,6 +65,9 @@ export function ResponsiveAppBar() {
 
   const handleLogout = () => {
     dispatch(clearUser());
+
+    setAnchorElUser(null);
+  
     localStorage.removeItem("token");
     localStorage.removeItem("googleToken");
     localStorage.removeItem("userPictureUrl");
@@ -201,8 +204,9 @@ export function ResponsiveAppBar() {
             ))}
           </Box>
 
-          {isLoggedIn&&
+          
           <Box sx={{ flexGrow: 0 }}>
+          {isLoggedIn&&
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
@@ -210,11 +214,12 @@ export function ResponsiveAppBar() {
                   src={userImage || "/static/images/avatar/2.jpg"}
                 />
               </IconButton>
-            </Tooltip>
+            </Tooltip>}
+            {anchorElUser&&
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
-              anchorEl={anchorElUser}
+             
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -227,18 +232,16 @@ export function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {isLoggedIn && (
                 <MenuItem onClick={() => navigate("/profile")}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-              )}
-              {isLoggedIn && (
+    
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              )}
-            </Menu>
-          </Box>}
+        
+            </Menu>}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
