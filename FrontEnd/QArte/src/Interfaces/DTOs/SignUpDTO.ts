@@ -16,8 +16,8 @@ interface SignUpDTO{
     BankAccountID: 0,
     stripeAccountID: "",
     PictureURL: string,
-    SettlementCycleEnum: 0,
-    SettlementCycleID: 0,
+    SettlementCycleEnum: number,
+    SettlementCycleID: number,
     paymentMethodEnum: 0,
     roleEnum: 0,
     pages: [

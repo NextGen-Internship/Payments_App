@@ -36,6 +36,7 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [settlementCycle, setSettlementCycle] = useState("");
   //const [settlementCycleID, setSettlementCycleID] = useState("");
   //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
 
@@ -106,7 +107,7 @@ export default function SignUp() {
           BankAccountID: 0,
           stripeAccountID: "",
           PictureURL: pictureURL,
-          SettlementCycleEnum: 0,
+          SettlementCycleEnum: parseInt(settlementCycle),
           SettlementCycleID: 0,
           paymentMethodEnum: 0,
           roleEnum: 0,
@@ -284,6 +285,23 @@ export default function SignUp() {
               <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
+            {/* SettlementCycle */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="settlementCycle"
+              label="settlementCycle"
+              name="settlementCycle"
+              select
+              value={settlementCycle}
+              onChange={(e) => setSettlementCycle(e.target.value)}
+            >
+              <MenuItem value="0">Daily</MenuItem>
+              <MenuItem value="1">Weekly</MenuItem>
+              <MenuItem value="2">Monthly</MenuItem>
+            </TextField>
+
             {/* City */}
             <TextField
               margin="normal"
