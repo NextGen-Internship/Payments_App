@@ -90,7 +90,8 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            QArté
+            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
+            
           </Typography>
           {/* mobile version */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
