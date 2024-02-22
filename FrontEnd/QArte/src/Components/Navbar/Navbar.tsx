@@ -69,7 +69,7 @@ export function ResponsiveAppBar() {
     localStorage.removeItem("googleToken");
     localStorage.removeItem("userPictureUrl");
     localStorage.removeItem("userId");
-    navigate("/signin");
+    navigate("/home");
   };
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
