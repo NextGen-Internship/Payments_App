@@ -50,6 +50,11 @@ const ProfilePage = () => {
         setUser(userFromServer);
         setPages(pagesFromServer);
         setCurrentSettlementCycle(userSettlementCycle);
+
+        if(pagesFromServer.length > 0)
+        {
+            setSelectedPage(pagesFromServer[0].id);
+        }
       } catch (error) {
         console.error("Error fetching user data!", error);
       }

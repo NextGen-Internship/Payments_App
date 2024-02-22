@@ -30,7 +30,7 @@ const UserPage = () => {
   const [showAddPage, setAddPage] = useState(false);
   const [User, setUser] = useState<any>({});
   const [Upages, setPages] = useState<any>([]);
-  const [selectedPage, setSelectedPage] = useState<number | null>(null);
+  const [selectedPage, setSelectedPage] = useState<number | null>();
 
   const navigate = useNavigate();
 
@@ -42,6 +42,10 @@ const UserPage = () => {
         const pagesFromServer = await fetchPages(userFromServer.id);
         setUser(userFromServer);
         setPages(pagesFromServer);
+        if(pagesFromServer.length > 0)
+        {
+          setSelectedPage(pagesFromServer[0].id);
+        }
       } catch (error) {
         console.error("Error fetching user data!", error);
       }
