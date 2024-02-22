@@ -51,11 +51,10 @@ namespace QArte.Services.Services
         public async Task<SettlementCycleDTO> UpdateAsync(int id, SettlementCycleDTO obj)
         {
             var settlementCycle = await _qArteDBContext.SettlementCycles
-                        .Include(x => x.SettlementCycles)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new AppException("Not found");
 
-            settlementCycle.ID = obj.ID;
+            settlementCycle.SettlementCycles = obj.SettlementCycles;
             await _qArteDBContext.SaveChangesAsync();
 
             return settlementCycle.GetDTO();
