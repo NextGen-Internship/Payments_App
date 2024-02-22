@@ -17,6 +17,8 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, setLoggedIn } from "../../store/loginSlice";
 import { RootState } from "../../store/store";
+import Logo from "../../assets/QArte_BO.webp";
+import './Navbar.css'
 
 const pages = ["Home", "Explore", "Login", "SignUp"];
 //const settings = ["Logout"];
@@ -93,7 +95,8 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
+            <img src="src/assets/QArte_BO.webp" />
+            <NavLink to="/home" style={{textDecoration:"none", color:"black", marginTop:"18%"}}>QArté</NavLink>
             
           </Typography>
           {/* mobile version */}
@@ -163,7 +166,10 @@ export function ResponsiveAppBar() {
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <img
+            className="Q"
+            src="src/assets/QArte_BO.webp"
+          />
           <Typography
             variant="h5"
             noWrap
