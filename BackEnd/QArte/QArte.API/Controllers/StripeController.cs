@@ -20,15 +20,15 @@ namespace QArte.API.Controllers
         private readonly IUserService _userService;
         private readonly IFeeService _feeService;
         private readonly IBankAccountService _bankAccountService;
-        private readonly ISettlementCycleService _settlementCycleService;
+        private readonly IConfiguration _configuration;
 
-        public StripeController(IStripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, ISettlementCycleService settlementCycleService)
+        public StripeController(IStripeService stripeService, IUserService userService, IFeeService feeService, IBankAccountService bankAccountService, IConfiguration configuration)
         {
             _stripeService = stripeService;
             _userService = userService;
             _feeService = feeService;
             _bankAccountService = bankAccountService;
-            _settlementCycleService = settlementCycleService;
+            _configuration = configuration;
         }
 
 
@@ -76,14 +76,12 @@ namespace QArte.API.Controllers
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            const string secret = "whsec_b30a7f6c8cec8ac6e15fcea10853be0a4cf663ecc3b638827bca61a73aafbd86";
-
             try
             {
                 var stripeEvent = EventUtility.ConstructEvent(
                     json,
                     Request.Headers["Stripe-Signature"],
-                    secret
+                    _configuration["Stripe:StripeWebhookSecret"]
                     );
 
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
@@ -100,10 +98,12 @@ namespace QArte.API.Controllers
 
                     var userBankAccount = await _bankAccountService.GetByIDAsync(userToTransferMoneyTo.BankAccountID);
 
+                    var feeAmount = long.Parse(_configuration["FeeAmount"]);
+
                     FeeDTO newFee = new FeeDTO()
                     {
                         ID = 0,
-                        Amount = 10,
+                        Amount = feeAmount,
                         Currency = currency,
                         ExchangeRate = 1.0,
                     };
