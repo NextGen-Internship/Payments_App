@@ -35,7 +35,8 @@ const ProfilePage = () => {
   const [settlementCycles, setSettlementCycles] = useState(["Daily", "Weekly", "Monthly"]);
   const [currentSettlementCycle, setCurrentSettlementCycle] = useState("");
   const [textFieldWidth, setTextFieldWidth] = useState<string>("auto");
-
+  const [usernameEditMode, setUsernameEditMode] = useState(false);
+  const [userName, setUserName] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const ProfilePage = () => {
         setUser(userFromServer);
         setPages(pagesFromServer);
         setCurrentSettlementCycle(userSettlementCycle);
+        setUserName(userFromServer.username)
 
         if(pagesFromServer.length > 0)
         {
@@ -285,6 +287,7 @@ const ProfilePage = () => {
     }
   };
 
+
   const DeleteUser = async () => {
     try {
       console.log("Deleting user: " + User.id);
@@ -370,6 +373,19 @@ const ProfilePage = () => {
     }
   }
 
+  const changeUsernameEditMode = () => 
+  {
+    setUsernameEditMode(!usernameEditMode);
+  
+  }
+
+  const handleSubmitChangeUsername = () => 
+  {
+    
+    console.log(userName);
+
+  }
+
   return (
     <div className="top-of-page">
       {/* User Info and SubPageLister Container */}
@@ -407,7 +423,6 @@ const ProfilePage = () => {
                     </TextField>
                       <div>
                       <Button onClick={() => onSubmitChangedSettlementCycle()}>Submit</Button>
-
                       </div>
                   </div>
               }
@@ -477,13 +492,50 @@ const ProfilePage = () => {
 
         {/* User Details */}
         <div className="user-details" style={{ marginTop: "10px" }}></div>
-
+        
         <Typography
           variant="h4"
           component="div"
           style={{ marginBottom: "10px" }}
         >
-          {User.username}
+          {usernameEditMode ? (
+            <>
+            <Input
+              value={userName}
+              onChange={(e) => setUserName( e.target.value )}
+            />
+            <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmitChangeUsername}
+          >
+            Submit
+          </Button>
+
+          <IconButton
+          size="small"
+          title="Edit username"
+          component="span"
+          style={{ color: "blue", marginLeft: '5px' }}
+          onClick={changeUsernameEditMode}
+        >
+          <EditIcon />
+        </IconButton>
+          </>
+          ) : (
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+            {User.username}
+            <IconButton
+            size="small"
+            title="Edit username"
+            component="span"
+            style={{ color: "blue", marginLeft: '2px' }}
+            onClick={changeUsernameEditMode}
+          >
+            <EditIcon />
+          </IconButton>
+          </div>
+          )}
         </Typography>
         <Typography
           component="div"
