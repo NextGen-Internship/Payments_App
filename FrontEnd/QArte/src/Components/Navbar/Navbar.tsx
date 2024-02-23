@@ -76,6 +76,12 @@ export function ResponsiveAppBar() {
     localStorage.removeItem("userId");
     navigate("/home");
   };
+
+  const handleProfile = ()=>{
+    setAnchorElUser(null);
+    navigate("/profile");
+  }
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
       <Container maxWidth="xl">
@@ -182,11 +188,11 @@ export function ResponsiveAppBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "black",
               textDecoration: "none",
             }}
           >
-            QArté
+            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
           </Typography>
 
           <Box
@@ -225,7 +231,7 @@ export function ResponsiveAppBar() {
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
-             
+              anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -238,7 +244,7 @@ export function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-                <MenuItem onClick={() => navigate("/profile")}>
+                <MenuItem onClick={handleProfile}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
     

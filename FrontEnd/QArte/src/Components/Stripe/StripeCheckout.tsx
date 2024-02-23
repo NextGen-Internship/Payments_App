@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import './StripeCheckout.css';
 
 const StripeCheckout = ({ userID }: any) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -76,18 +77,12 @@ const StripeCheckout = ({ userID }: any) => {
       }}
     >
       <Button
+        id="donate"
         type="submit"
         variant="contained"
         color="success"
         size="large"
         onClick={handleSubmit}
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "20px",
-          fontSize: "24px",
-          padding: "20px 30px",
-        }}
       >
         Donate
       </Button>

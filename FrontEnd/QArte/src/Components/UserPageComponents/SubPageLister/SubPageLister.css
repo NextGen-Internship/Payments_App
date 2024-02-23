@@ -1,0 +1,21 @@
+#PageNav{
+    visibility: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+#show-pages-button{
+    background-color: green;
+    width: 20%;
+    position: relative;
+    z-index: 2; 
+}
+@media only screen and (max-width: 900px) {
+    #show-pages-button {
+        background-color: green;
+        width: 60%;
+        position: relative;
+        z-index: 2; 
+    }
+  }

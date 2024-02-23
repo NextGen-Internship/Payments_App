@@ -77,6 +77,7 @@ const ProfileSubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
+            //fix here
             window.location.href = `http://localhost:5173/profile`;
             //navigate("/profile");
             const res = await fetchPage();

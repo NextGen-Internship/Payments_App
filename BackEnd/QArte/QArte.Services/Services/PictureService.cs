@@ -164,7 +164,7 @@ namespace QArte.Services.Services
 
             var findPage = await _qArteDBContext.Pages.FirstOrDefaultAsync(x => x.GalleryID == obj.GalleryID);
             userID = findPage.UserID.ToString();
-            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{random.Next(1,1000000)+1}.png";
+            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{random.Next(1,1000000)+1}.jpg";
 
             PictureDTO result = null;
 
