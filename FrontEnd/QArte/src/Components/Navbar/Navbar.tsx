@@ -76,6 +76,12 @@ export function ResponsiveAppBar() {
     localStorage.removeItem("userId");
     navigate("/home");
   };
+
+  const handleProfile = ()=>{
+    setAnchorElUser(null);
+    navigate("/profile");
+  }
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
       <Container maxWidth="xl">
@@ -238,7 +244,7 @@ export function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-                <MenuItem onClick={() => navigate("/profile")}>
+                <MenuItem onClick={handleProfile}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
     
