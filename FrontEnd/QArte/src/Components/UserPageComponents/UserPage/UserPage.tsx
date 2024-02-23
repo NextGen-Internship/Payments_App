@@ -322,7 +322,7 @@ const UserPage = () => {
           {`${User.firstName} ${User.lastName}`}
         </Typography>
       </div>
-
+      <StripeCheckout userID={User.id} />
       <div>
         <a
           className="show-pages-dropdown"
@@ -345,7 +345,7 @@ const UserPage = () => {
       </div>
 
       {/* Stripe Checkout Component */}
-      <StripeCheckout userID={User.id} />
+      
     </div>
   );
 };
