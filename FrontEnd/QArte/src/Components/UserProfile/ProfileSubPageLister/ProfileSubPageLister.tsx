@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuList from '@mui/material/MenuList';
 import AddIcon from '@mui/icons-material/Add';
-
+import './ProfileSubPageLister.css';
 
     export interface SubPageListerRef {
       Awake: (id: any) => void;
@@ -90,12 +90,11 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
       return (
         <>
           {/* Container to center the button */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
+          <div id="PageNav">
             {/* Dropdown menu trigger button */}
             <Button
               id="show-pages-button"
               variant="contained"
-              style={{ backgroundColor: "green", width: '20%', position: 'relative', zIndex: 2 }}
               endIcon={<ArrowDropDownIcon />}
               onClick={handleMenuClick}>
               Show Pages

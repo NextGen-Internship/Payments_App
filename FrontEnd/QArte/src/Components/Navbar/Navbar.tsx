@@ -192,7 +192,7 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            QArté
+            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
           </Typography>
 
           <Box
