@@ -407,7 +407,6 @@ const ProfilePage = () => {
                     </TextField>
                       <div>
                       <Button onClick={() => onSubmitChangedSettlementCycle()}>Submit</Button>
-
                       </div>
                   </div>
               }
