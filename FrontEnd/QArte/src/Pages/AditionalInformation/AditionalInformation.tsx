@@ -61,7 +61,7 @@ export default function AditionalInformation() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    const googleToken = localStorage.getItem("googleToken");
+    const googleToken = sessionStorage.getItem("googleToken");
     if (googleToken) {
       const decoded: DecodedToken = jwtDecode(googleToken);
       console.log(decoded);
@@ -79,7 +79,7 @@ export default function AditionalInformation() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const googleToken = localStorage.getItem("googleToken") ?? "";
+    const googleToken = sessionStorage.getItem("googleToken") ?? "";
     const isBanned = false;
     const phoneNumber = "+359888940130";
     const password = generateRandomPassword();
@@ -137,13 +137,13 @@ export default function AditionalInformation() {
         if (response.data.succeed === true) {
           console.log(response);
           dispatch(setLoggedIn(true));
-          localStorage.setItem("userId", response.data.id.toString());
-          //localStorage.setItem("userPictureUrl", picture);
+          sessionStorage.setItem("userId", response.data.id.toString());
+          //sessionStorage.setItem("userPictureUrl", picture);
           const pictureUrl = response.data.picUrl;
           if (pictureUrl) {
-            console.log("RESPONSE")
+            console.log("RESPONSE");
             console.log(response);
-            localStorage.setItem("userPictureUrl", pictureUrl);
+            sessionStorage.setItem("userPictureUrl", pictureUrl);
             dispatch(setAvatar(pictureUrl));
           }
           navigate("/home");
