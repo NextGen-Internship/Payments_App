@@ -98,7 +98,9 @@ namespace QArte.Services.Services
 
         public async Task<PageDTO> PostAsync(PageDTO obj)
         {
-            string qrLink = $"http://localhost:5173/explore/{obj.UserID}/";
+            //string qrLink = $"http://localhost:5173/explore/{obj.UserID}/";
+
+            string qrLink = $"https://75d8-31-13-216-45.ngrok-free.app/explore/{obj.UserID}/";
             PageDTO result = null;
 
             GalleryDTO galleryDTO = new GalleryDTO
@@ -107,11 +109,6 @@ namespace QArte.Services.Services
                 Pictures = {},
             };
 
-            //var deletedPage = await _qArteDBContext.Pages
-            //                                .Include(x => x.Gallery)
-            //                                .Include(x => x.User)
-            //                                .IgnoreQueryFilters()
-            //                                .FirstOrDefaultAsync(x => x.QRLink == obj.QRLink);
             var newPage = obj.GetEntity();
             if (true)
             {

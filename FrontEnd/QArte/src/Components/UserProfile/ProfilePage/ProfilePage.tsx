@@ -38,13 +38,12 @@ const ProfilePage = () => {
   const [usernameEditMode, setUsernameEditMode] = useState(false);
   const [userName, setUserName] = useState("");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        console.log("val " + val);
+     
         const userFromServer = await fetchUser();
         const pagesFromServer = await fetchPages(userFromServer.id);
         const userSettlementCycle = await fetchCurrentSettlementCycle(userFromServer.settlementCycleID);
@@ -71,9 +70,7 @@ const ProfilePage = () => {
         const currentCycleResponse = await fetch(`https://localhost:7191/api/SettlementCycle/GetByID/${id}`);
         const currentCycleData = await currentCycleResponse.json();
 
-        console.log(currentCycleData.settlementCycles);
 
-        // return currentCycleData.settlementCycles;
         switch(currentCycleData.settlementCycles)
         {
           case 0:
@@ -99,7 +96,6 @@ const ProfilePage = () => {
       `https://localhost:7191/api/User/GetUserByID/${val}`
     );
     const userData = await res.json();
-    console.log(userData);
     return userData;
   };
   const fetchUserID = async () => {
@@ -107,7 +103,6 @@ const ProfilePage = () => {
       `https://localhost:7191/api/User/GetUserByID/${User.id}`
     );
     const userData = await res.json();
-    console.log(userData);
     return userData;
   };
 
@@ -116,20 +111,14 @@ const ProfilePage = () => {
       `https://localhost:7191/api/Page/GetByUserID/${id}`
     );
     const pageData = await res.json();
-    console.log(pageData);
     return pageData;
   };
 
   const PageRef = useRef<SubPageListerRef>(null);
 
-  const Try = () => {
-    setAddPage(!showAddPage);
-    console.log(showAddPage);
-  };
-
   const addPage = async (bio: any) => {
     const qr = Math.floor(Math.random() * 1000) + 1; // to fix
-    //const qr = window.location.href;
+
     try {
       const response = await fetch("https://localhost:7191/api/Page/Post", {
         method: "POST",
@@ -153,8 +142,6 @@ const ProfilePage = () => {
       const res = await fetchPages(User.id);
       setPages(res);
       setAddPage(false);
-      console.log("Page added successfully:", data);
-      console.log("THe full data", res);
     } catch (error) {
       console.error("Error adding page:", error);
     }
@@ -162,7 +149,6 @@ const ProfilePage = () => {
 
   const deletePageFetch = async (id: any) => {
     try {
-      console.log("Deleting page: " + id);
 
       const response = await fetch(
         `https://localhost:7191/api/Page/DeleteByID/${id}`,
@@ -179,17 +165,12 @@ const ProfilePage = () => {
       }
       const res = await fetchPages(User.id);
       setPages(res);
-      console.log("Page deleted successfully.");
     } catch (error) {
       console.error("Error deleting page:", error);
     }
   };
 
-  const deletePage = async (id: any) => {
-    deletePageFetch(id);
 
-    console.log(Upages);
-  };
 
   const changePageFetch = async (page: any) => {
     try {

@@ -15,10 +15,10 @@ const StripeCheckout = ({ userID }: any) => {
     console.log(Array.from(searchParams.entries())); // Debugging: Log all query parameters
 
     if (searchParams.get("paymentSuccess") === "true") {
-      setMessage("Payment successful. Thank you for your purchase!");
+      setMessage("Payment successful!");
       setOpenSnackbar(true);
     } else if (searchParams.get("paymentCancelled") === "true") {
-      setMessage("Payment canceled. Please try again.");
+      setMessage("Payment canceled.");
       setOpenSnackbar(true);
     }
 
@@ -34,7 +34,6 @@ const StripeCheckout = ({ userID }: any) => {
     event.preventDefault();
 
     const currentPageURL = window.location.href.split("?")[0];
-    //const successURL = currentPageURL; // Modify as needed for success handling
     const successURL = `${currentPageURL}?paymentSuccess=true`;
     const cancelURL = `${currentPageURL}?paymentCancelled=true`;
 
