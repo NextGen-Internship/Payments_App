@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, setLoggedIn } from "../../store/loginSlice";
 import { RootState } from "../../store/store";
 import Logo from "../../assets/QArte_BO.webp";
-import './Navbar.css'
+import "./Navbar.css";
 
 const pages = ["Home", "Explore", "Login", "SignUp"];
 //const settings = ["Logout"];
@@ -55,7 +55,6 @@ export function ResponsiveAppBar() {
   };
 
   const handleNavClick = (page: string) => {
-    // Add logic to navigate to the Profile page
     if (page === "Profile") {
       navigate("/profile");
     } else if (page === "Login" || page === "SignUp") {
@@ -68,19 +67,18 @@ export function ResponsiveAppBar() {
   const handleLogout = () => {
     dispatch(clearUser());
 
-    setAnchorElUser(null);
-  
-    localStorage.removeItem("token");
-    localStorage.removeItem("googleToken");
-    localStorage.removeItem("userPictureUrl");
-    localStorage.removeItem("userId");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("googleToken");
+    sessionStorage.removeItem("userPictureUrl");
+    sessionStorage.removeItem("userId");
+
     navigate("/home");
   };
 
-  const handleProfile = ()=>{
+  const handleProfile = () => {
     setAnchorElUser(null);
     navigate("/profile");
-  }
+  };
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
@@ -102,8 +100,16 @@ export function ResponsiveAppBar() {
             }}
           >
             <img src="src/assets/QArte_BO.webp" />
-            <NavLink to="/home" style={{textDecoration:"none", color:"black", marginTop:"18%"}}>QArté</NavLink>
-            
+            <NavLink
+              to="/home"
+              style={{
+                textDecoration: "none",
+                color: "black",
+                marginTop: "18%",
+              }}
+            >
+              QArté
+            </NavLink>
           </Typography>
           {/* mobile version */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -161,8 +167,8 @@ export function ResponsiveAppBar() {
                   <MenuItem onClick={() => handleNavClick("Explore")}>
                     <Typography textAlign="center">Explore</Typography>
                   </MenuItem>
-                  <MenuItem onClick={() => handleNavClick("SignIn")}>
-                    <Typography textAlign="center">SignIn</Typography>
+                  <MenuItem onClick={() => handleNavClick("Login")}>
+                    <Typography textAlign="center">Login</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("SignUp")}>
                     <Typography textAlign="center">SignUp</Typography>
@@ -172,10 +178,7 @@ export function ResponsiveAppBar() {
             </Menu>
           </Box>
 
-          <img
-            className="Q"
-            src="src/assets/QArte_BO.webp"
-          />
+          <img className="Q" src="src/assets/QArte_BO.webp" />
           <Typography
             variant="h5"
             noWrap
@@ -192,7 +195,12 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <NavLink to="/home" style={{textDecoration:"none", color:"black"}}>QArté</NavLink>
+            <NavLink
+              to="/home"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              QArté
+            </NavLink>
           </Typography>
 
           <Box
@@ -216,43 +224,43 @@ export function ResponsiveAppBar() {
             ))}
           </Box>
 
-          
           <Box sx={{ flexGrow: 0 }}>
-          {isLoggedIn&&
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Profile Image"
-                  src={userImage || "/static/images/avatar/2.jpg"}
-                />
-              </IconButton>
-            </Tooltip>}
-            {anchorElUser&&
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+            {isLoggedIn && (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt="Profile Image"
+                    src={userImage || "/static/images/avatar/2.jpg"}
+                  />
+                </IconButton>
+              </Tooltip>
+            )}
+            {anchorElUser && (
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
                 <MenuItem onClick={handleProfile}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-    
+
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-        
-            </Menu>}
+              </Menu>
+            )}
           </Box>
         </Toolbar>
       </Container>
