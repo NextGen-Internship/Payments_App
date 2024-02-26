@@ -55,7 +55,6 @@ export function ResponsiveAppBar() {
   };
 
   const handleNavClick = (page: string) => {
-    // Add logic to navigate to the Profile page
     if (page === "Profile") {
       navigate("/profile");
     } else if (page === "Login" || page === "SignUp") {
@@ -161,8 +160,8 @@ export function ResponsiveAppBar() {
                   <MenuItem onClick={() => handleNavClick("Explore")}>
                     <Typography textAlign="center">Explore</Typography>
                   </MenuItem>
-                  <MenuItem onClick={() => handleNavClick("SignIn")}>
-                    <Typography textAlign="center">SignIn</Typography>
+                  <MenuItem onClick={() => handleNavClick("Login")}>
+                    <Typography textAlign="center">Login</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("SignUp")}>
                     <Typography textAlign="center">SignUp</Typography>
