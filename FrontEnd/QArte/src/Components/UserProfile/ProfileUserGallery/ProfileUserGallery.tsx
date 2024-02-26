@@ -65,12 +65,15 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const UploadPhoto =async (photo:any) => {
         try {
-            console.log(photo)
+            console.log(photo.type)
+            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg");
+            console.log(isImage);
             const formData = new FormData();
             formData.append("id",String(0));
             formData.append("pictureURL","0");
             formData.append("galleryID",gallery);
             formData.append("file",photo);
+            formData.append("isImage",String(isImage));
             const response = await fetch('https://localhost:7191/api/Picture/Post', {
                 method: 'POST',
                 headers: {
@@ -111,6 +114,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
     {
         setModel(true);
         setTempImgSrc(picURL);
+        
     }
 
     return (
@@ -123,6 +127,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 name="image"
                 onChange={handleOnChange}
                 style={{ display: "none" }}
+                inputProps={{ accept: 'image/png, image/jpeg, video/mp4, video/mp3' }}
             />
             <Button
                 variant="contained"
