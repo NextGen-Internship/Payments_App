@@ -101,7 +101,7 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <img src="src/assets/QArte_BO.webp" />
+            <img src={Logo} />
             <NavLink to="/home" style={{textDecoration:"none", color:"black", marginTop:"18%"}}>QArté</NavLink>
             
           </Typography>
@@ -161,8 +161,8 @@ export function ResponsiveAppBar() {
                   <MenuItem onClick={() => handleNavClick("Explore")}>
                     <Typography textAlign="center">Explore</Typography>
                   </MenuItem>
-                  <MenuItem onClick={() => handleNavClick("SignIn")}>
-                    <Typography textAlign="center">SignIn</Typography>
+                  <MenuItem onClick={() => handleNavClick("Login")}>
+                    <Typography textAlign="center">LogIn</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("SignUp")}>
                     <Typography textAlign="center">SignUp</Typography>
