@@ -78,7 +78,7 @@ const ProfileSubPageContainer = () =>{
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
             //fix here
-            window.location.href = `http://localhost:5173/profile`;
+            //window.location.href = `http://localhost:5173/profile`;
             //navigate("/profile");
             const res = await fetchPage();
             setPage(res);
@@ -108,7 +108,7 @@ const ProfileSubPageContainer = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/profile`;
+            //window.location.href = `http://localhost:5173/profile`;
             console.log('Page deleted successfully.');
         } catch (error) {
             console.error('Error deleting page:', error);

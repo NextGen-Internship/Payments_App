@@ -174,7 +174,7 @@ export function ResponsiveAppBar() {
 
           <img
             className="Q"
-            src="src/assets/QArte_BO.webp"
+            src={Logo}
           />
           <Typography
             variant="h5"
