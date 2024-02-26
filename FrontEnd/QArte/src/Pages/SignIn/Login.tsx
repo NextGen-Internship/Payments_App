@@ -86,13 +86,13 @@ export default function Login() {
         const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
 
         if (token) {
-          localStorage.setItem("token", token);
+          sessionStorage.setItem("token", token);
         } else {
           console.error("Token is missing in the response.");
         }
 
         if (userId) {
-          localStorage.setItem("userId", userId.toString());
+          sessionStorage.setItem("userId", userId.toString());
         } else {
           console.error("User ID is missing in the response.");
         }
@@ -111,7 +111,7 @@ export default function Login() {
   const handleLoginWithgoogle = async (CredentialResponse: any) => {
     console.log("Login with Google success.", CredentialResponse);
     const token = CredentialResponse.credential;
-    localStorage.setItem("googleToken", token);
+    sessionStorage.setItem("googleToken", token);
     try {
       // Decode the token to get the user's info including the picture URL
       const decodedToken = jwtDecode(token);
@@ -125,11 +125,11 @@ export default function Login() {
         dispatch(setLoggedIn(true));
 
         if (response.data.userId) {
-          localStorage.setItem("userId", response.data.userId.toString());
+          sessionStorage.setItem("userId", response.data.userId.toString());
         }
 
         if (pictureUrl) {
-          localStorage.setItem("userPictureUrl", pictureUrl);
+          sessionStorage.setItem("userPictureUrl", pictureUrl);
           dispatch(setAvatar(pictureUrl));
         }
         navigate("/profile");
