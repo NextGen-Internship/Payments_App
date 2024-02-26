@@ -23,5 +23,6 @@ namespace QArte.Services.ServiceInterfaces
         bool CheckByPasswordSignIn(UserDTO user, string password);
         //Task<List<UserDTO>> GetBySettlementCycle(string settlementCycle);
         string GetProfilePictureByUser(UserDTO user);
+        Task<UserDTO> PatchUsername(int id, string userName);
     }
 }

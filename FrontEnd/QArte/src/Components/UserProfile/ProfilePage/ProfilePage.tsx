@@ -373,16 +373,45 @@ const ProfilePage = () => {
     }
   }
 
-  const changeUsernameEditMode = () => 
-  {
+  const changeUsernameEditMode =  () => {
+
     setUsernameEditMode(!usernameEditMode);
   
   }
 
-  const handleSubmitChangeUsername = () => 
+  const handleSubmitChangeUsername = async () => 
   {
     
-    console.log(userName);
+    if(userName === User.username)
+    {
+      setUsernameEditMode(!usernameEditMode);
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://localhost:7191/api/User/Username/${User.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+         userName.toString()),
+      });
+  
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error(`Failed to update username. Status: ${response.status}. Details:`, errorDetails);
+        return;
+      }
+
+      const res = await fetchUserID();
+      setUser(res);
+      setUsernameEditMode(!usernameEditMode);
+  
+      console.log('Username updated successfully.');
+    } catch (error) {
+      console.error('Error updating username:', error);
+    }
 
   }
 

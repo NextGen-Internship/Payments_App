@@ -492,6 +492,27 @@ namespace QArte.Services.Services
             return user.GetDTO();
         }
 
+
+
+        public async Task<UserDTO> PatchUsername(int id, string userName)
+        {
+            var user = await _qarteDBContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.BankAccount)
+                .Include(x => x.Pages)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.ID == id)
+                ?? throw new AppException("Not found");
+
+
+            user.UserName = userName;
+
+            await _qarteDBContext.SaveChangesAsync();
+
+            return user.GetDTO();
+
+        }
+
         public async Task<UserDTO> FindByEmailAsync(string email)
         {
             var model = await _qarteDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -569,6 +590,9 @@ namespace QArte.Services.Services
 
             return response;
         }
+
+
+
     }
 }
 
