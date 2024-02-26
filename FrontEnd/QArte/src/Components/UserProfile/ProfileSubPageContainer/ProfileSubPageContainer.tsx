@@ -6,12 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ProfilePage from "../ProfilePage/ProfilePage";
 import './ProfileSubPageContainer.css';
 
 const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
-
 
     const [page,setPage] = useState({
         id:'',
@@ -71,7 +71,7 @@ const ProfileSubPageContainer = () =>{
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
             window.location.href = `http://localhost:5173/profile`;
-   
+
             const res = await fetchPage();
             setPage(res);
             console.log(page.userID);
@@ -97,6 +97,7 @@ const ProfileSubPageContainer = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
+            //window.location.href = `http://localhost:5173/profile`;
             window.location.href = `http://localhost:5173/profile`;
         } catch (error) {
             console.error('Error deleting page:', error);

@@ -1,6 +1,6 @@
 //import {useState} from "react";
-//import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
 import Home from "./Pages/Home/Home.js";
@@ -18,14 +18,45 @@ import AditionalInformation from "./Pages/AditionalInformation/AditionalInformat
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
 import Footer from "./Components/Footer/Footer.tsx";
+import NotFound from "./Pages/404Page/NotFoundPage.tsx";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setLoggedIn, setAvatar } from "./store/loginSlice";
+import { RootState } from "@reduxjs/toolkit/query";
+import { clearUser } from "../../store/loginSlice";
 function App() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem("token") || sessionStorage.getItem("googleToken");
+    console.log("Before dispatch", { isLoggedIn });
+    if (token) {
+      dispatch(setLoggedIn(true));
+      console.log("After dispatch - inside if", { isLoggedIn });
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("After dispatch - useEffect for isLoggedIn", { isLoggedIn }); // This will log the updated state after it has changed
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const userPictureUrl = sessionStorage.getItem("userPictureUrl");
+    if (userPictureUrl) {
+      dispatch(setAvatar(userPictureUrl));
+    }
+    // Add other rehydration logic here if necessary
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Box display="flex" flexDirection="column" minHeight="100vh">
         <ResponsiveAppBar />
 
         <Routes>
+          <Route path="*" element={<NotFound/>}/>
           <Route path="/stripe-checkout" element={<StripeCheckout />} />
           <Route path="/stripe-success" element={<SuccessPage />} />
           <Route path="/stripe-error" element={<ErrorPage />} />
