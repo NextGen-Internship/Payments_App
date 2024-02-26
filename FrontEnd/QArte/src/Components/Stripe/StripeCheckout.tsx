@@ -8,6 +8,7 @@ import './StripeCheckout.css';
 const StripeCheckout = ({ userID }: any) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState(""); // Added state to hold the message text
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     console.log(window.location.href); // Debugging: Log the current URL
@@ -39,10 +40,12 @@ const StripeCheckout = ({ userID }: any) => {
 
     try {
       const response = await fetch(
-        "https://localhost:7191/api/Stripe/create-checkout-session",
+        `${baseUrl}/api/Stripe/create-checkout-session`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json", 
+            'ngrok-skip-browser-warning': '1',},
           body: JSON.stringify({ successURL, cancelURL, userID }),
         })
       

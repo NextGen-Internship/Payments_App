@@ -1,5 +1,5 @@
 //import {useState} from "react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { ResponsiveAppBar } from "./Components/Navbar/Navbar.js";
@@ -22,11 +22,9 @@ import NotFound from "./Pages/404Page/NotFoundPage.tsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedIn, setAvatar } from "./store/loginSlice";
-import { RootState } from "@reduxjs/toolkit/query";
-import { clearUser } from "../../store/loginSlice";
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+  const isLoggedIn = useSelector((state: any) => state.user.isLoggedIn);
 
   useEffect(() => {
     const token =

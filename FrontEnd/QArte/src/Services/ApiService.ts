@@ -11,14 +11,15 @@ class ApiService {
         
         let message = '';
         let data = null;
-
+        let id = 0;
         if(succeed){
             data = response.data;
             message = response.data.message || 'Success';
+            id = response.data.id;
         }else{
             message = response.data.errorMessage || 'An error occurred';
         }
-        return { succeed, message, data };
+        return { succeed, message, data, id};
     }
 
     private async request<T>(config: AxiosRequestConfig): Promise<ApiResponseDTO> {

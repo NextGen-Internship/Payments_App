@@ -78,16 +78,6 @@ export default function SignUp() {
     const isBanned = false;
     const roleID = 0;
     const pictureURL = "";
-    //const bankAccountID = 4;
-    //const stripeAccountID = "BG80BNBG96611020345678";
-    //const id = 0;
-    //
-
-    // IBAN: "BG80BNBG96611020345678";
-    //isBanned: false;
-    // bankAccountID: 0;
-    // settlementCycleID: 0;
-    // paymentMethodEnum: 0;
 
     if (!validateEmail(email)) {
       setEmailError("Invalid email address");
@@ -149,7 +139,7 @@ export default function SignUp() {
           console.log("Registration successful", response.message);
           // collect the token
           if (response.data?.token) {
-            sessionStorage.setItem("token", response.data.token);
+            localStorage.setItem("token", response.data.token);
           }
           navigate("/signin");
         } else {

@@ -15,6 +15,7 @@ const UserGallery = ({gallery}:any) =>{
     const[activeGallery,setActiveGallery] = useState();
     const[model, setModel] = useState(false);
     const [tempImgSrc, setTempImgSrc] = useState('');
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(()=>{
         const getPhotos =async () => {
@@ -37,7 +38,12 @@ const UserGallery = ({gallery}:any) =>{
     const fetchPhotos = async()=>{
         console.log("gallery")
         console.log(gallery)
-        const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
+        const res = await fetch(`${baseUrl}/api/Picture/GetByGalleryID/${gallery}`,{
+            method: 'GET',
+            headers:{
+              'ngrok-skip-browser-warning': '1'
+            }
+          });
         const photoData = await res.json();
         //console.log("THIS IS THE GALLERY!")
         console.log(photoData)
@@ -49,10 +55,11 @@ const UserGallery = ({gallery}:any) =>{
         try {
             console.log("Deleting picture: " + id);
     
-            const response = await fetch(`https://localhost:7191/api/Picture/DeleteByID/${id}`, {
+            const response = await fetch(`${baseUrl}/api/Picture/DeleteByID/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
             });
     
@@ -75,10 +82,10 @@ const UserGallery = ({gallery}:any) =>{
             formData.append("pictureURL","0");
             formData.append("galleryID",gallery);
             formData.append("file",photo);
-            const response = await fetch('https://localhost:7191/api/Picture/Post', {
+            const response = await fetch(`${baseUrl}/api/Picture/Post`, {
                 method: 'POST',
                 headers: {
-
+                    'ngrok-skip-browser-warning': '1'
                 },
                 body: formData
             });

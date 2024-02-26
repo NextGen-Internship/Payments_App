@@ -40,6 +40,7 @@ function generateRandomPassword(length = 12) {
   }
   return password;
 }
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function AditionalInformation() {
   const [email, setEmail] = useState<string | null>(null);
@@ -120,11 +121,12 @@ export default function AditionalInformation() {
 
     try {
       const response = await axios.post(
-        "https://localhost:7191/api/Authentication/google-login",
+        `${baseUrl}/api/Authentication/google-login`,
         fullData,
         {
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1',
           },
         }
       );
@@ -134,10 +136,10 @@ export default function AditionalInformation() {
         console.log(response.data.succeed);
         if (response.data.succeed === true) {
           dispatch(setLoggedIn(true));
-          localStorage.setItem("userId", response.data.id.toString());
+          sessionStorage.setItem("userId", response.data.id.toString());
           const pictureUrl = response.data.picUrl;
           if (pictureUrl) {
-            localStorage.setItem("userPictureUrl", pictureUrl);
+            sessionStorage.setItem("userPictureUrl", pictureUrl);
 
             dispatch(setAvatar(pictureUrl));
           }
@@ -219,7 +221,6 @@ export default function AditionalInformation() {
               onChange={(e) => setCountry(e.target.value)}
             >
               {/* Menu Items for US and BG */}
-              <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
 
@@ -271,10 +272,6 @@ export default function AditionalInformation() {
               <MenuItem value="1">Weekly</MenuItem>
               <MenuItem value="2">Monthly</MenuItem>
             </TextField>
-            <FormControlLabel
-              control={<Checkbox value="agree" color="primary" />}
-              label="I agree to the terms and conditions"
-            />
             <Button
               type="submit"
               fullWidth

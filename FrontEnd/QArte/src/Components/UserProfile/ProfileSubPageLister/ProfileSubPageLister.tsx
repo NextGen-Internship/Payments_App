@@ -37,7 +37,6 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
           const foundPage = pages;
           if (foundPage) {
               setPages(foundPage);
-              setAwakePage(0);
           } else {
               console.error(`User with id ${awakePage} not found.`);
           }
