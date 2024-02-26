@@ -18,6 +18,7 @@ import AditionalInformation from "./Pages/AditionalInformation/AditionalInformat
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
 import Footer from "./Components/Footer/Footer.tsx";
+import NotFound from "./Pages/404Page/NotFoundPage.tsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedIn, setAvatar } from "./store/loginSlice";
@@ -55,6 +56,7 @@ function App() {
         <ResponsiveAppBar />
 
         <Routes>
+          <Route path="*" element={<NotFound/>}/>
           <Route path="/stripe-checkout" element={<StripeCheckout />} />
           <Route path="/stripe-success" element={<SuccessPage />} />
           <Route path="/stripe-error" element={<ErrorPage />} />

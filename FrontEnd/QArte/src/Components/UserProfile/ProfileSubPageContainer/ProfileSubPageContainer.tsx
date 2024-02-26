@@ -9,12 +9,12 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ProfilePage from "../ProfilePage/ProfilePage";
 import './ProfileSubPageContainer.css';
 
 const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
-
 
     const [page,setPage] = useState({
         id:'',
@@ -79,7 +79,6 @@ const ProfileSubPageContainer = () =>{
             }
             //fix here
             window.location.href = `http://localhost:5173/profile`;
-            //navigate("/profile");
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
@@ -108,6 +107,7 @@ const ProfileSubPageContainer = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
+            //window.location.href = `http://localhost:5173/profile`;
             window.location.href = `http://localhost:5173/profile`;
             console.log('Page deleted successfully.');
         } catch (error) {

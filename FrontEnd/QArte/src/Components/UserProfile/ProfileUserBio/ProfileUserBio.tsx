@@ -73,6 +73,7 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
         <textarea
           id="nameTextarea"
           defaultValue={page.pageName}
+          maxLength={15}
           style={{ height: textareaNameHeight, resize: 'vertical' }}
           onChange={(e) => {setName(e.target.value)}}
           required={true}

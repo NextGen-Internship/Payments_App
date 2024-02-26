@@ -99,17 +99,9 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <img src="src/assets/QArte_BO.webp" />
-            <NavLink
-              to="/home"
-              style={{
-                textDecoration: "none",
-                color: "black",
-                marginTop: "18%",
-              }}
-            >
-              QArté
-            </NavLink>
+            <img src={Logo} />
+            <NavLink to="/home" style={{textDecoration:"none", color:"black", marginTop:"18%"}}>QArté</NavLink>
+            
           </Typography>
           {/* mobile version */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -168,7 +160,7 @@ export function ResponsiveAppBar() {
                     <Typography textAlign="center">Explore</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("Login")}>
-                    <Typography textAlign="center">Login</Typography>
+                    <Typography textAlign="center">LogIn</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("SignUp")}>
                     <Typography textAlign="center">SignUp</Typography>
@@ -177,8 +169,10 @@ export function ResponsiveAppBar() {
               )}
             </Menu>
           </Box>
-
-          <img className="Q" src="src/assets/QArte_BO.webp" />
+          <img
+            className="Q"
+            src={Logo}
+          />
           <Typography
             variant="h5"
             noWrap
