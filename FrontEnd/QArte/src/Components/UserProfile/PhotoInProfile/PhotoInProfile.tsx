@@ -27,8 +27,8 @@ const PhotoInProfile = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
               onClick={() => onClickPhoto(photo.pictureURL)}
             />}
             {
-              !photo.isImage&&<video width={320} height={240} className="pics" controls onClick={() => onClickPhoto(photo.pictureURL)}>
-                <source src={photo.pictureURL}/>
+              !photo.isImage&&<video className="vid" controls >
+                <source className="pics" src={photo.pictureURL}/>
               </video>
             
             }

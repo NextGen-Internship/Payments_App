@@ -21,6 +21,29 @@ color: white; /* Change color to match your design */
     margin-bottom: 12px;
 }
 
+.vid{
+  width: 600px;
+  height: 450px;
+}
+@media (max-width: 1430px){
+  .vid{
+    width: 400px;
+    height: 300px;
+  }
+}
+@media (max-width: 900px){
+  .vid{
+    width: 300px;
+    height: 255px;
+  }
+}
+@media (max-width: 600px){
+  .vid{
+    width: 300px;
+    height: 255px;
+  }
+}
+
 .pics:hover{
 
     filter: opacity(.8)
@@ -31,6 +54,7 @@ color: white; /* Change color to match your design */
     top: 5px;
     right: 5px;
 }
+
 
 /* photos.css
 
