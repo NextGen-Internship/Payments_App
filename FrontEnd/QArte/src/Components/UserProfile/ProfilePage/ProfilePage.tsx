@@ -20,7 +20,7 @@ import { setAvatar } from "../../../store/loginSlice";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import CheckIcon from '@mui/icons-material/Check';
-import {clearPages, settingPages } from "../../../store/pageSlice";
+
 
 const ProfilePage = () => {
   const Uid = localStorage.getItem("userId");
@@ -49,7 +49,6 @@ const ProfilePage = () => {
         const pagesFromServer = await fetchPages(userFromServer.id);
         const userSettlementCycle = await fetchCurrentSettlementCycle(userFromServer.settlementCycleID);
         setUser(userFromServer);
-        dispatch(settingPages(pagesFromServer));
         setPages(pagesFromServer);
         setCurrentSettlementCycle(userSettlementCycle);
         setUserName(userFromServer.username)
