@@ -55,7 +55,6 @@ export default function AditionalInformation() {
   const [settlementCycle, setSettlementCycle] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
 
-  //const [decodedToken, setDecodedToken] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,7 +80,6 @@ export default function AditionalInformation() {
     event.preventDefault();
     const googleToken = sessionStorage.getItem("googleToken") ?? "";
     const isBanned = false;
-    const phoneNumber = "+359888940130";
     const password = generateRandomPassword();
     const fullData = {
       userInfo: {
@@ -135,15 +133,12 @@ export default function AditionalInformation() {
       if (response.status === 200) {
         console.log(response.data.succeed);
         if (response.data.succeed === true) {
-          console.log(response);
           dispatch(setLoggedIn(true));
-          sessionStorage.setItem("userId", response.data.id.toString());
-          //sessionStorage.setItem("userPictureUrl", picture);
+          localStorage.setItem("userId", response.data.id.toString());
           const pictureUrl = response.data.picUrl;
           if (pictureUrl) {
-            console.log("RESPONSE");
-            console.log(response);
-            sessionStorage.setItem("userPictureUrl", pictureUrl);
+            localStorage.setItem("userPictureUrl", pictureUrl);
+
             dispatch(setAvatar(pictureUrl));
           }
           navigate("/home");
@@ -290,9 +285,6 @@ export default function AditionalInformation() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                {/* <Link to="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link> */}
               </Grid>
             </Grid>
           </Box>

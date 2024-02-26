@@ -1,12 +1,11 @@
 import { useEffect, useImperativeHandle } from "react";
 import { useState , forwardRef} from "react";
 import ProfilePageNavContainer from "../ProfilePageNavContainer/ProfilePageNavContainer";
-import { NavLink, Route, Routes, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MenuList from '@mui/material/MenuList';
 import AddIcon from '@mui/icons-material/Add';
 import './ProfileSubPageLister.css';
 
@@ -39,9 +38,6 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
           if (foundPage) {
               setPages(foundPage);
               setAwakePage(0);
-              console.log("here");
-              console.log(foundPage);
-              console.log(awakePage);
           } else {
               console.error(`User with id ${awakePage} not found.`);
           }

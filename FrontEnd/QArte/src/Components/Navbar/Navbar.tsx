@@ -160,7 +160,8 @@ export function ResponsiveAppBar() {
                     <Typography textAlign="center">Explore</Typography>
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("Login")}>
-                    <Typography textAlign="center">LogIn</Typography>
+                    <Typography textAlign="center">Login</Typography>
+
                   </MenuItem>
                   <MenuItem onClick={() => handleNavClick("SignUp")}>
                     <Typography textAlign="center">SignUp</Typography>

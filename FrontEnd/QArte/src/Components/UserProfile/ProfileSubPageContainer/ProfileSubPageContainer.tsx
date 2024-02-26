@@ -2,12 +2,9 @@ import React from "react";
 import ProfileUserBio from "../ProfileUserBio/ProfileUserBio";
 import ProfileUserGallery from "../ProfileUserGallery/ProfileUserGallery";
 import { useState, useEffect } from "react";
-import ChangePage from "../../ChangePage/ChangePage";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ProfilePage from "../ProfilePage/ProfilePage";
 import './ProfileSubPageContainer.css';
@@ -25,7 +22,6 @@ const ProfileSubPageContainer = () =>{
         userID:'',
     });
 
-    const navigate=useNavigate();
     const{pageNumber} = useParams();
 
     useEffect(()=>{
@@ -40,22 +36,19 @@ const ProfileSubPageContainer = () =>{
                 console.error('Error fetching user data!', error);
             }
         }
-        console.log("THIS IS THE Page");
         getPage();
     },[pageNumber]);
 
     const fetchPage = async()=>{
         const res = await fetch(`https://localhost:7191/api/Page/GetByID/${pageNumber}`);
         const pageData = await res.json();
-        //console.log("THIS IS THE GALLERY!")
-        console.log(pageData)
+   
         return pageData;
     }
 
     const callPageChange = async (pages:any) =>{
         try {
 
-            console.log("Updating page: ", pages);
     
             const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.page.id}`, {
                 method: 'PATCH',
@@ -77,15 +70,13 @@ const ProfileSubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-            //fix here
             window.location.href = `http://localhost:5173/profile`;
+
             const res = await fetchPage();
             setPage(res);
-            console.log('Page updated successfully.');
             console.log(page.userID);
             setShowChangePage(false);
            
-            // If you want to update the UI or perform other actions after the update, add them here.
         } catch (error) {
             console.error('Error updating page:', error);
             
@@ -95,7 +86,6 @@ const ProfileSubPageContainer = () =>{
 
     const callPageDelete = async (id:any) =>{
         try {
-            console.log("Deleting page: " + id);
     
             const response = await fetch(`https://localhost:7191/api/Page/DeleteByID/${id}`, {
                 method: 'DELETE',
@@ -109,7 +99,6 @@ const ProfileSubPageContainer = () =>{
             }
             //window.location.href = `http://localhost:5173/profile`;
             window.location.href = `http://localhost:5173/profile`;
-            console.log('Page deleted successfully.');
         } catch (error) {
             console.error('Error deleting page:', error);
         }
@@ -117,7 +106,6 @@ const ProfileSubPageContainer = () =>{
 
     const GetQRCode = async ()=>{
         try{
-            console.log("Fething QRCode");
             const respose = await fetch(`https://localhost:7191/api/Page/GetQRCode/${page.id}`);
 
             alert("The QR code was sent to your email.")

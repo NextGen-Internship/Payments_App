@@ -91,9 +91,6 @@ builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<ITokennService, TokennService>();
 
 
-
-builder.Services.AddMediatR(typeof(Program));
-
 builder.Services.AddTransient<QArte.Services.Services.quartzPayouts.PayoutSchedulerService>();
 
 builder.Services.AddMediatR(typeof(Program));
@@ -112,12 +109,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("QarteApp", policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191", "http://localhost:5173", "http://localhost:5174");
+        policyBuilder.WithOrigins("http://localhost:5176", "https://localhost:7191", "http://localhost:5173", "http://localhost:5174", "https://75d8-31-13-216-45.ngrok-free.app");
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
         policyBuilder.AllowCredentials();
     });
 });
+
+
 
 
 var app = builder.Build();

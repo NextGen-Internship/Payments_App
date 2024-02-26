@@ -14,8 +14,7 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
   const [editMode, setEditMode] = useState(false);
   const [textareaBioHeight, setTextareaBioHeight] = useState('auto');
   const [textareaNameHeight, setTextareaNameHeight] = useState('auto');
-  const [correctName,SetCorrectName] = useState("");
-  const [correctBio,SetCorrectBio] = useState("");
+
 
   useEffect(() => {
       setBio(page?.bio || ''); 
@@ -38,13 +37,7 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
     }
   }, [editMode, name]);
 
-  const validateText = (text:string):boolean=>{
-    return text!="";
-  }
-
   const onSubmit = (e: any) => {
-    
-    //Fix this!
 
     let isValid = true;
 

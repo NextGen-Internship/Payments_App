@@ -29,17 +29,15 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 console.error('Error fetching user data!', error);
             }
         }
-        console.log("THIS IS THE GALLERY");
         getPhotos();
     },[gallery]);
 
 
     const fetchPhotos = async()=>{
-        console.log("gallery")
+
         console.log(gallery)
         const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
         const photoData = await res.json();
-        //console.log("THIS IS THE GALLERY!")
         console.log(photoData)
         return photoData;
     }
@@ -47,7 +45,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const DeletePhoto = async (id:any) =>
     {
         try {
-            console.log("Deleting picture: " + id);
     
             const response = await fetch(`https://localhost:7191/api/Picture/DeleteByID/${id}`, {
                 method: 'DELETE',
@@ -61,7 +58,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
             }
             const res = await fetchPhotos();
             setPhotos(res);
-            console.log('Picture deleted successfully.');
         } catch (error) {
             console.error('Error deleting picture:', error);
         }
@@ -89,8 +85,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
             }
             const res = await fetchPhotos();
             setPhotos(res);
-            console.log('Page added successfully:', data);
-            console.log("THe full data", res);
         } catch (error) {
             console.error('Error adding page:', error);
         }
@@ -99,7 +93,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const handleOnChange = async(e:any)=>{
         const target = e.target.files;
         console.log('file', target);
-        //setFile(target[0]);
         AddPhoto(target[0]);
     }
 

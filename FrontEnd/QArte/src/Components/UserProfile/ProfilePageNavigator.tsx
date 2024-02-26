@@ -7,7 +7,6 @@ const PageNavigator = ({ pageId } : any) => {
 
   useEffect(() => {
     if (pageId) {
-      console.log(`Navigating to page with id: ${pageId}`);
       navigate(`/profile/${pageId}`);
     }
   }, [pageId, navigate]);
