@@ -15,8 +15,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 //import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../../store/loginSlice";
+import { clearUser, setLoggedIn } from "../../store/loginSlice";
 import { RootState } from "../../store/store";
+import Logo from "../../assets/QArte_BO.webp";
+import "./Navbar.css";
 
 const pages = ["Home", "Explore", "Login", "SignUp"];
 //const settings = ["Logout"];
@@ -64,12 +66,20 @@ export function ResponsiveAppBar() {
 
   const handleLogout = () => {
     dispatch(clearUser());
+
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("googleToken");
     sessionStorage.removeItem("userPictureUrl");
     sessionStorage.removeItem("userId");
+
     navigate("/home");
   };
+
+  const handleProfile = () => {
+    setAnchorElUser(null);
+    navigate("/profile");
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#ffeef2" }}>
       <Container maxWidth="xl">
@@ -89,9 +99,14 @@ export function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
+            <img src="src/assets/QArte_BO.webp" />
             <NavLink
               to="/home"
-              style={{ textDecoration: "none", color: "black" }}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                marginTop: "18%",
+              }}
             >
               QArté
             </NavLink>
@@ -163,7 +178,7 @@ export function ResponsiveAppBar() {
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <img className="Q" src="src/assets/QArte_BO.webp" />
           <Typography
             variant="h5"
             noWrap
@@ -176,11 +191,16 @@ export function ResponsiveAppBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "black",
               textDecoration: "none",
             }}
           >
-            QArté
+            <NavLink
+              to="/home"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              QArté
+            </NavLink>
           </Typography>
 
           <Box
@@ -204,8 +224,8 @@ export function ResponsiveAppBar() {
             ))}
           </Box>
 
-          {isLoggedIn && (
-            <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
+            {isLoggedIn && (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
@@ -214,6 +234,8 @@ export function ResponsiveAppBar() {
                   />
                 </IconButton>
               </Tooltip>
+            )}
+            {anchorElUser && (
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -230,19 +252,16 @@ export function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {isLoggedIn && (
-                  <MenuItem onClick={() => navigate("/profile")}>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
-                )}
-                {isLoggedIn && (
-                  <MenuItem onClick={handleLogout}>
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
-                )}
+                <MenuItem onClick={handleProfile}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
-            </Box>
-          )}
+            )}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

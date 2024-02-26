@@ -30,7 +30,7 @@ const UserPage = () => {
   const [showAddPage, setAddPage] = useState(false);
   const [User, setUser] = useState<any>({});
   const [Upages, setPages] = useState<any>([]);
-  const [selectedPage, setSelectedPage] = useState<number | null>(null);
+  const [selectedPage, setSelectedPage] = useState<number | null>();
 
   const navigate = useNavigate();
 
@@ -42,6 +42,10 @@ const UserPage = () => {
         const pagesFromServer = await fetchPages(userFromServer.id);
         setUser(userFromServer);
         setPages(pagesFromServer);
+        if(pagesFromServer.length > 0)
+        {
+          setSelectedPage(pagesFromServer[0].id);
+        }
       } catch (error) {
         console.error("Error fetching user data!", error);
       }
@@ -318,7 +322,7 @@ const UserPage = () => {
           {`${User.firstName} ${User.lastName}`}
         </Typography>
       </div>
-
+      <StripeCheckout userID={User.id} />
       <div>
         <a
           className="show-pages-dropdown"
@@ -341,7 +345,7 @@ const UserPage = () => {
       </div>
 
       {/* Stripe Checkout Component */}
-      <StripeCheckout userID={User.id} />
+      
     </div>
   );
 };

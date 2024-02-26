@@ -114,8 +114,8 @@ namespace QArte.Services.Services
 
             mail.From = new MailAddress(senderEmail);
             mail.To.Add(recipientEmail);
-            mail.Subject = "Test Mail";
-            mail.Body = "Mail with attachment";
+            mail.Subject = "QAtrè QR code for you page";
+            mail.Body = "Thank you for using QArtè! Here's you QR code";
 
             GetObjectRequest getObjectRequest = new GetObjectRequest
             {

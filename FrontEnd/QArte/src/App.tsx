@@ -18,7 +18,7 @@ import AditionalInformation from "./Pages/AditionalInformation/AditionalInformat
 import UserPage from "./Components/UserPageComponents/UserPage/UserPage.js";
 import StripeCheckout from "./Components/Stripe/StripeCheckout.jsx";
 import Footer from "./Components/Footer/Footer.tsx";
-import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword.tsx";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedIn, setAvatar } from "./store/loginSlice";
 import { RootState } from "@reduxjs/toolkit/query";
@@ -77,7 +77,7 @@ function App() {
           <Route path="/profile/*" element={<ProfilePage />}>
             <Route path=":pageNumber" element={<ProfileSubPageContainer />} />
           </Route>
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+
           <Route path="/home" element={<Home />} />
         </Routes>
 

@@ -39,6 +39,9 @@ const ProfilePage = () => {
   const [currentSettlementCycle, setCurrentSettlementCycle] = useState("");
   const [textFieldWidth, setTextFieldWidth] = useState<string>("auto");
 
+  const [usernameEditMode, setUsernameEditMode] = useState(false);
+  const [userName, setUserName] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -54,6 +57,11 @@ const ProfilePage = () => {
         setUser(userFromServer);
         setPages(pagesFromServer);
         setCurrentSettlementCycle(userSettlementCycle);
+        setUserName(userFromServer.username);
+
+        if (pagesFromServer.length > 0) {
+          setSelectedPage(pagesFromServer[0].id);
+        }
       } catch (error) {
         console.error("Error fetching user data!", error);
       }
@@ -364,65 +372,105 @@ const ProfilePage = () => {
     }
   };
 
+  const changeUsernameEditMode = () => {
+    setUsernameEditMode(!usernameEditMode);
+  };
+
+  const handleSubmitChangeUsername = async () => {
+    if (userName === User.username) {
+      setUsernameEditMode(!usernameEditMode);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://localhost:7191/api/User/Username/${User.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userName.toString()),
+        }
+      );
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error(
+          `Failed to update username. Status: ${response.status}. Details:`,
+          errorDetails
+        );
+        return;
+      }
+
+      const res = await fetchUserID();
+      setUser(res);
+      setUsernameEditMode(!usernameEditMode);
+
+      console.log("Username updated successfully.");
+    } catch (error) {
+      console.error("Error updating username:", error);
+    }
+  };
+
   return (
     <div className="top-of-page">
       {/* User Info and SubPageLister Container */}
       <div style={{ textAlign: "center" }}>
-        <div style={{ textAlign: "start", marginLeft: "2%", marginTop: "2%" }}>
-          <Button
-            ref={buttonRef}
-            onClick={() => {
-              onClickSettlementCycle();
-            }}
-          >
-            Change settlement cycle
-          </Button>
-          {ShowSettlementCycle && (
-            <div>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="settlementCycle"
-                label="Settlement Cycle"
-                name="settlementCycle"
-                select
-                size="small"
-                sx={{ width: textFieldWidth }}
-                value={settlementCycle}
-                onChange={(e) => setSettlementCycle(e.target.value)}
-                SelectProps={{
-                  IconComponent: () => null,
-                  native: false,
-                }}
-              >
-                {settlementCycles.map((cycle, index) => (
-                  <MenuItem key={index} value={cycle}>
-                    {cycle}
-                    {currentSettlementCycle === cycle && (
-                      <CheckIcon style={{ marginLeft: "auto" }} />
-                    )}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <div>
-                <Button onClick={() => onSubmitChangedSettlementCycle()}>
-                  Submit
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-        {/* User Image Container */}
         <div
-          className="user-image-container"
           style={{
-            marginTop: "20px",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            justifyContent: "space-between",
+            marginLeft: "2%",
+            marginTop: "2%",
           }}
         >
+          <div style={{ textAlign: "start", marginLeft: "2%" }}>
+            <Button
+              ref={buttonRef}
+              onClick={() => {
+                onClickSettlementCycle();
+              }}
+            >
+              Change settlement cycle
+            </Button>
+            {ShowSettlementCycle && (
+              <div>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="settlementCycle"
+                  label="Settlement Cycle"
+                  name="settlementCycle"
+                  select
+                  size="small"
+                  sx={{ width: textFieldWidth }}
+                  value={settlementCycle}
+                  onChange={(e) => setSettlementCycle(e.target.value)}
+                  SelectProps={{
+                    IconComponent: () => null,
+                    native: false,
+                  }}
+                >
+                  {settlementCycles.map((cycle, index) => (
+                    <MenuItem key={index} value={cycle}>
+                      {cycle}
+                      {currentSettlementCycle === cycle && (
+                        <CheckIcon style={{ marginLeft: "auto" }} />
+                      )}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <div>
+                  <Button onClick={() => onSubmitChangedSettlementCycle()}>
+                    Submit
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div
             className="delete-user-button"
             style={{ marginLeft: "auto", marginRight: "2%" }}
@@ -435,6 +483,17 @@ const ProfilePage = () => {
               Delete User
             </Button>
           </div>
+        </div>
+        {/* User Image Container */}
+        <div
+          className="user-image-container"
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <div style={{ textAlign: "center" }}>
             <CardMedia
               component="img"
@@ -482,7 +541,44 @@ const ProfilePage = () => {
           component="div"
           style={{ marginBottom: "10px" }}
         >
-          {User.username}
+          {usernameEditMode ? (
+            <>
+              <Input
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmitChangeUsername}
+              >
+                Submit
+              </Button>
+
+              <IconButton
+                size="small"
+                title="Edit username"
+                component="span"
+                style={{ color: "blue", marginLeft: "5px" }}
+                onClick={changeUsernameEditMode}
+              >
+                <EditIcon />
+              </IconButton>
+            </>
+          ) : (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {User.username}
+              <IconButton
+                size="small"
+                title="Edit username"
+                component="span"
+                style={{ color: "blue", marginLeft: "2px" }}
+                onClick={changeUsernameEditMode}
+              >
+                <EditIcon />
+              </IconButton>
+            </div>
+          )}
         </Typography>
         <Typography
           component="div"
