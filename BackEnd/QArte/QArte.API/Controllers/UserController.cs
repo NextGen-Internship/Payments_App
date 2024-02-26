@@ -113,6 +113,14 @@ namespace QArte.API.Controllers
             return Ok(request);
         }
 
+        [HttpPatch("Username/{id}")]
+        public async Task<ActionResult<UserDTO>> UpdateUsername(int id, [FromBody] string newUsername)
+        {
+            var query = new UpdateUsernameCommand(id, newUsername);
+            var request = await _mediatR.Send(query);
+            return Ok(request);
+        }
+
         [HttpPatch("ProfilePicture/{id}")]
         public async Task<ActionResult<UserDTO>> UpdateProfilePicture(IFormFile formFile, int id)
         {
@@ -138,32 +146,6 @@ namespace QArte.API.Controllers
             var request = await _mediatR.Send(query);
             return Ok(request);
         }
-
-
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login([FromBody] LoginDTO model)
-        //{
-        //    var user = await _userService.ValidateUserCredentials(model.Email, model.Password);
-        //    if(user != null)
-        //    {
-        //        var token = _token.GenerateToken(user);
-        //        return Ok(new { token = token });
-        //    }
-        //    return Unauthorized("Invalid credentials");
-        //}
-
-        //[HttpPost("google-login")]
-        //public async Task<IActionResult> GoogleLogin([FromBody]GoogleLoginDTO model)
-        //{
-        //    var validatedToken = await _googleAuthService.ValidateToken(model.Token);
-        //    if (validatedToken != null)
-        //    {
-        //        var user = await _userService.GetOrCreateUser(validatedToken.Email, validatedToken.Name);
-        //        var token = _tokenService.GenerateToken(user);
-        //        return Ok(new { token = token });
-        //    }
-        //    return Unauthorized("Invalid Google token");
-        //}
     }
 }
  
