@@ -15,11 +15,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAvatar } from "../../store/loginSlice";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import SignIn from "../SignIn/Login.tsx";
-import { setLoggedIn } from "../../store/loginSlice.ts";
+import { setUser, setLoggedIn, setAvatar } from "../../store/loginSlice.ts";
 
 const defaultTheme = createTheme();
 
@@ -135,13 +134,33 @@ export default function AditionalInformation() {
       if (response.status === 200) {
         console.log(response.data.succeed);
         if (response.data.succeed === true) {
-          dispatch(setLoggedIn(true));
           sessionStorage.setItem("userId", response.data.id.toString());
+
+
+
+          dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
+          dispatch(setUser(response.data)); // Save user data into Redux
+  
+          const token = response.data.data; // Token is directly in `Data`
+          const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
+  
           const pictureUrl = response.data.picUrl;
           if (pictureUrl) {
+            console.log("RESPONSE");
+            console.log(response.data.picUrl);
             sessionStorage.setItem("userPictureUrl", pictureUrl);
-
             dispatch(setAvatar(pictureUrl));
+          }
+          if (token) {
+            sessionStorage.setItem("token", token);
+          } else {
+            console.error("Token is missing in the response.");
+          }
+  
+          if (userId) {
+            sessionStorage.setItem("userId", userId.toString());
+          } else {
+            console.error("User ID is missing in the response.");
           }
           navigate("/home");
         }

@@ -16,7 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
 import { useDispatch, useSelector } from "react-redux";
-import { setAvatar } from "../../../store/loginSlice";
+import { setAvatar, setLoggedIn } from "../../../store/loginSlice";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import CheckIcon from "@mui/icons-material/Check";
@@ -310,7 +310,12 @@ const ProfilePage = () => {
       if (!response.ok) {
         throw new Error(`Failed to delete user. Status: ${response.status}`);
       }
+
+      localStorage.clear();
+      sessionStorage.clear();
+      dispatch(setLoggedIn(false));
       window.location.href = `${frontUrl}/home`;
+
       console.log("User deleted successfully.");
     } catch (error) {
       console.error("Error deleting user:", error);
