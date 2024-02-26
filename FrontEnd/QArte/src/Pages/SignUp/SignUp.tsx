@@ -151,7 +151,7 @@ export default function SignUp() {
           if (response.data?.token) {
             sessionStorage.setItem("token", response.data.token);
           }
-          navigate("/signin");
+          navigate("/login");
         } else {
           alert(`Registration failed: ${response.message}`);
         }
