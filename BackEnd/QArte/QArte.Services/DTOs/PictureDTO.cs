@@ -9,6 +9,7 @@ namespace QArte.Services.DTOs
 		public string PictureURL { get; set; }
 		public int GalleryID { get; set; }
 		public IFormFile file { get; set; }
+		public bool isImage { get; set; }
 	}
 }
 

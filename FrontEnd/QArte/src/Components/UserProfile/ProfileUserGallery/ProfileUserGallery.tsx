@@ -1,11 +1,10 @@
-import React from "react";
-import './ProfileUserGallery.css';
-import PhotoInProfile from "../PhotoInProfile/PhotoInProfile";
-import { useState, useEffect } from "react";
-import { Button, Grid } from "@mui/material";
-import Input from '@mui/material/Input';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Button } from "@mui/material";
+import Input from '@mui/material/Input';
+import { useEffect, useState } from "react";
+import PhotoInProfile from "../PhotoInProfile/PhotoInProfile";
+import './ProfileUserGallery.css';
 
 
 const ProfileUserGallery = ({gallery}:any) =>{

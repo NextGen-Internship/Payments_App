@@ -71,7 +71,7 @@ export function ResponsiveAppBar() {
     sessionStorage.removeItem("googleToken");
     sessionStorage.removeItem("userPictureUrl");
     sessionStorage.removeItem("userId");
-
+    setAnchorElUser(null);
     navigate("/home");
   };
 

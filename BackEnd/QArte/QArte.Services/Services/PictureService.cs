@@ -78,6 +78,14 @@ namespace QArte.Services.Services
                 using var response = await client.GetObjectAsync(getObjectRequest);
                 using var stream = response.ResponseStream;
                 pictureDTO.PictureURL = stream.ToString();
+                if (pictureDTO.PictureURL.Contains(".jpg"))
+                {
+                    pictureDTO.isImage = true;
+                }
+                else
+                {
+                    pictureDTO.isImage = false;
+                }
             }
 
             return picList;
@@ -103,8 +111,15 @@ namespace QArte.Services.Services
             PictureDTO pictureDTO = picture.GetDTO();
 
             pictureDTO.PictureURL = stream.ToString();
+            if (pictureDTO.PictureURL.Contains(".jpg"))
+            {
+                pictureDTO.isImage = true;
+            }
+            else
+            {
+                pictureDTO.isImage = false;
+            }
 
-       
             return pictureDTO;
         }
 
@@ -149,6 +164,14 @@ namespace QArte.Services.Services
                 pictureDTO.PictureURL = response;
 
                 pictureDTOs.Add(pictureDTO);
+                if (pictureDTO.PictureURL.Contains(".jpg"))
+                {
+                    pictureDTO.isImage = true;
+                }
+                else
+                {
+                    pictureDTO.isImage = false;
+                }
 
             }
 
@@ -164,7 +187,15 @@ namespace QArte.Services.Services
 
             var findPage = await _qArteDBContext.Pages.FirstOrDefaultAsync(x => x.GalleryID == obj.GalleryID);
             userID = findPage.UserID.ToString();
-            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{random.Next(1,1000000)+1}.jpg";
+            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{random.Next(1,1000000)+1}";
+            if (obj.isImage)
+            {
+                path += ".jpg";
+            }
+            else
+            {
+                path += ".webm";
+            }
 
             PictureDTO result = null;
 
@@ -220,7 +251,7 @@ namespace QArte.Services.Services
 
             var findPage = await _qArteDBContext.Pages.FirstOrDefaultAsync(x => x.GalleryID == obj.GalleryID);
             userID = findPage.ID.ToString();
-            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{obj.ID}.png";
+            string path = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_{obj.ID}.jpg";
 
 
             var Picture = await _qArteDBContext.Pictures
