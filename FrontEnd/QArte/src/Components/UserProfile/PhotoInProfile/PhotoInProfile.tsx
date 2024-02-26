@@ -20,12 +20,18 @@ const PhotoInProfile = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
               </IconButton>
             </div>
           <div className="photo-content">
-            <img
+            {photo.isImage&&<img
               src={photo.pictureURL}
               alt={`Photo ${photo.pictureURL}`}
               className="pics"
               onClick={() => onClickPhoto(photo.pictureURL)}
-            />
+            />}
+            {
+              !photo.isImage&&<video className="vid" controls >
+                <source className="pics" src={photo.pictureURL}/>
+              </video>
+            
+            }
           </div>
         </div>
       );

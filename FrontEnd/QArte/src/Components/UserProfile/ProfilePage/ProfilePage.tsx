@@ -515,6 +515,7 @@ const ProfilePage = () => {
                 name="image"
                 onChange={handleOnChange}
                 style={{ display: "none" }}
+                inputProps={{accept:"image/png,image/jpg"}}
               />
               <IconButton
                 size="large"
