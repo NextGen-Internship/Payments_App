@@ -82,6 +82,7 @@ const StripeCheckout = ({ userID }: any) => {
         variant="contained"
         color="success"
         size="large"
+        style={{zIndex:'20'}}
         onClick={handleSubmit}
       >
         Donate
