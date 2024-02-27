@@ -56,12 +56,14 @@ export function ResponsiveAppBar() {
 
   const handleNavClick = (page: string) => {
     if (page === "Profile") {
+      setAnchorElNav(null);
       navigate("/profile");
     } else if (page === "Login" || page === "SignUp") {
       navigate(`/${page.toLowerCase()}`);
     } else {
       navigate(`/${page.toLowerCase()}`);
     }
+    setAnchorElNav(null)
   };
 
   const handleLogout = () => {
@@ -77,6 +79,7 @@ export function ResponsiveAppBar() {
 
   const handleProfile = () => {
     setAnchorElUser(null);
+    setAnchorElNav(null)
     navigate("/profile");
   };
 
@@ -104,7 +107,9 @@ export function ResponsiveAppBar() {
             
           </Typography>
           {/* mobile version */}
+         
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -115,6 +120,7 @@ export function ResponsiveAppBar() {
             >
               <MenuIcon />
             </IconButton>
+    
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -135,16 +141,11 @@ export function ResponsiveAppBar() {
             >
               {/* Render "Home" and "Explore" when logged in */}
               {isLoggedIn &&
-                ["Home", "Explore"].map((page) => (
+                ["Home", "Explore","Profile"].map((page) => (
                   <MenuItem key={page} onClick={() => handleNavClick(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
-              {isLoggedIn && (
-                <MenuItem onClick={() => navigate("/profile")}>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
-              )}
               {isLoggedIn && (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>

@@ -66,7 +66,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const UploadPhoto =async (photo:any) => {
         try {
             console.log(photo.type)
-            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg");
+            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
             console.log(isImage);
             const formData = new FormData();
             formData.append("id",String(0));
@@ -77,7 +77,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
             const response = await fetch('https://localhost:7191/api/Picture/Post', {
                 method: 'POST',
                 headers: {
-
+                    
                 },
                 body: formData
             });
@@ -127,7 +127,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 name="image"
                 onChange={handleOnChange}
                 style={{ display: "none" }}
-                inputProps={{ accept: 'image/png, image/jpeg, video/mp4, video/mp3' }}
+                inputProps={{ accept: 'image/png, image/jpeg, image/jpg, video/mp4, video/mp3' }}
             />
             <Button
                 variant="contained"
