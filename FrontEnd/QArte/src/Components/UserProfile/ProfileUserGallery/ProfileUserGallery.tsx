@@ -1,11 +1,10 @@
-import React from "react";
-import './ProfileUserGallery.css';
-import PhotoInProfile from "../PhotoInProfile/PhotoInProfile";
-import { useState, useEffect } from "react";
-import { Button, Grid } from "@mui/material";
-import Input from '@mui/material/Input';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Button } from "@mui/material";
+import Input from '@mui/material/Input';
+import { useEffect, useState } from "react";
+import PhotoInProfile from "../PhotoInProfile/PhotoInProfile";
+import './ProfileUserGallery.css';
 
 
 const ProfileUserGallery = ({gallery}:any) =>{
@@ -15,6 +14,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const[activeGallery,setActiveGallery] = useState();
     const[model, setModel] = useState(false);
     const [tempImgSrc, setTempImgSrc] = useState('');
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(()=>{
         const getPhotos =async () => {
@@ -36,7 +36,12 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const fetchPhotos = async()=>{
 
         console.log(gallery)
-        const res = await fetch(`https://localhost:7191/api/Picture/GetByGalleryID/${gallery}`);
+        const res = await fetch(`${baseUrl}/api/Picture/GetByGalleryID/${gallery}`,{
+            method: 'GET',
+            headers:{
+              'ngrok-skip-browser-warning': '1'
+            }
+          });
         const photoData = await res.json();
         console.log(photoData)
         return photoData;
@@ -46,10 +51,11 @@ const ProfileUserGallery = ({gallery}:any) =>{
     {
         try {
     
-            const response = await fetch(`https://localhost:7191/api/Picture/DeleteByID/${id}`, {
+            const response = await fetch(`${baseUrl}/api/Picture/DeleteByID/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
             });
     
@@ -65,19 +71,16 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const UploadPhoto =async (photo:any) => {
         try {
-            console.log(photo.type)
-            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg");
-            console.log(isImage);
+            console.log(photo)
             const formData = new FormData();
             formData.append("id",String(0));
             formData.append("pictureURL","0");
             formData.append("galleryID",gallery);
             formData.append("file",photo);
-            formData.append("isImage",String(isImage));
-            const response = await fetch('https://localhost:7191/api/Picture/Post', {
+            const response = await fetch(`${baseUrl}/api/Picture/Post`, {
                 method: 'POST',
                 headers: {
-
+                    'ngrok-skip-browser-warning': '1'
                 },
                 body: formData
             });
@@ -114,7 +117,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
     {
         setModel(true);
         setTempImgSrc(picURL);
-        
     }
 
     return (
@@ -127,7 +129,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 name="image"
                 onChange={handleOnChange}
                 style={{ display: "none" }}
-                inputProps={{ accept: 'image/png, image/jpeg, video/mp4, video/mp3' }}
             />
             <Button
                 variant="contained"

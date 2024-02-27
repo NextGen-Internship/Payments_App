@@ -47,6 +47,7 @@ const defaultTheme = createTheme();
 
 const apiService = new ApiService();
 const userService = new UserService(apiService);
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Login() {
   // const [email, setEmail] = useState("");
@@ -123,9 +124,10 @@ export default function Login() {
       // Decode the token to get the user's info including the picture URL
       const decodedToken = jwtDecode(token);
       const response = await axios.post(
-        "https://localhost:7191/api/Authentication/google-signIn",
+        `${baseUrl}/api/Authentication/google-signIn`,
         { token },
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json" 
+      ,    'ngrok-skip-browser-warning': '1'} }
       );
       if (response.data.userExists) {
         dispatch(setLoggedIn(true));

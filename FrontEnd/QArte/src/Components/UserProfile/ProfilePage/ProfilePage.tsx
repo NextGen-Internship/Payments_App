@@ -43,6 +43,8 @@ const ProfilePage = () => {
   const [userName, setUserName] = useState("");
 
   const dispatch = useDispatch();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const frontUrl = import.meta.env.VITE_FRONT_URL;
 
   useEffect(() => {
     const getUser = async () => {
@@ -58,9 +60,6 @@ const ProfilePage = () => {
         setCurrentSettlementCycle(userSettlementCycle);
         setUserName(userFromServer.username);
 
-        if (pagesFromServer.length > 0) {
-          setSelectedPage(pagesFromServer[0].id);
-        }
       } catch (error) {
         console.error("Error fetching user data!", error);
       }
@@ -71,7 +70,12 @@ const ProfilePage = () => {
   const fetchCurrentSettlementCycle = async (id: number) => {
     try {
 
-        const currentCycleResponse = await fetch(`https://localhost:7191/api/SettlementCycle/GetByID/${id}`);
+        const currentCycleResponse = await fetch(`${baseUrl}/api/SettlementCycle/GetByID/${id}`,{
+          method: 'GET',
+          headers:{
+            'ngrok-skip-browser-warning': '1'
+          }
+        });
         const currentCycleData = await currentCycleResponse.json();
 
 
@@ -87,19 +91,6 @@ const ProfilePage = () => {
             return "";
         }
 
-
-
-      // return currentCycleData.settlementCycles;
-      switch (currentCycleData.settlementCycles) {
-        case 0:
-          return "Daily";
-        case 1:
-          return "Weekly";
-        case 2:
-          return "Monthly";
-        default:
-          return "";
-      }
     } catch (error) {
       console.error("Error fetching data:", error);
       return "";
@@ -108,14 +99,24 @@ const ProfilePage = () => {
 
   const fetchUser = async () => {
     const res = await fetch(
-      `https://localhost:7191/api/User/GetUserByID/${val}`
+      `${baseUrl}/api/User/GetUserByID/${val}`,{
+        method: 'GET',
+        headers:{
+          'ngrok-skip-browser-warning': '1'
+        }
+      }
     );
     const userData = await res.json();
     return userData;
   };
   const fetchUserID = async () => {
     const res = await fetch(
-      `https://localhost:7191/api/User/GetUserByID/${User.id}`
+      `${baseUrl}/api/User/GetUserByID/${User.id}`,{
+        method: 'GET',
+        headers:{
+          'ngrok-skip-browser-warning': '1'
+        }
+      }
     );
     const userData = await res.json();
     return userData;
@@ -123,7 +124,12 @@ const ProfilePage = () => {
 
   const fetchPages = async (id: number) => {
     const res = await fetch(
-      `https://localhost:7191/api/Page/GetByUserID/${id}`
+      `${baseUrl}/api/Page/GetByUserID/${id}`,{
+        method: 'GET',
+        headers:{
+          'ngrok-skip-browser-warning': '1'
+        }
+      }
     );
     const pageData = await res.json();
     return pageData;
@@ -135,10 +141,11 @@ const ProfilePage = () => {
     const qr = Math.floor(Math.random() * 1000) + 1; // to fix
 
     try {
-      const response = await fetch("https://localhost:7191/api/Page/Post", {
+      const response = await fetch(`${baseUrl}/api/Page/Post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': '1'
         },
         body: JSON.stringify({
           id: 0,
@@ -166,11 +173,12 @@ const ProfilePage = () => {
     try {
 
       const response = await fetch(
-        `https://localhost:7191/api/Page/DeleteByID/${id}`,
+        `${baseUrl}/api/Page/DeleteByID/${id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
         }
       );
@@ -192,11 +200,12 @@ const ProfilePage = () => {
       console.log("Updating page: ", page);
 
       const response = await fetch(
-        `https://localhost:7191/api/Page/PatchByID/${page.id}`,
+        `${baseUrl}/api/Page/PatchByID/${page.id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
           body: JSON.stringify({
             id: page.id,
@@ -237,10 +246,10 @@ const ProfilePage = () => {
       formData.append("formFile", file);
       formData.append("id", String(User.id));
       const response = await fetch(
-        `https://localhost:7191/api/User/ProfilePicture/${User.id}`,
+        `${baseUrl}/api/User/ProfilePicture/${User.id}`,
         {
           method: "PATCH",
-          headers: {},
+          headers: {'ngrok-skip-browser-warning': '1'},
           body: formData,
         }
       );
@@ -288,11 +297,12 @@ const ProfilePage = () => {
       console.log("Deleting user: " + User.id);
 
       const response = await fetch(
-        `https://localhost:7191/api/User/DeleteByID/${User.id}`,
+        `${baseUrl}/api/User/DeleteByID/${User.id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
         }
       );
@@ -300,10 +310,12 @@ const ProfilePage = () => {
       if (!response.ok) {
         throw new Error(`Failed to delete user. Status: ${response.status}`);
       }
+
       localStorage.clear();
       sessionStorage.clear();
       dispatch(setLoggedIn(false));
-      window.location.href = `http://localhost:5173/home`;
+      window.location.href = `${frontUrl}/home`;
+
       console.log("User deleted successfully.");
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -339,11 +351,12 @@ const ProfilePage = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:7191/api/SettlementCycle/PatchByID/${User.settlementCycleID}`,
+        `${baseUrl}/api/SettlementCycle/PatchByID/${User.settlementCycleID}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
           body: JSON.stringify({
             id: 0,
@@ -382,11 +395,12 @@ const ProfilePage = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:7191/api/User/Username/${User.id}`,
+        `${baseUrl}/api/User/Username/${User.id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
           body: JSON.stringify(userName.toString()),
         }

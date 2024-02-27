@@ -47,6 +47,7 @@ const defaultTheme = createTheme();
 
 const apiService = new ApiService();
 const userService = new UserService(apiService);
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function SignIn() {
   // const [email, setEmail] = useState("");
@@ -124,9 +125,9 @@ export default function SignIn() {
       const decodedToken = jwtDecode(token);
       
       const response = await axios.post(
-        "https://localhost:7191/api/Authentication/google-signIn",
+        `${baseUrl}/api/Authentication/google-signIn`,
         { token },
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json",    'ngrok-skip-browser-warning': '1' } }
       );
       if (response.data.userExists) {
         dispatch(setLoggedIn(true));

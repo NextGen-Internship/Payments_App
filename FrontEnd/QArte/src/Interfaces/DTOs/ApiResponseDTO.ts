@@ -2,7 +2,7 @@ interface ApiResponseDTO{
     succeed: boolean;
     message?: string;
     data?: any;
-    id:Int16Array;
+    id:number;
 }
 
 export default ApiResponseDTO;
