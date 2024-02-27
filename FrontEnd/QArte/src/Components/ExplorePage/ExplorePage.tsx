@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./ExplorePage.css";
-import { NavLink } from "react-router-dom";
 import OutlinedCard from "./UserCard/UserCard";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -10,7 +9,8 @@ const ExplorePage = () => {
   const [userList, setUserList] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  
   useEffect(() => {
     const getUsers = async () => {
       const fetchUsersData = await fetchUsers();
@@ -23,7 +23,13 @@ const ExplorePage = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://localhost:7191/api/User");
+      const response = await fetch(`${baseUrl}/api/User`, {
+        headers: {
+          'ngrok-skip-browser-warning': '1',
+        },
+      });
+  
+
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
