@@ -71,7 +71,13 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const UploadPhoto =async (photo:any) => {
         try {
-            console.log(photo)
+
+
+            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
+
+
+
+
             const formData = new FormData();
             formData.append("id",String(0));
             formData.append("pictureURL","0");
@@ -80,7 +86,9 @@ const ProfileUserGallery = ({gallery}:any) =>{
             const response = await fetch(`${baseUrl}/api/Picture/Post`, {
                 method: 'POST',
                 headers: {
+
                     'ngrok-skip-browser-warning': '1'
+
                 },
                 body: formData
             });
@@ -129,6 +137,9 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 name="image"
                 onChange={handleOnChange}
                 style={{ display: "none" }}
+
+                inputProps={{ accept: 'image/png, image/jpeg, image/jpg, video/mp4, video/mp3' }}
+
             />
             <Button
                 variant="contained"
