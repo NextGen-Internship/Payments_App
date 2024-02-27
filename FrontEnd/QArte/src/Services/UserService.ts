@@ -6,7 +6,6 @@ import ApiService from "./ApiService";
 
 
 class UserService{
-    private LOGIN_WITH_GOOGLE_ENDPOINT = import.meta.env.VITE_LOGIN_WITH_GOOGLE_ENDPOINT;
     private SIGNIN_ENDPOINT = import.meta.env.VITE_SINGIN_ENDPOINT;
     private SIGNUP_ENDPOINT = import.meta.env.VITE_SIGNUP_ENDPOINT;
     private apiService: ApiService;
