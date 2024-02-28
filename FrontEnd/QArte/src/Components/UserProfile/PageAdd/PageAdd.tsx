@@ -28,7 +28,7 @@ const PageAdd = ({ onAdd }: any) => {
                             variant="outlined"
                             name="name"
                             value={name}
-                            inputProps={{maxLength:15}}
+                            inputProps={{maxLength:30}}
                             onChange={(e) => setName(e.target.value)}
                             required={true}
                             style={{ marginBottom: '8px' }}
