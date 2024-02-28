@@ -39,6 +39,7 @@ function generateRandomPassword(length = 12) {
   }
   return password;
 }
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function AditionalInformation() {
   const [email, setEmail] = useState<string | null>(null);
@@ -119,11 +120,12 @@ export default function AditionalInformation() {
 
     try {
       const response = await axios.post(
-        "https://localhost:7191/api/Authentication/google-login",
+        `${baseUrl}/api/Authentication/google-login`,
         fullData,
         {
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1',
           },
         }
       );
@@ -132,6 +134,10 @@ export default function AditionalInformation() {
       if (response.status === 200) {
         console.log(response.data.succeed);
         if (response.data.succeed === true) {
+          sessionStorage.setItem("userId", response.data.id.toString());
+
+
+
           dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
           dispatch(setUser(response.data)); // Save user data into Redux
   
@@ -234,7 +240,6 @@ export default function AditionalInformation() {
               onChange={(e) => setCountry(e.target.value)}
             >
               {/* Menu Items for US and BG */}
-              <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
 
@@ -286,10 +291,6 @@ export default function AditionalInformation() {
               <MenuItem value="1">Weekly</MenuItem>
               <MenuItem value="2">Monthly</MenuItem>
             </TextField>
-            <FormControlLabel
-              control={<Checkbox value="agree" color="primary" />}
-              label="I agree to the terms and conditions"
-            />
             <Button
               type="submit"
               fullWidth

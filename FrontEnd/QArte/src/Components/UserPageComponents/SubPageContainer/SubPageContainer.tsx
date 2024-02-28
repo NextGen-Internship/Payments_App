@@ -25,6 +25,7 @@ const SubPageContainer = () =>{
 
     const navigate=useNavigate();
     const{id} = useParams();
+    const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(()=>{
         const getPage =async () => {
@@ -43,7 +44,12 @@ const SubPageContainer = () =>{
     },[id]);
 
     const fetchPage = async()=>{
-        const res = await fetch(`https://localhost:7191/api/Page/GetByID/${id}`);
+        const res = await fetch(`${baseUrl}/api/Page/GetByID/${id}`,{
+            method: 'GET',
+            headers:{
+              'ngrok-skip-browser-warning': '1'
+            }
+          });
         const pageData = await res.json();
         //console.log("THIS IS THE GALLERY!")
         console.log(pageData)
@@ -55,10 +61,11 @@ const SubPageContainer = () =>{
 
             console.log("Updating page: ", pages);
     
-            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.page.id}`, {
+            const response = await fetch(`${baseUrl}/Page/PatchByID/${pages.page.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
                 body: JSON.stringify(
                     {
@@ -75,7 +82,7 @@ const SubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/explore/${page.userID}`
+            window.location.href = `${baseUrl}/explore/${page.userID}`
             const res = await fetchPage();
             setPage(res);
             console.log('Page updated successfully.');
@@ -94,17 +101,18 @@ const SubPageContainer = () =>{
         try {
             console.log("Deleting page: " + id);
     
-            const response = await fetch(`https://localhost:7191/api/Page/DeleteByID/${id}`, {
+            const response = await fetch(`${baseUrl}/api/Page/DeleteByID/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
             });
     
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/explore/${page.userID}`;
+            window.location.href = `${baseUrl}/explore/${page.userID}`;
             console.log('Page deleted successfully.');
         } catch (error) {
             console.error('Error deleting page:', error);

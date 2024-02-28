@@ -8,6 +8,8 @@ using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using QArte.Services.Services;
 using QArte.Persistance.Helpers;
+using Microsoft.Extensions.Configuration;
+
 namespace QArte.Services.Services
 {
 	public class PageService : IPageService
@@ -16,13 +18,15 @@ namespace QArte.Services.Services
         private readonly QArteDBContext _qArteDBContext;
         private readonly IQRCodeGeneratorService _qRCodeGenerator;
         private readonly IGalleryService _galleryService;
+        private readonly IConfiguration _configuration;
 
-		public PageService(QArteDBContext qArteDBContext, IQRCodeGeneratorService qR, IGalleryService galleryService)
-		{
+        public PageService(QArteDBContext qArteDBContext, IQRCodeGeneratorService qR, IGalleryService galleryService, IConfiguration configuration)
+        {
             this._qArteDBContext = qArteDBContext;
             _qRCodeGenerator = qR;
             _galleryService = galleryService;
-		}
+            _configuration = configuration;
+        }
 
         public async Task<PageDTO> DeleteAsync(int id)
         {
@@ -100,7 +104,10 @@ namespace QArte.Services.Services
         {
             //string qrLink = $"http://localhost:5173/explore/{obj.UserID}/";
 
-            string qrLink = $"https://75d8-31-13-216-45.ngrok-free.app/explore/{obj.UserID}/";
+
+            string qrLink = $"{_configuration["URL"]}/explore/{obj.UserID}/";
+
+            //string qrLink = $"https://ca40-31-13-216-45.ngrok-free.app/explore/{obj.UserID}/";
             PageDTO result = null;
 
             GalleryDTO galleryDTO = new GalleryDTO

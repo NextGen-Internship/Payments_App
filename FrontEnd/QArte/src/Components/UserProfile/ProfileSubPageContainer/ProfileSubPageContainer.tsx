@@ -12,6 +12,8 @@ import './ProfileSubPageContainer.css';
 const ProfileSubPageContainer = () =>{
 
     const [ShowChangePage, setShowChangePage] = useState(false);
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    const frontUrl = import.meta.env.VITE_FRONT_URL;
 
     const [page,setPage] = useState({
         id:'',
@@ -40,7 +42,12 @@ const ProfileSubPageContainer = () =>{
     },[pageNumber]);
 
     const fetchPage = async()=>{
-        const res = await fetch(`https://localhost:7191/api/Page/GetByID/${pageNumber}`);
+        const res = await fetch(`${baseUrl}/api/Page/GetByID/${pageNumber}`,{
+            method: 'GET',
+            headers:{
+              'ngrok-skip-browser-warning': '1'
+            }
+          });
         const pageData = await res.json();
    
         return pageData;
@@ -50,10 +57,11 @@ const ProfileSubPageContainer = () =>{
         try {
 
     
-            const response = await fetch(`https://localhost:7191/api/Page/PatchByID/${pages.page.id}`, {
+            const response = await fetch(`${baseUrl}/api/Page/PatchByID/${pages.page.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
                 body: JSON.stringify(
                     {
@@ -70,7 +78,7 @@ const ProfileSubPageContainer = () =>{
                 console.error(`Failed to update page. Status: ${response.status}. Details:`, errorDetails);
                 throw new Error(`Failed to update page. Status: ${response.status}`);
             }
-            window.location.href = `http://localhost:5173/profile`;
+            window.location.href = `${frontUrl}/profile`;
 
             const res = await fetchPage();
             setPage(res);
@@ -87,10 +95,11 @@ const ProfileSubPageContainer = () =>{
     const callPageDelete = async (id:any) =>{
         try {
     
-            const response = await fetch(`https://localhost:7191/api/Page/DeleteByID/${id}`, {
+            const response = await fetch(`${baseUrl}/api/Page/DeleteByID/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': '1'
                 },
             });
     
@@ -98,7 +107,7 @@ const ProfileSubPageContainer = () =>{
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
             //window.location.href = `http://localhost:5173/profile`;
-            window.location.href = `http://localhost:5173/profile`;
+            window.location.href = `${frontUrl}/profile`;
         } catch (error) {
             console.error('Error deleting page:', error);
         }
@@ -106,7 +115,12 @@ const ProfileSubPageContainer = () =>{
 
     const GetQRCode = async ()=>{
         try{
-            const respose = await fetch(`https://localhost:7191/api/Page/GetQRCode/${page.id}`);
+            const respose = await fetch(`${baseUrl}/api/Page/GetQRCode/${page.id}`,{
+                method: 'GET',
+                headers:{
+                  'ngrok-skip-browser-warning': '1'
+                }
+              });
 
             alert("The QR code was sent to your email.")
         }catch(error){

@@ -1,31 +1,22 @@
-import React, {
-  Component,
-  useState,
-  forwardRef,
-  useRef,
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import {
   useEffect,
+  useRef,
+  useState
 } from "react";
-import "./UserPage.css";
+import { useNavigate, useParams } from "react-router-dom";
+import StripeCheckout from "../../Stripe/StripeCheckout";
+import PageNavigator from "../PageNavigator";
 import SubPageLister, {
   SubPageListerRef,
 } from "../SubPageLister/SubPageLister";
-import { useParams, useNavigate } from "react-router-dom";
-import StripeCheckout from "../../Stripe/StripeCheckout";
-import ChangePage from "../../ChangePage/ChangePage";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import SubPageContainer from "../SubPageContainer/SubPageContainer";
-import PageNavigator from "../PageNavigator";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import Input from "@mui/material/Input";
-import Button from "@mui/material/Button";
+import "./UserPage.css";
 
 const UserPage = () => {
   const { Uid } = useParams();
   const val = parseInt(Uid!);
+
 
   const [showAddPage, setAddPage] = useState(false);
   const [User, setUser] = useState<any>({});
@@ -33,7 +24,7 @@ const UserPage = () => {
   const [selectedPage, setSelectedPage] = useState<number | null>();
 
   const navigate = useNavigate();
-
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -42,10 +33,7 @@ const UserPage = () => {
         const pagesFromServer = await fetchPages(userFromServer.id);
         setUser(userFromServer);
         setPages(pagesFromServer);
-        if(pagesFromServer.length > 0)
-        {
-          setSelectedPage(pagesFromServer[0].id);
-        }
+
       } catch (error) {
         console.error("Error fetching user data!", error);
       }
@@ -55,7 +43,12 @@ const UserPage = () => {
 
   const fetchUser = async () => {
     const res = await fetch(
-      `https://localhost:7191/api/User/GetUserByID/${val}`
+      `${baseUrl}/api/User/GetUserByID/${val}`,{
+      method: 'GET',
+      headers:{
+        'ngrok-skip-browser-warning': '1'
+      }
+    }
     );
     const userData = await res.json();
     console.log(userData);
@@ -63,7 +56,12 @@ const UserPage = () => {
   };
   const fetchUserID = async () => {
     const res = await fetch(
-      `https://localhost:7191/api/User/GetUserByID/${User.id}`
+      `${baseUrl}/api/User/GetUserByID/${User.id}`,{
+        method: 'GET',
+        headers:{
+          'ngrok-skip-browser-warning': '1'
+        }
+      }
     );
     const userData = await res.json();
     console.log(userData);
@@ -72,7 +70,12 @@ const UserPage = () => {
 
   const fetchPages = async (id: number) => {
     const res = await fetch(
-      `https://localhost:7191/api/Page/GetByUserID/${id}`
+      `${baseUrl}/api/Page/GetByUserID/${id}`,{
+        method: 'GET',
+        headers:{
+          'ngrok-skip-browser-warning': '1'
+        }
+      }
     );
     const pageData = await res.json();
     console.log(pageData);
@@ -90,10 +93,11 @@ const UserPage = () => {
     const qr = Math.floor(Math.random() * 1000) + 1; // to fix
     //const qr = window.location.href;
     try {
-      const response = await fetch("https://localhost:7191/api/Page/Post", {
+      const response = await fetch(`${baseUrl}/api/Page/Post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': '1'
         },
         body: JSON.stringify({
           id: 0,
@@ -124,11 +128,12 @@ const UserPage = () => {
       console.log("Deleting page: " + id);
 
       const response = await fetch(
-        `https://localhost:7191/api/Page/DeleteByID/${id}`,
+        `${baseUrl}/api/Page/DeleteByID/${id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
         }
       );
@@ -155,11 +160,12 @@ const UserPage = () => {
       console.log("Updating page: ", page);
 
       const response = await fetch(
-        `https://localhost:7191/api/Page/PatchByID/${page.id}`,
+        `${baseUrl}/api/Page/PatchByID/${page.id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
           body: JSON.stringify({
             id: page.id,
@@ -200,10 +206,10 @@ const UserPage = () => {
       formData.append("formFile", file);
       formData.append("id", String(User.id));
       const response = await fetch(
-        `https://localhost:7191/api/User/ProfilePicture/${User.id}`,
+        `${baseUrl}/api/User/ProfilePicture/${User.id}`,
         {
           method: "PATCH",
-          headers: {},
+          headers: {'ngrok-skip-browser-warning': '1'},
           body: formData,
         }
       );
@@ -243,11 +249,12 @@ const UserPage = () => {
       console.log("Deleting user: " + User.id);
 
       const response = await fetch(
-        `https://localhost:7191/api/User/DeleteByID/${User.id}`,
+        `${baseUrl}/api/User/DeleteByID/${User.id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': '1'
           },
         }
       );
@@ -255,7 +262,7 @@ const UserPage = () => {
       if (!response.ok) {
         throw new Error(`Failed to delete user. Status: ${response.status}`);
       }
-      window.location.href = `http://localhost:5173/home`;
+      window.location.href = `${baseUrl}/home`;
       console.log("User deleted successfully.");
     } catch (error) {
       console.error("Error deleting user:", error);
