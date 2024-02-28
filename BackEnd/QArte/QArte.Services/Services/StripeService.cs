@@ -96,7 +96,7 @@ namespace QArte.Services.Services
 
         public async Task<Session> CreateCheckoutSession(SuccCancelUrlDTO urls)
         {
-            var domain = "https://localhost:7191";
+            var domain = "https://api.qarte.ngrok.app";
 
             var options = new SessionCreateOptions()
             {
@@ -104,7 +104,7 @@ namespace QArte.Services.Services
                {
                    new SessionLineItemOptions()
                    {
-                       Price = "price_1OgOm2Ly4Nh7di81hZ8EUENq",
+                       Price = "price_1OoLSQHDcTx887mGRsl4MVnZ",
                        Quantity = 1,
                    }
                },

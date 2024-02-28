@@ -56,12 +56,14 @@ export function ResponsiveAppBar() {
 
   const handleNavClick = (page: string) => {
     if (page === "Profile") {
+      setAnchorElNav(null);
       navigate("/profile");
     } else if (page === "Login" || page === "SignUp") {
       navigate(`/${page.toLowerCase()}`);
     } else {
       navigate(`/${page.toLowerCase()}`);
     }
+    setAnchorElNav(null);
   };
 
   const handleLogout = () => {
@@ -76,6 +78,7 @@ export function ResponsiveAppBar() {
   };
 
   const handleProfile = () => {
+    setAnchorElNav(null);
     setAnchorElUser(null);
     navigate("/profile");
   };
@@ -135,16 +138,11 @@ export function ResponsiveAppBar() {
             >
               {/* Render "Home" and "Explore" when logged in */}
               {isLoggedIn &&
-                ["Home", "Explore"].map((page) => (
+                ["Home", "Explore","Profile"].map((page) => (
                   <MenuItem key={page} onClick={() => handleNavClick(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
-              {isLoggedIn && (
-                <MenuItem onClick={() => navigate("/profile")}>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
-              )}
               {isLoggedIn && (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>
