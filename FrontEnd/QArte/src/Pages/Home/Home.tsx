@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -15,13 +15,12 @@ import {
   Slide,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [imageOpen, setImageOpen] = useState(false); // State for image dialog
-  const [videoOpen, setVideoOpen] = useState(false); // State for video dialog
+  
+  const [imageOpen, setImageOpen] = useState(false); 
+  const [videoOpen, setVideoOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState("");
 
   const artworks = [
@@ -29,12 +28,6 @@ const Home = () => {
     { title: "Paris,France", img: "src/assets/paris.jpeg" },
     { title: "Los Angeles,US", img: "src/assets/la,us.webp" },
   ];
-
-  // const owners = [
-  //   { name: "Owner 1", img: "src/assets/owner1.jpg", title: "Founder" },
-  //   { name: "Owner 2", img: "src/assets/owner2.jpg", title: "Co-Founder" },
-  //   { name: "Owner 3", img: "src/assets/owner3.jpg", title: "Co-Founder" },
-  // ];
 
   const handleClickOpenImage = (img: any) => {
     setSelectedImg(img);
@@ -111,19 +104,9 @@ const Home = () => {
     setChecked(true);
   }, []);
 
-  // useEffect(() => {
-  //   // Check if the animation has already been played by looking for a flag in sessionStorage
-  //   const animationPlayed = sessionStorage.getItem("animationPlayed");
-
-  //   if (!animationPlayed) {
-  //     setChecked(true);
-  //     // Set a flag in sessionStorage to indicate the animation has been played
-  //     sessionStorage.setItem("animationPlayed", "true");
-  //   }
-  // }, []);
 
   return (
-    //<Box sx={{ bgcolor: "#ffeef2", minHeight: "100vh" }}>
+
     <Container maxWidth="lg">
       <HeroSection />
       <Typography variant="h4" sx={{ mt: 5, mb: 3 }}>
@@ -177,7 +160,6 @@ const Home = () => {
         ))}
       </Grid>
 
-      {/* Dialog for Image */}
       <Dialog
         open={imageOpen}
         onClose={handleImageClose}
@@ -203,7 +185,7 @@ const Home = () => {
         />
       </Dialog>
 
-      {/* Dialog for Video */}
+
       <Dialog
         open={videoOpen}
         onClose={handleVideoClose}
@@ -265,30 +247,11 @@ const Home = () => {
           a larger story of human creativity.
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {/* {owners.map((owner, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card sx={{ maxWidth: 345, mx: "auto" }}>
-                <CardMedia
-                  component="img"
-                  height="300" // Adjust the height as needed
-                  image={owner.img}
-                  alt={owner.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {owner.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {owner.title}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))} */}
+        
         </Grid>
       </Container>
     </Container>
-    //</Box>
+   
   );
 };
 

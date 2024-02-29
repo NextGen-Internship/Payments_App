@@ -39,7 +39,7 @@ const SubPageContainer = () =>{
                 console.error('Error fetching user data!', error);
             }
         }
-        console.log("THIS IS THE Page");
+         
         getPage();
     },[id]);
 
@@ -51,15 +51,15 @@ const SubPageContainer = () =>{
             }
           });
         const pageData = await res.json();
-        //console.log("THIS IS THE GALLERY!")
-        console.log(pageData)
+        // 
+         
         return pageData;
     }
 
     const callPageChange = async (pages:any) =>{
         try {
 
-            console.log("Updating page: ", pages);
+             
     
             const response = await fetch(`${baseUrl}/Page/PatchByID/${pages.page.id}`, {
                 method: 'PATCH',
@@ -85,8 +85,8 @@ const SubPageContainer = () =>{
             window.location.href = `${baseUrl}/explore/${page.userID}`
             const res = await fetchPage();
             setPage(res);
-            console.log('Page updated successfully.');
-            console.log(page.userID);
+             
+             
             setShowChangePage(false);
            
             // If you want to update the UI or perform other actions after the update, add them here.
@@ -99,7 +99,7 @@ const SubPageContainer = () =>{
 
     const callPageDelete = async (id:any) =>{
         try {
-            console.log("Deleting page: " + id);
+             
     
             const response = await fetch(`${baseUrl}/api/Page/DeleteByID/${id}`, {
                 method: 'DELETE',
@@ -113,7 +113,7 @@ const SubPageContainer = () =>{
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
             window.location.href = `${baseUrl}/explore/${page.userID}`;
-            console.log('Page deleted successfully.');
+             
         } catch (error) {
             console.error('Error deleting page:', error);
         }

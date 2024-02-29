@@ -1,9 +1,8 @@
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button } from '@mui/material';
-import React, { useEffect, useState } from "react";
+import{ useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import './ProfileUserBio.css';
 
 
@@ -66,7 +65,7 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
         <textarea
           id="nameTextarea"
           defaultValue={page.pageName}
-          maxLength={15}
+          maxLength={30}
           style={{ height: textareaNameHeight, resize: 'vertical' }}
           onChange={(e) => {setName(e.target.value)}}
           required={true}
@@ -80,7 +79,7 @@ const ProfileUserBio = ({page, callPageChange}:any)=>{
           required={true}
 
         />
-        <div style={{ marginTop: '10px' }}> {/* Add some margin */}
+        <div style={{ marginTop: '10px' }}>
           <Button variant="outlined" onClick={changeEditMode}>Cancel</Button>
           {' '}
           <Button variant="contained" type="submit" color="primary">OK</Button>

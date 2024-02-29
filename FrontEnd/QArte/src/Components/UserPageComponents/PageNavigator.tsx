@@ -7,7 +7,7 @@ const PageNavigator = ({ pageId, userId } : any) => {
 
   useEffect(() => {
     if (pageId) {
-      console.log(`Navigating to page with id: ${pageId}`);
+       
       navigate(`/explore/${userId}/${pageId}`);
     }
   }, [pageId, navigate]);

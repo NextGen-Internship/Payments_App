@@ -7,11 +7,11 @@ const Footer: React.FC = () => {
       <Container maxWidth="lg">
         <Typography variant="body1" align="center" sx={{ color: "black" }}>
           {" "}
-          {/* Add sx prop for black color */}© {new Date().getFullYear()} QArté
+            © {new Date().getFullYear()} QArté
           |{" "}
           <Link
             href="https://blankfactor.com/"
-            color="textPrimary" // Change to textPrimary for black color if using default theme or specify 'black'
+            color="textPrimary" 
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -20,20 +20,20 @@ const Footer: React.FC = () => {
           |{" "}
           <Link
             href="https://www.linkedin.com/company/blankfactor"
-            color="textPrimary" // Change to textPrimary for black color if using default theme or specify 'black'
+            color="textPrimary"
             target="_blank"
             rel="noopener noreferrer"
           >
             LinkedIn
           </Link>
         </Typography>
-        {/* If you have any text for the second Typography, set its color similarly */}
+      
         <Typography
           variant="body2"
-          color="text.primary" // This sets the color to black based on the theme's primary text color
+          color="text.primary" 
           align="center"
         >
-          {/* Additional text here if needed */}
+         
         </Typography>
       </Container>
     </Box>

@@ -1,12 +1,10 @@
-import React from "react";
 import ProfileUserBio from "../ProfileUserBio/ProfileUserBio";
 import ProfileUserGallery from "../ProfileUserGallery/ProfileUserGallery";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ProfilePage from "../ProfilePage/ProfilePage";
 import './ProfileSubPageContainer.css';
 
 const ProfileSubPageContainer = () =>{
@@ -82,7 +80,7 @@ const ProfileSubPageContainer = () =>{
 
             const res = await fetchPage();
             setPage(res);
-            console.log(page.userID);
+             
             setShowChangePage(false);
            
         } catch (error) {
@@ -106,7 +104,6 @@ const ProfileSubPageContainer = () =>{
             if (!response.ok) {
                 throw new Error(`Failed to delete page. Status: ${response.status}`);
             }
-            //window.location.href = `http://localhost:5173/profile`;
             window.location.href = `${frontUrl}/profile`;
         } catch (error) {
             console.error('Error deleting page:', error);
@@ -135,7 +132,6 @@ const ProfileSubPageContainer = () =>{
             <div className="name-And-Edit" style={{display:'flex', width:'100%'}}>
             <h1 style={{ marginLeft: '10%' }}>{page.pageName}</h1>
         </div>
-            {/* Delete Page Button */}
             <IconButton
               size="large"
               onClick={() => callPageDelete(page.id)}
@@ -149,7 +145,6 @@ const ProfileSubPageContainer = () =>{
           <div className="bio-editPageButton-container">
           <ProfileUserBio page={page} callPageChange={callPageChange}/>
           </div>
-          {/* {ShowChangePage && <ChangePage onChange={callPageChange} page={page} />} */}
           {page.galleryID !== "" && <ProfileUserGallery gallery={page.galleryID} />}
           <div style={{ marginTop: '30px', position: 'relative'}}>
             <Button 

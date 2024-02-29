@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
 const PhotoInProfile = ({photo, onDeletePhoto, onClickPhoto}:any)=>{
-    console.log(photo);
+     
     return (
         <div className="alabala">
             <div className="delete-container">

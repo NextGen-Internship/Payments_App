@@ -1,16 +1,12 @@
-import React from "react";
 import './UserGallery.css';
 import Photo from "../Photo/Photo";
 import { useState, useEffect } from "react";
-import { Button, Grid } from "@mui/material";
-import Input from '@mui/material/Input';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 
 
 const UserGallery = ({gallery}:any) =>{
 
-    const[file, setFile] = useState();
+
     const[photos, setPhotos] = useState([]);
     const[activeGallery,setActiveGallery] = useState();
     const[model, setModel] = useState(false);
@@ -30,14 +26,14 @@ const UserGallery = ({gallery}:any) =>{
                 console.error('Error fetching user data!', error);
             }
         }
-        console.log("THIS IS THE GALLERY");
+         
         getPhotos();
     },[gallery]);
 
 
     const fetchPhotos = async()=>{
-        console.log("gallery")
-        console.log(gallery)
+         
+         
         const res = await fetch(`${baseUrl}/api/Picture/GetByGalleryID/${gallery}`,{
             method: 'GET',
             headers:{
@@ -45,15 +41,15 @@ const UserGallery = ({gallery}:any) =>{
             }
           });
         const photoData = await res.json();
-        //console.log("THIS IS THE GALLERY!")
-        console.log(photoData)
+        // 
+         
         return photoData;
     }
 
     const DeletePhoto = async (id:any) =>
     {
         try {
-            console.log("Deleting picture: " + id);
+             
     
             const response = await fetch(`${baseUrl}/api/Picture/DeleteByID/${id}`, {
                 method: 'DELETE',
@@ -68,7 +64,7 @@ const UserGallery = ({gallery}:any) =>{
             }
             const res = await fetchPhotos();
             setPhotos(res);
-            console.log('Picture deleted successfully.');
+             
         } catch (error) {
             console.error('Error deleting picture:', error);
         }
@@ -76,7 +72,7 @@ const UserGallery = ({gallery}:any) =>{
 
     const UploadPhoto =async (photo:any) => {
         try {
-            console.log(photo)
+             
             const formData = new FormData();
             formData.append("id",String(0));
             formData.append("pictureURL","0");
@@ -96,8 +92,8 @@ const UserGallery = ({gallery}:any) =>{
             }
             const res = await fetchPhotos();
             setPhotos(res);
-            console.log('Page added successfully:', data);
-            console.log("THe full data", res);
+             
+             
         } catch (error) {
             console.error('Error adding page:', error);
         }
@@ -105,8 +101,8 @@ const UserGallery = ({gallery}:any) =>{
 
     const handleOnChange = async(e:any)=>{
         const target = e.target.files;
-        console.log('file', target);
-        //setFile(target[0]);
+         
+
         AddPhoto(target[0]);
     }
 
@@ -116,7 +112,7 @@ const UserGallery = ({gallery}:any) =>{
         }
         else
         {
-            console.log(newFile);
+             
             UploadPhoto(newFile);
         }
     }

@@ -4,18 +4,14 @@ import ProfileSubPageLister, {
   SubPageListerRef,
 } from "../ProfileSubPageLister/ProfileSubPageLister";
 import PageAdd from "../PageAdd/PageAdd";
-import { useNavigate } from "react-router-dom";
-import StripeCheckout from "../../Stripe/StripeCheckout";
 import Typography from "@mui/material/Typography";
 import PageNavigator from "../ProfilePageNavigator";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAvatar, setLoggedIn } from "../../../store/loginSlice";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -197,7 +193,7 @@ const ProfilePage = () => {
 
   const changePageFetch = async (page: any) => {
     try {
-      console.log("Updating page: ", page);
+       
 
       const response = await fetch(
         `${baseUrl}/api/Page/PatchByID/${page.id}`,
@@ -225,9 +221,9 @@ const ProfilePage = () => {
       }
       const res = await fetchPages(User.id);
       setPages(res);
-      console.log("Page updated successfully.");
+       
 
-      // If you want to update the UI or perform other actions after the update, add them here.
+     
     } catch (error) {
       console.error("Error updating page:", error);
     }
@@ -235,9 +231,6 @@ const ProfilePage = () => {
 
   const changePage = (page: any) => {
     changePageFetch(page);
-    // setPages(Upages);
-    //PageRef.current.Awake(Upages[awake].id);
-    console.log(Upages);
   };
 
   const UploadPhoto = async (file: any) => {
@@ -261,12 +254,12 @@ const ProfilePage = () => {
 
       const res = await fetchUserID();
       setUser(res);
-      console.log("Page added successfully:", data);
-      console.log("THe full data", res);
+       
+       
       const pictureUrl = res.pictureURL;
       if (pictureUrl) {
-        console.log("RESPONSE");
-        console.log(response);
+         
+         
         sessionStorage.setItem("userPictureUrl", pictureUrl);
         dispatch(setAvatar(pictureUrl));
       }
@@ -278,23 +271,23 @@ const ProfilePage = () => {
   const handleOnChange = async (e: any) => {
     let target = e.target.files;
     AddPhoto(target[0]);
-    console.log("file", target);
+     
     let v = window.location.href;
-    console.log(v);
+     
   };
 
   const AddPhoto = async (file: any) => {
     if (file == undefined) {
       alert("Choose an image");
     } else {
-      console.log(file);
+       
       UploadPhoto(file);
     }
   };
 
   const DeleteUser = async () => {
     try {
-      console.log("Deleting user: " + User.id);
+       
 
       const response = await fetch(
         `${baseUrl}/api/User/DeleteByID/${User.id}`,
@@ -316,7 +309,7 @@ const ProfilePage = () => {
       dispatch(setLoggedIn(false));
       window.location.href = `${frontUrl}/home`;
 
-      console.log("User deleted successfully.");
+       
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -377,7 +370,7 @@ const ProfilePage = () => {
       setCurrentSettlementCycle(settlementCycle);
       setShowSettlementCycle(false);
 
-      console.log("Settlement cycle updated successfully.");
+       
     } catch (error) {
       console.error("Error updating settlement cycle:", error);
     }
@@ -419,7 +412,7 @@ const ProfilePage = () => {
       setUser(res);
       setUsernameEditMode(!usernameEditMode);
 
-      console.log("Username updated successfully.");
+       
     } catch (error) {
       console.error("Error updating username:", error);
     }
@@ -427,7 +420,6 @@ const ProfilePage = () => {
 
   return (
     <div className="top-of-page">
-      {/* User Info and SubPageLister Container */}
       <div style={{ textAlign: "center" }}>
         <div
           style={{
@@ -496,7 +488,6 @@ const ProfilePage = () => {
             </Button>
           </div>
         </div>
-        {/* User Image Container */}
         <div
           className="user-image-container"
           style={{

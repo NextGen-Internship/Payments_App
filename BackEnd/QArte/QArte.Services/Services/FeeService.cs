@@ -1,8 +1,4 @@
-﻿using System;
-using QArte.Services.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using QArte.Persistance.Enums;
+﻿using QArte.Services.DTOs;
 using QArte.Persistance;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -76,8 +72,6 @@ namespace QArte.Services.Services
         public async Task<FeeDTO> UpdateAsync(int id, FeeDTO obj)
         {
 
-            //_ = await FeeExists(obj.ID)
-            //        == true ? throw new AppException(obj.ID.ToString()) : 0;
 
             var fee = await this._qArteDBContext.Fees
                 .FirstOrDefaultAsync(x => x.ID == id)

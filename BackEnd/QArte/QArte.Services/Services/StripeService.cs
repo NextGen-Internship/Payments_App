@@ -96,7 +96,6 @@ namespace QArte.Services.Services
 
         public async Task<Session> CreateCheckoutSession(SuccCancelUrlDTO urls)
         {
-            var domain = "https://api.qarte.ngrok.app";
 
             var options = new SessionCreateOptions()
             {

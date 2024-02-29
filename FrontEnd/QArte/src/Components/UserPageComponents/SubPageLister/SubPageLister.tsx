@@ -1,15 +1,13 @@
 import { useEffect, useImperativeHandle } from "react";
-import SubPageContainer from "../SubPageContainer/SubPageContainer";
 import './SubPageLister.css';
 import { useState , forwardRef} from "react";
 import PageNavContainer from "../PageNavContainer/PageNavContainer";
-import { NavLink, Route, Routes, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MenuList from '@mui/material/MenuList';
-import AddIcon from '@mui/icons-material/Add';
+
 import './SubPageLister.css'
 
     export interface SubPageListerRef {
@@ -41,9 +39,9 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
           if (foundPage) {
               setPages(foundPage);
               setAwakePage(0);
-              console.log("here");
-              console.log(foundPage);
-              console.log(awakePage);
+               
+               
+               
           } else {
               console.error(`User with id ${awakePage} not found.`);
           }
@@ -55,11 +53,11 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
     const onShow = (id:any) => {
       for(var i=0; i<Pages.length; i++){
         if(pages[i].id === id){
-          console.log(pages[i]);
+           
           setAwakePage(i);
         }
       }
-      console.log("We change apge")
+       
     };
   
     useImperativeHandle(ref, () => ({
@@ -81,19 +79,10 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
         onSelectedPage(pageId);
       };
 
-      const handleAddPageClick = () => {
-        handleMenuClose();
-        navigate(`/explore/${userID}`);
-        onSelectedPage(null);
-        onAddPage(true);
-      };
-
       const menuItemWidth = document.getElementById('show-pages-button')?.offsetWidth;
       return (
         <>
-          {/* Container to center the button */}
           <div id="PageNav">
-            {/* Dropdown menu trigger button */}
             <Button
               id="show-pages-button"
               variant="contained"
@@ -102,8 +91,6 @@ const SubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, userID }:a
               Show Pages
             </Button>
           </div>
-      
-      {/* Dropdown menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}

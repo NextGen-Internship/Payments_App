@@ -1,11 +1,8 @@
-﻿using System;
-using QArte.Services.DTOs;
+﻿using QArte.Services.DTOs;
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
-using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using QArte.Persistance.Helpers;
 

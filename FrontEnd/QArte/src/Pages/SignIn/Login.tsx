@@ -1,4 +1,4 @@
-// import * as React from "react";
+
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -32,17 +32,12 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {/* {"Copyright © "} */}
-      {/* <LinkMui color="inherit" href="https://mui.com/">
-        Your Website
-      </LinkMui>{" "} */}
-      {/* {new Date().getFullYear()} */}
-      {/* {"."} */}
+     
     </Typography>
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
 
 const apiService = new ApiService();
@@ -50,11 +45,9 @@ const userService = new UserService(apiService);
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Login() {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //const avatarUrl = useSelector((state: RootState) => state.user.avatar);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,16 +73,15 @@ export default function Login() {
     try {
       const response = await userService.loginUser(signInData);
       if (response.succeed) {
-        dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
-        dispatch(setUser(response.data)); // Save user data into Redux
-
-        const token = response.data.data; // Token is directly in `Data`
-        const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
+        dispatch(setLoggedIn(true));
+        dispatch(setUser(response.data));        
+        const token = response.data.data; 
+        const userId = response.data.id; 
 
         const pictureUrl = response.data.picUrl;
         if (pictureUrl) {
-          console.log("RESPONSE");
-          console.log(response.data.picUrl);
+           
+           
           sessionStorage.setItem("userPictureUrl", pictureUrl);
           dispatch(setAvatar(pictureUrl));
         }
@@ -115,14 +107,14 @@ export default function Login() {
     }
   };
 
-  //working and set the googlePicture into the avatar
+
   const handleLoginWithgoogle = async (CredentialResponse: any) => {
-    console.log("Login with Google success.", CredentialResponse);
+     
     const token = CredentialResponse.credential;
     sessionStorage.setItem("googleToken", token);
     try {
-      // Decode the token to get the user's info including the picture URL
-      const decodedToken = jwtDecode(token);
+    
+      
       const response = await axios.post(
         `${baseUrl}/api/Authentication/google-signIn`,
         { token },
@@ -138,8 +130,8 @@ export default function Login() {
 
         const pictureUrl = response.data.picUrl;
         if (pictureUrl) {
-          console.log("RESPONSE");
-          console.log(response.data.picUrl);
+           
+           
           sessionStorage.setItem("userPictureUrl", pictureUrl);
 
           dispatch(setAvatar(pictureUrl));
@@ -154,9 +146,9 @@ export default function Login() {
   };
 
   const error = () => {
-    console.log("Google login error");
+     
   };
-  //
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
