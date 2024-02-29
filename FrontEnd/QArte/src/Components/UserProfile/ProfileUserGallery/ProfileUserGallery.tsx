@@ -72,10 +72,12 @@ const ProfileUserGallery = ({gallery}:any) =>{
     const UploadPhoto =async (photo:any) => {
         try {
 
+            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
+            console.log(isImage);
+
+
 
             const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
-
-
 
 
             const formData = new FormData();
@@ -83,6 +85,8 @@ const ProfileUserGallery = ({gallery}:any) =>{
             formData.append("pictureURL","0");
             formData.append("galleryID",gallery);
             formData.append("file",photo);
+            formData.append("isImage",String(isImage));
+            
             const response = await fetch(`${baseUrl}/api/Picture/Post`, {
                 method: 'POST',
                 headers: {
@@ -136,7 +140,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 type="file"
                 name="image"
                 onChange={handleOnChange}
-                style={{ display: "none" }}
 
                 inputProps={{ accept: 'image/png, image/jpeg, image/jpg, video/mp4, video/mp3' }}
 
@@ -147,7 +150,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
                 startIcon={<CloudUploadIcon />}
                 style={{ marginRight: "2%" }}
             >
-                Upload Image
+                Upload Media
             </Button>
             </label>
         </div>

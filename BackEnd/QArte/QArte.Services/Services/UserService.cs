@@ -386,7 +386,16 @@ namespace QArte.Services.Services
                 UserID = 0,
                 GalleryID = 0
             };
-            
+            var userExist = await _qarteDBContext.Users
+                .Include(x => x.BankAccount)
+                .Include(x => x.Role)
+                .Include(x => x.SettlementCycle)
+                .FirstOrDefaultAsync(x => x.UserName == obj.Username);
+            if(userExist != null)
+            {
+                return obj;
+            }
+
             var deletedUser = await _qarteDBContext.Users
                 .Include(x => x.BankAccount)
                 .Include(x => x.Role)

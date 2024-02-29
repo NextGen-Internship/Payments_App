@@ -63,7 +63,7 @@ export function ResponsiveAppBar() {
     } else {
       navigate(`/${page.toLowerCase()}`);
     }
-    setAnchorElNav(null)
+    setAnchorElNav(null);
   };
 
   const handleLogout = () => {
@@ -78,6 +78,7 @@ export function ResponsiveAppBar() {
   };
 
   const handleProfile = () => {
+    setAnchorElNav(null);
     setAnchorElUser(null);
     setAnchorElNav(null)
     navigate("/profile");
