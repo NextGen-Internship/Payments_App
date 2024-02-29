@@ -5,8 +5,8 @@ class ApiService {
     private baseUrl = import.meta.env.VITE_BASE_URL;
 
     private async handleResponse(response: any):Promise<ApiResponseDTO> {
-        //console.groupCollapsed(response.status);
-        console.log(response.status);
+
+         
         const succeed = response.status == 200;
         
         let message = '';
@@ -25,7 +25,7 @@ class ApiService {
     private async request<T>(config: AxiosRequestConfig): Promise<ApiResponseDTO> {
         try {
             const response = await axios(config);
-            console.log(response);
+             
             return this.handleResponse(response);
         } catch (error: any) {
             console.error('API request error:', error);
@@ -41,7 +41,7 @@ class ApiService {
     }
 
     async post<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
-        console.log(data);
+         
         return this.request<T>({
             method: 'post',
             url: `${this.baseUrl}/${endpoint}`,
@@ -57,13 +57,6 @@ class ApiService {
         });
     }
 
-    // async update<T>(endpoint: string, data: any): Promise<ApiResponseDTO> {
-    //     return this.request<T>({
-    //         method: 'update',
-    //         url: `${this.baseUrl}/${endpoint}`,
-    //         data,
-    //     });
-    // }
 
     async delete<T>(endpoint: string): Promise<ApiResponseDTO> {
         return this.request<T>({

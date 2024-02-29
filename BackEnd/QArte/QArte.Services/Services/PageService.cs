@@ -2,11 +2,7 @@
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
-using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
-using QArte.Persistance.PersistanceModels;
-using QArte.Services.Services;
 using QArte.Persistance.Helpers;
 using Microsoft.Extensions.Configuration;
 
@@ -102,12 +98,11 @@ namespace QArte.Services.Services
 
         public async Task<PageDTO> PostAsync(PageDTO obj)
         {
-            //string qrLink = $"http://localhost:5173/explore/{obj.UserID}/";
 
 
             string qrLink = $"{_configuration["URL"]}/explore/{obj.UserID}/";
 
-            //string qrLink = $"https://ca40-31-13-216-45.ngrok-free.app/explore/{obj.UserID}/";
+
             PageDTO result = null;
 
             GalleryDTO galleryDTO = new GalleryDTO
@@ -117,35 +112,30 @@ namespace QArte.Services.Services
             };
 
             var newPage = obj.GetEntity();
-            if (true)
+
+            if (newPage.GalleryID == 0)
             {
-                if (newPage.GalleryID == 0)
-                {
-                    GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
-                    newPage.GalleryID = galleryHolder.ID;
-                }
-                await this._qArteDBContext.Pages.AddAsync(newPage);
-                await _qArteDBContext.SaveChangesAsync();
-
-                var page = await this._qArteDBContext.Pages
-                    .FirstOrDefaultAsync(x => x.GalleryID == newPage.GalleryID);
-
-                page.QRLink = qrLink + page.ID;
-                await _qArteDBContext.SaveChangesAsync();
-
-                var user = await _qArteDBContext.Users.
-                    FirstOrDefaultAsync(x => x.ID == newPage.UserID);
-
-                string userEmail = user.Email;
-                _qRCodeGenerator.CreateQRCode(newPage.QRLink, newPage.GalleryID.ToString(), newPage.UserID.ToString(), newPage.User.Email);
-
-                result = newPage.GetDTO();
+                GalleryDTO galleryHolder = await _galleryService.PostAsync(galleryDTO);
+                newPage.GalleryID = galleryHolder.ID;
             }
-            else
-            {
-                //result = deletedPage.GetDTO();
+            await this._qArteDBContext.Pages.AddAsync(newPage);
+            await _qArteDBContext.SaveChangesAsync();
 
-            }
+            var page = await this._qArteDBContext.Pages
+                .FirstOrDefaultAsync(x => x.GalleryID == newPage.GalleryID);
+
+            page.QRLink = qrLink + page.ID;
+            await _qArteDBContext.SaveChangesAsync();
+
+            var user = await _qArteDBContext.Users.
+                FirstOrDefaultAsync(x => x.ID == newPage.UserID);
+
+            string userEmail = user.Email;
+            _qRCodeGenerator.CreateQRCode(newPage.QRLink, newPage.GalleryID.ToString(), newPage.UserID.ToString(), newPage.User.Email);
+
+            result = newPage.GetDTO();
+            
+
 
             return result;
         }

@@ -2,9 +2,7 @@
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
-using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using QArte.Persistance.Helpers;
 
@@ -39,19 +37,12 @@ namespace QArte.Services.Services
                 {
                     ID = x.ID,
                     ERole = x.ERole,
-                    //Users = x.Users
-                    //.Select(y => new UserDTO
-                    //{
-                    //    ID = y.ID,
-
-                    //}).ToList()
                 }).ToListAsync();
         }
 
         public async Task<RoleDTO> GetRoleByID(int id)
         {
             var role = await _qArteDBContext.Role
-              //.Include(x=>x.Users)
               .FirstOrDefaultAsync(x => x.ID == id)
               ?? throw new AppException("Not found");
             return role.GetDTO();
@@ -62,7 +53,6 @@ namespace QArte.Services.Services
             RoleDTO result = null;
 
             var deletedRole = await _qArteDBContext.Role
-                                            //.Include(x => x.Users)
                                             .IgnoreQueryFilters()
                                             .FirstOrDefaultAsync(x => x.ID== obj.ID);
             var newRole = obj.GetEnity();
@@ -84,7 +74,6 @@ namespace QArte.Services.Services
         public async Task<RoleDTO> UpdateAsync(int id, RoleDTO obj)
         {
             var Role = await this._qArteDBContext.Role
-                //.Include(x => x.Users)
                 .FirstOrDefaultAsync(x => x.ID == id)
                 ?? throw new AppException("Not found");
 

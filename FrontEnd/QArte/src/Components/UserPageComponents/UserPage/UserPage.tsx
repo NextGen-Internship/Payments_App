@@ -28,7 +28,7 @@ const UserPage = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        console.log("val " + val);
+         
         const userFromServer = await fetchUser();
         const pagesFromServer = await fetchPages(userFromServer.id);
         setUser(userFromServer);
@@ -51,7 +51,7 @@ const UserPage = () => {
     }
     );
     const userData = await res.json();
-    console.log(userData);
+     
     return userData;
   };
   const fetchUserID = async () => {
@@ -64,7 +64,7 @@ const UserPage = () => {
       }
     );
     const userData = await res.json();
-    console.log(userData);
+     
     return userData;
   };
 
@@ -78,7 +78,7 @@ const UserPage = () => {
       }
     );
     const pageData = await res.json();
-    console.log(pageData);
+     
     return pageData;
   };
 
@@ -86,7 +86,7 @@ const UserPage = () => {
 
   const Try = () => {
     setAddPage(!showAddPage);
-    console.log(showAddPage);
+     
   };
 
   const addPage = async (bio: any) => {
@@ -116,8 +116,8 @@ const UserPage = () => {
       const res = await fetchPages(User.id);
       setPages(res);
       setAddPage(false);
-      console.log("Page added successfully:", data);
-      console.log("THe full data", res);
+       
+       
     } catch (error) {
       console.error("Error adding page:", error);
     }
@@ -125,7 +125,7 @@ const UserPage = () => {
 
   const deletePageFetch = async (id: any) => {
     try {
-      console.log("Deleting page: " + id);
+       
 
       const response = await fetch(
         `${baseUrl}/api/Page/DeleteByID/${id}`,
@@ -143,7 +143,7 @@ const UserPage = () => {
       }
       const res = await fetchPages(User.id);
       setPages(res);
-      console.log("Page deleted successfully.");
+       
     } catch (error) {
       console.error("Error deleting page:", error);
     }
@@ -152,12 +152,12 @@ const UserPage = () => {
   const deletePage = async (id: any) => {
     deletePageFetch(id);
 
-    console.log(Upages);
+     
   };
 
   const changePageFetch = async (page: any) => {
     try {
-      console.log("Updating page: ", page);
+       
 
       const response = await fetch(
         `${baseUrl}/api/Page/PatchByID/${page.id}`,
@@ -185,9 +185,9 @@ const UserPage = () => {
       }
       const res = await fetchPages(User.id);
       setPages(res);
-      console.log("Page updated successfully.");
+       
 
-      // If you want to update the UI or perform other actions after the update, add them here.
+   
     } catch (error) {
       console.error("Error updating page:", error);
     }
@@ -195,9 +195,8 @@ const UserPage = () => {
 
   const changePage = (page: any) => {
     changePageFetch(page);
-    // setPages(Upages);
-    //PageRef.current.Awake(Upages[awake].id);
-    console.log(Upages);
+ 
+     
   };
 
   const UploadPhoto = async (file: any) => {
@@ -220,8 +219,8 @@ const UserPage = () => {
       }
       const res = await fetchUserID();
       setUser(res);
-      console.log("Page added successfully:", data);
-      console.log("THe full data", res);
+       
+       
     } catch (error) {
       console.error("Error adding page:", error);
     }
@@ -230,23 +229,23 @@ const UserPage = () => {
   const handleOnChange = async (e: any) => {
     let target = e.target.files;
     AddPhoto(target[0]);
-    console.log("file", target);
+     
     let v = window.location.href;
-    console.log(v);
+     
   };
 
   const AddPhoto = async (file: any) => {
     if (file == undefined) {
       alert("Choose an image");
     } else {
-      console.log(file);
+       
       UploadPhoto(file);
     }
   };
 
   const DeleteUser = async () => {
     try {
-      console.log("Deleting user: " + User.id);
+       
 
       const response = await fetch(
         `${baseUrl}/api/User/DeleteByID/${User.id}`,
@@ -263,7 +262,7 @@ const UserPage = () => {
         throw new Error(`Failed to delete user. Status: ${response.status}`);
       }
       window.location.href = `${baseUrl}/home`;
-      console.log("User deleted successfully.");
+       
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -278,9 +277,7 @@ const UserPage = () => {
 
   return (
     <div className="top-of-page">
-      {/* User Info and SubPageLister Container */}
       <div style={{ textAlign: "center" }}>
-        {/* User Image Container */}
         <div
           className="user-image-container"
           style={{
@@ -310,8 +307,7 @@ const UserPage = () => {
           </div>
         </div>
 
-        {/* User Details */}
-        <div className="user-details" style={{ marginTop: "10px" }}></div>
+    <div className="user-details" style={{ marginTop: "10px" }}></div>
 
         <Typography
           variant="h4"
@@ -350,9 +346,6 @@ const UserPage = () => {
           </div>
         )}
       </div>
-
-      {/* Stripe Checkout Component */}
-      
     </div>
   );
 };

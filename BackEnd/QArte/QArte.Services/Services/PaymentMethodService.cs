@@ -1,12 +1,8 @@
-﻿using System;
-using QArte.Services.DTOs;
+﻿using QArte.Services.DTOs;
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
-using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
-using QArte.Persistance.PersistanceModels;
 using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
@@ -27,14 +23,6 @@ namespace QArte.Services.Services
                             {
                                 ID = x.ID,
                                 paymentName = x.PaymentMethods,
-                                //BankAccounts = x.BankAccounts.Select(y => new BankAccountDTO
-                                //{
-                                //    ID = y.ID,
-                                //    IBAN = y.IBAN,
-                                //    BeneficiaryName = y.BeneficiaryName,
-                                //    StripeInfo = y.StripeInfo,
-                                //    PaymentMethodID = y.PaymentMethodID,
-                                //}).ToList()
                             }).ToListAsync();
         }
 
@@ -94,7 +82,6 @@ namespace QArte.Services.Services
                 == true ? throw new AppException("Not found") : 0;
 
             var paymentMethod = await this._qArteDBContext.PaymentMethods
-                        //.Include(x => x.BankAccounts)
                     .FirstOrDefaultAsync(x => x.ID == id)
                     ?? throw new AppException("Not found");
 
@@ -110,7 +97,6 @@ namespace QArte.Services.Services
         public async Task<PaymentMethodDTO> DeleteAsync(int id)
         {
             var paymentMethod = await _qArteDBContext.PaymentMethods
-                        //.Include(x => x.BankAccounts)
                         .FirstOrDefaultAsync(x => x.ID == id)
                         ?? throw new AppException("Not found");
 

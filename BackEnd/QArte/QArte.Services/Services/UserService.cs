@@ -4,16 +4,12 @@ using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
 using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
-using Stripe;
 using Microsoft.AspNetCore.Http;
 using Amazon.S3.Model;
-using Amazon.S3.Util;
 using Amazon;
 using Amazon.S3;
 using QArte.Persistance.Helpers;
-using SkiaSharp;
 
 namespace QArte.Services.Services
 {
@@ -40,8 +36,6 @@ namespace QArte.Services.Services
 
             _paymentMethodsService = paymentMethodsService;
             _settlementCycleService = settlementCycleService;
-
-            //_pageService = pageService;
 
 
             _pageService = pageService;
@@ -570,14 +564,10 @@ namespace QArte.Services.Services
             return userDTO;
         }
 
-        //here it should be User user or UserDTO user???
+
         public bool CheckByPasswordSignIn(UserDTO user, string password)
         {
-            //import BCrypt.Net-Next
-            //the first return -> if we use User user
-            //return BCrypt.Net.BCrypt.Verify(password, user.Password);
 
-            //the second return -> if we use UserDTO user
             var result = BCrypt.Net.BCrypt.Verify(password, user.Password);
 
             return result;

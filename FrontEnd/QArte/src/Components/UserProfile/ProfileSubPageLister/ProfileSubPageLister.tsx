@@ -48,11 +48,11 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
     const onShow = (id:any) => {
       for(var i=0; i<Pages.length; i++){
         if(pages[i].id === id){
-          console.log(pages[i]);
+           
           setAwakePage(i);
         }
       }
-      console.log("We change apge")
+       
     };
   
     useImperativeHandle(ref, () => ({
@@ -84,9 +84,7 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
       const menuItemWidth = document.getElementById('show-pages-button')?.offsetWidth;
       return (
         <>
-          {/* Container to center the button */}
           <div id="PageNav">
-            {/* Dropdown menu trigger button */}
             <Button
               id="show-pages-button"
               variant="contained"
@@ -95,8 +93,6 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
               Show Pages
             </Button>
           </div>
-      
-      {/* Dropdown menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -109,7 +105,6 @@ const ProfileSubPageLister = forwardRef(({ pages, onSelectedPage, onAddPage, use
             </div>
           </MenuItem>
         ))}
-        {/* "Add page" button */}
         <MenuItem style={{ width: menuItemWidth }} onClick={handleAddPageClick}>
           <div style={{ width: '100%', backgroundColor: 'transparent'}}>
             <Button variant="text" color="primary" fullWidth> 

@@ -1,7 +1,4 @@
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import { Button } from '@mui/material';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import './UserBio.css'
 
 
@@ -58,10 +55,7 @@ const UserBio = ({page, callPageChange}:any)=>{
       setName('');
   }
 
-  const changeEditMode = () => 
-  {
-    setEditMode(!editMode);
-  }
+
   
   return (
       <div className="my-container" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>

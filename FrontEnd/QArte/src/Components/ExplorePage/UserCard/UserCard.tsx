@@ -1,4 +1,4 @@
-import React from "react";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -9,14 +9,14 @@ import { NavLink } from "react-router-dom";
 const OutlinedCard = ({ user }: any) => {
   return (
     <Box
-        sx={{
-          margin: "2% 20%",
-          "@media (max-width:600px)": {
-            margin: "2% 5%",
-          },
-        }}
-      >
-      <NavLink  to={`${user.id}`} style={{ textDecoration: "none" }}>
+      sx={{
+        margin: "2% 20%",
+        "@media (max-width:600px)": {
+          margin: "2% 5%",
+        },
+      }}
+    >
+      <NavLink to={`${user.id}`} style={{ textDecoration: "none" }}>
         <Card
           variant="outlined"
           sx={{
@@ -71,7 +71,7 @@ const OutlinedCard = ({ user }: any) => {
       </NavLink>
     </Box>
   );
-  
+
 };
 
 export default OutlinedCard;

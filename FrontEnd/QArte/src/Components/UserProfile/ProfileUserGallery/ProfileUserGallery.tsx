@@ -9,7 +9,7 @@ import './ProfileUserGallery.css';
 
 const ProfileUserGallery = ({gallery}:any) =>{
 
-    const[file, setFile] = useState();
+
     const[photos, setPhotos] = useState([]);
     const[activeGallery,setActiveGallery] = useState();
     const[model, setModel] = useState(false);
@@ -35,7 +35,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const fetchPhotos = async()=>{
 
-        console.log(gallery)
+         
         const res = await fetch(`${baseUrl}/api/Picture/GetByGalleryID/${gallery}`,{
             method: 'GET',
             headers:{
@@ -43,7 +43,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
             }
           });
         const photoData = await res.json();
-        console.log(photoData)
+         
         return photoData;
     }
 
@@ -71,11 +71,6 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const UploadPhoto =async (photo:any) => {
         try {
-
-            const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
-            console.log(isImage);
-
-
 
             const isImage=(photo.type=="image/png"||photo.type=="image/jpeg"||photo.type=="image/jpg");
 
@@ -110,7 +105,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
 
     const handleOnChange = async(e:any)=>{
         const target = e.target.files;
-        console.log('file', target);
+         
         AddPhoto(target[0]);
     }
 
@@ -120,7 +115,7 @@ const ProfileUserGallery = ({gallery}:any) =>{
         }
         else
         {
-            console.log(newFile);
+             
             UploadPhoto(newFile);
         }
     }

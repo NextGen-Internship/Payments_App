@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 export const loginSlice = createSlice({
   name: 'user',
   initialState: {
-    userInfo: null, // Holds the user information when logged in
-    isLoggedIn: false, // Represents the login state
+    userInfo: null, 
+    isLoggedIn: false,
     avatar: null,
     isLoading:false,
   },
   reducers: {
-    // Action to set the user information and login state
+
     setUser: (state, action) => {
       state.userInfo = action.payload;
       state.isLoggedIn = !!action.payload;
@@ -19,7 +19,6 @@ export const loginSlice = createSlice({
       state.avatar = action.payload;
 
     },
-    // Action to clear the user information upon logout
     clearUser: (state) => {
       state.userInfo = null;
       state.isLoggedIn = false;
@@ -36,9 +35,6 @@ export const loginSlice = createSlice({
   },
 });
 
-// Export the actions
 export const { setUser, clearUser, setLoggedIn, setAvatar,setLoading } = loginSlice.actions;
-//export const { setLoggedIn } = loginSlice.actions;
 
-// Export the reducer
 export default loginSlice.reducer;

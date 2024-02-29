@@ -1,25 +1,19 @@
-﻿using System;
-using QArte.Services.DTOs;
+﻿using QArte.Services.DTOs;
 using QArte.Services.DTOMappers;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
-using QArte.Persistance.Enums;
 using QArte.Persistance;
-using Microsoft.VisualBasic;
 using QArte.Persistance.PersistanceModels;
 using Amazon.S3;
 using Amazon;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
-using Microsoft.AspNetCore.Http;
-using SkiaSharp;
 using QArte.Persistance.Helpers;
 
 namespace QArte.Services.Services
 {
     public class PictureService : IPictureService
     {
-        //make it so it works with the amazon!
         private readonly QArteDBContext _qArteDBContext;
         private readonly IAmazonData _amazonData;
 
@@ -32,7 +26,6 @@ namespace QArte.Services.Services
 
         public async Task<PictureDTO> DeleteAsync(int id)
         {
-            //Make it so it get deleted from the amazon
 
             var picture = await _qArteDBContext.Pictures
                 .FirstOrDefaultAsync(x => x.ID == id);
@@ -125,10 +118,6 @@ namespace QArte.Services.Services
 
         public async Task<IEnumerable<PictureDTO>> GetPicturesByGalleryID(int id)
         {
-            //fix this
-            //find the right amazon folder user->gallery id
-            //get all of the pictures in it
-            //push them out
             string path = "";
             List<PictureDTO> pictureDTOs = new List<PictureDTO>();
 
@@ -180,7 +169,6 @@ namespace QArte.Services.Services
 
         public async Task<PictureDTO> PostAsync(PictureDTO obj)
         {
-            //Make it so it gets uploaded to the amazon
             string userID = "";
             string galleryID = obj.GalleryID.ToString();
             Random random = new Random();

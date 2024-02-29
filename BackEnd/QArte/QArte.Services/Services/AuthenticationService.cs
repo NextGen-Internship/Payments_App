@@ -1,22 +1,15 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using QArte.Persistance.PersistanceModels;
 using QArte.Services.DTOs;
 using QArte.Services.ServiceInterfaces;
-using QArte.Services.DTOMappers;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 using QArte.Persistance;
 //new
 namespace QArte.Services.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly QArteDBContext _qArteDBContext;
         private readonly IUserService _userService;
         private readonly ITokennService _tokenService;
         private readonly IConfiguration _configuration;
@@ -90,11 +83,6 @@ namespace QArte.Services.Services
                     Email = validation.Email,
                     FirstName = validation.FirstName,
                     LastName = validation.LastName,
-                    //and all that stuff like this template googleLogin.PhoneNumber 
-                    //IBAN = googleLogin.IBAN,
-                    //Password = "IzIHi8kbpIqZvhpUs3UD2o1i3D9779##!@"
-                    //
-                    //ToDo: Add bank information and city address...
                 };
 
                 try
@@ -137,10 +125,7 @@ namespace QArte.Services.Services
             }
         }
 
-        //public Task Logout()
-        //{
-        //    throw new NotImplementedException();
-        //}
+
 
     }
 

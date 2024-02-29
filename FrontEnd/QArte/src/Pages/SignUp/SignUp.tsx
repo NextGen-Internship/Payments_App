@@ -4,21 +4,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Snackbar } from "@mui/material";
-import IconButton from "@mui/material";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ApiService from "../../Services/ApiService";
 import ApiResponseDTO from "../../Interfaces/DTOs/ApiResponseDTO";
 import UserService from "../../Services/UserService";
 import SignUpDTO from "../../Interfaces/DTOs/SignUpDTO";
-import Select from "@mui/material/Select";
+
 import MenuItem from "@mui/material/MenuItem";
 const defaultTheme = createTheme();
 
@@ -39,20 +37,6 @@ export default function SignUp() {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [settlementCycle, setSettlementCycle] = useState("");
-  //const [settlementCycleID, setSettlementCycleID] = useState("");
-  //const [paymentMethodEnum, setPaymentMethodEnum] = useState("");
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const handleSnackbarClose = (
-    event?: React.SyntheticEvent,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
 
   const userService = new UserService(new ApiService());
   const navigate = useNavigate();
@@ -126,18 +110,16 @@ export default function SignUp() {
             },
           ],
         };
-        console.log(userData);
-        // sends data to API and recieve response
+
+
         const response: ApiResponseDTO = await userService.registerUser(
           userData
         );
 
-        console.log(response);
 
-        // checking from Api response
+
         if (response.succeed) {
-          console.log("Registration successful", response.message);
-          // collect the token
+
           if (response.data?.token) {
             localStorage.setItem("token", response.data.token);
           }
@@ -175,7 +157,7 @@ export default function SignUp() {
             noValidate
             sx={{ mt: 1 }}
           >
-            {/* Form fields */}
+
             <TextField
               margin="normal"
               required
@@ -216,7 +198,7 @@ export default function SignUp() {
               error={!!confirmPasswordError}
               helperText={confirmPasswordError}
             />
-            {/* Username */}
+
             <TextField
               margin="normal"
               required
@@ -227,7 +209,7 @@ export default function SignUp() {
               autoComplete="username"
               onChange={(e) => setUsername(e.target.value)}
             />
-            {/* FisrtName */}
+
             <TextField
               margin="normal"
               required
@@ -240,7 +222,7 @@ export default function SignUp() {
               aria-label="First Name"
               onChange={(e) => setFirstName(e.target.value)}
             />
-            {/* LastName */}
+
             <TextField
               margin="normal"
               required
@@ -252,7 +234,7 @@ export default function SignUp() {
               autoComplete="family-name"
               onChange={(e) => setLastName(e.target.value)}
             />
-            {/* PhoneNumber */}
+
             <TextField
               margin="normal"
               required
@@ -273,7 +255,7 @@ export default function SignUp() {
               autoComplete="address"
               onChange={(e) => setAddress(e.target.value)}
             />
-            {/* Country */}
+
             <TextField
               margin="normal"
               required
@@ -285,12 +267,12 @@ export default function SignUp() {
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
             >
-              {/* Menu Items for US and BG */}
+
               <MenuItem value="US">United States</MenuItem>
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
 
-            {/* City */}
+
             <TextField
               margin="normal"
               required
@@ -301,7 +283,7 @@ export default function SignUp() {
               autoComplete="city"
               onChange={(e) => setCity(e.target.value)}
             />
-            {/* PostalCode */}
+
             <TextField
               margin="normal"
               required

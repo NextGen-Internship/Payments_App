@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using QArte.Services.DTOs;
-using QArte.Persistance.Enums;
-using QArte.Persistance.PersistanceModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using QArte.Services.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 
-//new
+
 namespace QArte.Services.Services
 {
     public class TokennService : ITokennService
@@ -32,11 +26,11 @@ namespace QArte.Services.Services
 
             var claims = new List<Claim>()
             {
-                    //down here new Claim(JwtRegisteredClaimNames.Email, user.getEntity().Email)???
+
                     new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
                     new Claim("FirstName", user.FirstName ?? ""),
                     new Claim("LastName", user.LastName ?? ""),
-                    //do i need to add userRole
+  
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString())
             };

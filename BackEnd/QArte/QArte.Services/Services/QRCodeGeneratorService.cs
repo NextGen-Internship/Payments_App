@@ -1,18 +1,11 @@
-﻿using System;
-using System.IO;
-using QArte.Services.ServiceInterfaces;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing;
-using System.Drawing.Drawing2D;
+﻿using QArte.Services.ServiceInterfaces;
 using SkiaSharp.QrCode;
 using Amazon.S3;
-using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using Amazon;
 using Amazon.S3.Util;
 using System.Net;
 using System.Net.Mail;
-using System.IO;
 
 namespace QArte.Services.Services
 {
@@ -28,15 +21,9 @@ namespace QArte.Services.Services
 
         public async void CreateQRCode(string URL, string galleryID, string userID, string userEmail)
         {
-            //also fetch the logo from the server
             string logoPath = "Public_Resources/QArte_B.jpg";
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
-
-            //if (!Directory.Exists(path))
-            //{
-            //    DirectoryInfo directory = Directory.CreateDirectory(path);
-            //}
             var region = RegionEndpoint.EUCentral1;
             AmazonS3Client client = new AmazonS3Client(_amazonData.AccessKey, _amazonData.SecretKey, region);
             bool bucketExists = await AmazonS3Util.DoesS3BucketExistV2Async(client, _amazonData.BucketName);
@@ -73,11 +60,6 @@ namespace QArte.Services.Services
 
             using var image = surfice.Snapshot();
             using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-            //using Stream stream = File.Create(qrPath);
-            //data.SaveTo(stream);
-            //stream.Dispose();
-
-            //amazon putting
 
             if (!bucketExists)
             {
@@ -102,11 +84,9 @@ namespace QArte.Services.Services
 
         public async void SendMail(string image, string userEmail, AmazonS3Client client)
         {
-            //send the image to mail
             string senderEmail = "qartemail@gmail.com";
             string senderPassword = "rsbg uiet knzh kess";
             string recipientEmail = userEmail;
-            //string recipientEmail = userEmail;
             string imageFilePath = image;
 
             MailMessage mail = new MailMessage();
@@ -140,10 +120,7 @@ namespace QArte.Services.Services
 
         public async void DeleteQRCode(string galleryID, string userID)
         {
-            //delete the amazon thing
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            string path = location + galleryID;
-            string qrPath = path + "/" + "QR.png";
+
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
 
@@ -155,10 +132,7 @@ namespace QArte.Services.Services
 
         public async void TotalDeleteQRCode(string galleryID, string userID)
         {
-            //delete the amazon thing
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            string path = location + galleryID;
-            string qrPath = path + "/" + "QR.png";
+
             string dummy = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
 
@@ -169,9 +143,6 @@ namespace QArte.Services.Services
 
         public void GetQRCode(string galleryID, string userID, string userEmail)
         {
-            //get from amazon
-            string location = "/Users/Martin.Kolev/M_Kolev/QArte/Pictures/Users/" + userID + "/";
-            string path = location + galleryID;
             string qrPath = $"Users\\/{userID}\\/{galleryID}\\/{userID}_{galleryID}_QR.png";
 
             var region = RegionEndpoint.EUCentral1;

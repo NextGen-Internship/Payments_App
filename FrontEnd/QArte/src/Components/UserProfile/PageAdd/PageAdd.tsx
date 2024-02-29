@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Grid, TextField, Button } from '@mui/material';
-import './PageAdd.css'; // Assuming you have a CSS file for styling
+import './PageAdd.css'; 
 
 const PageAdd = ({ onAdd }: any) => {
     const [bio, setBio] = useState('');
@@ -20,7 +20,6 @@ const PageAdd = ({ onAdd }: any) => {
         <div className="center-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <form className="add-form" onSubmit={onSubmit}>
                 <Grid container spacing={2} direction="column" alignItems="center">
-                    {/* Page Name Input */}
                     <Grid item style={{ width: '100%' }}>
                         <TextField
                             fullWidth
@@ -34,8 +33,6 @@ const PageAdd = ({ onAdd }: any) => {
                             style={{ marginBottom: '8px' }}
                         />
                     </Grid>
-
-                    {/* Bio Input */}
                     <Grid item style={{ width: '100%' }}>
                         <TextField
                             fullWidth
@@ -48,8 +45,6 @@ const PageAdd = ({ onAdd }: any) => {
                             style={{ marginBottom: '16px' }}
                         />
                     </Grid>
-
-                    {/* Submit Button */}
                     <Grid item> 
                         <Button
                             type="submit"

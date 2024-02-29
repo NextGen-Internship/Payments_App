@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -14,8 +13,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import Select from "@mui/material/Select";
+import { useDispatch} from "react-redux";
+
 import MenuItem from "@mui/material/MenuItem";
 import SignIn from "../SignIn/Login.tsx";
 import { setUser, setLoggedIn, setAvatar } from "../../store/loginSlice.ts";
@@ -63,7 +62,7 @@ export default function AditionalInformation() {
     const googleToken = sessionStorage.getItem("googleToken");
     if (googleToken) {
       const decoded: DecodedToken = jwtDecode(googleToken);
-      console.log(decoded);
+       
       if (decoded.email) setEmail(decoded.email);
       if (decoded.given_name) setFirstName(decoded.given_name);
       if (decoded.family_name) setLastName(decoded.family_name);
@@ -130,24 +129,24 @@ export default function AditionalInformation() {
         }
       );
 
-      // checking for successful login
+
       if (response.status === 200) {
-        console.log(response.data.succeed);
+         
         if (response.data.succeed === true) {
           sessionStorage.setItem("userId", response.data.id.toString());
 
 
 
-          dispatch(setLoggedIn(true)); // Save into Redux that the user is logged in successfully
-          dispatch(setUser(response.data)); // Save user data into Redux
+          dispatch(setLoggedIn(true)); 
+          dispatch(setUser(response.data)); 
   
-          const token = response.data.data; // Token is directly in `Data`
-          const userId = response.data.id; // User ID is accessed directly from the response, not `response.data`
+          const token = response.data.data;
+          const userId = response.data.id; 
   
           const pictureUrl = response.data.picUrl;
           if (pictureUrl) {
-            console.log("RESPONSE");
-            console.log(response.data.picUrl);
+             
+             
             sessionStorage.setItem("userPictureUrl", pictureUrl);
             dispatch(setAvatar(pictureUrl));
           }
@@ -196,7 +195,7 @@ export default function AditionalInformation() {
             noValidate
             sx={{ mt: 1 }}
           >
-            {/* Username */}
+       
             <TextField
               margin="normal"
               required
@@ -227,7 +226,7 @@ export default function AditionalInformation() {
               autoComplete="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            {/* Country */}
+        
             <TextField
               margin="normal"
               required
@@ -239,11 +238,11 @@ export default function AditionalInformation() {
               value={country}
               onChange={(e) => setCountry(e.target.value)}
             >
-              {/* Menu Items for US and BG */}
+            
               <MenuItem value="BG">Bulgaria</MenuItem>
             </TextField>
 
-            {/* City */}
+          
             <TextField
               margin="normal"
               required
@@ -254,7 +253,7 @@ export default function AditionalInformation() {
               autoComplete="city"
               onChange={(e) => setCity(e.target.value)}
             />
-            {/* PostalCode */}
+       
             <TextField
               margin="normal"
               required
@@ -275,7 +274,7 @@ export default function AditionalInformation() {
               autoComplete="IBAN"
               onChange={(e) => setIBAN(e.target.value)}
             />
-            {/* SettlementCycle */}
+        
             <TextField
               margin="normal"
               required
